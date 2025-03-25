@@ -37,7 +37,7 @@ public class ProductDetail {
 
     private String productDetailThumbnail;
 
-    private boolean carvingContent;
+    private String carvingContent;
 
     @Builder
     private ProductDetail(Long id,
