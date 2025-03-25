@@ -1,4 +1,4 @@
-package colorful.starbucks.interestproduct;
+package colorful.starbucks.interestproduct.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
