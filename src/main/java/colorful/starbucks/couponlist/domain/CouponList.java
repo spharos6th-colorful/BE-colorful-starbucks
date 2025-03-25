@@ -25,15 +25,15 @@ public class CouponList {
 
     private LocalDateTime couponEndDate;
 
-    private int endCondition;
+    private int endQuantity;
 
     @Builder
-    public CouponList(Long id, String couponUuid, String eventUuid, LocalDateTime couponEndDate, int endCondition) {
+    public CouponList(Long id, String couponUuid, String eventUuid, LocalDateTime couponEndDate, int endQuantity) {
         this.id = id;
         this.couponUuid = couponUuid;
         this.eventUuid = eventUuid;
         this.couponEndDate = couponEndDate;
-        this.endCondition = endCondition;
+        this.endQuantity = endQuantity;
     }
 
 
