@@ -1,4 +1,4 @@
-package colorful.starbucks.orders.domain;
+package colorful.starbucks.order.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Orders {
+@Table(name = "Orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +38,7 @@ public class Orders {
     private boolean giftStatus;
 
     @Builder
-    private Orders(
+    private Order(
             Long id,
             String orderUuid,
             Long couponId,

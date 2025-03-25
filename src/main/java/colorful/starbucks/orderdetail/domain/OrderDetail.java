@@ -1,6 +1,6 @@
 package colorful.starbucks.orderdetail.domain;
 
-import colorful.starbucks.orders.domain.Orders;
+import colorful.starbucks.order.domain.Order;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,12 +14,12 @@ public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orders_detail_id")
+    @Column(name = "order_detail_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Orders orders;
+    private Order order;
 
     private String productUuid;
 
@@ -42,7 +42,7 @@ public class OrderDetail {
 
     @Builder
     private OrderDetail(Long id,
-                        Orders orders,
+                        Order order,
                         String productUuid,
                         String productDetailUuid,
                         String productName,
@@ -53,7 +53,7 @@ public class OrderDetail {
                         String carvingContent,
                         Long categoryId) {
         this.id = id;
-        this.orders = orders;
+        this.order = order;
         this.productUuid = productUuid;
         this.productDetailUuid = productDetailUuid;
         this.productName = productName;
