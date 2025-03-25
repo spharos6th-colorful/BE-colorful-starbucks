@@ -2,6 +2,7 @@ package colorful.starbucks.memberagree.domain;
 
 import colorful.starbucks.agree.domain.Agree;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,14 @@ public class MemberAgree {
 
     private String memberUuid;
 
+    @Builder
+    private MemberAgree(Long id,
+                       Agree agree,
+                       boolean agreeStatus,
+                       String memberUuid) {
+        this.id = id;
+        this.agree = agree;
+        this.agreeStatus = agreeStatus;
+        this.memberUuid = memberUuid;
+    }
 }
