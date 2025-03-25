@@ -48,7 +48,7 @@ public class ProductDetail {
                           String inventoryQuantity,
                           int price,
                           String productDetailThumbnail,
-                          boolean carvingContent) {
+                          String carvingContent) {
         this.id = id;
         this.size = size;
         this.color = color;
