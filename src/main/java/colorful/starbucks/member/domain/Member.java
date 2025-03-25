@@ -45,7 +45,7 @@ public class Member {
 
         this.id = id;
         this.memberName = memberName;
-        Email = email;
+        this.Email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.nickName = nickName;
