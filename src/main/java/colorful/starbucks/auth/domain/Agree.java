@@ -1,4 +1,4 @@
-package colorful.starbucks.payments.domain;
+package colorful.starbucks.auth.domain;
 
 import colorful.starbucks.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -9,20 +9,20 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED )
-public class Payments extends BaseEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Agree extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "payments_id")
+    @Column(name = "agree_id")
     private Long id;
 
-    private String paymentType;
+    private String agreeType;
 
     @Builder
-    private Payments(Long id,
-                     String paymentType) {
+    private Agree(Long id,
+                  String agreeType) {
         this.id = id;
-        this.paymentType = paymentType;
+        this.agreeType = agreeType;
     }
 }
