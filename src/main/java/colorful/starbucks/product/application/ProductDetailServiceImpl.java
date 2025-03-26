@@ -2,6 +2,7 @@ package colorful.starbucks.product.application;
 
 import colorful.starbucks.common.s3.S3UploadService;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
+import colorful.starbucks.product.dto.response.ProductDetailCreateResponseDto;
 import colorful.starbucks.product.generator.ProductDetailCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +21,18 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
     @Transactional
     @Override
-    public void createProductDetail(String productCode,
-                                    ProductDetailCreateRequestDto productDetailCreateRequestDto,
-                                    MultipartFile productDetailThumbnail) {
+    public ProductDetailCreateResponseDto createProductDetail(String productCode,
+                                                              ProductDetailCreateRequestDto productDetailCreateRequestDto,
+                                                              MultipartFile productDetailThumbnail) {
 
         try {
             String productDetailThumbnailUrl = s3UploadService.uploadFile(productDetailThumbnail);
-            productDetailRepository.save(
+            return ProductDetailCreateResponseDto.from(productDetailRepository.save(
                     productDetailCreateRequestDto.toEntity(productCode,
-                        productDetailCodeGenerator.generate(),
-                        productDetailThumbnailUrl
+                            productDetailCodeGenerator.generate(),
+                            productDetailThumbnailUrl
                     )
-            );
+            ));
         } catch (Exception e) {
             throw new RuntimeException("상품 상세 등록에 실패했습니다.");
         }
