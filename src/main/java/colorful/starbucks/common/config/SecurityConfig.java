@@ -44,6 +44,8 @@ public class SecurityConfig {
                     authorizeRequests
                             .requestMatchers("/api/v1/auth/sign-up").permitAll()
                             .requestMatchers("/api/v1/auth/terms").permitAll()
+                            .requestMatchers("/api/v1/auth/terms-agreement").permitAll()
+                            .requestMatchers("/api/v1/auth/email-check").permitAll()
                             .anyRequest().authenticated();
                 })
                 .sessionManagement(sessionManagement ->

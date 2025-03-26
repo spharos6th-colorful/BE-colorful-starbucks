@@ -1,5 +1,6 @@
 package colorful.starbucks.auth.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,5 +12,6 @@ public class TermsCreateRequestDto {
 
     private String termsContent;
 
-    private boolean isRequired;
+    @JsonProperty("isRequired")
+    private boolean required;
 }

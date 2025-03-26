@@ -24,11 +24,7 @@ public class TermsController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
-
-
-
-    @PostMapping("/termsa-greement")
+    @PostMapping("/terms-agreement")
     public void termsAgreement(@RequestBody TermsAgreementRequestDto dto) {
         termsService.saveTermsAgreement(dto.getAgreements(), dto.getMemberUuid());
     }

@@ -4,10 +4,8 @@ import colorful.starbucks.auth.application.MemberService;
 import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
 import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/auth")
 @RestController
@@ -21,6 +19,14 @@ public class MemberController {
             @RequestBody MemberSignUpRequestVo memberSignUpRequestVo
             ){
         memberService.signUp(MemberSignUpRequestDto.from(memberSignUpRequestVo));
+    }
+
+    @GetMapping("/email-check")
+    public ResponseEntity<Boolean> checkEmail(
+            @RequestParam String email
+    ){
+        boolean isDuplicated = memberService.isEmailDuplicated(email);
+        return ResponseEntity.ok(isDuplicated);
     }
 
 
