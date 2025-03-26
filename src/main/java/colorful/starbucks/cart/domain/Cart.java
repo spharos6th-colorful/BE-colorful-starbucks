@@ -17,21 +17,38 @@ public class Cart extends BaseEntity {
     @Column(name = "cart_id")
     private Long id;
 
+    @Column(nullable = false)
     private String memberUuid;
+
+    @Column(nullable = false)
     private boolean checked;
+
+    @Column(nullable = false)
     private int quantity;
+
+    @Column(nullable = false)
     private String productDetailCode;
+
+    @Column(nullable = true)
+    private String carvingContent;
+
+    @Column(nullable = false)
+    private int price;
 
     @Builder
     private Cart(Long id,
                  String memberUuid,
                  boolean checked,
                  int quantity,
-                 String productDetailCode) {
+                 String productDetailCode,
+                 String carvingContent,
+                 int price) {
         this.id = id;
         this.memberUuid = memberUuid;
         this.checked = checked;
         this.quantity = quantity;
         this.productDetailCode = productDetailCode;
+        this.carvingContent = carvingContent;
+        this.price = price;
     }
 }
