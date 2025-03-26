@@ -26,7 +26,6 @@ public class TermsAgreement extends BaseEntity {
     private String memberUuid;
 
     @Builder
-
     private TermsAgreement(Long id,
                            Terms terms,
                            boolean isAgreed,

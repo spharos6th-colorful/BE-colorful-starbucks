@@ -2,8 +2,11 @@ package colorful.starbucks.auth.dto.request;
 
 import colorful.starbucks.auth.domain.Member;
 import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
+import colorful.starbucks.auth.vo.request.TermsAgreementRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -20,6 +23,8 @@ public class MemberSignUpRequestDto {
     private String nickName;
 
     private String memberBirth;
+
+    private List<TermsAgreementRequestVo> termsAgreements;
 
     public Member toEntity(String memberUuid, String encodedPassword) {
         return Member.builder()
