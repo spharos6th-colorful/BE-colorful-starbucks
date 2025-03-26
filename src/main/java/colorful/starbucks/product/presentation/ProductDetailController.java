@@ -3,7 +3,7 @@ package colorful.starbucks.product.presentation;
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.product.application.ProductDetailService;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
-import colorful.starbucks.product.vo.ProductDetailCreateRequestVo;
+import colorful.starbucks.product.vo.request.ProductDetailCreateRequestVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

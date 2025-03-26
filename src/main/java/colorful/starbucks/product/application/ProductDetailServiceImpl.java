@@ -4,7 +4,6 @@ import colorful.starbucks.common.s3.S3UploadService;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
 import colorful.starbucks.product.generator.ProductDetailCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
-import colorful.starbucks.product.infrastructure.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

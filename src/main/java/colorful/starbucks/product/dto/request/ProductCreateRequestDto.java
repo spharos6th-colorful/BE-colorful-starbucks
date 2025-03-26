@@ -1,7 +1,7 @@
 package colorful.starbucks.product.dto.request;
 
 import colorful.starbucks.product.domain.Product;
-import colorful.starbucks.product.vo.ProductCreateRequestVo;
+import colorful.starbucks.product.vo.request.ProductCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 
