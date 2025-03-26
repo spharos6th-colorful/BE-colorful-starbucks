@@ -33,13 +33,12 @@ public class ProductServiceImpl implements ProductService {
         try {
             String productThumbnailUrl = s3UploadService.uploadFile(productThumbnail);
             String productCommonImageUrl = s3UploadService.uploadFile(productCommonImage);
-            Product savedProduct = productRepository.save(
+            return ProductCreateResponseDto.from(productRepository.save(
                     productCreateRequestDto.toEntity(
                             productCode,
                             productThumbnailUrl,
                             productCommonImageUrl)
-            );
-            return ProductCreateResponseDto.from(savedProduct);
+            ));
         } catch (Exception e) {
             throw new RuntimeException("상품 등록에 실패했습니다.");
         }
