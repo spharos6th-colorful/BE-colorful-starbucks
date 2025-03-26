@@ -21,17 +21,9 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/cart")
-    public void create(@RequestBody List<CartAddRequestVo> request) {
+    public void create(@RequestBody List<CartAddRequestVo> cartAddRequestVos) {
 
-        cartService.addCart(CartAddRequestDto.fromList(request));
-
-    }
-    @PostMapping("/cart/123")
-    public void wow(@RequestBody CartAddRequestVo request) {
-
-        log.info("test: {}",request);
-
+        cartService.addCart(CartAddRequestDto.fromList(cartAddRequestVos));
 
     }
-
 }
