@@ -2,6 +2,7 @@ package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.domain.Terms;
 import colorful.starbucks.auth.domain.TermsAgreement;
+import colorful.starbucks.auth.dto.request.TermsCreateRequestDto;
 import colorful.starbucks.auth.infrastructure.TermsAgreementRepository;
 import colorful.starbucks.auth.infrastructure.TermsRepository;
 import colorful.starbucks.auth.vo.request.TermsAgreementRequestVo;
@@ -37,6 +38,18 @@ public class TermsServiceImpl implements TermsService {
                 .toList();
 
         termsAgreementRepository.saveAll(agreements);
+    }
+
+    @Override
+    @Transactional
+    public void createTerms(TermsCreateRequestDto termsCreateRequestDto) {
+        Terms terms = Terms.builder()
+                        .termsTitle(termsCreateRequestDto.getTermsTitle())
+                        .termsContent(termsCreateRequestDto.getTermsContent())
+                        .required(termsCreateRequestDto.isRequired())
+                        .build();
+
+        termsRepository.save(terms);
     }
 }
 

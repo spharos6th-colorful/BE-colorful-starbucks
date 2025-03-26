@@ -17,21 +17,22 @@ public class Terms extends BaseEntity {
     @Column(name = "terms_id")
     private Long id;
 
-    private boolean isRequired;
+    @Column(nullable = false, name = "is_required")
+    private boolean required;
 
-    @Column(length = 50)
+    @Column(nullable = false, length = 50)
     private String termsTitle;
 
-    @Column(length = 500)
+    @Column(nullable = false, length = 500)
     private String termsContent;
 
     @Builder
     private Terms(Long id,
-                  boolean isRequired,
+                  boolean required,
                   String termsTitle,
                   String termsContent) {
         this.id = id;
-        this.isRequired = isRequired;
+        this.required = required;
         this.termsTitle = termsTitle;
         this.termsContent = termsContent;
     }

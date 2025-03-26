@@ -10,6 +10,7 @@ import java.util.List;
 @Builder
 public class TermsAgreementRequestDto {
     private String memberUuid;
+
     private List<TermsAgreementRequestVo> agreements;
 }
 

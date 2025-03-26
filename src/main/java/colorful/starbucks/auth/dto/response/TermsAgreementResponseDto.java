@@ -12,7 +12,7 @@ public class TermsAgreementResponseDto {
 
     private String termsContent;
 
-    private Boolean isRequired;
+    private boolean isRequired;
 
 
     public static TermsAgreementResponseDto from(Terms terms) {
