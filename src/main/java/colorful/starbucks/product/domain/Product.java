@@ -17,32 +17,44 @@ public class Product extends BaseEntity {
     @Column(name = "product_id")
     private Long id;
 
-    private String productName;
-
-    private String description;
-
+    @Column(nullable = false, unique = true)
     private String productCode;
 
-    private String productCommonImage;
+    @Column(nullable = false, length = 150)
+    private String productName;
 
-    private String productThumbnail;
+    @Column(nullable = false)
+    private int price;
 
-    private boolean carving_status;
+    @Column(nullable = false)
+    private String description;
+
+    @Lob
+    @Column(nullable = false)
+    private String productCommonImageUrl;
+
+    @Column(nullable = false)
+    private String productThumbnailUrl;
+
+    @Column(nullable = false)
+    private boolean carvingStatus;
 
     @Builder
-    private Product(Long id,
-                    String productName,
-                    String description,
-                    String productCode,
-                    String productCommonImage,
-                    String productThumbnail,
-                    boolean carving_status) {
+    public Product(Long id,
+                   String productCode,
+                   String productName,
+                   int price,
+                   String description,
+                   String productCommonImageUrl,
+                   String productThumbnailUrl,
+                   boolean carvingStatus) {
         this.id = id;
-        this.productName = productName;
-        this.description = description;
         this.productCode = productCode;
-        this.productCommonImage = productCommonImage;
-        this.productThumbnail = productThumbnail;
-        this.carving_status = carving_status;
+        this.productName = productName;
+        this.price = price;
+        this.description = description;
+        this.productCommonImageUrl = productCommonImageUrl;
+        this.productThumbnailUrl = productThumbnailUrl;
+        this.carvingStatus = carvingStatus;
     }
 }
