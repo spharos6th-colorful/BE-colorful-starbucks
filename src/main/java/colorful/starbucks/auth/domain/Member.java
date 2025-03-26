@@ -17,41 +17,53 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(nullable = false, length = 100)
+    private String memberUuid;
+
+    @Column(nullable = false, length = 50)
     private String memberName;
 
+    @Column(nullable = false, length = 50, unique = true)
     private String Email;
 
+    @Column(nullable = false, length = 20, unique = true)
     private String password;
 
+    @Column(nullable = false, length = 20, unique = true)
     private String phoneNumber;
 
+    @Column(nullable = false, length = 20, unique = true)
     private String nickName;
-
-    private String memberUuid;
 
     private String memberLevel;
 
+    @Column(nullable = false, length = 20)
     private String memberBirth;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Builder
     private Member(Long id,
+                   String memberUuid,
                   String memberName,
                   String email,
                   String password,
                   String phoneNumber,
                   String nickName,
-                  String memberUuid,
                   String memberLevel,
-                  String memberBirth) {
+                  String memberBirth,
+                   Gender gender) {
 
         this.id = id;
+        this.memberUuid = memberUuid;
         this.memberName = memberName;
         this.Email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.nickName = nickName;
-        this.memberUuid = memberUuid;
         this.memberLevel = memberLevel;
         this.memberBirth = memberBirth;
+        this.gender = gender;
     }
 }

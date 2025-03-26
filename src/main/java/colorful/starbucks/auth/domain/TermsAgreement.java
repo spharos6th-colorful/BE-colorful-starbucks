@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberAgree extends BaseEntity {
+public class TermsAgreement extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,21 +18,22 @@ public class MemberAgree extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "agree_id")
-    private Agree agree;
+    @JoinColumn(name = "terms_id")
+    private Terms terms;
 
-    private boolean agreeStatus;
+    private boolean isAgreed;
 
     private String memberUuid;
 
     @Builder
-    private MemberAgree(Long id,
-                       Agree agree,
-                       boolean agreeStatus,
-                       String memberUuid) {
+
+    private TermsAgreement(Long id,
+                           Terms terms,
+                           boolean isAgreed,
+                           String memberUuid) {
         this.id = id;
-        this.agree = agree;
-        this.agreeStatus = agreeStatus;
+        this.terms = terms;
+        this.isAgreed = isAgreed;
         this.memberUuid = memberUuid;
     }
 }
