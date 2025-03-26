@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,26 +17,35 @@ public class ProductDetail extends BaseEntity {
     @Column(name = "product_detail_id")
     private Long id;
 
-    private Long sizeId;
-
-    private String sizeName;
-
-    private Long colorId;
-
-    private String colorName;
-
-    private String productCode;
-
+    @Column(nullable = false, unique = true)
     private String productDetailCode;
 
+    @Column(nullable = false, unique = true)
+    private String productCode;
+
+    @Column(nullable = false)
+    private Long sizeId;
+
+    @Column(nullable = false)
+    private String sizeName;
+
+    @Column(nullable = false)
+    private Long colorId;
+
+    @Column(nullable = false)
+    private String colorName;
+
+    @Column(nullable = false)
     private int inventoryQuantity;
 
+    @Column(nullable = false)
     private int price;
 
-    private String productDetailThumbnail;
+    @Column(nullable = false)
+    private String productDetailThumbnailUrl;
 
     @Builder
-    public ProductDetail(Long id,
+    private ProductDetail(Long id,
                          Long sizeId,
                          String sizeName,
                          Long colorId,
@@ -46,7 +54,7 @@ public class ProductDetail extends BaseEntity {
                          String productDetailCode,
                          int inventoryQuantity,
                          int price,
-                         String productDetailThumbnail) {
+                         String productDetailThumbnailUrl) {
         this.id = id;
         this.sizeId = sizeId;
         this.sizeName = sizeName;
@@ -56,6 +64,6 @@ public class ProductDetail extends BaseEntity {
         this.productDetailCode = productDetailCode;
         this.inventoryQuantity = inventoryQuantity;
         this.price = price;
-        this.productDetailThumbnail = productDetailThumbnail;
+        this.productDetailThumbnailUrl = productDetailThumbnailUrl;
     }
 }

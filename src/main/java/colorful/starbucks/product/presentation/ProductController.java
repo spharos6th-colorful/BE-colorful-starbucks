@@ -2,6 +2,7 @@ package colorful.starbucks.product.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.product.application.ProductService;
+import colorful.starbucks.product.dto.request.ProductCreateRequestDto;
 import colorful.starbucks.product.vo.ProductCreateRequestVo;
 import colorful.starbucks.product.vo.ProductCreateResponseVo;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class ProductController {
         return ApiResponse.of(
                 HttpStatus.CREATED,
                 "상품 등록을 완료했습니다." ,
-                productService.create(request, productThumbnail, productCommonImage).toVo()
+                productService.create(ProductCreateRequestDto.from(request), productThumbnail, productCommonImage).toVo()
         );
     }
 }
