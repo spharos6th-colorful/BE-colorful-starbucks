@@ -1,7 +1,5 @@
 package colorful.starbucks.product.domain;
 
-import colorful.starbucks.admin.domain.Color;
-import colorful.starbucks.admin.domain.Size;
 import colorful.starbucks.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,44 +18,44 @@ public class ProductDetail extends BaseEntity {
     @Column(name = "product_detail_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "size_id")
-    private Size size;
+    private Long sizeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "color_id")
-    private Color color;
+    private String sizeName;
+
+    private Long colorId;
+
+    private String colorName;
 
     private String productCode;
 
     private String productDetailCode;
 
-    private String inventoryQuantity;
+    private int inventoryQuantity;
 
     private int price;
 
     private String productDetailThumbnail;
 
-    private String carvingContent;
-
     @Builder
-    private ProductDetail(Long id,
-                          Size size,
-                          Color color,
-                          String productCode,
-                          String productDetailCode,
-                          String inventoryQuantity,
-                          int price,
-                          String productDetailThumbnail,
-                          String carvingContent) {
+    public ProductDetail(Long id,
+                         Long sizeId,
+                         String sizeName,
+                         Long colorId,
+                         String colorName,
+                         String productCode,
+                         String productDetailCode,
+                         int inventoryQuantity,
+                         int price,
+                         String productDetailThumbnail) {
         this.id = id;
-        this.size = size;
-        this.color = color;
+        this.sizeId = sizeId;
+        this.sizeName = sizeName;
+        this.colorId = colorId;
+        this.colorName = colorName;
         this.productCode = productCode;
         this.productDetailCode = productDetailCode;
         this.inventoryQuantity = inventoryQuantity;
         this.price = price;
         this.productDetailThumbnail = productDetailThumbnail;
-        this.carvingContent = carvingContent;
     }
 }
