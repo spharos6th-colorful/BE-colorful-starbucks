@@ -19,7 +19,9 @@ public class MemberServiceImpl implements MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
+
     @Override
+    @Transactional
     public void signUp(MemberSignUpRequestDto memberSignUpRequestDto){
 
         String encodedPassword = passwordEncoder.encode(memberSignUpRequestDto.getPassword());

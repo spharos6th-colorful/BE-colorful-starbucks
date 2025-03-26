@@ -1,5 +1,6 @@
 package colorful.starbucks.auth.dto.request;
 
+import colorful.starbucks.auth.domain.Gender;
 import colorful.starbucks.auth.domain.Member;
 import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
 import colorful.starbucks.auth.vo.request.TermsAgreementRequestVo;
@@ -24,6 +25,8 @@ public class MemberSignUpRequestDto {
 
     private String memberBirth;
 
+    private Gender gender;
+
     private List<TermsAgreementRequestVo> termsAgreements;
 
     public Member toEntity(String memberUuid, String encodedPassword) {
@@ -35,6 +38,7 @@ public class MemberSignUpRequestDto {
                 .phoneNumber(phoneNumber)
                 .nickName(nickName)
                 .memberBirth(memberBirth)
+                .gender(gender)
                 .build();
 
     }
@@ -47,6 +51,7 @@ public class MemberSignUpRequestDto {
                 .phoneNumber(memberSignUpRequestVo.getPhoneNumber())
                 .nickName(memberSignUpRequestVo.getNickName())
                 .memberBirth(memberSignUpRequestVo.getMemberBirth())
+                .gender(memberSignUpRequestVo.getGender())
                 .build();
     }
 

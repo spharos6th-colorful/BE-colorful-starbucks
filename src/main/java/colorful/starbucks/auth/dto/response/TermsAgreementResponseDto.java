@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class TermsResponseDto {
+public class TermsAgreementResponseDto {
 
     private String termsTitle;
 
@@ -15,8 +15,8 @@ public class TermsResponseDto {
     private Boolean isRequired;
 
 
-    public static TermsResponseDto from(Terms terms) {
-        return new TermsResponseDto(
+    public static TermsAgreementResponseDto from(Terms terms) {
+        return new TermsAgreementResponseDto(
                 terms.getTermsTitle(),
                 terms.getTermsContent(),
                 terms.isRequired()

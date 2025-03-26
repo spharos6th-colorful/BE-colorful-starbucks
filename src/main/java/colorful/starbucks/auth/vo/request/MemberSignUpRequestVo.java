@@ -1,10 +1,9 @@
 package colorful.starbucks.auth.vo.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import colorful.starbucks.auth.domain.Gender;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
+import lombok.NonNull;
 
 @Getter
 public class MemberSignUpRequestVo {
@@ -34,4 +33,6 @@ public class MemberSignUpRequestVo {
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$" , message = "생년월일은 yyyy-MM-dd 형식으로 입력해주세요.")
     private String memberBirth;
 
+
+    private Gender gender;
 }

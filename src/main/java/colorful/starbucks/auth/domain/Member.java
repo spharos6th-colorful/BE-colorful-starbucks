@@ -24,9 +24,9 @@ public class Member extends BaseEntity {
     private String memberName;
 
     @Column(nullable = false, length = 50, unique = true)
-    private String Email;
+    private String email;
 
-    @Column(nullable = false, length = 20, unique = true)
+    @Column(nullable = false, length = 100, unique = true)
     private String password;
 
     @Column(nullable = false, length = 20, unique = true)
@@ -58,7 +58,7 @@ public class Member extends BaseEntity {
         this.id = id;
         this.memberUuid = memberUuid;
         this.memberName = memberName;
-        this.Email = email;
+        this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.nickName = nickName;
