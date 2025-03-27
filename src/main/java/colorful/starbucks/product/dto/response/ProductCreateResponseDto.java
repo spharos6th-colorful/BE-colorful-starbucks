@@ -1,7 +1,7 @@
 package colorful.starbucks.product.dto.response;
 
 import colorful.starbucks.product.domain.Product;
-import colorful.starbucks.product.vo.ProductCreateResponseVo;
+import colorful.starbucks.product.vo.response.ProductCreateResponseVo;
 import lombok.Builder;
 
 public class ProductCreateResponseDto {

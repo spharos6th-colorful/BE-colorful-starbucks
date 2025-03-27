@@ -1,13 +1,10 @@
 package colorful.starbucks.product.application;
 
-import colorful.starbucks.auth.domain.Member;
 import colorful.starbucks.common.s3.S3UploadService;
-import colorful.starbucks.product.domain.Product;
 import colorful.starbucks.product.dto.request.ProductCreateRequestDto;
 import colorful.starbucks.product.dto.response.ProductCreateResponseDto;
 import colorful.starbucks.product.generator.ProductCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductRepository;
-import colorful.starbucks.product.vo.ProductCreateRequestVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +21,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductCreateResponseDto create(ProductCreateRequestVo request,
+    public ProductCreateResponseDto create(ProductCreateRequestDto productCreateRequestDto,
                                            MultipartFile productThumbnail,
                                            MultipartFile productCommonImage) {
-        ProductCreateRequestDto productCreateRequestDto = ProductCreateRequestDto.from(request);
+
         String productCode = productCodeGenerator.generate();
 
         try {
