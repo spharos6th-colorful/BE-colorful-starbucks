@@ -1,8 +1,5 @@
 package colorful.starbucks.auth.domain;
 
-import lombok.Getter;
-
-
 public enum Gender {
     M("남성"),
     W("여성");

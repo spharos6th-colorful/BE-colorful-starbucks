@@ -2,12 +2,10 @@ package colorful.starbucks.auth.dto.request;
 
 import colorful.starbucks.auth.domain.Gender;
 import colorful.starbucks.auth.domain.Member;
+import colorful.starbucks.auth.domain.MemberLevel;
 import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
-import colorful.starbucks.auth.vo.request.TermsAgreementRequestVo;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 @Builder
@@ -25,6 +23,8 @@ public class MemberSignUpRequestDto {
 
     private String memberBirth;
 
+    private MemberLevel memberLevel = MemberLevel.WHITE;
+
     private Gender gender;
 
     public Member toEntity(String memberUuid, String encodedPassword) {
@@ -36,6 +36,7 @@ public class MemberSignUpRequestDto {
                 .phoneNumber(phoneNumber)
                 .nickName(nickName)
                 .memberBirth(memberBirth)
+                .memberLevel(memberLevel)
                 .gender(gender)
                 .build();
 
@@ -49,6 +50,7 @@ public class MemberSignUpRequestDto {
                 .phoneNumber(memberSignUpRequestVo.getPhoneNumber())
                 .nickName(memberSignUpRequestVo.getNickName())
                 .memberBirth(memberSignUpRequestVo.getMemberBirth())
+                .memberLevel(memberSignUpRequestVo.getMemberLevel())
                 .gender(memberSignUpRequestVo.getGender())
                 .build();
     }
