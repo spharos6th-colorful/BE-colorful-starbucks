@@ -17,20 +17,28 @@ public class BestProduct extends BaseEntity {
     @Column(name = "best_product_id")
     private Long id;
 
-    private String productUuid;
+    private String productCode;
 
     private Long categoryId;
 
-    private int totalQauntity;
+    private String categoryName;
+
+    private int totalQuantity;
 
     private int productRank;
 
     @Builder
-    private BestProduct(Long id, String productUuid, Long categoryId, int totalQauntity, int productRank) {
+    private BestProduct(Long id,
+                        String productCode,
+                        Long categoryId,
+                        String categoryName,
+                        int totalQuantity,
+                        int productRank) {
         this.id = id;
-        this.productUuid = productUuid;
+        this.productCode = productCode;
         this.categoryId = categoryId;
-        this.totalQauntity = totalQauntity;
+        this.categoryName = categoryName;
+        this.totalQuantity = totalQuantity;
         this.productRank = productRank;
     }
 }
