@@ -20,7 +20,7 @@ public class CartController {
 
     private final CartService cartService;
 
-    @PostMapping("/cart")
+    @PostMapping("/carts")
     public ResponseEntity create(@RequestBody List<CartAddRequestVo> cartAddRequestVos) {
 
         cartService.addCart(CartAddRequestDto.fromList(cartAddRequestVos));
