@@ -24,4 +24,15 @@ public class InterestProductServiceImpl implements InterestProductService {
                 interestProductRepository.save(interestProductCreateRequestDto.toEntity())
         );
     }
+
+    @Transactional
+    @Override
+    public void removeInterestProduct(String memberUuid, String productCode) {
+
+        if (!interestProductRepository.existsInterestProductByMemberUuidAndProductCode(memberUuid, productCode)) {
+            throw new RuntimeException("관심 상품 삭제에 실패했습니다.");
+        }
+
+        interestProductRepository.deleteByMemberUuidAndProductCode(memberUuid, productCode);
+    }
 }
