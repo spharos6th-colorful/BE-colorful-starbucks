@@ -3,15 +3,16 @@ package colorful.starbucks.cart.application;
 
 import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.infrastructure.CartRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
