@@ -9,14 +9,14 @@ import java.util.List;
 @Getter
 public class InterestProductListResponseVo {
 
-    private int totalPage;
-    private long totalElement;
+    private int totalPages;
+    private long totalElements;
     private List<InterestProductDto> interestProductList;
 
     @Builder
-    private InterestProductListResponseVo(int totalPage, long totalElement, List<InterestProductDto> interestProductList) {
-        this.totalPage = totalPage;
-        this.totalElement = totalElement;
+    private InterestProductListResponseVo(int totalPages, long totalElements, List<InterestProductDto> interestProductList) {
+        this.totalPages = totalPages;
+        this.totalElements = totalElements;
         this.interestProductList = interestProductList;
     }
 }
