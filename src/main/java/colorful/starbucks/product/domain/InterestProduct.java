@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -17,15 +18,33 @@ public class InterestProduct extends BaseEntity {
     @Column(name = "interest_product_id")
     private Long id;
 
+    @Comment("회원 UUID")
+    @Column(nullable = false)
     private String memberUuid;
+
+    @Comment("상품 코드")
+    @Column(nullable = false)
     private String productCode;
 
+    @Comment("가격")
+    @Column(nullable = false)
+    private int price;
+
+    @Comment("상품 썸네일 URL")
+    @Column(nullable = false)
+    private String productThumbnailUrl;
+
     @Builder
-    private InterestProduct(Long id,
-                            String memberUuid,
-                            String productCode) {
+    private InterestProduct(
+            Long id,
+            String memberUuid,
+            String productCode,
+            int price,
+            String productThumbnailUrl) {
         this.id = id;
         this.memberUuid = memberUuid;
         this.productCode = productCode;
+        this.price = price;
+        this.productThumbnailUrl = productThumbnailUrl;
     }
 }

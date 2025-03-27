@@ -5,7 +5,7 @@ import colorful.starbucks.product.dto.response.ProductCreateResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ProductService {
-    ProductCreateResponseDto create(ProductCreateRequestDto request,
+    ProductCreateResponseDto create(ProductCreateRequestDto productCreateRequestDto,
                                     MultipartFile productThumbnail,
                                     MultipartFile productCommonImage);
 }

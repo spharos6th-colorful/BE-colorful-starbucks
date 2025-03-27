@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,14 +18,20 @@ public class BestProduct extends BaseEntity {
     @Column(name = "best_product_id")
     private Long id;
 
+    @Column(nullable = false)
+    @Comment(value = "상품 코드")
     private String productCode;
 
+    @Column(nullable = false)
     private Long categoryId;
 
+    @Column(nullable = false)
     private String categoryName;
 
+    @Column(nullable = false)
     private int totalQuantity;
 
+    @Column(nullable = false)
     private int productRank;
 
     @Builder
