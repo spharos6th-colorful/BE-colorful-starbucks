@@ -16,14 +16,17 @@ public class CartAddRequestDto {
     private String productDetailCode;
     private String carvingContent;
     private int price;
+    private int quantity;
 
     @Builder
     private CartAddRequestDto(String productDetailCode,
                               String carvingContent,
-                              int price) {
+                              int price,
+                              int quantity) {
         this.productDetailCode = productDetailCode;
         this.carvingContent = carvingContent;
         this.price = price;
+        this.quantity = quantity;
     }
 
     public static CartAddRequestDto from(CartAddRequestVo cartAddRequestVo) {
@@ -31,6 +34,7 @@ public class CartAddRequestDto {
                 .productDetailCode(cartAddRequestVo.getProductDetailCode())
                 .carvingContent(cartAddRequestVo.getCarvingContent())
                 .price(cartAddRequestVo.getPrice())
+                .quantity(cartAddRequestVo.getQuantity())
                 .build();
     }
     public static List<CartAddRequestDto> fromList(List<CartAddRequestVo> cartAddRequestVos) {
@@ -39,12 +43,13 @@ public class CartAddRequestDto {
                 .collect(Collectors.toList());
     }
 
-    public Cart toEntity(String productDetailCode, String carvingContent, int price, String memberUuid) {
+    public Cart toEntity(String memberUuid) {
         return Cart.builder().
                 productDetailCode(productDetailCode)
                 .carvingContent(carvingContent)
                 .price(price)
                 .checked(true)
+                .quantity(quantity)
                 .memberUuid(memberUuid)
                 .build();
     }

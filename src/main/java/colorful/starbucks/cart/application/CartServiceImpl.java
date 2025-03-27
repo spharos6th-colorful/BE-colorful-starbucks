@@ -23,10 +23,7 @@ public class CartServiceImpl implements CartService {
         String memberUuid = UUID.randomUUID().toString();
         for (CartAddRequestDto product : cartAddRequestDto) {
             try{
-                cartRepository.save(product.toEntity(product.getProductDetailCode(),
-                        product.getCarvingContent(),
-                        product.getPrice(),
-                        memberUuid));
+                cartRepository.save(product.toEntity(memberUuid));
         }catch (Exception e){
                 throw new RuntimeException("장바구니 등록에 실패했습니다.");
             }
