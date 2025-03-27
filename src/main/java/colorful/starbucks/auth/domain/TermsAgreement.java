@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -17,21 +18,23 @@ public class TermsAgreement extends BaseEntity {
     @Column(name = "member_agree_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "terms_id")
-    private Terms terms;
+    @Comment("약관 번호")
+    @Column(nullable = false)
+    private Long termsId;
 
+    @Comment("약관 동의 여부")
     private boolean isAgreed;
 
+    @Comment("회원 UUID")
     private String memberUuid;
 
     @Builder
     private TermsAgreement(Long id,
-                           Terms terms,
-                           boolean isAgreed,
-                           String memberUuid) {
+                          Long termsId,
+                          boolean isAgreed,
+                          String memberUuid) {
         this.id = id;
-        this.terms = terms;
+        this.termsId = termsId;
         this.isAgreed = isAgreed;
         this.memberUuid = memberUuid;
     }

@@ -1,17 +1,16 @@
 package colorful.starbucks.auth.presentation;
 
 import colorful.starbucks.auth.application.TermsService;
-import colorful.starbucks.auth.dto.request.TermsAgreementRequestDto;
 import colorful.starbucks.auth.dto.request.TermsCreateRequestDto;
+import colorful.starbucks.auth.dto.response.TermsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("api/v1/auth/")
+import java.util.List;
+
+@RequestMapping("api/v1/auth")
 @RestController
 @RequiredArgsConstructor
 public class TermsController {
@@ -24,11 +23,11 @@ public class TermsController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/terms-agreement")
-    public void termsAgreement(@RequestBody TermsAgreementRequestDto dto) {
-        termsService.saveTermsAgreement(dto.getAgreements(), dto.getMemberUuid());
+    @GetMapping("/terms")
+    public ResponseEntity<List<TermsResponseDto>> getTerms() {
+        List<TermsResponseDto> terms = termsService.getTerms();
+        return ResponseEntity.ok(terms);
     }
-
 
 
 }

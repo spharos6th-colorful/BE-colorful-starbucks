@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -17,12 +18,15 @@ public class Terms extends BaseEntity {
     @Column(name = "terms_id")
     private Long id;
 
+    @Comment("약관 필수 여부")
     @Column(nullable = false, name = "is_required")
     private boolean required;
 
+    @Comment("약관 제목")
     @Column(nullable = false, length = 50)
     private String termsTitle;
 
+    @Comment("약관 내용")
     @Column(nullable = false, length = 500)
     private String termsContent;
 

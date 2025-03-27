@@ -12,5 +12,7 @@ public class TermsAgreementRequestDto {
     private String memberUuid;
 
     private List<TermsAgreementRequestVo> agreements;
+
+    private List<TermsAgreementRequestVo> termsAgreements;
 }
 

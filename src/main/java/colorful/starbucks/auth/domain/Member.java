@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -20,41 +21,50 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String memberUuid;
 
+    @Comment("회원 이름")
     @Column(nullable = false, length = 50)
     private String memberName;
 
+    @Comment("회원 이메일")
     @Column(nullable = false, length = 50, unique = true)
     private String email;
 
+    @Comment("회원 비밀번호")
     @Column(nullable = false, length = 100, unique = true)
     private String password;
 
+    @Comment("회원 휴대전화 번호")
     @Column(nullable = false, length = 20, unique = true)
     private String phoneNumber;
 
+    @Comment("회원 닉네임")
     @Column(nullable = false, length = 20, unique = true)
     private String nickName;
 
-    private String memberLevel;
+    @Comment("회원 등급")
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberLevel memberLevel = MemberLevel.white;
 
+    @Comment("회원 생년월일")
     @Column(nullable = false, length = 20)
     private String memberBirth;
 
+    @Comment("회원 성별")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Builder
     private Member(Long id,
                    String memberUuid,
-                  String memberName,
-                  String email,
-                  String password,
-                  String phoneNumber,
-                  String nickName,
-                  String memberLevel,
-                  String memberBirth,
+                   String memberName,
+                   String email,
+                   String password,
+                   String phoneNumber,
+                   String nickName,
+                   MemberLevel memberLevel,
+                   String memberBirth,
                    Gender gender) {
-
         this.id = id;
         this.memberUuid = memberUuid;
         this.memberName = memberName;

@@ -27,8 +27,6 @@ public class MemberSignUpRequestDto {
 
     private Gender gender;
 
-    private List<TermsAgreementRequestVo> termsAgreements;
-
     public Member toEntity(String memberUuid, String encodedPassword) {
         return Member.builder()
                 .memberUuid(memberUuid)
