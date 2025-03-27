@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class TermsResponseDto {
 
     private String termsTitle;
@@ -14,4 +13,12 @@ public class TermsResponseDto {
 
     @JsonProperty("isRequired")
     private boolean required;
+
+    public TermsResponseDto(String termsTitle,
+                            String termsContent,
+                            boolean required) {
+        this.termsTitle = termsTitle;
+        this.termsContent = termsContent;
+        this.required = required;
+    }
 }
