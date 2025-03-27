@@ -21,7 +21,7 @@ public class InterestProductController {
 
     @GetMapping("/{memberUuid}")
     public ApiResponse<InterestProductListResponseVo> getInterestProducts(@PathVariable String memberUuid,
-                                                                          @PageableDefault(size = 3, sort = "createdAt") Pageable pageable) {
+                                                                          @PageableDefault(size = 3) Pageable pageable) {
         return ApiResponse.of(HttpStatus.OK,
                 "관심 상품 조회를 완료했습니다.",
                 interestProductService.getInterestProductList(memberUuid, pageable).toVo()
