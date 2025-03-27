@@ -1,5 +1,6 @@
 package colorful.starbucks.common.config;
 
+import colorful.starbucks.common.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final AuthenticationProvider daoauthenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public CorsFilter corsFilter() {
@@ -46,13 +48,16 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/auth/terms").permitAll()
                             .requestMatchers("/api/v1/auth/terms-agreement").permitAll()
                             .requestMatchers("/api/v1/auth/email-check").permitAll()
-                            .anyRequest().authenticated();
+                            .anyRequest()
+                            .authenticated();
                 })
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(daoauthenticationProvider)
-                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilter(corsFilter());
 
         return http.build();
     }
