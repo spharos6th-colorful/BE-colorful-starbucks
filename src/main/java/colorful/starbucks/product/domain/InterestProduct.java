@@ -32,7 +32,7 @@ public class InterestProduct extends BaseEntity {
     @Column(nullable = false)
     private String productName;
 
-    @Comment("가격")
+    @Comment("상품 가격")
     @Column(nullable = false)
     private int price;
 
