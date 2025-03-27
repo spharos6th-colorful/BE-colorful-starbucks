@@ -1,9 +1,13 @@
 package colorful.starbucks.product.application;
 
+import colorful.starbucks.product.domain.InterestProduct;
 import colorful.starbucks.product.dto.request.InterestProductCreateRequestDto;
 import colorful.starbucks.product.dto.response.InterestProductCreateResponseDto;
+import colorful.starbucks.product.dto.response.InterestProductListResponseDto;
 import colorful.starbucks.product.infrastructure.InterestProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,5 +38,13 @@ public class InterestProductServiceImpl implements InterestProductService {
         }
 
         interestProductRepository.deleteByMemberUuidAndProductCode(memberUuid, productCode);
+    }
+
+    @Override
+    public InterestProductListResponseDto getInterestProductList(String memberUuid, Pageable pageable) {
+
+        return InterestProductListResponseDto.from(
+                interestProductRepository.findAllByMemberUuid(memberUuid, pageable)
+        );
     }
 }
