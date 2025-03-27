@@ -3,6 +3,7 @@ package colorful.starbucks.cart.application;
 
 import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.infrastructure.CartRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
 
+    @Transactional
     @Override
     public void addCart(List<CartAddRequestDto> cartAddRequestDto) {
         String memberUuid = UUID.randomUUID().toString();
