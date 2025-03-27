@@ -21,9 +21,9 @@ public class OrderDetail extends BaseEntity {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private String productUuid;
+    private String productCode;
 
-    private String productDetailUuid;
+    private String productDetailCode;
 
     private String productName;
 
@@ -41,21 +41,22 @@ public class OrderDetail extends BaseEntity {
 
 
     @Builder
+
     private OrderDetail(Long id,
-                        Order order,
-                        String productUuid,
-                        String productDetailUuid,
-                        String productName,
-                        int size,
-                        String color,
-                        int quantity,
-                        int price,
-                        String carvingContent,
-                        Long categoryId) {
+                       Order order,
+                       String productCode,
+                       String productDetailCode,
+                       String productName,
+                       int size,
+                       String color,
+                       int quantity,
+                       int price,
+                       String carvingContent,
+                       Long categoryId) {
         this.id = id;
         this.order = order;
-        this.productUuid = productUuid;
-        this.productDetailUuid = productDetailUuid;
+        this.productCode = productCode;
+        this.productDetailCode = productDetailCode;
         this.productName = productName;
         this.size = size;
         this.color = color;
@@ -64,5 +65,6 @@ public class OrderDetail extends BaseEntity {
         this.carvingContent = carvingContent;
         this.categoryId = categoryId;
     }
-
 }
+
+
