@@ -8,4 +8,6 @@ public interface InterestProductService {
     InterestProductCreateResponseDto createInterestProduct(
             InterestProductCreateRequestDto interestProductCreateRequestDto
     );
+
+    void removeInterestProduct(String memberUuid, String productCode);
 }

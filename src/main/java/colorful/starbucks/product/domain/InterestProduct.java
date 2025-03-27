@@ -7,9 +7,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @Getter
+@SQLDelete(sql = "Update interest_product SET is_deleted = true WHERE interest_product_id = ?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class InterestProduct extends BaseEntity {
 

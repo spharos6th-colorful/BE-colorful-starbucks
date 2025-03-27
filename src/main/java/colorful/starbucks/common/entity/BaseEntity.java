@@ -22,4 +22,6 @@ public class BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime lastModifiedAt;
+
+    private boolean isDeleted = false;
 }
