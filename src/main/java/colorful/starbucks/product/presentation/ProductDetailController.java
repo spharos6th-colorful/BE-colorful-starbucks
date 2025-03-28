@@ -4,6 +4,7 @@ import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.product.application.ProductDetailService;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
 import colorful.starbucks.product.vo.request.ProductDetailCreateRequestVo;
+import colorful.starbucks.product.vo.response.ProductDetailCodeAndQuantityResponseVo;
 import colorful.starbucks.product.vo.response.ProductDetailCreateResponseVo;
 import colorful.starbucks.product.vo.response.ProductOptionListResponseVo;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,17 @@ public class ProductDetailController {
                 productDetailService.createProductDetail(
                         ProductDetailCreateRequestDto.from(productDetailCreateRequestVo, productCode),
                         productDetailThumbnail).toVo()
+        );
+    }
+
+    @GetMapping("/{productCode}")
+    public ApiResponse<ProductDetailCodeAndQuantityResponseVo> getProductDetailWithOptions(
+            @PathVariable String productCode,
+            @RequestParam int sizeId,
+            @RequestParam int colorId) {
+
+        return ApiResponse.ok("상세 상품이 조회되었습니다.",
+                productDetailService.getProductDetailWithOptions(productCode, sizeId, colorId).toVo()
         );
     }
 
