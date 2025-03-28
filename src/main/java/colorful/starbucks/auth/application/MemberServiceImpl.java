@@ -68,8 +68,11 @@ public class MemberServiceImpl implements MemberService {
         return new CustomUserDetails(member);
     }
 
-    private String createToken(Authentication authentication) {
+    private String createAccessToken(Authentication authentication) {
         return jwtTokenProvider.generateAccessToken(authentication);
+    }
+    private String createRefreshToken(Authentication authentication) {
+        return jwtTokenProvider.generateRefreshToken(authentication);
     }
 
     private Authentication authenticate(Member member, String inputPassword) {
@@ -86,8 +89,12 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 실패"));
 
         try {
-            return MemberSignInResponseDto.from(member, createToken(authenticate(member, signInRequestDto.getPassword()))
-            );
+            Authentication authentication = authenticate(member, signInRequestDto.getPassword());
+
+            String accessToken = createAccessToken(authentication);
+            String refreshToken = createRefreshToken(authentication);
+
+            return MemberSignInResponseDto.from(member, accessToken, refreshToken);
 
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 실패");

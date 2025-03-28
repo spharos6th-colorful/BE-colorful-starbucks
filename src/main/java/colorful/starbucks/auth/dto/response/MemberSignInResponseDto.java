@@ -8,21 +8,26 @@ public class MemberSignInResponseDto {
 
     private String accessToken;
 
-    @Builder
+    private String refreshToken;
 
-    public MemberSignInResponseDto(String accessToken) {
+    @Builder
+    public MemberSignInResponseDto(String accessToken,
+                                   String refreshToken) {
         this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 
-    public static MemberSignInResponseDto from(Member member, String accessToken) {
+    public static MemberSignInResponseDto from(Member member, String accessToken, String refreshToken) {
         return MemberSignInResponseDto.builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
     public MemberSignInResponseVo toMemberSignInResponseVo() {
         return MemberSignInResponseVo.builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 

@@ -8,8 +8,12 @@ public class MemberSignInResponseVo {
 
     private String accessToken;
 
+    private String refreshToken;
+
     @Builder
-    public MemberSignInResponseVo(String accessToken) {
+    public MemberSignInResponseVo(String accessToken,
+                                  String refreshToken) {
         this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 }

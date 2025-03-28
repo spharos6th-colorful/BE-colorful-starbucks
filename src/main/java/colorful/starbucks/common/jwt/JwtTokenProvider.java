@@ -45,6 +45,19 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String generateRefreshToken(Authentication authentication) {
+        Claims claims = Jwts.claims().subject(authentication.getName()).build();
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + env.getProperty("JWT.token.refresh-expire-time", Long.class));
+
+        return Jwts.builder()
+                .signWith(getSignKey())
+                .claim("uuid", claims.getSubject())
+                .issuedAt(now)
+                .expiration(expiration)
+                .compact();
+    }
+
     public Key getSignKey() {
         return Keys.hmacShaKeyFor(env.getProperty("JWT.secret-key").getBytes());
     }
