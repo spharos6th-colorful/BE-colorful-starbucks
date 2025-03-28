@@ -1,11 +1,14 @@
 package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.domain.Member;
+import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
 import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
+import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.infrastructure.MemberRepository;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
 import colorful.starbucks.common.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -63,6 +67,21 @@ public class MemberServiceImpl implements MemberService {
         return authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(member.getEmail(), inputPassword)
         );
+    }
+
+    @Override
+    public MemberSignInResponseDto signIn(MemberSignInRequestDto signInRequestDto ){
+        Member member = memberRepository.findByEmail(signInRequestDto.getEmail()).orElseThrow(
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"로그인 실패");
+
+                try {
+                    return MemberSignInResponseDto.from(member, createToken(authenticate(member, signInRequestDto.getPassword())));
+                } catch (Exception e) {
+                    throw new RuntimeException(e) {
+                        throw new
+                    }
+                }
+
     }
 
 }
