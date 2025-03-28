@@ -12,7 +12,7 @@ public class ProductCreateRequestDto {
     private String productTopCategoryName;
     private String productBottomCategoryName;
     private String description;
-    private boolean carvingStatus;
+    private boolean markable;
     private int price;
 
     @Builder
@@ -20,24 +20,24 @@ public class ProductCreateRequestDto {
                                     String productTopCategoryName,
                                     String productBottomCategoryName,
                                     String description,
-                                    boolean carvingStatus,
+                                    boolean markable,
                                     int price) {
         this.productName = productName;
         this.productTopCategoryName = productTopCategoryName;
         this.productBottomCategoryName = productBottomCategoryName;
         this.description = description;
-        this.carvingStatus = carvingStatus;
+        this.markable = markable;
         this.price = price;
     }
 
     public static ProductCreateRequestDto from(ProductCreateRequestVo productCreateRequestVo) {
         return ProductCreateRequestDto.builder()
-                                     .productName(productCreateRequestVo.getProductName())
-                                     .productTopCategoryName(productCreateRequestVo.getProductTopCategoryName())
-                                     .productBottomCategoryName(productCreateRequestVo.getProductBottomCategoryName())
-                                     .description(productCreateRequestVo.getDescription())
-                                     .carvingStatus(productCreateRequestVo.isCarvingStatus())
-                                     .price(productCreateRequestVo.getPrice())
+                .productName(productCreateRequestVo.getProductName())
+                .productTopCategoryName(productCreateRequestVo.getProductTopCategoryName())
+                .productBottomCategoryName(productCreateRequestVo.getProductBottomCategoryName())
+                .description(productCreateRequestVo.getDescription())
+                .markable(productCreateRequestVo.isMarkable())
+                .price(productCreateRequestVo.getPrice())
                 .build();
     }
 
@@ -45,13 +45,13 @@ public class ProductCreateRequestDto {
                             String productThumbnailUrl,
                             String productCommonImageUrl) {
         return Product.builder()
-                      .productCode(productCode)
-                      .productName(productName)
-                      .description(description)
-                      .carvingStatus(carvingStatus)
-                      .price(price)
-                      .productThumbnailUrl(productThumbnailUrl)
-                      .productCommonImageUrl(productCommonImageUrl)
-                      .build();
+                .productCode(productCode)
+                .productName(productName)
+                .description(description)
+                .markable(markable)
+                .price(price)
+                .productImageUrl(productCommonImageUrl)
+                .productThumbnailUrl(productThumbnailUrl)
+                .build();
     }
 }
