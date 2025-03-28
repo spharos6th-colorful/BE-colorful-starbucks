@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -14,30 +15,37 @@ public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
     private Long id;
 
+    @Comment("상품 코드")
     @Column(nullable = false, unique = true)
     private String productCode;
 
+    @Comment("상품명")
     @Column(nullable = false, length = 150)
     private String productName;
 
+    @Comment("상품 가격")
     @Column(nullable = false)
     private int price;
 
+    @Comment("상품 설명")
     @Column(nullable = false)
     private String description;
 
     @Lob
+    @Comment("상품 이미지 URL")
     @Column(nullable = false)
-    private String productCommonImageUrl;
+    private String productImageUrl;
 
+
+    @Comment("상품 썸네일 URL")
     @Column(nullable = false)
     private String productThumbnailUrl;
 
-    @Column(nullable = false)
-    private boolean carvingStatus;
+    @Comment("상품 각인 가능 여부")
+    @Column(nullable = false, columnDefinition = "Tinyint(1) default 0")
+    private boolean markable;
 
     @Builder
     public Product(Long id,
@@ -45,16 +53,16 @@ public class Product extends BaseEntity {
                    String productName,
                    int price,
                    String description,
-                   String productCommonImageUrl,
+                   String productImageUrl,
                    String productThumbnailUrl,
-                   boolean carvingStatus) {
+                   boolean markable) {
         this.id = id;
         this.productCode = productCode;
         this.productName = productName;
         this.price = price;
         this.description = description;
-        this.productCommonImageUrl = productCommonImageUrl;
+        this.productImageUrl = productImageUrl;
         this.productThumbnailUrl = productThumbnailUrl;
-        this.carvingStatus = carvingStatus;
+        this.markable = markable;
     }
 }

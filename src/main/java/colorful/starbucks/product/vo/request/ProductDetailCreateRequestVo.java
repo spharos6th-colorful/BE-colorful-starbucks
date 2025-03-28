@@ -11,4 +11,5 @@ public class ProductDetailCreateRequestVo {
     private String colorName;
     private int inventoryQuantity;
     private int price;
+    private int discountPrice;
 }

@@ -2,7 +2,7 @@ package colorful.starbucks.product.application;
 
 import colorful.starbucks.common.s3.S3UploadService;
 import colorful.starbucks.product.dto.request.ProductCreateRequestDto;
-import colorful.starbucks.product.dto.response.ProductCreateResponseDto;
+import colorful.starbucks.product.dto.response.ProductResponseDto;
 import colorful.starbucks.product.generator.ProductCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +21,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductCreateResponseDto create(ProductCreateRequestDto productCreateRequestDto,
-                                           MultipartFile productThumbnail,
-                                           MultipartFile productCommonImage) {
+    public ProductResponseDto create(ProductCreateRequestDto productCreateRequestDto,
+                                     MultipartFile productThumbnail,
+                                     MultipartFile productCommonImage) {
 
         String productCode = productCodeGenerator.generate();
 
         try {
             String productThumbnailUrl = s3UploadService.uploadFile(productThumbnail);
             String productCommonImageUrl = s3UploadService.uploadFile(productCommonImage);
-            return ProductCreateResponseDto.from(productRepository.save(
+            return ProductResponseDto.from(productRepository.save(
                     productCreateRequestDto.toEntity(
                             productCode,
                             productThumbnailUrl,
@@ -39,5 +39,13 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             throw new RuntimeException("상품 등록에 실패했습니다.");
         }
+    }
+
+    @Override
+    public ProductResponseDto getProduct(String productCode) {
+        return ProductResponseDto.from(
+                productRepository.findByProductCode(productCode).
+                        orElseThrow(() -> new RuntimeException("상품 조회에 실패했습니다.")
+        ));
     }
 }

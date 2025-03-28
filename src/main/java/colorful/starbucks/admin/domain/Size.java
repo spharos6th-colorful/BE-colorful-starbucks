@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -17,14 +18,12 @@ public class Size extends BaseEntity {
     @Column(name = "size_id")
     private Long id;
 
+    @Comment("사이즈 이름")
     private String sizeName;
 
-    private int extraFee;
-
     @Builder
-    private Size(Long id, String sizeName, int extraFee) {
+    private Size(Long id, String sizeName) {
         this.id = id;
         this.sizeName = sizeName;
-        this.extraFee = extraFee;
     }
 }
