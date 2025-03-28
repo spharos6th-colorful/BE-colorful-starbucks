@@ -13,17 +13,17 @@ public class CartAddRequestDto {
 
     private String productDetailCode;
     private String carvingContent;
-    private int price;
+    private String productCode;
     private int quantity;
 
     @Builder
     private CartAddRequestDto(String productDetailCode,
                               String carvingContent,
-                              int price,
+                              String productCode,
                               int quantity) {
         this.productDetailCode = productDetailCode;
         this.carvingContent = carvingContent;
-        this.price = price;
+        this.productCode = productCode;
         this.quantity = quantity;
     }
 
@@ -31,7 +31,7 @@ public class CartAddRequestDto {
         return CartAddRequestDto.builder()
                 .productDetailCode(cartAddRequestVo.getProductDetailCode())
                 .carvingContent(cartAddRequestVo.getCarvingContent())
-                .price(cartAddRequestVo.getPrice())
+                .productCode(cartAddRequestVo.getProductCode())
                 .quantity(cartAddRequestVo.getQuantity())
                 .build();
     }
@@ -45,7 +45,7 @@ public class CartAddRequestDto {
         return Cart.builder().
                 productDetailCode(productDetailCode)
                 .carvingContent(carvingContent)
-                .price(price)
+                .productCode(productCode)
                 .checked(true)
                 .quantity(quantity)
                 .memberUuid(memberUuid)
