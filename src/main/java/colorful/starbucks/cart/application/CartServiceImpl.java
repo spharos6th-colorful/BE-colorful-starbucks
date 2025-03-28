@@ -26,7 +26,7 @@ public class CartServiceImpl implements CartService {
         for (CartAddRequestDto product : cartAddRequestDto) {
             try{
                 cartRepository.save(product.toEntity(memberUuid));
-        }catch (Exception e){
+            }catch (Exception e){
                 throw new RuntimeException("장바구니 등록에 실패했습니다.");
             }
 

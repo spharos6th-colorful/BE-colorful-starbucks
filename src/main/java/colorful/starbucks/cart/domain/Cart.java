@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 
 @Entity
@@ -20,22 +21,28 @@ public class Cart extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
+    @Comment("회원 uuid")
     private String memberUuid;
 
     @Column(nullable = false)
+    @Comment("체크 여부")
     private boolean checked;
 
     @Column(nullable = false)
+    @Comment("수량")
     private int quantity;
 
     @Column(nullable = false)
+    @Comment("상품 상세 코드")
     private String productDetailCode;
 
     @Column(nullable = true)
+    @Comment("각인 내용")
     private String carvingContent;
 
-    @Column(nullable = false)
-    private int price;
+    @Column(nullable = false, unique = true)
+    @Comment("상품 코드")
+    private String productCode;
 
     @Builder
     private Cart(Long id,
@@ -44,13 +51,13 @@ public class Cart extends BaseEntity {
                  int quantity,
                  String productDetailCode,
                  String carvingContent,
-                 int price) {
+                 String productCode) {
         this.id = id;
         this.memberUuid = memberUuid;
         this.checked = checked;
         this.quantity = quantity;
         this.productDetailCode = productDetailCode;
         this.carvingContent = carvingContent;
-        this.price = price;
+        this.productCode = productCode;
     }
 }
