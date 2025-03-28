@@ -12,6 +12,9 @@ public interface InterestProductRepository extends JpaRepository<InterestProduct
 
     boolean existsInterestProductByMemberUuidAndProductCode(String memberUuid, String productCode);
 
-    @Query(countQuery = "select count(ip) from InterestProduct ip where ip.memberUuid = :memberUuid")
+    @Query(value = "select ip from InterestProduct ip " +
+            "where ip.memberUuid = :memberUuid and ip.isDeleted = false",
+            countQuery = "select count(ip) from InterestProduct ip " +
+                    "where ip.memberUuid = :memberUuid")
     Page<InterestProduct> findAllByMemberUuid(String memberUuid, Pageable pageable);
 }
