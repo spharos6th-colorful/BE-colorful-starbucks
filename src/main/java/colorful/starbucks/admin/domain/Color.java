@@ -19,12 +19,9 @@ public class Color extends BaseEntity {
 
     private String colorName;
 
-    private int extraFee;
-
     @Builder
-    private Color(Long id, String colorName, int extraFee) {
+    private Color(Long id, String colorName) {
         this.id = id;
         this.colorName = colorName;
-        this.extraFee = extraFee;
     }
 }

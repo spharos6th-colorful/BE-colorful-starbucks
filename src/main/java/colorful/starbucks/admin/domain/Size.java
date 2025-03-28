@@ -19,12 +19,9 @@ public class Size extends BaseEntity {
 
     private String sizeName;
 
-    private int extraFee;
-
     @Builder
-    private Size(Long id, String sizeName, int extraFee) {
+    private Size(Long id, String sizeName) {
         this.id = id;
         this.sizeName = sizeName;
-        this.extraFee = extraFee;
     }
 }
