@@ -10,7 +10,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     void deleteByMemberUuidAndId(String memberUuid, Long id);
     @Query(value = "select cp from Cart cp " +
-                "where cp.memberUuid = :memberUuid and cp.isDeleted = false",
+                "where cp.memberUuid = :memberUuid and cp.isDeleted = false" +
+                " order by cp.createdAt desc",
                 countQuery = "select count(cp) from Cart cp "+
                         "where cp.memberUuid = :memberUuid " +
                         "and cp.isDeleted = false"
