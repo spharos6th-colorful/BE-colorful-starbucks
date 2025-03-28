@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void signUp(MemberSignUpRequestDto memberSignUpRequestDto){
+    public void signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
 
         String encodedPassword = passwordEncoder.encode(memberSignUpRequestDto.getPassword());
 
@@ -55,14 +55,16 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String memberUuid) {
-        Member member = memberRepository.findByMemberUuid(memberUuid)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자 없음: " + memberUuid));
+    public UserDetails loadUserByUsername(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자 없음: " + email));
         return new CustomUserDetails(member);
     }
+
     private String createToken(Authentication authentication) {
         return jwtTokenProvider.generateAccessToken(authentication);
     }
+
     private Authentication authenticate(Member member, String inputPassword) {
         return authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(member.getEmail(), inputPassword)
@@ -70,18 +72,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberSignInResponseDto signIn(MemberSignInRequestDto signInRequestDto ){
-        Member member = memberRepository.findByEmail(signInRequestDto.getEmail()).orElseThrow(
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"로그인 실패");
+    public MemberSignInResponseDto signIn(MemberSignInRequestDto signInRequestDto) {
 
-                try {
-                    return MemberSignInResponseDto.from(member, createToken(authenticate(member, signInRequestDto.getPassword())));
-                } catch (Exception e) {
-                    throw new RuntimeException(e) {
-                        throw new
-                    }
-                }
+        Member member = memberRepository.findByEmail(signInRequestDto.getEmail())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 실패"));
 
+        try {
+            return MemberSignInResponseDto.from(member, createToken(authenticate(member, signInRequestDto.getPassword()))
+            );
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 실패");
+        }
     }
-
 }
+
+

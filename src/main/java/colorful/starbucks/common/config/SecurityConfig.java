@@ -48,6 +48,7 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/auth/terms").permitAll()
                             .requestMatchers("/api/v1/auth/terms-agreement").permitAll()
                             .requestMatchers("/api/v1/auth/email-check").permitAll()
+                            .requestMatchers("/api/v1/auth/sign-in").permitAll()
                             .anyRequest()
                             .authenticated();
                 })
@@ -56,8 +57,7 @@ public class SecurityConfig {
                 )
                 .authenticationProvider(daoauthenticationProvider)
                 .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilter(corsFilter());
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -44,7 +44,6 @@ public class Member extends BaseEntity  {
 
     @Comment("회원 등급")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private MemberLevel memberLevel;
 
     @Comment("회원 생년월일")

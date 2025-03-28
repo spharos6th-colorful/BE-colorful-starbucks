@@ -1,6 +1,5 @@
 package colorful.starbucks.auth.dto.request;
 
-import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.vo.request.MemberSignInRequestVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +17,7 @@ public class MemberSignInRequestDto {
         this.password = password;
     }
 
-    private static MemberSignInRequestDto from(MemberSignInRequestVo memberSignInRequestVo) {
+    public static MemberSignInRequestDto from(MemberSignInRequestVo memberSignInRequestVo) {
         return MemberSignInRequestDto.builder()
                 .email(memberSignInRequestVo.getEmail())
                 .password(memberSignInRequestVo.getPassword())

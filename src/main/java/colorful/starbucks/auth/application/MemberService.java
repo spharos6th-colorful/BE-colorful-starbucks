@@ -11,7 +11,7 @@ public interface MemberService {
 
     boolean isEmailDuplicated(String email);
 
-    UserDetails loadUserByUsername(String memberUuid);
+    UserDetails loadUserByUsername(String email);
 
     MemberSignInResponseDto signIn(MemberSignInRequestDto memberSignInRequestDto);
 }

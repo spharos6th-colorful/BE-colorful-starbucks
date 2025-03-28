@@ -25,9 +25,9 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return uuid -> memberRepository.findByMemberUuid(uuid)
+        return email -> memberRepository.findByEmail(email)
                 .map(CustomUserDetails::new)
-                .orElseThrow(() -> new IllegalArgumentException("해당 UUID를 가진 회원이 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 email을 가진 회원이 없습니다."));
     }
 
     @Bean

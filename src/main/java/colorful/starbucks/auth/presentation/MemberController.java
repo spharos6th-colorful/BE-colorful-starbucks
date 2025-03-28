@@ -1,7 +1,9 @@
 package colorful.starbucks.auth.presentation;
 
 import colorful.starbucks.auth.application.MemberService;
+import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
 import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
+import colorful.starbucks.auth.vo.request.MemberSignInRequestVo;
 import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,14 @@ public class MemberController {
         boolean isDuplicated = memberService.isEmailDuplicated(email);
         return ResponseEntity.ok(isDuplicated);
     }
+
+    @PostMapping("/sign-in")
+    public void signIn(
+            @RequestBody MemberSignInRequestVo memberSignInRequestVo
+    ){
+        memberService.signIn(MemberSignInRequestDto.from(memberSignInRequestVo));
+    }
+
 
 
 }
