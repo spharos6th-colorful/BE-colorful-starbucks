@@ -28,7 +28,7 @@ public class InterestProductController {
         );
     }
 
-    // security 완료되면 memberUuid는 authentication에서 가져오도록 수정
+    // todo: security 완료되면 memberUuid는 authentication에서 가져오도록 수정
     @PostMapping("/{memberUuid}")
     public ApiResponse<InterestProductCreateResponseVo> createInterestProduct(
             @RequestBody InterestProductCreateRequestVo interestProductCreateRequestVo,
