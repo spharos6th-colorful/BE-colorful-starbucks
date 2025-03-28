@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         uuid = jwtTokenProvider.extractClaims(jwt, claims -> claims.get("uuid", String.class));
 
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = memberService.loadUserByUsername(uuid);
+            UserDetails userDetails = memberService.loadUserByUuid(uuid);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,

@@ -6,18 +6,10 @@ import lombok.Getter;
 @Getter
 public class MemberSignInResponseVo {
 
-    private String memberUuid;
-
     private String accessToken;
 
-    private String memberName;
-
     @Builder
-    public MemberSignInResponseVo(String memberUuid,
-                                  String accessToken,
-                                  String memberName) {
-        this.memberUuid = memberUuid;
+    public MemberSignInResponseVo(String accessToken) {
         this.accessToken = accessToken;
-        this.memberName = memberName;
     }
 }

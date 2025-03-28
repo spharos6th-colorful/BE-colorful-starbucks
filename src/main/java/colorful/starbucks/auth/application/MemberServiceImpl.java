@@ -55,9 +55,16 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) {
+    @Transactional
+    public UserDetails loadUserByUsername(String email) { //로그인 인증용
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자 없음: " + email));
+        return new CustomUserDetails(member);
+    }
+
+    public UserDetails loadUserByUuid(String uuid) { // JWT 필터 인증용
+        Member member = memberRepository.findByMemberUuid(uuid)
+                .orElseThrow(() -> new UsernameNotFoundException("UUID 사용자 없음: " + uuid));
         return new CustomUserDetails(member);
     }
 
@@ -72,6 +79,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public MemberSignInResponseDto signIn(MemberSignInRequestDto signInRequestDto) {
 
         Member member = memberRepository.findByEmail(signInRequestDto.getEmail())

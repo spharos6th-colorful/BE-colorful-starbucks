@@ -13,5 +13,7 @@ public interface MemberService {
 
     UserDetails loadUserByUsername(String email);
 
+    UserDetails loadUserByUuid(String uuid);
+
     MemberSignInResponseDto signIn(MemberSignInRequestDto memberSignInRequestDto);
 }

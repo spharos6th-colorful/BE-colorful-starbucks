@@ -3,8 +3,10 @@ package colorful.starbucks.auth.presentation;
 import colorful.starbucks.auth.application.MemberService;
 import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
 import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
+import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.vo.request.MemberSignInRequestVo;
 import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
+import colorful.starbucks.auth.vo.response.MemberSignInResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +34,12 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public void signIn(
+    public ResponseEntity<MemberSignInResponseVo> signIn(
             @RequestBody MemberSignInRequestVo memberSignInRequestVo
     ){
-        memberService.signIn(MemberSignInRequestDto.from(memberSignInRequestVo));
+        MemberSignInResponseDto dto = memberService.signIn(MemberSignInRequestDto.from(memberSignInRequestVo));
+        return ResponseEntity.ok(dto.toMemberSignInResponseVo());
     }
-
 
 
 }

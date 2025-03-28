@@ -32,7 +32,7 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setExposedHeaders(List.of("Authorization", "Content-Type", "X-CSRF-Token", "Set-Cookie"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
@@ -44,11 +44,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests
-                            .requestMatchers("/api/v1/auth/sign-up").permitAll()
+                            .requestMatchers("/api/v1/auth/sign-up","/api/v1/auth/sign-in").permitAll()
                             .requestMatchers("/api/v1/auth/terms").permitAll()
                             .requestMatchers("/api/v1/auth/terms-agreement").permitAll()
                             .requestMatchers("/api/v1/auth/email-check").permitAll()
-                            .requestMatchers("/api/v1/auth/sign-in").permitAll()
                             .anyRequest()
                             .authenticated();
                 })
