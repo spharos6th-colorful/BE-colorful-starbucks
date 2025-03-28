@@ -3,6 +3,7 @@ package colorful.starbucks.product.application;
 import colorful.starbucks.common.s3.S3UploadService;
 import colorful.starbucks.product.domain.ProductDetail;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
+import colorful.starbucks.product.dto.response.ProductDetailCodeAndQuantityResponseDto;
 import colorful.starbucks.product.dto.response.ProductDetailCreateResponseDto;
 import colorful.starbucks.product.dto.response.ProductOptionListResponseDto;
 import colorful.starbucks.product.generator.ProductDetailCodeGenerator;
@@ -28,6 +29,13 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     public ProductDetailCreateResponseDto createProductDetail(ProductDetailCreateRequestDto productDetailCreateRequestDto,
                                                               MultipartFile productDetailThumbnail) {
 
+        if (productDetailRepository.existsByProductCodeAndSizeIdAndColorIdAndIsDeletedFalse(
+                productDetailCreateRequestDto.getProductCode(),
+                productDetailCreateRequestDto.getSizeId(),
+                productDetailCreateRequestDto.getColorId())) {
+            throw new RuntimeException("이미 등록된 상품 상세입니다.");
+        };
+
         try {
             String productDetailThumbnailUrl = s3UploadService.uploadFile(productDetailThumbnail);
             return ProductDetailCreateResponseDto.from(productDetailRepository.save(
@@ -45,5 +53,17 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     public ProductOptionListResponseDto getProductOptionList(String productCode) {
         List<ProductDetail> productDetails = productDetailRepository.findAllByProductCode(productCode);
         return ProductOptionListResponseDto.from(productDetails);
+    }
+
+    @Override
+    public ProductDetailCodeAndQuantityResponseDto getProductDetailWithOptions(
+            String productCode,
+            int sizeId,
+            int colorId) {
+
+        ProductDetail productDetail = productDetailRepository.findByProductCodeAndSizeIdAndColorId(productCode, sizeId, colorId)
+                .orElseThrow(() -> new RuntimeException("상품 상세 조회에 실패했습니다."));
+
+        return ProductDetailCodeAndQuantityResponseDto.from(productDetail);
     }
 }
