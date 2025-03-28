@@ -60,24 +60,26 @@ public class ProductDetail extends BaseEntity {
 
     @Builder
     private ProductDetail(Long id,
+                         String productDetailCode,
+                         String productCode,
                          Long sizeId,
                          String sizeName,
                          Long colorId,
                          String colorName,
-                         String productCode,
-                         String productDetailCode,
                          int inventoryQuantity,
                          int price,
-                         String productDetailThumbnailUrl) {
+                         String productDetailThumbnailUrl,
+                         int discountPrice) {
         this.id = id;
+        this.productDetailCode = productDetailCode;
+        this.productCode = productCode;
         this.sizeId = sizeId;
         this.sizeName = sizeName;
         this.colorId = colorId;
         this.colorName = colorName;
-        this.productCode = productCode;
-        this.productDetailCode = productDetailCode;
         this.inventoryQuantity = inventoryQuantity;
         this.price = price;
         this.productDetailThumbnailUrl = productDetailThumbnailUrl;
+        this.discountPrice = discountPrice;
     }
 }
