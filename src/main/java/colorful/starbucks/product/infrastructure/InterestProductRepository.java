@@ -15,6 +15,7 @@ public interface InterestProductRepository extends JpaRepository<InterestProduct
     @Query(value = "select ip from InterestProduct ip " +
             "where ip.memberUuid = :memberUuid and ip.isDeleted = false",
             countQuery = "select count(ip) from InterestProduct ip " +
-                    "where ip.memberUuid = :memberUuid")
+                    "where ip.memberUuid = :memberUuid " +
+                    "and ip.isDeleted = false")
     Page<InterestProduct> findAllByMemberUuid(String memberUuid, Pageable pageable);
 }
