@@ -1,5 +1,6 @@
 package colorful.starbucks.cart.dto;
 
+import colorful.starbucks.cart.domain.Cart;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -25,5 +26,15 @@ public class CartProductDetailDto {
         this.quantity = quantity;
         this.productDetailCode = productDetailCode;
         this.carvingContent = carvingContent;
+    }
+    public static CartProductDetailDto from(Cart cart){
+        return CartProductDetailDto.builder()
+                .cartId(cart.getId())
+                .checked(cart.isChecked())
+                .productCode(cart.getProductCode())
+                .quantity(cart.getQuantity())
+                .productDetailCode(cart.getProductDetailCode())
+                .carvingContent(cart.getCarvingContent())
+                .build();
     }
 }

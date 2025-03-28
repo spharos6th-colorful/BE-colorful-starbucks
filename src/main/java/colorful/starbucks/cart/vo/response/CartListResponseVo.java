@@ -10,15 +10,17 @@ import java.util.List;
 public class CartListResponseVo {
 
     private int totalPages;
-    private int totalItems;
+    private long totalElements;
     private List<CartProductDetailDto> productDetails;
 
     @Builder
     public CartListResponseVo(int totalPages,
-                              int totalItems,
+                              long totalElements,
                               List<CartProductDetailDto> productDetails) {
         this.totalPages = totalPages;
-        this.totalItems = totalItems;
+        this.totalElements = totalElements;
         this.productDetails = productDetails;
     }
+
+
 }

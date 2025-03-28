@@ -5,8 +5,12 @@ import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
 import colorful.starbucks.cart.vo.request.CartAddRequestVo;
 import colorful.starbucks.cart.vo.request.CartDeleteRequestVo;
+import colorful.starbucks.cart.vo.response.CartListResponseVo;
+import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +41,15 @@ public class CartController {
 
     }
 
-//    @GetMapping("/{memberUuid}")
-
+    @GetMapping("/{memberUuid}")
+    public ApiResponse<CartListResponseVo> getCartProducts(@PathVariable String memberUuid,
+                                                           @PageableDefault(size = 3) Pageable pageable) {
+        return ApiResponse.of(
+                HttpStatus.OK,
+                "장바구니 목록 조회를 성공적으로 완료했습니다",
+                cartService.getCartList(memberUuid, pageable).toVo()
+        );
+    }
 
 
 }
