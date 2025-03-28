@@ -6,6 +6,7 @@ import lombok.Getter;
 public class InterestProductCreateRequestVo {
 
     private String productCode;
+    private String productName;
     private int price;
     private String productThumbnailUrl;
 }

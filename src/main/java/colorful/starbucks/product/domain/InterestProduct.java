@@ -28,7 +28,11 @@ public class InterestProduct extends BaseEntity {
     @Column(nullable = false)
     private String productCode;
 
-    @Comment("가격")
+    @Comment("상품 이름")
+    @Column(nullable = false)
+    private String productName;
+
+    @Comment("상품 가격")
     @Column(nullable = false)
     private int price;
 
@@ -37,15 +41,16 @@ public class InterestProduct extends BaseEntity {
     private String productThumbnailUrl;
 
     @Builder
-    private InterestProduct(
-            Long id,
-            String memberUuid,
-            String productCode,
-            int price,
-            String productThumbnailUrl) {
+    private InterestProduct(Long id,
+                           String memberUuid,
+                           String productCode,
+                           String productName,
+                           int price,
+                           String productThumbnailUrl) {
         this.id = id;
         this.memberUuid = memberUuid;
         this.productCode = productCode;
+        this.productName = productName;
         this.price = price;
         this.productThumbnailUrl = productThumbnailUrl;
     }
