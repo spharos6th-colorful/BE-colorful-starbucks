@@ -40,8 +40,6 @@ public class CartServiceImpl implements CartService {
         for(CartDeleteRequestDto cartProduct: cartDeleteRequestDto){
             try{
                 cartRepository.deleteByMemberUuidAndId(memberUuid, cartProduct.getId());
-                log.info("memberUuid:{}", memberUuid);
-                log.info("상품번호:{}", cartProduct.getId());
             }catch (Exception e){
                 throw new RuntimeException("장바구니 상품 삭제에 실패했습니다.");
             }
