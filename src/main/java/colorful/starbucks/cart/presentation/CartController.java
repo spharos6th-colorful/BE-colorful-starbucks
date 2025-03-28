@@ -27,7 +27,7 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/products/{memberUuid}")
+    @DeleteMapping("/{memberUuid}")
     public ResponseEntity delete(@PathVariable String memberUuid,
                                  @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
 
@@ -36,4 +36,9 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
+
+//    @GetMapping("/{memberUuid}")
+
+
+
 }
