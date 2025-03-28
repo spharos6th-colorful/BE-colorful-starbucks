@@ -30,9 +30,4 @@ public class ColorDto {
         ColorDto colorDto = (ColorDto) o;
         return Objects.equals(colorId, colorDto.colorId) && Objects.equals(colorName, colorDto.colorName);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(colorId, colorName);
-    }
 }

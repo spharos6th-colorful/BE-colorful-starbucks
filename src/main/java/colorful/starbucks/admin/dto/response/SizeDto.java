@@ -30,9 +30,4 @@ public class SizeDto {
         SizeDto sizeDto = (SizeDto) o;
         return Objects.equals(sizeId, sizeDto.sizeId) && Objects.equals(sizeName, sizeDto.sizeName);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(sizeId, sizeName);
-    }
 }

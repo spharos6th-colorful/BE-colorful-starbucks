@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -17,6 +18,7 @@ public class Color extends BaseEntity {
     @Column(name = "color_id")
     private Long id;
 
+    @Comment("색상 이름")
     private String colorName;
 
     @Builder
