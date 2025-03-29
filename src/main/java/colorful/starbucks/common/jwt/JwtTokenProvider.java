@@ -61,5 +61,13 @@ public class JwtTokenProvider {
     public Key getSignKey() {
         return Keys.hmacShaKeyFor(env.getProperty("JWT.secret-key").getBytes());
     }
+
+    public String validateAndExtractUuid(String token) {
+        try {
+            return extractAllClaims(token).get("uuid", String.class);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("유효하지 않은 RefreshToken 입니다.");
+        }
+    }
 }
 

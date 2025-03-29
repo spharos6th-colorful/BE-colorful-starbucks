@@ -44,10 +44,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests
-                            .requestMatchers("/api/v1/auth/sign-up","/api/v1/auth/sign-in").permitAll()
+                            .requestMatchers("/api/v1/auth/sign-up","/api/v1/auth/sign-in","/api/v1/auth/access-token").permitAll()
                             .requestMatchers("/api/v1/auth/terms").permitAll()
                             .requestMatchers("/api/v1/auth/terms-agreement").permitAll()
-                            .requestMatchers("/api/v1/auth/email-check").permitAll()
+                            .requestMatchers("/api/v1/auth/validate/email").permitAll()
                             .anyRequest()
                             .authenticated();
                 })

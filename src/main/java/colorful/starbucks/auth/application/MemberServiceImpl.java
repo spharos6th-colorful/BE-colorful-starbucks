@@ -3,6 +3,8 @@ package colorful.starbucks.auth.application;
 import colorful.starbucks.auth.domain.Member;
 import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
 import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
+import colorful.starbucks.auth.dto.request.RefreshTokenRequestDto;
+import colorful.starbucks.auth.dto.response.AccessTokenResponseDto;
 import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.infrastructure.MemberRepository;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
@@ -27,7 +29,6 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
@@ -100,6 +101,23 @@ public class MemberServiceImpl implements MemberService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 실패");
         }
     }
+
+    @Override
+    @Transactional
+    public AccessTokenResponseDto reIssueAccessToken(RefreshTokenRequestDto refreshTokenRequestDto){
+        String uuid = jwtTokenProvider.validateAndExtractUuid(refreshTokenRequestDto.getRefreshToken());
+        UserDetails userDetails = loadUserByUuid(uuid);
+        String newAccessToken = jwtTokenProvider.generateAccessToken(
+                new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities())
+        );
+
+        return AccessTokenResponseDto.builder()
+                .accessToken(newAccessToken)
+                .build();
+    }
+
 }
+
 
 

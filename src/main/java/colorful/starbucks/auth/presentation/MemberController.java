@@ -3,10 +3,15 @@ package colorful.starbucks.auth.presentation;
 import colorful.starbucks.auth.application.MemberService;
 import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
 import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
+import colorful.starbucks.auth.dto.request.RefreshTokenRequestDto;
+import colorful.starbucks.auth.dto.response.AccessTokenResponseDto;
 import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.vo.request.MemberSignInRequestVo;
 import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
+import colorful.starbucks.auth.vo.request.RefreshTokenRequestVo;
+import colorful.starbucks.auth.vo.response.AccessTokenResponseVo;
 import colorful.starbucks.auth.vo.response.MemberSignInResponseVo;
+import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +30,7 @@ public class MemberController {
         memberService.signUp(MemberSignUpRequestDto.from(memberSignUpRequestVo));
     }
 
-    @GetMapping("/email-check")
+    @GetMapping("/validate/email")
     public ResponseEntity<Boolean> checkEmail(
             @RequestParam String email
     ){
@@ -34,11 +39,23 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<MemberSignInResponseVo> signIn(
+    public ApiResponse<MemberSignInResponseVo> signIn(
             @RequestBody MemberSignInRequestVo memberSignInRequestVo
     ){
         MemberSignInResponseDto dto = memberService.signIn(MemberSignInRequestDto.from(memberSignInRequestVo));
-        return ResponseEntity.ok(dto.toMemberSignInResponseVo());
+        return ApiResponse.ok(dto.toMemberSignInResponseVo());
+    }
+
+    @PostMapping("/access-token")
+    public ApiResponse<AccessTokenResponseVo> refreshToken(
+            @RequestBody RefreshTokenRequestVo refreshTokenRequestVo){
+
+        AccessTokenResponseDto accessTokenResponseDto = memberService.reIssueAccessToken(
+                RefreshTokenRequestDto.from(refreshTokenRequestVo)
+        );
+        AccessTokenResponseVo responseVo = AccessTokenResponseVo.from(accessTokenResponseDto);
+
+        return ApiResponse.ok(responseVo);
     }
 
 
