@@ -27,13 +27,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto create(ProductCreateRequestDto productCreateRequestDto,
                                      MultipartFile productThumbnail,
-                                     MultipartFile productCommonImage) {
+                                     MultipartFile productImage) {
 
         String productCode = productCodeGenerator.generate();
 
         try {
             String productThumbnailUrl = s3UploadService.uploadFile(productThumbnail);
-            String productCommonImageUrl = s3UploadService.uploadFile(productCommonImage);
+            String productCommonImageUrl = s3UploadService.uploadFile(productImage);
             return ProductResponseDto.from(productRepository.save(
                     productCreateRequestDto.toEntity(
                             productCode,

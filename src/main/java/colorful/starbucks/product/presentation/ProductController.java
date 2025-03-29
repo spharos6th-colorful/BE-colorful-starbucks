@@ -25,12 +25,12 @@ public class ProductController {
     @PostMapping
     public ApiResponse<ProductResponseVo> createProduct(@RequestPart ProductCreateRequestVo productCreateRequestVo,
                                                         @RequestPart MultipartFile productThumbnail,
-                                                        @RequestPart MultipartFile productCommonImage) {
+                                                        @RequestPart MultipartFile productImage) {
         return ApiResponse.of(
                 HttpStatus.CREATED,
                 "상품 등록을 완료했습니다." ,
                 productService.create(
-                        ProductCreateRequestDto.from(productCreateRequestVo), productThumbnail, productCommonImage)
+                        ProductCreateRequestDto.from(productCreateRequestVo), productThumbnail, productImage)
                         .toVo()
         );
     }

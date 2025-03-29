@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ProductService {
     ProductResponseDto create(ProductCreateRequestDto productCreateRequestDto,
                               MultipartFile productThumbnail,
-                              MultipartFile productCommonImage);
+                              MultipartFile productImage);
 
     ProductResponseDto getProduct(String productCode);
 
