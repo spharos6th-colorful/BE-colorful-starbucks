@@ -9,7 +9,6 @@ import colorful.starbucks.product.vo.request.ProductCreateRequestVo;
 import colorful.starbucks.product.vo.response.FilteredProductResponseVo;
 import colorful.starbucks.product.vo.response.ProductResponseVo;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
