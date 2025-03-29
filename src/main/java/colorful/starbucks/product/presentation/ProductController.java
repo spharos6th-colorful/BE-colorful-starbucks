@@ -2,10 +2,16 @@ package colorful.starbucks.product.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.product.application.ProductService;
+import colorful.starbucks.product.dto.ProductFilterDto;
 import colorful.starbucks.product.dto.request.ProductCreateRequestDto;
+import colorful.starbucks.product.vo.ProductFilterVo;
 import colorful.starbucks.product.vo.request.ProductCreateRequestVo;
+import colorful.starbucks.product.vo.response.FilteredProductResponseVo;
 import colorful.starbucks.product.vo.response.ProductResponseVo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +33,16 @@ public class ProductController {
                 productService.create(
                         ProductCreateRequestDto.from(productCreateRequestVo), productThumbnail, productCommonImage)
                         .toVo()
+        );
+    }
+
+    @GetMapping
+    public ApiResponse<FilteredProductResponseVo> getProductsByFilter(ProductFilterVo productFilterVo,
+                                                                      @PageableDefault(size = 3) Pageable pageable) {
+
+        return ApiResponse.ok(
+                "상품 목록 조회를 완료했습니다.",
+                productService.getProductsByFilter(ProductFilterDto.from(productFilterVo), pageable).toVo()
         );
     }
 
