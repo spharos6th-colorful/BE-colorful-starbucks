@@ -19,11 +19,14 @@ public class CartProductOptionEditRequestDto {
         this.productCode = productCode;
         this.cartProductOptionVo = cartProductOptionVo;
     }
-    public static CartProductOptionEditRequestDto from(CartProductOptionEditRequestVo cartProductEditRequestVo) {
+    public static CartProductOptionEditRequestDto from(CartProductOptionEditRequestVo cartProductOptionEditRequestVo) {
         return CartProductOptionEditRequestDto.builder()
-                .cartId(cartProductEditRequestVo.getCartId())
-                .productCode(cartProductEditRequestVo.getProductCode())
-                .cartProductOptionVo(cartProductEditRequestVo.getCartProductOptionVo())
+                .cartId(cartProductOptionEditRequestVo.getCartId())
+                .productCode(cartProductOptionEditRequestVo.getProductCode())
+                .cartProductOptionVo(CartProductOptionVo.builder()
+                        .colorId(cartProductOptionEditRequestVo.getCartProductOptionVo().getColorId())
+                        .sizeId(cartProductOptionEditRequestVo.getCartProductOptionVo().getSizeId())
+                        .build())
                 .build();
     }
 }
