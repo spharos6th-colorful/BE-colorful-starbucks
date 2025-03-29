@@ -10,7 +10,7 @@ public class AccessTokenResponseVo {
     private String accessToken;
 
     @Builder
-    public AccessTokenResponseVo(String accessToken) {
+    private AccessTokenResponseVo(String accessToken) {
         this.accessToken = accessToken;
     }
 

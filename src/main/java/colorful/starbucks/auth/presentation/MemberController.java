@@ -42,8 +42,9 @@ public class MemberController {
     public ApiResponse<MemberSignInResponseVo> signIn(
             @RequestBody MemberSignInRequestVo memberSignInRequestVo
     ){
-        MemberSignInResponseDto dto = memberService.signIn(MemberSignInRequestDto.from(memberSignInRequestVo));
-        return ApiResponse.ok(dto.toMemberSignInResponseVo());
+        return ApiResponse.ok(
+                memberService.signIn(MemberSignInRequestDto.from(memberSignInRequestVo)).toVo()
+        );
     }
 
     @PostMapping("/access-token")

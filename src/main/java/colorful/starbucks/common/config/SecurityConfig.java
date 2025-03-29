@@ -29,14 +29,22 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
+
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*");
+
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://localhost:3001"
+        ));
+
         config.addAllowedHeader("*");
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setExposedHeaders(List.of("Authorization", "Content-Type", "X-CSRF-Token", "Set-Cookie"));
+
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,12 +52,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests
-                            .requestMatchers("/api/v1/auth/sign-up","/api/v1/auth/sign-in","/api/v1/auth/access-token").permitAll()
-                            .requestMatchers("/api/v1/auth/terms").permitAll()
-                            .requestMatchers("/api/v1/auth/terms-agreement").permitAll()
-                            .requestMatchers("/api/v1/auth/validate/email").permitAll()
-                            .anyRequest()
-                            .authenticated();
+                            .requestMatchers("/api/v1/auth/access-token").authenticated()
+                            .anyRequest().permitAll();
+
                 })
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

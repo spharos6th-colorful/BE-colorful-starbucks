@@ -11,7 +11,7 @@ public class MemberSignInResponseVo {
     private String refreshToken;
 
     @Builder
-    public MemberSignInResponseVo(String accessToken,
+    private MemberSignInResponseVo(String accessToken,
                                   String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;

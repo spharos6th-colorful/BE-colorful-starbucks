@@ -24,7 +24,7 @@ public class MemberSignInResponseDto {
                 .build();
     }
 
-    public MemberSignInResponseVo toMemberSignInResponseVo() {
+    public MemberSignInResponseVo toVo() {
         return MemberSignInResponseVo.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
