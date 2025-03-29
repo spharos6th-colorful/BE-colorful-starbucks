@@ -40,7 +40,7 @@ public class Cart extends BaseEntity {
     @Comment("각인 내용")
     private String carvingContent;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @Comment("상품 코드")
     private String productCode;
 
