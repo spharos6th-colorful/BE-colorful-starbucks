@@ -1,7 +1,6 @@
 package colorful.starbucks.cart.dto.request;
 
-import colorful.starbucks.cart.dto.CartProductOptionDto;
-import colorful.starbucks.cart.vo.CartProductOptionVo;
+import colorful.starbucks.cart.domain.Cart;
 import colorful.starbucks.cart.vo.request.CartProductOptionEditRequestVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,24 +8,29 @@ import lombok.Getter;
 @Getter
 public class CartProductOptionEditRequestDto {
 
-    private Long cartId;
     private String productCode;
-    private CartProductOptionVo cartProductOptionVo;
+    private String productDetailCode;
+    private int quantity;
 
     @Builder
-    public CartProductOptionEditRequestDto(Long cartId, String productCode, CartProductOptionVo cartProductOptionVo) {
-        this.cartId = cartId;
+    public CartProductOptionEditRequestDto(String productCode, String productDetailCode, int quantity) {
         this.productCode = productCode;
-        this.cartProductOptionVo = cartProductOptionVo;
+        this.productDetailCode = productDetailCode;
+        this.quantity = quantity;
     }
+
     public static CartProductOptionEditRequestDto from(CartProductOptionEditRequestVo cartProductOptionEditRequestVo) {
         return CartProductOptionEditRequestDto.builder()
-                .cartId(cartProductOptionEditRequestVo.getCartId())
                 .productCode(cartProductOptionEditRequestVo.getProductCode())
-                .cartProductOptionVo(CartProductOptionVo.builder()
-                        .colorId(cartProductOptionEditRequestVo.getCartProductOptionVo().getColorId())
-                        .sizeId(cartProductOptionEditRequestVo.getCartProductOptionVo().getSizeId())
-                        .build())
+                .productDetailCode(cartProductOptionEditRequestVo.getProductCode())
+                .quantity(cartProductOptionEditRequestVo.getQuantity())
+                .build();
+    }
+    public Cart toEntity(Long id, String productDetailCode, int quantity) {
+        return Cart.builder()
+                .id(id)
+                .productDetailCode(productDetailCode)
+                .quantity(quantity)
                 .build();
     }
 }
