@@ -22,15 +22,8 @@ public class CartProductOptionEditRequestDto {
     public static CartProductOptionEditRequestDto from(CartProductOptionEditRequestVo cartProductOptionEditRequestVo) {
         return CartProductOptionEditRequestDto.builder()
                 .productCode(cartProductOptionEditRequestVo.getProductCode())
-                .productDetailCode(cartProductOptionEditRequestVo.getProductCode())
+                .productDetailCode(cartProductOptionEditRequestVo.getProductDetailCode())
                 .quantity(cartProductOptionEditRequestVo.getQuantity())
-                .build();
-    }
-    public Cart toEntity(Long id, String productDetailCode, int quantity) {
-        return Cart.builder()
-                .id(id)
-                .productDetailCode(productDetailCode)
-                .quantity(quantity)
                 .build();
     }
 }
