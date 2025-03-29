@@ -10,7 +10,7 @@ public class CartProductOptionEditResponseDto {
     private Long sizeId;
 
     @Builder
-    public CartProductOptionEditResponseDto(Long colorId, Long sizeId) {
+    private CartProductOptionEditResponseDto(Long colorId, Long sizeId) {
         this.colorId = colorId;
         this.sizeId = sizeId;
     }

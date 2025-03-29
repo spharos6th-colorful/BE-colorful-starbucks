@@ -13,7 +13,7 @@ public class CartProductOptionEditRequestDto {
     private int quantity;
 
     @Builder
-    public CartProductOptionEditRequestDto(String productCode, String productDetailCode, int quantity) {
+    private CartProductOptionEditRequestDto(String productCode, String productDetailCode, int quantity) {
         this.productCode = productCode;
         this.productDetailCode = productDetailCode;
         this.quantity = quantity;
