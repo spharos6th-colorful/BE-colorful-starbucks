@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -17,20 +18,38 @@ public class ProductCategoryList extends BaseEntity {
     @Column(name = "product_category_list_id")
     private Long id;
 
+    @Comment("상품 코드")
+    @Column(nullable = false)
     private String productCode;
 
-    private Long categoryTopId;
+    @Comment("상위 카테고리 ID")
+    @Column(nullable = false)
+    private Long topCategoryId;
 
-    private Long categoryBottomId;
+    @Comment("상위 카테고리 이름")
+    @Column(nullable = false)
+    private String topCategoryName;
+
+    @Comment("하위 카테고리 ID")
+    @Column(nullable = false)
+    private Long bottomCategoryId;
+
+    @Comment("하위 카테고리 이름")
+    @Column(nullable = false)
+    private String bottomCategoryName;
 
     @Builder
     private ProductCategoryList(Long id,
-                               String productCode,
-                               Long categoryTopId,
-                               Long categoryBottomId) {
+                                String productCode,
+                                Long topCategoryId,
+                                String topCategoryName,
+                                Long bottomCategoryId,
+                                String bottomCategoryName) {
         this.id = id;
         this.productCode = productCode;
-        this.categoryTopId = categoryTopId;
-        this.categoryBottomId = categoryBottomId;
+        this.topCategoryId = topCategoryId;
+        this.topCategoryName = topCategoryName;
+        this.bottomCategoryId = bottomCategoryId;
+        this.bottomCategoryName = bottomCategoryName;
     }
 }

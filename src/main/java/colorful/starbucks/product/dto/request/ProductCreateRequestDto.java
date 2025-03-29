@@ -43,14 +43,14 @@ public class ProductCreateRequestDto {
 
     public Product toEntity(String productCode,
                             String productThumbnailUrl,
-                            String productCommonImageUrl) {
+                            String productImageUrl) {
         return Product.builder()
                 .productCode(productCode)
                 .productName(productName)
                 .description(description)
                 .markable(markable)
                 .price(price)
-                .productImageUrl(productCommonImageUrl)
+                .productImageUrl(productImageUrl)
                 .productThumbnailUrl(productThumbnailUrl)
                 .build();
     }

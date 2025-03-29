@@ -9,6 +9,7 @@ public class ProductResponseVo {
     private String productName;
     private String productCode;
     private String description;
+    private int price;
     private String productImageUrl;
     private String productThumbnailUrl;
     private boolean markable;
@@ -17,12 +18,14 @@ public class ProductResponseVo {
     private ProductResponseVo(String productName,
                               String productCode,
                               String description,
+                              int price,
                               String productImageUrl,
                               String productThumbnailUrl,
                               boolean markable) {
         this.productName = productName;
         this.productCode = productCode;
         this.description = description;
+        this.price = price;
         this.productImageUrl = productImageUrl;
         this.productThumbnailUrl = productThumbnailUrl;
         this.markable = markable;
