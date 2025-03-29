@@ -6,16 +6,16 @@ import lombok.Getter;
 
 @Getter
 public class CartProductDetailDto {
-    private Long cartId;
-    private Boolean checked;
+    private long cartId;
+    private boolean checked;
     private String productCode;
     private int quantity;
     private String productDetailCode;
     private String carvingContent;
 
     @Builder
-    public CartProductDetailDto(Long cartId,
-                                Boolean checked,
+    public CartProductDetailDto(long cartId,
+                                boolean checked,
                                 String productCode,
                                 int quantity,
                                 String productDetailCode,
