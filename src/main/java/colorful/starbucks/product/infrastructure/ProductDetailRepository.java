@@ -18,4 +18,6 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, Lo
     boolean existsByProductCodeAndSizeIdAndColorIdAndIsDeletedFalse(
             String productCode, Long sizeId, Long colorId
     );
+
+    Optional<ProductDetail> findByProductDetailCode(String productDetailCode);
 }

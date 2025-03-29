@@ -60,4 +60,9 @@ public class Cart extends BaseEntity {
         this.carvingContent = carvingContent;
         this.productCode = productCode;
     }
+
+    public void updateProductOption(String productDetailCode, int quantity) {
+        this.productDetailCode = productDetailCode;
+        this.quantity = quantity;
+    }
 }

@@ -1,6 +1,7 @@
 package colorful.starbucks.cart.infrastructure;
 
 import colorful.starbucks.cart.domain.Cart;
+import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,5 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
                         "and cp.isDeleted = false"
     )
     Page<Cart> findAllByMemberUuid(String memberUuid, Pageable pageable);
+
 }
