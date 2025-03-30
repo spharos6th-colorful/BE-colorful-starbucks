@@ -33,4 +33,8 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> ok(String message, T data) {
         return of(HttpStatus.OK, message, data);
     }
+
+    public static <T> ApiResponse<T> error(ResponseStatus status) {
+        return of(status.getHttpStatus(), status.getMessage(), null);
+    }
 }
