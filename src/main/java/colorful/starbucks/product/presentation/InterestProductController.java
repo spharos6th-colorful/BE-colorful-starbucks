@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,35 +20,34 @@ public class InterestProductController {
 
     private final InterestProductService interestProductService;
 
-    @GetMapping("/{memberUuid}")
-    public ApiResponse<InterestProductListResponseVo> getInterestProducts(@PathVariable String memberUuid,
+    @GetMapping
+    public ApiResponse<InterestProductListResponseVo> getInterestProducts(Authentication authentication,
                                                                           @PageableDefault(size = 3) Pageable pageable) {
         return ApiResponse.of(HttpStatus.OK,
                 "관심 상품 조회를 완료했습니다.",
-                interestProductService.getInterestProductList(memberUuid, pageable).toVo()
+                interestProductService.getInterestProductList(authentication.getName(), pageable).toVo()
         );
     }
 
-    // todo: security 완료되면 memberUuid는 authentication에서 가져오도록 수정
-    @PostMapping("/{memberUuid}")
+    @PostMapping
     public ApiResponse<InterestProductCreateResponseVo> createInterestProduct(
             @RequestBody InterestProductCreateRequestVo interestProductCreateRequestVo,
-            @PathVariable String memberUuid) {
+            Authentication authentication) {
 
         return ApiResponse.of(
                 HttpStatus.CREATED,
                 "관심 상품 등록을 완료했습니다." ,
                 interestProductService.createInterestProduct(
-                                InterestProductCreateRequestDto.from(interestProductCreateRequestVo, memberUuid))
+                                InterestProductCreateRequestDto.from(interestProductCreateRequestVo, authentication.getName()))
                         .toVo()
         );
     }
 
-    @DeleteMapping("/{memberUuid}/{productCode}")
-    public ApiResponse<Void> removeInterestProduct(@PathVariable String memberUuid,
+    @DeleteMapping("/{productCode}")
+    public ApiResponse<Void> removeInterestProduct(Authentication authentication,
                                                    @PathVariable String productCode) {
 
-        interestProductService.removeInterestProduct(memberUuid, productCode);
+        interestProductService.removeInterestProduct(authentication.getName(), productCode);
         return ApiResponse.of(HttpStatus.NO_CONTENT, "관심 상품 삭제를 완료했습니다.", null);
     }
 }
