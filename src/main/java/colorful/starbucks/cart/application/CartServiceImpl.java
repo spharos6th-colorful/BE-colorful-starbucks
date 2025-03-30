@@ -1,12 +1,16 @@
 package colorful.starbucks.cart.application;
 
 
+import colorful.starbucks.cart.domain.Cart;
 import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
+import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import colorful.starbucks.cart.dto.response.CartListResponseDto;
 import colorful.starbucks.cart.infrastructure.CartRepository;
+import colorful.starbucks.product.application.ProductDetailService;
+import colorful.starbucks.product.infrastructure.ProductDetailRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +24,8 @@ import java.util.UUID;
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
+    private final ProductDetailRepository productDetailRepository;
+    private final ProductDetailService productDetailService;
 
     @Transactional
     @Override
@@ -55,4 +61,20 @@ public class CartServiceImpl implements CartService {
                 cartRepository.findAllByMemberUuid(memberUuid, pageable)
         );
     }
+
+    @Transactional
+    @Override
+    public void editCartProductOptions(Long cartId, CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
+        try {
+            Cart cart = cartRepository.findById(cartId)
+                    .orElseThrow(() -> new EntityNotFoundException("카트아이디를 찾을 수 없습니다."));
+
+            cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
+                    cartProductOptionEditRequestDto.getQuantity());
+        }
+        catch (Exception e){
+            throw new RuntimeException("장바구니 상품 변경에 실패했습니다.");
+        }
+    }
+
 }

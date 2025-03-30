@@ -3,12 +3,14 @@ package colorful.starbucks.cart.presentation;
 import colorful.starbucks.cart.application.CartService;
 import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
+import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import colorful.starbucks.cart.vo.request.CartAddRequestVo;
 import colorful.starbucks.cart.vo.request.CartDeleteRequestVo;
+import colorful.starbucks.cart.vo.request.CartProductOptionEditRequestVo;
 import colorful.starbucks.cart.vo.response.CartListResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
+import colorful.starbucks.product.application.ProductDetailService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
+    private final ProductDetailService productDetailService;
 
     @PostMapping
     public ResponseEntity create(@RequestBody List<CartAddRequestVo> cartAddRequestVos) {
@@ -48,6 +51,19 @@ public class CartController {
                 HttpStatus.OK,
                 "장바구니 목록 조회를 성공적으로 완료했습니다",
                 cartService.getCartList(memberUuid, pageable).toVo()
+        );
+    }
+
+    @PutMapping("/{memberUuid}/{cartId}")
+    public ApiResponse<Void> editCartProductOptions(@PathVariable String memberUuid,
+                                                                  @PathVariable Long cartId,
+                                                                  @RequestBody CartProductOptionEditRequestVo cartProductOptionEditRequestVo){
+
+        cartService.editCartProductOptions(cartId, CartProductOptionEditRequestDto.from(cartProductOptionEditRequestVo));
+        return ApiResponse.of(
+                HttpStatus.OK,
+                "장바구니 옵션 변경 완료했습니다.",
+                null
         );
     }
 
