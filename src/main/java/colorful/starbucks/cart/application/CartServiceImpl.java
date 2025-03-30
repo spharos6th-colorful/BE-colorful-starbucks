@@ -9,6 +9,8 @@ import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import colorful.starbucks.cart.dto.response.CartListResponseDto;
 import colorful.starbucks.cart.dto.response.CartProductDetailResponseDto;
 import colorful.starbucks.cart.infrastructure.CartRepository;
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
+    private final CartService cartService;
 
     @Transactional
     @Override
@@ -45,12 +48,13 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void removeCartList(String memberUuid, List<CartDeleteRequestDto> cartDeleteRequestDto) {
-        for(CartDeleteRequestDto cartProduct: cartDeleteRequestDto){
-            try{
-                cartRepository.deleteByMemberUuidAndId(memberUuid, cartProduct.getId());
-            }catch (Exception e){
-                throw new RuntimeException("장바구니 상품 삭제에 실패했습니다.");
+        for(CartDeleteRequestDto cartProduct: cartDeleteRequestDto) {
+            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartProduct.getId())
+                            .orElseThrow(()-> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+            if (cart.isDeleted()) {
+                throw new BaseException(ResponseStatus.ALREADY_DELETED_CART_ITEM);
             }
+            cartRepository.deleteByMemberUuidAndId(memberUuid, cartProduct.getId());
         }
     }
 
