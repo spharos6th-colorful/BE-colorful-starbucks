@@ -13,7 +13,7 @@ public class CartProductDetailResponseVo {
     private String carvingContent;
 
     @Builder
-    public CartProductDetailResponseVo(boolean checked, String productDetailCode, String productCode, int quantity, String carvingContent) {
+    private CartProductDetailResponseVo(boolean checked, String productDetailCode, String productCode, int quantity, String carvingContent) {
         this.checked = checked;
         this.productDetailCode = productDetailCode;
         this.productCode = productCode;
