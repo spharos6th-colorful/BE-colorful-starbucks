@@ -11,13 +11,18 @@ import java.util.stream.Collectors;
 public class CartProductCheckRequestDto {
 
     private Long id;
+    private boolean checked;
 
     @Builder
-    public CartProductCheckRequestDto(Long id) { this.id = id; }
+    public CartProductCheckRequestDto(Long id, boolean checked) {
+        this.id = id;
+        this.checked = checked;
+    }
 
     private static CartProductCheckRequestDto from(CartProductCheckRequestVo cartProductCheckRequestVo) {
         return CartProductCheckRequestDto.builder()
                 .id(cartProductCheckRequestVo.getId())
+                .checked(cartProductCheckRequestVo.isChecked())
                 .build();
     }
     public static List<CartProductCheckRequestDto> fromList(List<CartProductCheckRequestVo> cartProductCheckRequestVos) {

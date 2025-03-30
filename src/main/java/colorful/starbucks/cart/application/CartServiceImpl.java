@@ -87,7 +87,7 @@ public class CartServiceImpl implements CartService {
         for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
             Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, checkProduct.getId())
                     .orElseThrow(() -> new RuntimeException("해당 장바구니 아이템을 찾을 수 없습니다."));
-            cart.updateProductChecked(false);
+            cart.updateProductChecked(checkProduct.isChecked());
         }
     }
 
