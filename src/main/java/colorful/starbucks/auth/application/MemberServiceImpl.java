@@ -23,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
 import java.util.UUID;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -134,23 +136,32 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto memberPasswordResetRequestDto){
-        Member member = memberRepository.findByEmailAndmemberNameAndmemberBirth(
-                memberPasswordResetRequestDto.getMemberName(),
-                memberPasswordResetRequestDto.getEmail(),
-                memberPasswordResetRequestDto.getMemberBirth()
-        ).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"입력하신 정보와 일치하는 회원이 없습니다.")
-        );
+    public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto dto){
+        try {
+            Optional<Member> optionalMember = memberRepository.findByEmail(dto.getEmail());
 
-        String tempPassword = TempPasswordGenerator.generate(8);
+            Member member = memberRepository.findByEmailAndMemberNameAndPhoneNumber(
+                    dto.getEmail().trim(),
+                    dto.getMemberName().trim(),
+                    dto.getPhoneNumber().trim()
+            ).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"입력하신 정보와 일치하는 회원이 없습니다.")
+            );
 
-        String encodedPassword = passwordEncoder.encode(tempPassword);
-        member.updatePassword(encodedPassword);
+            String tempPassword = TempPasswordGenerator.generate(8);
+            String encodedPassword = passwordEncoder.encode(tempPassword);
+            member.updatePassword(encodedPassword);
+            emailService.sendTempPassword(member.getEmail(), tempPassword);
 
-        emailService.sendTempPassword(member.getEmail(), tempPassword);
+            return MemberPasswordResetResponseDto.fromMessage("임시 비밀번호가 이메일로 전송 되었습니다.");
 
-        return MemberPasswordResetResponseDto.fromMessage("임시 비밀번호가 이메일로 전송 되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
+
+
+
 
 }
 

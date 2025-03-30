@@ -18,9 +18,10 @@ public class EmailService {
     public void sendTempPassword(String toEmail, String tempPassword) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setTo(toEmail);
+            helper.setFrom("jjj8219@gmail.com"); // 👈 추가
             helper.setSubject("🔐 임시 비밀번호 안내");
             helper.setText(
                     "<h3>임시 비밀번호: " + tempPassword + "</h3>" +

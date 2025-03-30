@@ -1,19 +1,15 @@
 package colorful.starbucks.auth.presentation;
 
 import colorful.starbucks.auth.application.MemberService;
-import colorful.starbucks.auth.dto.request.MemberEmailFindRequestDto;
-import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
-import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
-import colorful.starbucks.auth.dto.request.RefreshTokenRequestDto;
+import colorful.starbucks.auth.dto.request.*;
 import colorful.starbucks.auth.dto.response.AccessTokenResponseDto;
 import colorful.starbucks.auth.dto.response.MemberEmailFindResponseDto;
+import colorful.starbucks.auth.dto.response.MemberPasswordResetResponseDto;
 import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
-import colorful.starbucks.auth.vo.request.MemberEmailFindRequestVo;
-import colorful.starbucks.auth.vo.request.MemberSignInRequestVo;
-import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
-import colorful.starbucks.auth.vo.request.RefreshTokenRequestVo;
+import colorful.starbucks.auth.vo.request.*;
 import colorful.starbucks.auth.vo.response.AccessTokenResponseVo;
 import colorful.starbucks.auth.vo.response.MemberEmailFindResponseVo;
+import colorful.starbucks.auth.vo.response.MemberPasswordResetResponseVo;
 import colorful.starbucks.auth.vo.response.MemberSignInResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -75,6 +71,20 @@ public class MemberController {
 
         return ApiResponse.ok(responseVo);
     }
+
+    @PostMapping("/password")
+    public ApiResponse<MemberPasswordResetResponseVo> passwordReset(
+            @RequestBody MemberPasswordResetRequestVo memberPasswordResetRequestVo){
+
+        MemberPasswordResetRequestDto requestDto = MemberPasswordResetRequestDto.from(memberPasswordResetRequestVo);
+
+        MemberPasswordResetResponseDto resetResponseDto = memberService.findPassword(requestDto);
+
+        MemberPasswordResetResponseVo responseVo = resetResponseDto.toVo();
+
+        return ApiResponse.ok(responseVo);
+    }
+
 
 
 

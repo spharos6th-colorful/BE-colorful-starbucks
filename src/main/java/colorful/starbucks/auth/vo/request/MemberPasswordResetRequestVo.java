@@ -9,7 +9,7 @@ public class MemberPasswordResetRequestVo {
 
     private String email;
 
-    private String memberBirth;
+    private String phoneNumber;
 
 
 }

@@ -30,11 +30,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         String path = request.getRequestURI();
-        if (path.startsWith("/api/v1/auth/sign-in")) {
+
+        // 인증 예외 처리: 로그인, 비밀번호 찾기, 이메일 찾기
+        if (path.startsWith("/api/v1/auth/sign-in") ||
+                path.startsWith("/api/v1/auth/password") ||
+                path.startsWith("/api/v1/auth/email")) {
             filterChain.doFilter(request, response);
             return;
         }
-
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;

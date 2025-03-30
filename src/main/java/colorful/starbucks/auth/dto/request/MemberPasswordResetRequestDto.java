@@ -11,22 +11,22 @@ public class MemberPasswordResetRequestDto {
 
     private String email;
 
-    private String memberBirth;
+    private String phoneNumber;
 
     @Builder
     private MemberPasswordResetRequestDto(String memberName,
                                          String email,
-                                         String memberBirth) {
+                                         String phoneNumber) {
         this.memberName = memberName;
         this.email = email;
-        this.memberBirth = memberBirth;
+        this.phoneNumber = phoneNumber;
     }
 
     public static MemberPasswordResetRequestDto from(MemberPasswordResetRequestVo memberPasswordResetRequestVo) {
         return MemberPasswordResetRequestDto.builder()
                 .memberName(memberPasswordResetRequestVo.getMemberName())
                 .email(memberPasswordResetRequestVo.getEmail())
-                .memberBirth(memberPasswordResetRequestVo.getMemberBirth())
+                .phoneNumber(memberPasswordResetRequestVo.getPhoneNumber())
                 .build();
     }
 }
