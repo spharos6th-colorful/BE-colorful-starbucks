@@ -1,12 +1,12 @@
 package colorful.starbucks.product.dto.response;
 
 import colorful.starbucks.product.domain.ProductDetail;
-import colorful.starbucks.product.vo.response.ProductDetailCreateResponseVo;
+import colorful.starbucks.product.vo.response.ProductDetailResponseVo;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ProductDetailCreateResponseDto {
+public class ProductDetailResponseDto {
 
     private String productDetailCode;
     private String productCode;
@@ -18,14 +18,14 @@ public class ProductDetailCreateResponseDto {
     private String productDetailThumbnailUrl;
 
     @Builder
-    private ProductDetailCreateResponseDto(String productDetailCode,
-                                           String productCode,
-                                           String sizeName,
-                                           String colorName,
-                                           int inventoryQuantity,
-                                           int price,
-                                           int discountPrice,
-                                           String productDetailThumbnailUrl) {
+    private ProductDetailResponseDto(String productDetailCode,
+                                     String productCode,
+                                     String sizeName,
+                                     String colorName,
+                                     int inventoryQuantity,
+                                     int price,
+                                     int discountPrice,
+                                     String productDetailThumbnailUrl) {
         this.productDetailCode = productDetailCode;
         this.productCode = productCode;
         this.sizeName = sizeName;
@@ -36,8 +36,8 @@ public class ProductDetailCreateResponseDto {
         this.productDetailThumbnailUrl = productDetailThumbnailUrl;
     }
 
-    public static ProductDetailCreateResponseDto from(ProductDetail productDetail) {
-        return ProductDetailCreateResponseDto.builder()
+    public static ProductDetailResponseDto from(ProductDetail productDetail) {
+        return ProductDetailResponseDto.builder()
                 .productDetailCode(productDetail.getProductDetailCode())
                 .productCode(productDetail.getProductCode())
                 .sizeName(productDetail.getSizeName())
@@ -49,8 +49,8 @@ public class ProductDetailCreateResponseDto {
                 .build();
     }
 
-    public ProductDetailCreateResponseVo toVo() {
-        return ProductDetailCreateResponseVo.builder()
+    public ProductDetailResponseVo toVo() {
+        return ProductDetailResponseVo.builder()
                 .productDetailCode(productDetailCode)
                 .productCode(productCode)
                 .sizeName(sizeName)

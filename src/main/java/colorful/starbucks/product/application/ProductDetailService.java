@@ -2,18 +2,19 @@ package colorful.starbucks.product.application;
 
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
 import colorful.starbucks.product.dto.response.ProductDetailCodeAndQuantityResponseDto;
-import colorful.starbucks.product.dto.response.ProductDetailCreateResponseDto;
+import colorful.starbucks.product.dto.response.ProductDetailResponseDto;
 import colorful.starbucks.product.dto.response.ProductOptionListResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ProductDetailService {
-    ProductDetailCreateResponseDto createProductDetail(ProductDetailCreateRequestDto productDetailCreateRequestDto,
-                                                       MultipartFile productDetailThumbnail);
+    ProductDetailResponseDto createProductDetail(ProductDetailCreateRequestDto productDetailCreateRequestDto,
+                                                 MultipartFile productDetailThumbnail);
 
     ProductOptionListResponseDto getProductOptionList(String productCode);
 
     ProductDetailCodeAndQuantityResponseDto getProductDetailWithOptions(
-            String productCode, int sizeId, int colorId
+            String productCode, Long sizeId, Long colorId
     );
 
+    ProductDetailResponseDto getProductDetail(String productDetailCode);
 }
