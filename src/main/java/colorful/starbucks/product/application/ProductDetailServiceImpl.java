@@ -4,7 +4,7 @@ import colorful.starbucks.common.s3.S3UploadService;
 import colorful.starbucks.product.domain.ProductDetail;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
 import colorful.starbucks.product.dto.response.ProductDetailCodeAndQuantityResponseDto;
-import colorful.starbucks.product.dto.response.ProductDetailCreateResponseDto;
+import colorful.starbucks.product.dto.response.ProductDetailResponseDto;
 import colorful.starbucks.product.dto.response.ProductOptionListResponseDto;
 import colorful.starbucks.product.generator.ProductDetailCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
@@ -26,8 +26,8 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
     @Transactional
     @Override
-    public ProductDetailCreateResponseDto createProductDetail(ProductDetailCreateRequestDto productDetailCreateRequestDto,
-                                                              MultipartFile productDetailThumbnail) {
+    public ProductDetailResponseDto createProductDetail(ProductDetailCreateRequestDto productDetailCreateRequestDto,
+                                                        MultipartFile productDetailThumbnail) {
 
         if (productDetailRepository.existsByProductCodeAndSizeIdAndColorIdAndIsDeletedFalse(
                 productDetailCreateRequestDto.getProductCode(),
@@ -38,7 +38,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
         try {
             String productDetailThumbnailUrl = s3UploadService.uploadFile(productDetailThumbnail);
-            return ProductDetailCreateResponseDto.from(productDetailRepository.save(
+            return ProductDetailResponseDto.from(productDetailRepository.save(
                     productDetailCreateRequestDto.toEntity(
                             productDetailCodeGenerator.generate(),
                             productDetailThumbnailUrl
@@ -47,6 +47,14 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         } catch (Exception e) {
             throw new RuntimeException("상품 상세 등록에 실패했습니다.");
         }
+    }
+
+    @Override
+    public ProductDetailResponseDto getProductDetail(String productDetailCode) {
+        return ProductDetailResponseDto.from(
+                productDetailRepository.findByProductDetailCode(productDetailCode)
+                        .orElseThrow(() -> new RuntimeException("상품 상세 조회에 실패했습니다."))
+        );
     }
 
     @Override
