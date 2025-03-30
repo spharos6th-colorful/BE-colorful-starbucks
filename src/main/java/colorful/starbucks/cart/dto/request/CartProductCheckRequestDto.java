@@ -1,6 +1,5 @@
 package colorful.starbucks.cart.dto.request;
 
-import colorful.starbucks.cart.vo.request.CartDeleteRequestVo;
 import colorful.starbucks.cart.vo.request.CartProductCheckRequestVo;
 import lombok.Builder;
 import lombok.Getter;
