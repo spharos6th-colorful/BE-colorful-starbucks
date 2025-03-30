@@ -1,11 +1,9 @@
 package colorful.starbucks.auth.application;
 
-import colorful.starbucks.auth.dto.request.MemberEmailFindRequestDto;
-import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
-import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
-import colorful.starbucks.auth.dto.request.RefreshTokenRequestDto;
+import colorful.starbucks.auth.dto.request.*;
 import colorful.starbucks.auth.dto.response.AccessTokenResponseDto;
 import colorful.starbucks.auth.dto.response.MemberEmailFindResponseDto;
+import colorful.starbucks.auth.dto.response.MemberPasswordResetResponseDto;
 import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,5 +22,7 @@ public interface MemberService {
     AccessTokenResponseDto reIssueAccessToken(RefreshTokenRequestDto refreshTokenRequestDto);
 
     MemberEmailFindResponseDto findEmail(MemberEmailFindRequestDto memberEmailFindRequestDto);
+
+    MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto memberPasswordResetRequestDto);
 
 }

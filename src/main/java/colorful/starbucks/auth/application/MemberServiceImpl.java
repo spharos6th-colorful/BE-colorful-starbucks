@@ -1,12 +1,10 @@
 package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.domain.Member;
-import colorful.starbucks.auth.dto.request.MemberEmailFindRequestDto;
-import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
-import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
-import colorful.starbucks.auth.dto.request.RefreshTokenRequestDto;
+import colorful.starbucks.auth.dto.request.*;
 import colorful.starbucks.auth.dto.response.AccessTokenResponseDto;
 import colorful.starbucks.auth.dto.response.MemberEmailFindResponseDto;
+import colorful.starbucks.auth.dto.response.MemberPasswordResetResponseDto;
 import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.infrastructure.MemberRepository;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
@@ -125,9 +123,24 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByMemberNameAndPhoneNumber(
                 memberEmailFindRequestDto.getMemberName(),
                 memberEmailFindRequestDto.getPhoneNumber()
-        ).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"등록된 이메일이 아닙니다.")
+        ).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"입력하신 정보와 일치하는 회원이 없습니다.")
         );
         return MemberEmailFindResponseDto.from(member.getEmail());
+
+    }
+
+    @Override
+    @Transactional
+    public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto memberPasswordResetRequestDto){
+        Member member = memberRepository.findByEmailAndmemberNameAndmemberBirth(
+                memberPasswordResetRequestDto.getMemberName(),
+                memberPasswordResetRequestDto.getEmail(),
+                memberPasswordResetRequestDto.getMemberBirth()
+        ).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"입력하신 정보와 일치하는 회원이 없습니다.")
+        );
+
+        return MemberPasswordResetResponseDto.from(member.getPassword());
+
 
     }
 
