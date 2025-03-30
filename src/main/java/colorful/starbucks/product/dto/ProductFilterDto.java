@@ -16,11 +16,11 @@ public class ProductFilterDto {
 
     @Builder
     private ProductFilterDto(String cursorProductCode,
-                            Integer minPrice,
-                            Integer maxPrice,
-                            String topCategory,
-                            String bottomCategory,
-                            String sortBy) {
+                             Integer minPrice,
+                             Integer maxPrice,
+                             String topCategory,
+                             String bottomCategory,
+                             String sortBy) {
         this.cursorProductCode = cursorProductCode;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;

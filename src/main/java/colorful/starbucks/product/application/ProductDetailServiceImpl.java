@@ -1,5 +1,7 @@
 package colorful.starbucks.product.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.s3.S3UploadService;
 import colorful.starbucks.product.domain.ProductDetail;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
@@ -33,7 +35,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
                 productDetailCreateRequestDto.getProductCode(),
                 productDetailCreateRequestDto.getSizeId(),
                 productDetailCreateRequestDto.getColorId())) {
-            throw new RuntimeException("이미 등록된 상품 상세입니다.");
+            throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "이미 등록된 상품입니다.");
         }
 
         try {
@@ -45,7 +47,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
                     )
             ));
         } catch (Exception e) {
-            throw new RuntimeException("상품 상세 등록에 실패했습니다.");
+            throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "상세 상품 등록에 실패했습니다.");
         }
     }
 
@@ -53,7 +55,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     public ProductDetailResponseDto getProductDetail(String productDetailCode) {
         return ProductDetailResponseDto.from(
                 productDetailRepository.findByProductDetailCode(productDetailCode)
-                        .orElseThrow(() -> new RuntimeException("상품 상세 조회에 실패했습니다."))
+                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }
 
@@ -71,7 +73,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
         return ProductDetailCodeAndQuantityResponseDto.from(
                 productDetailRepository.findByProductCodeAndOptions(productCode, sizeId, colorId)
-                        .orElseThrow(() -> new RuntimeException("상품 상세 조회에 실패했습니다."))
+                        .orElseThrow(() ->  new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }
 

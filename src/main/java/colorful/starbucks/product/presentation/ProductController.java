@@ -28,9 +28,9 @@ public class ProductController {
                                                         @RequestPart MultipartFile productImage) {
         return ApiResponse.of(
                 HttpStatus.CREATED,
-                "상품 등록을 완료했습니다." ,
+                "상품 등록을 완료했습니다.",
                 productService.create(
-                        ProductCreateRequestDto.from(productCreateRequestVo), productThumbnail, productImage)
+                                ProductCreateRequestDto.from(productCreateRequestVo), productThumbnail, productImage)
                         .toVo()
         );
     }

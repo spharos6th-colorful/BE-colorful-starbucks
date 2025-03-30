@@ -38,15 +38,15 @@ public class ProductDetailCreateRequestDto {
 
     public static ProductDetailCreateRequestDto from(ProductDetailCreateRequestVo productDetailCreateRequestVo) {
         return ProductDetailCreateRequestDto.builder()
-                                      .productCode(productDetailCreateRequestVo.getProductCode())
-                                      .sizeId(productDetailCreateRequestVo.getSizeId())
-                                      .sizeName(productDetailCreateRequestVo.getSizeName())
-                                      .colorId(productDetailCreateRequestVo.getColorId())
-                                      .colorName(productDetailCreateRequestVo.getColorName())
-                                      .inventoryQuantity(productDetailCreateRequestVo.getInventoryQuantity())
-                                      .price(productDetailCreateRequestVo.getPrice())
-                                      .discountPrice(productDetailCreateRequestVo.getDiscountPrice())
-                                      .build();
+                .productCode(productDetailCreateRequestVo.getProductCode())
+                .sizeId(productDetailCreateRequestVo.getSizeId())
+                .sizeName(productDetailCreateRequestVo.getSizeName())
+                .colorId(productDetailCreateRequestVo.getColorId())
+                .colorName(productDetailCreateRequestVo.getColorName())
+                .inventoryQuantity(productDetailCreateRequestVo.getInventoryQuantity())
+                .price(productDetailCreateRequestVo.getPrice())
+                .discountPrice(productDetailCreateRequestVo.getDiscountPrice())
+                .build();
     }
 
     public ProductDetail toEntity(String productDetailCode,

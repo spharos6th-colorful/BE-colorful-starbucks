@@ -42,11 +42,11 @@ public class InterestProduct extends BaseEntity {
 
     @Builder
     private InterestProduct(Long id,
-                           String memberUuid,
-                           String productCode,
-                           String productName,
-                           int price,
-                           String productThumbnailUrl) {
+                            String memberUuid,
+                            String productCode,
+                            String productName,
+                            int price,
+                            String productThumbnailUrl) {
         this.id = id;
         this.memberUuid = memberUuid;
         this.productCode = productCode;

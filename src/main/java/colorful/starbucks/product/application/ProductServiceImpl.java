@@ -1,5 +1,7 @@
 package colorful.starbucks.product.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.s3.S3UploadService;
 import colorful.starbucks.product.domain.Product;
 import colorful.starbucks.product.dto.ProductFilterDto;
@@ -33,15 +35,15 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             String productThumbnailUrl = s3UploadService.uploadFile(productThumbnail);
-            String productCommonImageUrl = s3UploadService.uploadFile(productImage);
+            String productImageUrl = s3UploadService.uploadFile(productImage);
             return ProductResponseDto.from(productRepository.save(
                     productCreateRequestDto.toEntity(
                             productCode,
                             productThumbnailUrl,
-                            productCommonImageUrl)
+                            productImageUrl)
             ));
         } catch (Exception e) {
-            throw new RuntimeException("상품 등록에 실패했습니다.");
+            throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "상품 등록에 실패했습니다.");
         }
     }
 
@@ -56,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
             price = productFilterDto.getSortBy().equals("price,asc") ? 0 : Integer.MAX_VALUE;
         } else {
             Product product = productRepository.findByProductCode(productFilterDto.getCursorProductCode())
-                    .orElseThrow(() -> new RuntimeException("상품 조회에 실패했습니다."));
+                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
             productId = product.getId();
             price = product.getPrice();
         }
@@ -68,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponseDto getProduct(String productCode) {
         return ProductResponseDto.from(
                 productRepository.findByProductCode(productCode).
-                        orElseThrow(() -> new RuntimeException("상품 조회에 실패했습니다.")
-        ));
+                        orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND)
+                        ));
     }
 }
