@@ -11,6 +11,7 @@ import colorful.starbucks.cart.dto.response.CartProductDetailResponseDto;
 import colorful.starbucks.cart.infrastructure.CartRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
+import colorful.starbucks.product.infrastructure.ProductDetailRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CartService cartService;
+    private final ProductDetailRepository productDetailRepository;
 
     @Transactional
     @Override
@@ -68,16 +70,16 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void editCartProductOptions(Long cartId, String memberUuid, CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
-        try {
-            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId)
-                    .orElseThrow(()-> new RuntimeException("카트를 찾을 수 없습니다."));
 
-            cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
+        Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId)
+                    .orElseThrow(()-> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+
+        if (!productDetailRepository.existsByProductDetailCode((cartProductOptionEditRequestDto.getProductDetailCode()))) {
+                throw new BaseException(ResponseStatus.NO_EXIST_OPTION);
+        }
+        cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
                     cartProductOptionEditRequestDto.getQuantity());
-        }
-        catch (Exception e){
-            throw new RuntimeException("장바구니 상품 변경에 실패했습니다.");
-        }
+
     }
 
     @Override

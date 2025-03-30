@@ -20,4 +20,6 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, Lo
     @Query(value = "select pd from ProductDetail pd " +
             "where pd.productDetailCode = :productDetailCode and pd.isDeleted = false")
     Optional<ProductDetail> findByProductDetailCode(String productDetailCode);
+
+    boolean existsByProductDetailCode(String productDetailCode);
 }
