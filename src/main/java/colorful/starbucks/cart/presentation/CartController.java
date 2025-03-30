@@ -9,7 +9,6 @@ import colorful.starbucks.cart.vo.request.CartDeleteRequestVo;
 import colorful.starbucks.cart.vo.request.CartProductOptionEditRequestVo;
 import colorful.starbucks.cart.vo.response.CartListResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
-import colorful.starbucks.product.application.ProductDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -25,23 +24,28 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
-    private final ProductDetailService productDetailService;
 
     @PostMapping
-    public ResponseEntity create(@RequestBody List<CartAddRequestVo> cartAddRequestVos) {
+    public ApiResponse<Void> create(@RequestBody List<CartAddRequestVo> cartAddRequestVos) {
 
         cartService.addCart(CartAddRequestDto.fromList(cartAddRequestVos));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ApiResponse.of(
+                HttpStatus.OK,
+                "장바구니 목록 조회를 성공적으로 완료했습니다",
+                null
+        );
     }
 
     @DeleteMapping("/{memberUuid}")
-    public ResponseEntity delete(@PathVariable String memberUuid,
+    public ApiResponse<Void> delete(@PathVariable String memberUuid,
                                  @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
 
         cartService.removeCartList(memberUuid, CartDeleteRequestDto.fromList(cartDeleteRequestVos));
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
+        return ApiResponse.of(
+                HttpStatus.NO_CONTENT,
+                "장바구니 상품 삭제를 완료했습니다",
+                null
+        );
     }
 
     @GetMapping("/{memberUuid}")
