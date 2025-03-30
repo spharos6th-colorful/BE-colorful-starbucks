@@ -18,12 +18,12 @@ public class ProductResponseDto {
 
     @Builder
     public ProductResponseDto(String productName,
-                               String productCode,
-                               String description,
-                               int price,
-                               String productImageUrl,
-                               String productThumbnailUrl,
-                               boolean markable) {
+                              String productCode,
+                              String description,
+                              int price,
+                              String productImageUrl,
+                              String productThumbnailUrl,
+                              boolean markable) {
         this.productName = productName;
         this.productCode = productCode;
         this.description = description;
