@@ -6,6 +6,7 @@ import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
 import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import colorful.starbucks.cart.dto.response.CartListResponseDto;
+import colorful.starbucks.cart.dto.response.CartProductDetailResponseDto;
 import colorful.starbucks.cart.infrastructure.CartRepository;
 import colorful.starbucks.product.application.ProductDetailService;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
@@ -75,6 +76,17 @@ public class CartServiceImpl implements CartService {
         catch (Exception e){
             throw new RuntimeException("장바구니 상품 변경에 실패했습니다.");
         }
+    }
+
+    @Override
+    public CartProductDetailResponseDto getCartProductDetail(Long cartId) {
+        try {
+            Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new EntityNotFoundException("카트 아이디를 찾을 수 없습니다."));
+            return CartProductDetailResponseDto.from(cart);
+        } catch (Exception e) {
+            throw new RuntimeException("장바구니 상세 상품 조회에 실패했습니다.");
+        }
+
     }
 
 }

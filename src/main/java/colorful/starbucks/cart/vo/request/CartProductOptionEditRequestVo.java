@@ -9,5 +9,4 @@ public class CartProductOptionEditRequestVo {
     private String productDetailCode;
     private int quantity;
 
-
 }
