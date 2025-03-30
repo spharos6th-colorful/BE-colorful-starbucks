@@ -36,10 +36,9 @@ public class ProductDetailCreateRequestDto {
         this.discountPrice = discountPrice;
     }
 
-    public static ProductDetailCreateRequestDto from(ProductDetailCreateRequestVo productDetailCreateRequestVo,
-                                                     String productCode) {
+    public static ProductDetailCreateRequestDto from(ProductDetailCreateRequestVo productDetailCreateRequestVo) {
         return ProductDetailCreateRequestDto.builder()
-                                      .productCode(productCode)
+                                      .productCode(productDetailCreateRequestVo.getProductCode())
                                       .sizeId(productDetailCreateRequestVo.getSizeId())
                                       .sizeName(productDetailCreateRequestVo.getSizeName())
                                       .colorId(productDetailCreateRequestVo.getColorId())
