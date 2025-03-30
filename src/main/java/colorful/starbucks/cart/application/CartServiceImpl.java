@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,8 +26,7 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void addCart(List<CartAddRequestDto> cartAddRequestDto) {
-        String memberUuid = UUID.randomUUID().toString();
+    public void addCart(List<CartAddRequestDto> cartAddRequestDto, String memberUuid) {
         for (CartAddRequestDto product : cartAddRequestDto) {
             try{
                 cartRepository.save(product.toEntity(memberUuid));
@@ -59,10 +57,10 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void editCartProductOptions(Long cartId, CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
+    public void editCartProductOptions(Long cartId, String memberUuid, CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
         try {
-            Cart cart = cartRepository.findById(cartId)
-                    .orElseThrow(() -> new EntityNotFoundException("카트아이디를 찾을 수 없습니다."));
+            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId)
+                    .orElseThrow(()-> new RuntimeException("카트를 찾을 수 없습니다."));
 
             cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
                     cartProductOptionEditRequestDto.getQuantity());
@@ -73,9 +71,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartProductDetailResponseDto getCartProductDetail(Long cartId) {
+    public CartProductDetailResponseDto getCartProductDetail(Long cartId, String memberUuid) {
         try {
-            Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new EntityNotFoundException("카트 아이디를 찾을 수 없습니다."));
+            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId).orElseThrow(() -> new EntityNotFoundException("카트 아이디를 찾을 수 없습니다."));
             return CartProductDetailResponseDto.from(cart);
         } catch (Exception e) {
             throw new RuntimeException("장바구니 상세 상품 조회에 실패했습니다.");
@@ -84,10 +82,10 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto) {
+    public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto, String memberUuid) {
 
         for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
-            Cart cart = cartRepository.findById(checkProduct.getId())
+            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, checkProduct.getId())
                     .orElseThrow(() -> new RuntimeException("해당 장바구니 아이템을 찾을 수 없습니다."));
             cart.updateProductChecked(false);
         }

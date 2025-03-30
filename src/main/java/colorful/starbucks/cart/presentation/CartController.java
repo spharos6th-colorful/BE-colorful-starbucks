@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,21 +29,22 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping
-    public ApiResponse<Void> create(@RequestBody List<CartAddRequestVo> cartAddRequestVos) {
+    public ApiResponse<Void> create(@RequestBody List<CartAddRequestVo> cartAddRequestVos, Authentication authentication) {
 
-        cartService.addCart(CartAddRequestDto.fromList(cartAddRequestVos));
+        cartService.addCart(CartAddRequestDto.fromList(cartAddRequestVos), authentication.getName());
+
         return ApiResponse.of(
                 HttpStatus.OK,
-                "장바구니 목록 조회를 성공적으로 완료했습니다",
+                "장바구니 담기를 성공적으로 완료했습니다",
                 null
         );
     }
 
-    @DeleteMapping("/{memberUuid}")
-    public ApiResponse<Void> delete(@PathVariable String memberUuid,
+    @DeleteMapping
+    public ApiResponse<Void> delete(Authentication authentication,
                                  @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
 
-        cartService.removeCartList(memberUuid, CartDeleteRequestDto.fromList(cartDeleteRequestVos));
+        cartService.removeCartList(authentication.getName(), CartDeleteRequestDto.fromList(cartDeleteRequestVos));
         return ApiResponse.of(
                 HttpStatus.NO_CONTENT,
                 "장바구니 상품 삭제를 완료했습니다",
@@ -51,22 +52,22 @@ public class CartController {
         );
     }
 
-    @GetMapping("/{memberUuid}")
-    public ApiResponse<CartListResponseVo> getCartProducts(@PathVariable String memberUuid,
+    @GetMapping
+    public ApiResponse<CartListResponseVo> getCartProducts(Authentication authentication,
                                                            @PageableDefault(size = 3) Pageable pageable) {
         return ApiResponse.of(
                 HttpStatus.OK,
                 "장바구니 목록 조회를 성공적으로 완료했습니다",
-                cartService.getCartList(memberUuid, pageable).toVo()
+                cartService.getCartList(authentication.getName(), pageable).toVo()
         );
     }
 
-    @PutMapping("/{memberUuid}/{cartId}")
-    public ApiResponse<Void> editCartProductOptions(@PathVariable String memberUuid,
+    @PutMapping("/{cartId}")
+    public ApiResponse<Void> editCartProductOptions(Authentication authentication,
                                                                   @PathVariable Long cartId,
                                                                   @RequestBody CartProductOptionEditRequestVo cartProductOptionEditRequestVo){
 
-        cartService.editCartProductOptions(cartId, CartProductOptionEditRequestDto.from(cartProductOptionEditRequestVo));
+        cartService.editCartProductOptions(cartId, authentication.getName(), CartProductOptionEditRequestDto.from(cartProductOptionEditRequestVo));
         return ApiResponse.of(
                 HttpStatus.OK,
                 "장바구니 옵션 변경 완료했습니다.",
@@ -75,16 +76,18 @@ public class CartController {
     }
 
     @GetMapping("/detail/{cartId}")
-    public ApiResponse<CartProductDetailResponseVo> getCartProductDetails(@PathVariable Long cartId) {
+    public ApiResponse<CartProductDetailResponseVo> getCartProductDetails(Authentication authentication,
+                                                                          @PathVariable Long cartId) {
 
         return ApiResponse.of(HttpStatus.OK,"장바구니 상품 상세 조회에 성공했습니다.",
-                cartService.getCartProductDetail(cartId).toVo()
+                cartService.getCartProductDetail(cartId, authentication.getName()).toVo()
         );
     }
     @PutMapping("/checked")
-    public ApiResponse<CartProductCheckRequestVo> updateCartProductCheck(@RequestBody List<CartProductCheckRequestVo> cartProductCheckRequestVo) {
+    public ApiResponse<CartProductCheckRequestVo> updateCartProductCheck(Authentication authentication,
+                                                                         @RequestBody List<CartProductCheckRequestVo> cartProductCheckRequestVo) {
 
-        cartService.updateCartProductChecked(CartProductCheckRequestDto.fromList(cartProductCheckRequestVo));
+        cartService.updateCartProductChecked(CartProductCheckRequestDto.fromList(cartProductCheckRequestVo), authentication.getName());
         return ApiResponse.of(HttpStatus.OK,"장바구니 상품의 체크를 false로 변경했습니다.",
         null);
     }
