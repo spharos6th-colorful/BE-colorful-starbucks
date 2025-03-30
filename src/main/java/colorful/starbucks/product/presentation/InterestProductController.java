@@ -36,7 +36,7 @@ public class InterestProductController {
 
         return ApiResponse.of(
                 HttpStatus.CREATED,
-                "관심 상품 등록을 완료했습니다." ,
+                "관심 상품 등록을 완료했습니다.",
                 interestProductService.createInterestProduct(
                                 InterestProductCreateRequestDto.from(interestProductCreateRequestVo, authentication.getName()))
                         .toVo()
