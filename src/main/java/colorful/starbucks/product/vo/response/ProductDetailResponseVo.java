@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ProductDetailCreateResponseVo {
+public class ProductDetailResponseVo {
 
     private String productDetailCode;
     private String productCode;
@@ -16,14 +16,14 @@ public class ProductDetailCreateResponseVo {
     private String productDetailThumbnailUrl;
 
     @Builder
-    private ProductDetailCreateResponseVo(String productDetailCode,
-                                          String productCode,
-                                          String sizeName,
-                                          String colorName,
-                                          int inventoryQuantity,
-                                          int price,
-                                          int discountPrice,
-                                          String productDetailThumbnailUrl) {
+    private ProductDetailResponseVo(String productDetailCode,
+                                    String productCode,
+                                    String sizeName,
+                                    String colorName,
+                                    int inventoryQuantity,
+                                    int price,
+                                    int discountPrice,
+                                    String productDetailThumbnailUrl) {
         this.productDetailCode = productDetailCode;
         this.productCode = productCode;
         this.sizeName = sizeName;
