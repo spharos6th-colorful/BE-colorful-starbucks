@@ -13,6 +13,7 @@ import colorful.starbucks.product.application.ProductDetailService;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,6 +85,7 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @Transactional
     @Override
     public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto) {
 
