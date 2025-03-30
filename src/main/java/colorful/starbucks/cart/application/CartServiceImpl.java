@@ -84,12 +84,10 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartProductDetailResponseDto getCartProductDetail(Long cartId, String memberUuid) {
-        try {
-            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId).orElseThrow(() -> new EntityNotFoundException("카트 아이디를 찾을 수 없습니다."));
-            return CartProductDetailResponseDto.from(cart);
-        } catch (Exception e) {
-            throw new RuntimeException("장바구니 상세 상품 조회에 실패했습니다.");
-        }
+
+        Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        return CartProductDetailResponseDto.from(cart);
+
     }
 
     @Transactional
@@ -98,7 +96,7 @@ public class CartServiceImpl implements CartService {
 
         for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
             Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, checkProduct.getId())
-                    .orElseThrow(() -> new RuntimeException("해당 장바구니 아이템을 찾을 수 없습니다."));
+                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
             cart.updateProductChecked(checkProduct.isChecked());
         }
     }
