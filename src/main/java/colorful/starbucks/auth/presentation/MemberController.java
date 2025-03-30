@@ -85,6 +85,12 @@ public class MemberController {
         return ApiResponse.ok(responseVo);
     }
 
+    @DeleteMapping("/signout")
+    public ApiResponse<String> logout() {
+        return ApiResponse.ok("로그아웃을 완료했습니다.");
+    }
+
+
 
 
 
