@@ -4,7 +4,6 @@ import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
 import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import colorful.starbucks.cart.dto.response.CartListResponseDto;
-import colorful.starbucks.cart.dto.response.CartProductOptionEditResponseDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

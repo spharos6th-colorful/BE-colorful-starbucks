@@ -1,8 +1,6 @@
 package colorful.starbucks.product.application;
 
-import colorful.starbucks.cart.dto.response.CartProductOptionEditResponseDto;
 import colorful.starbucks.common.s3.S3UploadService;
-import colorful.starbucks.product.domain.Product;
 import colorful.starbucks.product.domain.ProductDetail;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
 import colorful.starbucks.product.dto.response.ProductDetailCodeAndQuantityResponseDto;
@@ -10,14 +8,12 @@ import colorful.starbucks.product.dto.response.ProductDetailCreateResponseDto;
 import colorful.starbucks.product.dto.response.ProductOptionListResponseDto;
 import colorful.starbucks.product.generator.ProductDetailCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -70,15 +66,5 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
         return ProductDetailCodeAndQuantityResponseDto.from(productDetail);
     }
-
-    @Override
-    public CartProductOptionEditResponseDto getCartProductOption(String productDetailCode) {
-        ProductDetail productDetail = productDetailRepository.findByProductDetailCode(productDetailCode)
-                .orElseThrow(() -> new EntityNotFoundException("상품 상세코드로 colorId와 sizeId를 찾을 수 없습니다."));
-
-        return CartProductOptionEditResponseDto.from(productDetail);
-    }
-
-
 
 }
