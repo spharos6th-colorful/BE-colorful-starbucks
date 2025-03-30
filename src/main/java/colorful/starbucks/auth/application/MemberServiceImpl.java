@@ -1,10 +1,12 @@
 package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.domain.Member;
+import colorful.starbucks.auth.dto.request.MemberEmailFindRequestDto;
 import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
 import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
 import colorful.starbucks.auth.dto.request.RefreshTokenRequestDto;
 import colorful.starbucks.auth.dto.response.AccessTokenResponseDto;
+import colorful.starbucks.auth.dto.response.MemberEmailFindResponseDto;
 import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.infrastructure.MemberRepository;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
@@ -115,6 +117,18 @@ public class MemberServiceImpl implements MemberService {
         return AccessTokenResponseDto.builder()
                 .accessToken(newAccessToken)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public MemberEmailFindResponseDto findEmail(MemberEmailFindRequestDto memberEmailFindRequestDto){
+        Member member = memberRepository.findByMemberNameAndPhoneNumber(
+                memberEmailFindRequestDto.getMemberName(),
+                memberEmailFindRequestDto.getPhoneNumber()
+        ).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"등록된 이메일이 아닙니다.")
+        );
+        return MemberEmailFindResponseDto.from(member.getEmail());
+
     }
 
 }
