@@ -34,7 +34,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
                 productDetailCreateRequestDto.getSizeId(),
                 productDetailCreateRequestDto.getColorId())) {
             throw new RuntimeException("이미 등록된 상품 상세입니다.");
-        };
+        }
 
         try {
             String productDetailThumbnailUrl = s3UploadService.uploadFile(productDetailThumbnail);
@@ -66,13 +66,13 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     @Override
     public ProductDetailCodeAndQuantityResponseDto getProductDetailWithOptions(
             String productCode,
-            int sizeId,
-            int colorId) {
+            Long sizeId,
+            Long colorId) {
 
-        ProductDetail productDetail = productDetailRepository.findByProductCodeAndSizeIdAndColorId(productCode, sizeId, colorId)
-                .orElseThrow(() -> new RuntimeException("상품 상세 조회에 실패했습니다."));
-
-        return ProductDetailCodeAndQuantityResponseDto.from(productDetail);
+        return ProductDetailCodeAndQuantityResponseDto.from(
+                productDetailRepository.findByProductCodeAndOptions(productCode, sizeId, colorId)
+                        .orElseThrow(() -> new RuntimeException("상품 상세 조회에 실패했습니다."))
+        );
     }
 
 }

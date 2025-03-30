@@ -49,7 +49,8 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
                         minPriceGoe(filter.getMinPrice()),
                         maxPriceLoe(filter.getMaxPrice()),
                         topCategoryEq(filter.getTopCategory()),
-                        bottomCategoryEq(filter.getBottomCategory())
+                        bottomCategoryEq(filter.getBottomCategory()),
+                        product.isDeleted.isFalse()
                 );
 
         applySorting(query, filter, productId, price);

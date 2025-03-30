@@ -13,7 +13,7 @@ public interface ProductDetailService {
     ProductOptionListResponseDto getProductOptionList(String productCode);
 
     ProductDetailCodeAndQuantityResponseDto getProductDetailWithOptions(
-            String productCode, int sizeId, int colorId
+            String productCode, Long sizeId, Long colorId
     );
 
     ProductDetailResponseDto getProductDetail(String productDetailCode);

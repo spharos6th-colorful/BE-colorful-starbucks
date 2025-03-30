@@ -40,8 +40,8 @@ public class ProductDetailController {
     @GetMapping
     public ApiResponse<ProductDetailCodeAndQuantityResponseVo> getProductDetailWithOptions(
             @RequestParam String productCode,
-            @RequestParam int sizeId,
-            @RequestParam int colorId) {
+            @RequestParam Long sizeId,
+            @RequestParam Long colorId) {
 
         return ApiResponse.ok("상세 상품이 조회되었습니다.",
                 productDetailService.getProductDetailWithOptions(productCode, sizeId, colorId).toVo()
