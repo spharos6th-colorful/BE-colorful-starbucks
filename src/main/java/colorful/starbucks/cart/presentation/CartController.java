@@ -3,9 +3,11 @@ package colorful.starbucks.cart.presentation;
 import colorful.starbucks.cart.application.CartService;
 import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
+import colorful.starbucks.cart.dto.request.CartProductCheckRequestDto;
 import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import colorful.starbucks.cart.vo.request.CartAddRequestVo;
 import colorful.starbucks.cart.vo.request.CartDeleteRequestVo;
+import colorful.starbucks.cart.vo.request.CartProductCheckRequestVo;
 import colorful.starbucks.cart.vo.request.CartProductOptionEditRequestVo;
 import colorful.starbucks.cart.vo.response.CartListResponseVo;
 import colorful.starbucks.cart.vo.response.CartProductDetailResponseVo;
@@ -79,6 +81,11 @@ public class CartController {
                 cartService.getCartProductDetail(cartId).toVo()
         );
     }
+    @PutMapping("/checked")
+    public ApiResponse<CartProductCheckRequestVo> updateCartProductCheck(@RequestBody List<CartProductCheckRequestVo> cartProductCheckRequestVo) {
 
-
+        cartService.updateCartProductChecked(CartProductCheckRequestDto.fromList(cartProductCheckRequestVo));
+        return ApiResponse.of(HttpStatus.OK,"장바구니 상품의 체크를 false로 변경했습니다.",
+        null);
+    }
 }

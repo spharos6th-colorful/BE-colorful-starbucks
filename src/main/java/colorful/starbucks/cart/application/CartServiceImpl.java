@@ -4,6 +4,7 @@ package colorful.starbucks.cart.application;
 import colorful.starbucks.cart.domain.Cart;
 import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
+import colorful.starbucks.cart.dto.request.CartProductCheckRequestDto;
 import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import colorful.starbucks.cart.dto.response.CartListResponseDto;
 import colorful.starbucks.cart.dto.response.CartProductDetailResponseDto;
@@ -25,8 +26,6 @@ import java.util.UUID;
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
-    private final ProductDetailRepository productDetailRepository;
-    private final ProductDetailService productDetailService;
 
     @Transactional
     @Override
@@ -38,7 +37,6 @@ public class CartServiceImpl implements CartService {
             }catch (Exception e){
                 throw new RuntimeException("장바구니 등록에 실패했습니다.");
             }
-
         }
     }
 
@@ -51,9 +49,7 @@ public class CartServiceImpl implements CartService {
             }catch (Exception e){
                 throw new RuntimeException("장바구니 상품 삭제에 실패했습니다.");
             }
-
         }
-
     }
 
     @Override
@@ -86,7 +82,16 @@ public class CartServiceImpl implements CartService {
         } catch (Exception e) {
             throw new RuntimeException("장바구니 상세 상품 조회에 실패했습니다.");
         }
+    }
 
+    @Override
+    public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto) {
+
+        for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
+            Cart cart = cartRepository.findById(checkProduct.getId())
+                    .orElseThrow(() -> new RuntimeException("해당 장바구니 아이템을 찾을 수 없습니다."));
+            cart.updateProductChecked(false);
+        }
     }
 
 }

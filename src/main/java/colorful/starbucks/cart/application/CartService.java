@@ -2,6 +2,7 @@ package colorful.starbucks.cart.application;
 
 import colorful.starbucks.cart.dto.request.CartAddRequestDto;
 import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
+import colorful.starbucks.cart.dto.request.CartProductCheckRequestDto;
 import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import colorful.starbucks.cart.dto.response.CartListResponseDto;
 import colorful.starbucks.cart.dto.response.CartProductDetailResponseDto;
@@ -16,4 +17,5 @@ public interface CartService {
     CartListResponseDto getCartList(String memberUuid, Pageable pageable);
     void editCartProductOptions(Long cartId, CartProductOptionEditRequestDto cartProductOptionEditRequestDto);
     CartProductDetailResponseDto getCartProductDetail(Long cartId);
+    void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto);
 }
