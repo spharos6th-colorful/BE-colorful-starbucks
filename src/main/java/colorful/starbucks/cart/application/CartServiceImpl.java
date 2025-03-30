@@ -12,9 +12,7 @@ import colorful.starbucks.cart.infrastructure.CartRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +25,6 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
-    private final CartService cartService;
     private final ProductDetailRepository productDetailRepository;
 
     @Transactional
