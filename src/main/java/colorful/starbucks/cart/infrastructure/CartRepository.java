@@ -20,4 +20,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     Page<Cart> findAllByMemberUuid(String memberUuid, Pageable pageable);
 
     Optional<Cart> findByMemberUuidAndId(String memberUuid, Long id);
+    Cart findByMemberUuidAndProductDetailCode(String memberUuid, String productDetailCode);
+    Boolean existsByMemberUuidAndProductDetailCode(String memberUuid, String productDetailCode);
 }

@@ -11,6 +11,7 @@ import colorful.starbucks.cart.dto.response.CartProductDetailResponseDto;
 import colorful.starbucks.cart.infrastructure.CartRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +28,16 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void addCart(List<CartAddRequestDto> cartAddRequestDto, String memberUuid) {
-        for (CartAddRequestDto product : cartAddRequestDto) {
-            try{
-                cartRepository.save(product.toEntity(memberUuid));
-            }catch (Exception e){
-                throw new RuntimeException("장바구니 등록에 실패했습니다.");
+        for (CartAddRequestDto cartProduct : cartAddRequestDto) {
+            if (cartRepository.existsByMemberUuidAndProductDetailCode(memberUuid, cartProduct.getProductDetailCode())) {
+                Cart cart = cartRepository.findByMemberUuidAndProductDetailCode(memberUuid, cartProduct.getProductDetailCode());
+                if (cart.isDeleted()) {
+                    cartRepository.save(cartProduct.toEntity(memberUuid));
+                } else {
+                    cart.updateQuantity(cart.getQuantity() + cartProduct.getQuantity());
+                }
+            } else {
+                cartRepository.save(cartProduct.toEntity(memberUuid));
             }
         }
     }
