@@ -1,5 +1,7 @@
 package colorful.starbucks.product.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.product.dto.request.InterestProductCreateRequestDto;
 import colorful.starbucks.product.dto.response.InterestProductCreateResponseDto;
 import colorful.starbucks.product.dto.response.InterestProductListResponseDto;
@@ -32,7 +34,7 @@ public class InterestProductServiceImpl implements InterestProductService {
     public void removeInterestProduct(String memberUuid, String productCode) {
 
         if (!interestProductRepository.existsInterestProductByMemberUuidAndProductCode(memberUuid, productCode)) {
-            throw new RuntimeException("관심 상품 삭제에 실패했습니다.");
+            throw new BaseException(ResponseStatus.RESOURCE_NOT_FOUND);
         }
 
         interestProductRepository.deleteByMemberUuidAndProductCode(memberUuid, productCode);
