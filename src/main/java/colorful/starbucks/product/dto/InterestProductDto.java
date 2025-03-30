@@ -1,4 +1,4 @@
-package colorful.starbucks.product.dto.response;
+package colorful.starbucks.product.dto;
 
 import colorful.starbucks.product.domain.InterestProduct;
 import lombok.Builder;

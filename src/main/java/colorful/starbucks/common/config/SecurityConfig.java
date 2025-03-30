@@ -1,5 +1,6 @@
 package colorful.starbucks.common.config;
 
+import colorful.starbucks.common.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,19 +23,28 @@ import java.util.List;
 public class SecurityConfig {
 
     private final AuthenticationProvider daoauthenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
+
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*");
+
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://localhost:3001"
+        ));
+
         config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setExposedHeaders(List.of("Authorization", "Content-Type", "X-CSRF-Token", "Set-Cookie"));
+
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -42,17 +52,16 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests
-                            .requestMatchers("/api/v1/auth/sign-up").permitAll()
-                            .requestMatchers("/api/v1/auth/terms").permitAll()
-                            .requestMatchers("/api/v1/auth/terms-agreement").permitAll()
-                            .requestMatchers("/api/v1/auth/email-check").permitAll()
-                            .anyRequest().authenticated();
+                            .requestMatchers("/api/v1/auth/access-token").authenticated()
+                            .anyRequest().permitAll();
+
                 })
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(daoauthenticationProvider)
-                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

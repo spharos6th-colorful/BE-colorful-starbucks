@@ -8,10 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseEntity {
+public class Member extends BaseEntity  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +44,6 @@ public class Member extends BaseEntity {
 
     @Comment("회원 등급")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private MemberLevel memberLevel;
 
     @Comment("회원 생년월일")

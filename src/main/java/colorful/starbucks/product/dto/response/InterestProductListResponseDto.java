@@ -1,6 +1,7 @@
 package colorful.starbucks.product.dto.response;
 
 import colorful.starbucks.product.domain.InterestProduct;
+import colorful.starbucks.product.dto.InterestProductDto;
 import colorful.starbucks.product.vo.response.InterestProductListResponseVo;
 import lombok.Builder;
 import org.springframework.data.domain.Page;

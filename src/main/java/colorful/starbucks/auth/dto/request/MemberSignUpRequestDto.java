@@ -50,7 +50,8 @@ public class MemberSignUpRequestDto {
                 .phoneNumber(memberSignUpRequestVo.getPhoneNumber())
                 .nickName(memberSignUpRequestVo.getNickName())
                 .memberBirth(memberSignUpRequestVo.getMemberBirth())
-                .memberLevel(memberSignUpRequestVo.getMemberLevel())
+                .memberLevel(memberSignUpRequestVo.getMemberLevel() != null ? memberSignUpRequestVo.getMemberLevel() :
+                        MemberLevel.WHITE)
                 .gender(memberSignUpRequestVo.getGender())
                 .build();
     }
