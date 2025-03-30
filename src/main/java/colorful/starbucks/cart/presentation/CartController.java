@@ -8,6 +8,7 @@ import colorful.starbucks.cart.vo.request.CartAddRequestVo;
 import colorful.starbucks.cart.vo.request.CartDeleteRequestVo;
 import colorful.starbucks.cart.vo.request.CartProductOptionEditRequestVo;
 import colorful.starbucks.cart.vo.response.CartListResponseVo;
+import colorful.starbucks.cart.vo.response.CartProductDetailResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -68,6 +69,14 @@ public class CartController {
                 HttpStatus.OK,
                 "장바구니 옵션 변경 완료했습니다.",
                 null
+        );
+    }
+
+    @GetMapping("/detail/{cartId}")
+    public ApiResponse<CartProductDetailResponseVo> getCartProductDetails(@PathVariable Long cartId) {
+
+        return ApiResponse.of(HttpStatus.OK,"장바구니 상품 상세 조회에 성공했습니다.",
+                cartService.getCartProductDetail(cartId).toVo()
         );
     }
 
