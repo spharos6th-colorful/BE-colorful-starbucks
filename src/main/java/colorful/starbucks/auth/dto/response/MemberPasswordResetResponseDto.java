@@ -7,23 +7,23 @@ import lombok.Getter;
 @Getter
 public class MemberPasswordResetResponseDto {
 
-    private String password;
+    private String message;
 
  @Builder
-    public MemberPasswordResetResponseDto(String password) {
-        this.password = password;
+
+    public MemberPasswordResetResponseDto(String message) {
+        this.message = message;
     }
 
-    public static MemberPasswordResetResponseDto from(String password) {
+    public static MemberPasswordResetResponseDto fromMessage(String message) {
      return MemberPasswordResetResponseDto.builder()
-             .password(password)
+             .message(message)
              .build();
     }
 
     public MemberPasswordResetResponseVo toVo() {
      return MemberPasswordResetResponseVo.builder()
-             .password(password)
+             .message(message)
              .build();
     }
-
 }

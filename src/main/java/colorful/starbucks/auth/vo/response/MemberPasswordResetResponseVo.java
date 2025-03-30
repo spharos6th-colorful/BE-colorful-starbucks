@@ -4,11 +4,11 @@ import lombok.Builder;
 
 public class MemberPasswordResetResponseVo {
 
-    private String password;
+    private String message;
 
     @Builder
-    private MemberPasswordResetResponseVo(String password) {
-        this.password = password;
+    private MemberPasswordResetResponseVo(String message) {
+        this.message = message;
     }
 
 }

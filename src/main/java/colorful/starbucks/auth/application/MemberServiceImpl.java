@@ -9,6 +9,8 @@ import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.infrastructure.MemberRepository;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
 import colorful.starbucks.common.security.CustomUserDetails;
+import colorful.starbucks.common.service.EmailService;
+import colorful.starbucks.common.util.TempPasswordGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +34,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
 
     @Override
@@ -139,9 +142,14 @@ public class MemberServiceImpl implements MemberService {
         ).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"입력하신 정보와 일치하는 회원이 없습니다.")
         );
 
-        return MemberPasswordResetResponseDto.from(member.getPassword());
+        String tempPassword = TempPasswordGenerator.generate(8);
 
+        String encodedPassword = passwordEncoder.encode(tempPassword);
+        member.updatePassword(encodedPassword);
 
+        emailService.sendTempPassword(member.getEmail(), tempPassword);
+
+        return MemberPasswordResetResponseDto.fromMessage("임시 비밀번호가 이메일로 전송 되었습니다.");
     }
 
 }
