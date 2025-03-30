@@ -58,7 +58,7 @@ public class CartController {
         );
     }
 
-    @PatchMapping("/{memberUuid}/{cartId}")
+    @PutMapping("/{memberUuid}/{cartId}")
     public ApiResponse<Void> editCartProductOptions(@PathVariable String memberUuid,
                                                                   @PathVariable Long cartId,
                                                                   @RequestBody CartProductOptionEditRequestVo cartProductOptionEditRequestVo){
