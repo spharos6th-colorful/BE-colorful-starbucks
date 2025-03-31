@@ -10,7 +10,7 @@ public class DeliveryDeleteRequestDto {
     private String memberAddressUuid;
 
     @Builder
-    public DeliveryDeleteRequestDto(String memberAddressUuid) {
+    private DeliveryDeleteRequestDto(String memberAddressUuid) {
         this.memberAddressUuid = memberAddressUuid;
     }
 
