@@ -68,7 +68,8 @@ public enum ResponseStatus {
     NO_EXIST_OPTIONS_IN_PRODUCT(HttpStatus.NOT_FOUND, false, 3007, "해당 상품에 옵션이 존재하지 않습니다"),
 
     // Cart
-    ALREADY_DELETED_CART_ITEM(HttpStatus.CONFLICT, false, 3008,"이미 삭제된 장바구니 상품입니다." );
+    ALREADY_DELETED_CART_ITEM(HttpStatus.CONFLICT, false, 3008,"이미 삭제된 장바구니 상품입니다." ),
+    DUPLICATED_DELIVERY(HttpStatus.CONFLICT, false, 3009, "이미 등록된 배송지입니다");
 
 
     private final HttpStatus httpStatus;
