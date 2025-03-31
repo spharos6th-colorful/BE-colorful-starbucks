@@ -9,14 +9,10 @@ import java.util.Optional;
 
 public interface DeliveryRepository extends JpaRepository<DeliveryAddress, Long> {
 
-
     Boolean existsByMemberUuidAndZoneCodeAndAddressAndDetailAddress(String memberUuid, String zoneCode, String address, String detailAddress);
 
     Optional<DeliveryAddress> findAllByMemberUuid(String memberUuid);
 
-    @Modifying
-    @Query("delete from DeliveryAddress d " +
-            "where d.memberUuid = :memberUuid and d.memberAddressUuid = :memberAddressUuid")
     void deleteByMemberUuidAndMemberAddressUuid(String memberUuid, String memberAddressUuid);
 
 }

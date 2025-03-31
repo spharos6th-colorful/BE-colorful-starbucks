@@ -22,13 +22,13 @@ public class DeliveryController {
     public ApiResponse<Void> addAddress(Authentication authentication,
                                                          @RequestBody DeliveryAddRequestVo deliveryAddRequestVo) {
         deliveryService.addAddress(authentication.getName(), DeliveryAddRequestDto.from(deliveryAddRequestVo));
-        return ApiResponse.of(HttpStatus.OK, "배송지 추가가 완료 되었습니다.",
+        return ApiResponse.ok("배송지 추가가 완료 되었습니다.",
                 null);
     }
     @DeleteMapping("/address")
     public ApiResponse<Void> deleteAddress(Authentication authentication, @RequestBody DeliveryDeleteRequestVo deliveryDeleteRequestVo) {
         deliveryService.deleteAddress(authentication.getName(), DeliveryDeleteRequestDto.from(deliveryDeleteRequestVo));
-        return ApiResponse.of(HttpStatus.OK, "배송지 삭제가 완료 되었습니다.",
+        return ApiResponse.ok("배송지 삭제가 완료 되었습니다.",
                 null);
     }
 

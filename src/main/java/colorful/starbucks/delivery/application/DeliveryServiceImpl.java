@@ -39,7 +39,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public void deleteAddress(String memberUuid, DeliveryDeleteRequestDto deliveryDeleteRequestDto) {
         deliveryRepository.deleteByMemberUuidAndMemberAddressUuid(memberUuid, deliveryDeleteRequestDto.getMemberAddressUuid());
