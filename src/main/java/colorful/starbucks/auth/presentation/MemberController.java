@@ -5,7 +5,6 @@ import colorful.starbucks.auth.dto.request.*;
 import colorful.starbucks.auth.dto.response.AccessTokenResponseDto;
 import colorful.starbucks.auth.dto.response.MemberEmailFindResponseDto;
 import colorful.starbucks.auth.dto.response.MemberPasswordResetResponseDto;
-import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.vo.request.*;
 import colorful.starbucks.auth.vo.response.AccessTokenResponseVo;
 import colorful.starbucks.auth.vo.response.MemberEmailFindResponseVo;
@@ -60,7 +59,7 @@ public class MemberController {
     }
 
     @PostMapping("/email")
-    public ApiResponse<MemberEmailFindResponseVo> emailFind(
+    public ApiResponse<MemberEmailFindResponseVo> findeMail(
             @RequestBody MemberEmailFindRequestVo memberEmailFindRequestVo) {
 
         MemberEmailFindRequestDto requestDto = MemberEmailFindRequestDto.from(memberEmailFindRequestVo);
@@ -73,7 +72,7 @@ public class MemberController {
     }
 
     @PostMapping("/password")
-    public ApiResponse<MemberPasswordResetResponseVo> passwordReset(
+    public ApiResponse<MemberPasswordResetResponseVo> resetPassword(
             @RequestBody MemberPasswordResetRequestVo memberPasswordResetRequestVo){
 
         MemberPasswordResetRequestDto requestDto = MemberPasswordResetRequestDto.from(memberPasswordResetRequestVo);
