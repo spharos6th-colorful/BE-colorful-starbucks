@@ -20,4 +20,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     Page<Cart> findAllByMemberUuid(String memberUuid, Pageable pageable);
 
     Optional<Cart> findByMemberUuidAndId(String memberUuid, Long id);
+
+    @Query(value = "select c from Cart c " +
+            "where c.memberUuid = :memberUuid and c.productDetailCode = :productDetailCode and c.isDeleted = false")
+    Optional<Cart> findByMemberUuidAndProductDetailCode(String memberUuid, String productDetailCode);
 }

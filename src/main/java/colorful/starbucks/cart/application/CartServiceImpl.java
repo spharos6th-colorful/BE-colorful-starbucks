@@ -9,13 +9,16 @@ import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
 import colorful.starbucks.cart.dto.response.CartListResponseDto;
 import colorful.starbucks.cart.dto.response.CartProductDetailResponseDto;
 import colorful.starbucks.cart.infrastructure.CartRepository;
-import jakarta.persistence.EntityNotFoundException;
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
+import colorful.starbucks.product.infrastructure.ProductDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,28 +26,29 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
+    private final ProductDetailRepository productDetailRepository;
 
     @Transactional
     @Override
     public void addCart(List<CartAddRequestDto> cartAddRequestDto, String memberUuid) {
-        for (CartAddRequestDto product : cartAddRequestDto) {
-            try{
-                cartRepository.save(product.toEntity(memberUuid));
-            }catch (Exception e){
-                throw new RuntimeException("장바구니 등록에 실패했습니다.");
-            }
+        for (CartAddRequestDto cartProduct : cartAddRequestDto) {
+            Optional<Cart> cart = cartRepository.findByMemberUuidAndProductDetailCode(memberUuid, cartProduct.getProductDetailCode());
+            cart.ifPresentOrElse(cartEntity -> {
+                cartEntity.updateQuantity(cartProduct.getQuantity()+ cartEntity.getQuantity());
+                    }, () -> cartRepository.save(cartProduct.toEntity(memberUuid)));
         }
     }
 
     @Transactional
     @Override
     public void removeCartList(String memberUuid, List<CartDeleteRequestDto> cartDeleteRequestDto) {
-        for(CartDeleteRequestDto cartProduct: cartDeleteRequestDto){
-            try{
-                cartRepository.deleteByMemberUuidAndId(memberUuid, cartProduct.getId());
-            }catch (Exception e){
-                throw new RuntimeException("장바구니 상품 삭제에 실패했습니다.");
+        for(CartDeleteRequestDto cartProduct: cartDeleteRequestDto) {
+            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartProduct.getId())
+                            .orElseThrow(()-> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+            if (cart.isDeleted()) {
+                throw new BaseException(ResponseStatus.ALREADY_DELETED_CART_ITEM);
             }
+            cartRepository.deleteByMemberUuidAndId(memberUuid, cartProduct.getId());
         }
     }
 
@@ -60,35 +64,38 @@ public class CartServiceImpl implements CartService {
     public void editCartProductOptions(Long cartId, String memberUuid, CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
         try {
             Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId)
-                    .orElseThrow(()-> new RuntimeException("카트를 찾을 수 없습니다."));
+                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
+            if (!productDetailRepository.existsByProductDetailCode((cartProductOptionEditRequestDto.getProductDetailCode()))) {
+                throw new BaseException(ResponseStatus.NO_EXIST_OPTION);
+            }
             cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
                     cartProductOptionEditRequestDto.getQuantity());
-        }
-        catch (Exception e){
-            throw new RuntimeException("장바구니 상품 변경에 실패했습니다.");
+        }catch (Exception e) {
+            throw new BaseException(ResponseStatus.DATABASE_ERROR);
         }
     }
 
     @Override
     public CartProductDetailResponseDto getCartProductDetail(Long cartId, String memberUuid) {
-        try {
-            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId).orElseThrow(() -> new EntityNotFoundException("카트 아이디를 찾을 수 없습니다."));
-            return CartProductDetailResponseDto.from(cart);
-        } catch (Exception e) {
-            throw new RuntimeException("장바구니 상세 상품 조회에 실패했습니다.");
-        }
+        Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        return CartProductDetailResponseDto.from(cart);
+
     }
 
     @Transactional
     @Override
     public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto, String memberUuid) {
-
-        for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
-            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, checkProduct.getId())
-                    .orElseThrow(() -> new RuntimeException("해당 장바구니 아이템을 찾을 수 없습니다."));
-            cart.updateProductChecked(checkProduct.isChecked());
+        try{
+            for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
+                Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, checkProduct.getId())
+                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+                cart.updateProductChecked(checkProduct.isChecked());
+            }
+        }catch(Exception e){
+            throw new BaseException(ResponseStatus.DATABASE_ERROR);
         }
     }
 
 }
+
