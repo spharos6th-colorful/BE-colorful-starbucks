@@ -4,6 +4,7 @@ import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.delivery.domain.DeliveryAddress;
 import colorful.starbucks.delivery.dto.request.DeliveryAddRequestDto;
+import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
 import colorful.starbucks.delivery.infrastructure.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,4 +38,12 @@ public class DeliveryServiceImpl implements DeliveryService {
         },()-> deliveryRepository.save(deliveryAddRequestDto.toEntity(memberUuid,true, memberAddressUuid)));
 
     }
+
+    @Transactional(readOnly = false)
+    @Override
+    public void deleteAddress(String memberUuid, DeliveryDeleteRequestDto deliveryDeleteRequestDto) {
+        deliveryRepository.deleteByMemberUuidAndMemberAddressUuid(memberUuid, deliveryDeleteRequestDto.getMemberAddressUuid());
+    }
+
+
 }
