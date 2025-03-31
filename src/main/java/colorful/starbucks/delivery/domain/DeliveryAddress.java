@@ -1,4 +1,4 @@
-package colorful.starbucks.auth.domain;
+package colorful.starbucks.delivery.domain;
 
 import colorful.starbucks.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -23,11 +23,11 @@ public class DeliveryAddress extends BaseEntity {
 
     private boolean isDefaultAddress;
 
-    private String postNumber;
+    private String zoneCode;
 
-    private String mainAddress;
+    private String address;
 
-    private String subAddress;
+    private String detailAddress;
 
     private String phoneNumber;
 
@@ -40,9 +40,9 @@ public class DeliveryAddress extends BaseEntity {
                             String addressNickname,
                             String receiverName,
                             boolean isDefaultAddress,
-                            String postNumber,
-                            String mainAddress,
-                            String subAddress,
+                            String zoneCode,
+                            String address,
+                            String detailAddress,
                             String phoneNumber,
                             String memberUuid,
                             String memberAddressUuid) {
@@ -50,9 +50,9 @@ public class DeliveryAddress extends BaseEntity {
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;
         this.isDefaultAddress = isDefaultAddress;
-        this.postNumber = postNumber;
-        this.mainAddress = mainAddress;
-        this.subAddress = subAddress;
+        this.zoneCode = zoneCode;
+        this.address = address;
+        this.detailAddress = detailAddress;
         this.phoneNumber = phoneNumber;
         this.memberUuid = memberUuid;
         this.memberAddressUuid = memberAddressUuid;

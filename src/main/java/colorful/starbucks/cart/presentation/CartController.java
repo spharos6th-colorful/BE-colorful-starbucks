@@ -33,8 +33,7 @@ public class CartController {
 
         cartService.addCart(CartAddRequestDto.fromList(cartAddRequestVos), authentication.getName());
 
-        return ApiResponse.of(
-                HttpStatus.OK,
+        return ApiResponse.ok(
                 "장바구니 담기를 성공적으로 완료했습니다",
                 null
         );
@@ -55,8 +54,7 @@ public class CartController {
     @GetMapping
     public ApiResponse<CartListResponseVo> getCartList(Authentication authentication,
                                                        @PageableDefault(size = 3) Pageable pageable) {
-        return ApiResponse.of(
-                HttpStatus.OK,
+        return ApiResponse.ok(
                 "장바구니 목록 조회를 성공적으로 완료했습니다",
                 cartService.getCartList(authentication.getName(), pageable).toVo()
         );
@@ -68,8 +66,7 @@ public class CartController {
                                                                   @RequestBody CartProductOptionEditRequestVo cartProductOptionEditRequestVo){
 
         cartService.editCartProductOptions(cartId, authentication.getName(), CartProductOptionEditRequestDto.from(cartProductOptionEditRequestVo));
-        return ApiResponse.of(
-                HttpStatus.OK,
+        return ApiResponse.ok(
                 "장바구니 옵션 변경 완료했습니다.",
                 null
         );
@@ -79,7 +76,7 @@ public class CartController {
     public ApiResponse<CartProductDetailResponseVo> getCartProductDetails(Authentication authentication,
                                                                           @PathVariable Long cartId) {
 
-        return ApiResponse.of(HttpStatus.OK,"장바구니 상품 상세 조회에 성공했습니다.",
+        return ApiResponse.ok("장바구니 상품 상세 조회에 성공했습니다.",
                 cartService.getCartProductDetail(cartId, authentication.getName()).toVo()
         );
     }
@@ -88,7 +85,7 @@ public class CartController {
                                                                          @RequestBody List<CartProductCheckRequestVo> cartProductCheckRequestVo) {
 
         cartService.updateCartProductChecked(CartProductCheckRequestDto.fromList(cartProductCheckRequestVo), authentication.getName());
-        return ApiResponse.of(HttpStatus.OK,"장바구니 상품의 체크 여부를 변경했습니다.",
+        return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
         null);
     }
 }
