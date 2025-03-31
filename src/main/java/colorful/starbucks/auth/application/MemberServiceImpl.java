@@ -1,11 +1,9 @@
 package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.domain.Member;
+import colorful.starbucks.auth.domain.SignType;
 import colorful.starbucks.auth.dto.request.*;
-import colorful.starbucks.auth.dto.response.AccessTokenResponseDto;
-import colorful.starbucks.auth.dto.response.MemberEmailFindResponseDto;
-import colorful.starbucks.auth.dto.response.MemberPasswordResetResponseDto;
-import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
+import colorful.starbucks.auth.dto.response.*;
 import colorful.starbucks.auth.infrastructure.MemberRepository;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
 import colorful.starbucks.common.security.CustomUserDetails;
@@ -37,6 +35,7 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
+    private final KakaoApiService kakaoApiService;
 
 
     @Override
@@ -93,6 +92,10 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = memberRepository.findByEmail(signInRequestDto.getEmail())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 실패"));
+
+        if(member.getSignType() != SignType.NORMAL){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"소셜 로그인 계정입니다. ");
+        }
 
         try {
             Authentication authentication = authenticate(member, signInRequestDto.getPassword());
@@ -160,11 +163,32 @@ public class MemberServiceImpl implements MemberService {
         }
 
     }
-
     @Override
     @Transactional
-    public MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto kakaoSignInRequestDto){
+    public MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto kakaoSignInRequestDto) {
 
+        String accessToken = kakaoApiService.getAccessToken(kakaoSignInRequestDto.getCode());
+
+
+        KakaoUserInfo userInfo = kakaoApiService.getUserInfo(accessToken);
+
+
+        Member member = memberRepository.findBySignTypeAndSocialId(SignType.KAKAO, userInfo.getId())
+                .orElseGet(() -> memberRepository.save(
+                        Member.builder()
+                                .signType(SignType.KAKAO)
+                                .socialId(userInfo.getId())
+                                .email(userInfo.getEmail())
+                                .memberUuid(UUID.randomUUID().toString())
+                                .build()
+                ));
+
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(member.getMemberUuid(), null, null);
+        String jwtAccessToken = jwtTokenProvider.generateAccessToken(authentication);
+        String jwtRefreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+
+        return MemberSignInResponseDto.from(member, jwtAccessToken, jwtRefreshToken);
     }
 
 

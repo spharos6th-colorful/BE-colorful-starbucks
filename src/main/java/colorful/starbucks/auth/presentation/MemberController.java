@@ -89,6 +89,22 @@ public class MemberController {
         return ApiResponse.ok("로그아웃을 완료했습니다.");
     }
 
+    @PostMapping("/kakao")
+    public ApiResponse<MemberSignInResponseVo> kakaoSignIn(
+            @RequestBody KakaoSignInRequestVo kakaoSignInRequestVo
+    ){
+        return ApiResponse.ok(
+                memberService.kakaoSignIn(KakaoSignInRequestDto.from(kakaoSignInRequestVo)).toVo()
+        );
+    }
+
+    @GetMapping("/kakao")
+    public String kakaoRedirect(@RequestParam String code) {
+        // 일단 인가코드만 확인해보기
+        System.out.println("카카오 인가코드 = " + code);
+        return "OK";
+    }
+
 
 
 
