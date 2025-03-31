@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,16 +32,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addCart(List<CartAddRequestDto> cartAddRequestDto, String memberUuid) {
         for (CartAddRequestDto cartProduct : cartAddRequestDto) {
-            if (cartRepository.existsByMemberUuidAndProductDetailCode(memberUuid, cartProduct.getProductDetailCode())) {
-                Cart cart = cartRepository.findByMemberUuidAndProductDetailCode(memberUuid, cartProduct.getProductDetailCode());
-                if (cart.isDeleted()) {
-                    cartRepository.save(cartProduct.toEntity(memberUuid));
-                } else {
-                    cart.updateQuantity(cart.getQuantity() + cartProduct.getQuantity());
-                }
-            } else {
-                cartRepository.save(cartProduct.toEntity(memberUuid));
-            }
+            Optional<Cart> cart = cartRepository.findByMemberUuidAndProductDetailCode(memberUuid, cartProduct.getProductDetailCode());
+            cart.ifPresentOrElse(cartEntity -> {
+                cartEntity.updateQuantity(cartProduct.getQuantity()+ cartEntity.getQuantity());
+                    }, () -> cartRepository.save(cartProduct.toEntity(memberUuid)));
         }
     }
 
