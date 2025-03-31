@@ -24,8 +24,8 @@ public class ProductController {
 
     @PostMapping
     public ApiResponse<ProductResponseVo> createProduct(@RequestPart ProductCreateRequestVo productCreateRequestVo,
-                                                        @RequestPart MultipartFile productThumbnail,
-                                                        @RequestPart MultipartFile productImage) {
+                                                        @RequestPart(required = false) MultipartFile productThumbnail,
+                                                        @RequestPart(required = false) MultipartFile productImage) {
         return ApiResponse.of(
                 HttpStatus.CREATED,
                 "상품 등록을 완료했습니다.",
@@ -46,7 +46,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productCode}")
-    public ApiResponse<ProductResponseVo> getProduct(@PathVariable String productCode) {
+    public ApiResponse<ProductResponseVo> getProduct(@PathVariable Long productCode) {
         return ApiResponse.ok(
                 "상품 조회를 완료했습니다.",
                 productService.getProduct(productCode).toVo()

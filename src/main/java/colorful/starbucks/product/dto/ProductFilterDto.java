@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class ProductFilterDto {
 
-    private String cursorProductCode;
+    private Long cursorProductCode;
     private Integer minPrice;
     private Integer maxPrice;
     private String topCategory;
@@ -15,7 +15,7 @@ public class ProductFilterDto {
     private String sortBy;
 
     @Builder
-    private ProductFilterDto(String cursorProductCode,
+    private ProductFilterDto(Long cursorProductCode,
                              Integer minPrice,
                              Integer maxPrice,
                              String topCategory,

@@ -11,19 +11,22 @@ import colorful.starbucks.product.dto.response.ProductResponseDto;
 import colorful.starbucks.product.generator.ProductCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final S3UploadService s3UploadService;
-    private final ProductCodeGenerator productCodeGenerator;
 
     @Transactional
     @Override
@@ -31,17 +34,19 @@ public class ProductServiceImpl implements ProductService {
                                      MultipartFile productThumbnail,
                                      MultipartFile productImage) {
 
-        String productCode = productCodeGenerator.generate();
+        Long productCode = ProductCodeGenerator.generate(LocalDateTime.now());
 
         try {
             String productThumbnailUrl = s3UploadService.uploadFile(productThumbnail);
             String productImageUrl = s3UploadService.uploadFile(productImage);
-            return ProductResponseDto.from(productRepository.save(
+            Product product = productRepository.save(
                     productCreateRequestDto.toEntity(
                             productCode,
                             productThumbnailUrl,
                             productImageUrl)
-            ));
+            );
+            product.changeProductCode(productCode);
+            return ProductResponseDto.from(product);
         } catch (Exception e) {
             throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "상품 등록에 실패했습니다.");
         }
@@ -62,12 +67,11 @@ public class ProductServiceImpl implements ProductService {
             productId = product.getId();
             price = product.getPrice();
         }
-
         return productRepository.getProductsByFilter(productFilterDto, productId, price, pageable);
     }
 
     @Override
-    public ProductResponseDto getProduct(String productCode) {
+    public ProductResponseDto getProduct(Long productCode) {
         return ProductResponseDto.from(
                 productRepository.findByProductCode(productCode).
                         orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND)

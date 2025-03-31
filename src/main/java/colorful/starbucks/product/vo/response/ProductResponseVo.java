@@ -7,7 +7,7 @@ import lombok.Getter;
 public class ProductResponseVo {
 
     private String productName;
-    private String productCode;
+    private Long productCode;
     private String description;
     private int price;
     private String productImageUrl;
@@ -16,7 +16,7 @@ public class ProductResponseVo {
 
     @Builder
     private ProductResponseVo(String productName,
-                              String productCode,
+                              Long productCode,
                               String description,
                               int price,
                               String productImageUrl,
