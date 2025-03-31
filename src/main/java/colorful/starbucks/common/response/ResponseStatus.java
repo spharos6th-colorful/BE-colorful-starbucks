@@ -31,7 +31,7 @@ public enum ResponseStatus {
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "Internal server error"),
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
-
+    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 902, "Database error"),
     /**
      * 2000: users service error
      */

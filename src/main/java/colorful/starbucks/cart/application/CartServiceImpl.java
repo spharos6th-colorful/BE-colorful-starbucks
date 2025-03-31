@@ -67,21 +67,22 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void editCartProductOptions(Long cartId, String memberUuid, CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
+        try {
+            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId)
+                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
-        Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId)
-                    .orElseThrow(()-> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-
-        if (!productDetailRepository.existsByProductDetailCode((cartProductOptionEditRequestDto.getProductDetailCode()))) {
+            if (!productDetailRepository.existsByProductDetailCode((cartProductOptionEditRequestDto.getProductDetailCode()))) {
                 throw new BaseException(ResponseStatus.NO_EXIST_OPTION);
-        }
-        cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
+            }
+            cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
                     cartProductOptionEditRequestDto.getQuantity());
-
+        }catch (Exception e) {
+            throw new BaseException(ResponseStatus.DATABASE_ERROR);
+        }
     }
 
     @Override
     public CartProductDetailResponseDto getCartProductDetail(Long cartId, String memberUuid) {
-
         Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
         return CartProductDetailResponseDto.from(cart);
 
@@ -90,12 +91,16 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto, String memberUuid) {
-
-        for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
-            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, checkProduct.getId())
+        try{
+            for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
+                Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, checkProduct.getId())
                     .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-            cart.updateProductChecked(checkProduct.isChecked());
+                cart.updateProductChecked(checkProduct.isChecked());
+            }
+        }catch(Exception e){
+            throw new BaseException(ResponseStatus.DATABASE_ERROR);
         }
     }
 
 }
+

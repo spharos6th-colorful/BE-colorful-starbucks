@@ -53,8 +53,8 @@ public class CartController {
     }
 
     @GetMapping
-    public ApiResponse<CartListResponseVo> getCartProducts(Authentication authentication,
-                                                           @PageableDefault(size = 3) Pageable pageable) {
+    public ApiResponse<CartListResponseVo> getCartList(Authentication authentication,
+                                                       @PageableDefault(size = 3) Pageable pageable) {
         return ApiResponse.of(
                 HttpStatus.OK,
                 "장바구니 목록 조회를 성공적으로 완료했습니다",
@@ -88,7 +88,7 @@ public class CartController {
                                                                          @RequestBody List<CartProductCheckRequestVo> cartProductCheckRequestVo) {
 
         cartService.updateCartProductChecked(CartProductCheckRequestDto.fromList(cartProductCheckRequestVo), authentication.getName());
-        return ApiResponse.of(HttpStatus.OK,"장바구니 상품의 체크를 false로 변경했습니다.",
+        return ApiResponse.of(HttpStatus.OK,"장바구니 상품의 체크 여부를 변경했습니다.",
         null);
     }
 }
