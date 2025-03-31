@@ -3,9 +3,8 @@ package colorful.starbucks.delivery.presentation;
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.delivery.application.DeliveryService;
 import colorful.starbucks.delivery.dto.request.DeliveryAddRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
 import colorful.starbucks.delivery.vo.request.DeliveryAddRequestVo;
-import colorful.starbucks.delivery.vo.request.DeliveryDeleteRequestVo;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -25,9 +24,9 @@ public class DeliveryController {
         return ApiResponse.ok("배송지 추가가 완료 되었습니다.",
                 null);
     }
-    @DeleteMapping("/address")
-    public ApiResponse<Void> deleteAddress(Authentication authentication, @RequestBody DeliveryDeleteRequestVo deliveryDeleteRequestVo) {
-        deliveryService.deleteAddress(authentication.getName(), DeliveryDeleteRequestDto.from(deliveryDeleteRequestVo));
+    @DeleteMapping("/address/{memberAddressUuid}")
+    public ApiResponse<Void> deleteAddress(Authentication authentication, @PathVariable String memberAddressUuid) {
+        deliveryService.deleteAddress(authentication.getName(), memberAddressUuid);
         return ApiResponse.ok("배송지 삭제가 완료 되었습니다.",
                 null);
     }
