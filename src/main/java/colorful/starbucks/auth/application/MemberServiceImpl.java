@@ -158,6 +158,13 @@ public class MemberServiceImpl implements MemberService {
             e.printStackTrace();
             throw e;
         }
+
+    }
+
+    @Override
+    @Transactional
+    public MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto kakaoSignInRequestDto){
+
     }
 
 

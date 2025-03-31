@@ -25,4 +25,8 @@ public interface MemberService {
 
     MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto memberPasswordResetRequestDto);
 
+    MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto kakaoSignInRequestDto);
+
+    MemberSignInResponseDto GoogleSignIn(GooleSignInRequestDto gooleSignInRequestDto);
+
 }
