@@ -22,7 +22,6 @@ import static colorful.starbucks.product.domain.QProduct.product;
 
 @Repository
 @RequiredArgsConstructor
-@Slf4j
 public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
