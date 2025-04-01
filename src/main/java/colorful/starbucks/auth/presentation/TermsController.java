@@ -3,6 +3,7 @@ package colorful.starbucks.auth.presentation;
 import colorful.starbucks.auth.application.TermsService;
 import colorful.starbucks.auth.dto.request.TermsCreateRequestDto;
 import colorful.starbucks.auth.dto.response.TermsResponseDto;
+import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +19,15 @@ public class TermsController {
     private final TermsService termsService;
 
     @PostMapping("/terms")
-    public ResponseEntity<Void> createTerms(@RequestBody TermsCreateRequestDto termsCreateRequestDto) {
+    public ApiResponse<Void> createTerms(@RequestBody TermsCreateRequestDto termsCreateRequestDto) {
         termsService.createTerms(termsCreateRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ApiResponse.ok("약관 동의가 등록 되었습니다.",null);
     }
 
     @GetMapping("/terms")
-    public ResponseEntity<List<TermsResponseDto>> getTerms() {
+    public ApiResponse<List<TermsResponseDto>> getTerms() {
         List<TermsResponseDto> terms = termsService.getTerms();
-        return ResponseEntity.ok(terms);
+        return ApiResponse.ok("약관 조회를 완료하였습니다.",terms);
     }
 
 

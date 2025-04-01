@@ -23,18 +23,19 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/sign-up")
-    public void signUp(
+    public ApiResponse<String> signUp(
             @RequestBody MemberSignUpRequestVo memberSignUpRequestVo
             ){
         memberService.signUp(MemberSignUpRequestDto.from(memberSignUpRequestVo));
+        return ApiResponse.ok("회원가입이 완료되었습니다.",null);
     }
 
     @GetMapping("/validate/email")
-    public ResponseEntity<Boolean> checkEmail(
+    public ApiResponse<Boolean> checkEmail(
             @RequestParam String email
     ){
         boolean isDuplicated = memberService.isEmailDuplicated(email);
-        return ResponseEntity.ok(isDuplicated);
+        return ApiResponse.ok("이메일 중복 체크를 완료하였습니다. ",isDuplicated);
     }
 
     @PostMapping("/sign-in")
@@ -42,6 +43,7 @@ public class MemberController {
             @RequestBody MemberSignInRequestVo memberSignInRequestVo
     ){
         return ApiResponse.ok(
+                "로그인에 성공하였습니다",
                 memberService.signIn(MemberSignInRequestDto.from(memberSignInRequestVo)).toVo()
         );
     }
@@ -55,7 +57,7 @@ public class MemberController {
         );
         AccessTokenResponseVo responseVo = AccessTokenResponseVo.from(accessTokenResponseDto);
 
-        return ApiResponse.ok(responseVo);
+        return ApiResponse.ok("accessToken 재발급에 성공하였습니다.",responseVo);
     }
 
     @PostMapping("/email")
@@ -68,7 +70,7 @@ public class MemberController {
 
         MemberEmailFindResponseVo responseVo = responseDto.toVo();
 
-        return ApiResponse.ok(responseVo);
+        return ApiResponse.ok("이메일 찾기를 완료하였습니다.",responseVo);
     }
 
     @PostMapping("/password")
@@ -81,7 +83,7 @@ public class MemberController {
 
         MemberPasswordResetResponseVo responseVo = resetResponseDto.toVo();
 
-        return ApiResponse.ok(responseVo);
+        return ApiResponse.ok("비밀번호 찾기를 완료하였습니다.",responseVo);
     }
 
     @DeleteMapping("/signout")
@@ -94,13 +96,15 @@ public class MemberController {
             @RequestBody KakaoSignInRequestVo kakaoSignInRequestVo
     ){
         return ApiResponse.ok(
+                "로그인에 성공하였습니다.",
                 memberService.kakaoSignIn(KakaoSignInRequestDto.from(kakaoSignInRequestVo)).toVo()
         );
     }
 
+    //백엔드 카카오 로그인 인가 코드 api
     @GetMapping("/kakao")
     public String kakaoRedirect(@RequestParam String code) {
-        // 일단 인가코드만 확인해보기
+
         System.out.println("카카오 인가코드 = " + code);
         return "OK";
     }

@@ -2,6 +2,7 @@ package colorful.starbucks.auth.presentation;
 
 import colorful.starbucks.auth.application.TermsAgreementService;
 import colorful.starbucks.auth.dto.request.TermsAgreementRequestDto;
+import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,8 @@ public class TermsAgreementController {
     private final TermsAgreementService termsAgreementService;
 
     @PostMapping("/terms-agreement")
-    public void termsAgreement(@RequestBody TermsAgreementRequestDto dto) {
+    public ApiResponse<String> termsAgreement(@RequestBody TermsAgreementRequestDto dto) {
         termsAgreementService.saveTermsAgreement(dto.getAgreements(), dto.getMemberUuid());
+        return ApiResponse.ok("이용약관 동의가 완료되었습니다.");
     }
 }

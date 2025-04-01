@@ -5,12 +5,13 @@ import colorful.starbucks.auth.domain.SignType;
 import colorful.starbucks.auth.dto.request.*;
 import colorful.starbucks.auth.dto.response.*;
 import colorful.starbucks.auth.infrastructure.MemberRepository;
+import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.security.CustomUserDetails;
 import colorful.starbucks.common.service.EmailService;
 import colorful.starbucks.common.util.TempPasswordGenerator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,9 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -41,6 +40,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
+
+        if ((memberRepository.existsByEmail(memberSignUpRequestDto.getEmail()))) {
+            throw new BaseException(ResponseStatus.DUPLICATED_USER);
+        }
 
         String encodedPassword = passwordEncoder.encode(memberSignUpRequestDto.getPassword());
 
@@ -76,6 +79,7 @@ public class MemberServiceImpl implements MemberService {
     private String createAccessToken(Authentication authentication) {
         return jwtTokenProvider.generateAccessToken(authentication);
     }
+
     private String createRefreshToken(Authentication authentication) {
         return jwtTokenProvider.generateRefreshToken(authentication);
     }
@@ -91,10 +95,10 @@ public class MemberServiceImpl implements MemberService {
     public MemberSignInResponseDto signIn(MemberSignInRequestDto signInRequestDto) {
 
         Member member = memberRepository.findByEmail(signInRequestDto.getEmail())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 실패"));
+                .orElseThrow(() -> new BaseException(ResponseStatus.FAILED_TO_LOGIN));
 
-        if(member.getSignType() != SignType.NORMAL){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"소셜 로그인 계정입니다. ");
+        if (member.getSignType() != SignType.NORMAL) {
+            throw new BaseException(ResponseStatus.DUPLICATED_SOCIAL_USER);
         }
 
         try {
@@ -106,48 +110,53 @@ public class MemberServiceImpl implements MemberService {
             return MemberSignInResponseDto.from(member, accessToken, refreshToken);
 
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 실패");
+            throw new BaseException(ResponseStatus.FAILED_TO_LOGIN);
         }
     }
 
     @Override
     @Transactional
-    public AccessTokenResponseDto reIssueAccessToken(RefreshTokenRequestDto refreshTokenRequestDto){
-        String uuid = jwtTokenProvider.validateAndExtractUuid(refreshTokenRequestDto.getRefreshToken());
-        UserDetails userDetails = loadUserByUuid(uuid);
-        String newAccessToken = jwtTokenProvider.generateAccessToken(
-                new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities())
-        );
+    public AccessTokenResponseDto reIssueAccessToken(RefreshTokenRequestDto refreshTokenRequestDto) {
+        try {
+            String uuid = jwtTokenProvider.validateAndExtractUuid(refreshTokenRequestDto.getRefreshToken());
+            UserDetails userDetails = loadUserByUuid(uuid);
+            String newAccessToken = jwtTokenProvider.generateAccessToken(
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities())
+            );
 
-        return AccessTokenResponseDto.builder()
-                .accessToken(newAccessToken)
-                .build();
+            return AccessTokenResponseDto.builder()
+                    .accessToken(newAccessToken)
+                    .build();
+        } catch (Exception e) {
+            throw new BaseException(ResponseStatus.TOKEN_NOT_VALID);
+        }
     }
 
     @Override
     @Transactional
-    public MemberEmailFindResponseDto findEmail(MemberEmailFindRequestDto memberEmailFindRequestDto){
+    public MemberEmailFindResponseDto findEmail(MemberEmailFindRequestDto memberEmailFindRequestDto) {
         Member member = memberRepository.findByMemberNameAndPhoneNumber(
                 memberEmailFindRequestDto.getMemberName(),
                 memberEmailFindRequestDto.getPhoneNumber()
-        ).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"입력하신 정보와 일치하는 회원이 없습니다.")
-        );
+        ).orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER));
         return MemberEmailFindResponseDto.from(member.getEmail());
 
     }
 
     @Override
     @Transactional
-    public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto dto){
+    public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto dto) {
         try {
-            Optional<Member> optionalMember = memberRepository.findByEmail(dto.getEmail());
+            if (!memberRepository.existsByEmail(dto.getEmail())) {
+                throw new BaseException(ResponseStatus.NO_EXIST_USER);
+            }
 
             Member member = memberRepository.findByEmailAndMemberNameAndPhoneNumber(
                     dto.getEmail().trim(),
                     dto.getMemberName().trim(),
                     dto.getPhoneNumber().trim()
-            ).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"입력하신 정보와 일치하는 회원이 없습니다.")
+            ).orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER)
             );
 
             String tempPassword = TempPasswordGenerator.generate(8);
@@ -157,41 +166,50 @@ public class MemberServiceImpl implements MemberService {
 
             return MemberPasswordResetResponseDto.fromMessage("임시 비밀번호가 이메일로 전송 되었습니다.");
 
-        } catch (Exception e) {
+        } catch (BaseException e) {
             e.printStackTrace();
-            throw e;
+            throw new BaseException(ResponseStatus.INTERNAL_SERVER_ERROR, "비밀번호 초기화 중 오류가 발생했습니다.");
         }
-
     }
+
+
     @Override
     @Transactional
     public MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto kakaoSignInRequestDto) {
+        try {
+            String accessToken = kakaoApiService.getAccessToken(kakaoSignInRequestDto.getCode());
+            if (accessToken == null || accessToken.isEmpty()) {
+                throw new BaseException(ResponseStatus.KAKAO_TOKEN_ERROR);
+            }
 
-        String accessToken = kakaoApiService.getAccessToken(kakaoSignInRequestDto.getCode());
+            KakaoUserInfo userInfo = kakaoApiService.getUserInfo(accessToken);
+            if (userInfo.getEmail() == null || userInfo.getEmail().isBlank()) {
+                throw new BaseException(ResponseStatus.INVALID_EMAIL_ADDRESS);
+            }
 
+            Member member = memberRepository.findBySignTypeAndSocialId(SignType.KAKAO, userInfo.getId())
+                    .orElseGet(() -> memberRepository.save(
+                            Member.builder()
+                                    .signType(SignType.KAKAO)
+                                    .socialId(userInfo.getId())
+                                    .email(userInfo.getEmail())
+                                    .memberUuid(UUID.randomUUID().toString())
+                                    .build()
+                    ));
 
-        KakaoUserInfo userInfo = kakaoApiService.getUserInfo(accessToken);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(member.getMemberUuid(), null, null);
+            String jwtAccessToken = jwtTokenProvider.generateAccessToken(authentication);
+            String jwtRefreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
+            return MemberSignInResponseDto.from(member, jwtAccessToken, jwtRefreshToken);
 
-        Member member = memberRepository.findBySignTypeAndSocialId(SignType.KAKAO, userInfo.getId())
-                .orElseGet(() -> memberRepository.save(
-                        Member.builder()
-                                .signType(SignType.KAKAO)
-                                .socialId(userInfo.getId())
-                                .email(userInfo.getEmail())
-                                .memberUuid(UUID.randomUUID().toString())
-                                .build()
-                ));
-
-
-        Authentication authentication = new UsernamePasswordAuthenticationToken(member.getMemberUuid(), null, null);
-        String jwtAccessToken = jwtTokenProvider.generateAccessToken(authentication);
-        String jwtRefreshToken = jwtTokenProvider.generateRefreshToken(authentication);
-
-        return MemberSignInResponseDto.from(member, jwtAccessToken, jwtRefreshToken);
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(ResponseStatus.KAKAO_USER_INFO_ERROR, "카카오 로그인 처리 중 오류 발생");
+        }
     }
-
-
 
 
 }

@@ -48,9 +48,15 @@ public enum ResponseStatus {
     PASSWORD_CONTAIN_NUM_FAILED(HttpStatus.BAD_REQUEST, false, 2107, "휴대폰 번호를 포함한 비밀번호 입니다."),
     PASSWORD_MATCH_FAILED(HttpStatus.BAD_REQUEST, false, 2108, "패스워드를 다시 확인해주세요."),
     NO_SUPPORTED_PROVIDER(HttpStatus.BAD_REQUEST, false, 2109, "지원하지 않는 플랫폼입니다"),
-    DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2010, "이미 사용중인 닉네임입니다."),
-    SAME_NICKNAME(HttpStatus.CONFLICT, false, 2011, "현재 사용중인 닉네임입니다."),
-    INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2012, "이메일을 다시 확인해주세요."),
+    DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2110, "이미 사용중인 닉네임입니다."),
+    SAME_NICKNAME(HttpStatus.CONFLICT, false, 2111, "현재 사용중인 닉네임입니다."),
+    INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2112, "이메일을 다시 확인해주세요."),
+    NO_EXIST_TERMS(HttpStatus.NOT_FOUND, false, 2113, "존재하지 않는 약관입니다."),
+    KAKAO_TOKEN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 2114, "카카오 토큰 발급에 실패했습니다."),
+    KAKAO_USER_INFO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 2115, "카카오 사용자 정보 조회 실패"),
+    EMAIL_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 2116, "이메일 발송에 실패했습니다."),
+    PASSWORD_RESET_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 2117, "비밀번호 초기화 중 오류 발생"),
+
 
     /**
      * 3000: product service error
