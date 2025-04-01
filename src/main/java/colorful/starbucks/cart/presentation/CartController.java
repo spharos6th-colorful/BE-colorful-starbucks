@@ -1,14 +1,8 @@
 package colorful.starbucks.cart.presentation;
 
 import colorful.starbucks.cart.application.CartService;
-import colorful.starbucks.cart.dto.request.CartAddRequestDto;
-import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
-import colorful.starbucks.cart.dto.request.CartProductCheckRequestDto;
-import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
-import colorful.starbucks.cart.vo.request.CartAddRequestVo;
-import colorful.starbucks.cart.vo.request.CartDeleteRequestVo;
-import colorful.starbucks.cart.vo.request.CartProductCheckRequestVo;
-import colorful.starbucks.cart.vo.request.CartProductOptionEditRequestVo;
+import colorful.starbucks.cart.dto.request.*;
+import colorful.starbucks.cart.vo.request.*;
 import colorful.starbucks.cart.vo.response.CartListResponseVo;
 import colorful.starbucks.cart.vo.response.CartProductDetailResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
@@ -53,10 +47,11 @@ public class CartController {
 
     @GetMapping
     public ApiResponse<CartListResponseVo> getCartList(Authentication authentication,
-                                                       @PageableDefault(size = 3) Pageable pageable) {
+                                                       @PageableDefault(size = 3) Pageable pageable,
+                                                       CartGetListRequestVo cartGetListRequestVo) {
         return ApiResponse.ok(
                 "장바구니 목록 조회를 성공적으로 완료했습니다",
-                cartService.getCartList(authentication.getName(), pageable).toVo()
+                cartService.getCartList(CartGetListRequestDto.from(cartGetListRequestVo, authentication.getName())).toVo()
         );
     }
 

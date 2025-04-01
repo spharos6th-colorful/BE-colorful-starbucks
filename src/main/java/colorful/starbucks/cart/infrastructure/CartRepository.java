@@ -11,12 +11,10 @@ import java.util.Optional;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
     void deleteById(Long id);
-    @Query(value = "select cp from Cart cp " +
-                "where cp.memberUuid = :memberUuid and cp.isDeleted = false",
-                countQuery = "select count(cp) from Cart cp "+
-                        "where cp.memberUuid = :memberUuid " +
-                        "and cp.isDeleted = false"
-    )
+
+    @Query(value = "SELECT * FROM Cart cp WHERE cp.member_uuid = :memberUuid AND cp.is_deleted = FALSE",
+        countQuery = "select COUNT(*) from Cart cp WHERE cp.member_uuid = :memberUuid AND cp.is_deleted = FALSE",
+        nativeQuery = true)
     Page<Cart> findAllByMemberUuid(String memberUuid, Pageable pageable);
 
     Optional<Cart> findByMemberUuidAndId(String memberUuid, Long id);

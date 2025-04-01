@@ -1,9 +1,6 @@
 package colorful.starbucks.cart.application;
 
-import colorful.starbucks.cart.dto.request.CartAddRequestDto;
-import colorful.starbucks.cart.dto.request.CartDeleteRequestDto;
-import colorful.starbucks.cart.dto.request.CartProductCheckRequestDto;
-import colorful.starbucks.cart.dto.request.CartProductOptionEditRequestDto;
+import colorful.starbucks.cart.dto.request.*;
 import colorful.starbucks.cart.dto.response.CartListResponseDto;
 import colorful.starbucks.cart.dto.response.CartProductDetailResponseDto;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +11,7 @@ public interface CartService {
 
     void addCart(List<CartAddRequestDto> cartAddRequestDtos);
     void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos);
-    CartListResponseDto getCartList(String memberUuid, Pageable pageable);
+    CartListResponseDto getCartList(CartGetListRequestDto cartGetListRequestDto);
     void editCartProductOptions(Long cartId, String memberUuid,CartProductOptionEditRequestDto cartProductOptionEditRequestDto);
     CartProductDetailResponseDto getCartProductDetail(Long cartId, String memberUuid);
     void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto, String memberUuid);
