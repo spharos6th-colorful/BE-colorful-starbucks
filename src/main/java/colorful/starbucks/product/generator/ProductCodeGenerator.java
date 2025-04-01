@@ -8,7 +8,7 @@ import java.time.ZoneId;
 @Component
 public class ProductCodeGenerator {
 
-    public static Long generate(LocalDateTime dateTime) {
-        return (dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    public static Long generate() {
+        return (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
     }
 }

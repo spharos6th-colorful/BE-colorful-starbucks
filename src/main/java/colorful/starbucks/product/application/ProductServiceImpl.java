@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
                                      MultipartFile productThumbnail,
                                      MultipartFile productImage) {
 
-        Long productCode = ProductCodeGenerator.generate(LocalDateTime.now());
+        Long productCode = ProductCodeGenerator.generate();
 
         try {
             String productThumbnailUrl = s3UploadService.uploadFile(productThumbnail);
