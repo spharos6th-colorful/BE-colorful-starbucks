@@ -30,9 +30,8 @@ public class InterestProductController {
     }
 
     @PostMapping
-    public ApiResponse<InterestProductCreateResponseVo> createInterestProduct(
-            @RequestBody InterestProductCreateRequestVo interestProductCreateRequestVo,
-            Authentication authentication) {
+    public ApiResponse<InterestProductCreateResponseVo> createInterestProduct(Authentication authentication,
+                                                                              @RequestBody InterestProductCreateRequestVo interestProductCreateRequestVo) {
 
         return ApiResponse.of(
                 HttpStatus.CREATED,

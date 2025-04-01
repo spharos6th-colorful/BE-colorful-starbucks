@@ -36,7 +36,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ApiResponse<FilteredProductResponseVo> getProductsByFilter(ProductFilterVo productFilterVo,
+    public ApiResponse<FilteredProductResponseVo> getProductsByFilter(@RequestParam ProductFilterVo productFilterVo,
                                                                       @PageableDefault(size = 3) Pageable pageable) {
 
         return ApiResponse.ok(

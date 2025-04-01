@@ -26,9 +26,8 @@ public class ProductDetailController {
     }
 
     @PostMapping
-    public ApiResponse<ProductDetailResponseVo> createProductDetail(
-            @RequestPart ProductDetailCreateRequestVo productDetailCreateRequestVo,
-            @RequestPart MultipartFile productDetailThumbnail) {
+    public ApiResponse<ProductDetailResponseVo> createProductDetail(@RequestPart ProductDetailCreateRequestVo productDetailCreateRequestVo,
+                                                                    @RequestPart MultipartFile productDetailThumbnail) {
 
         return ApiResponse.ok("상세 상품이 등록되었습니다.",
                 productDetailService.createProductDetail(
@@ -38,10 +37,9 @@ public class ProductDetailController {
     }
 
     @GetMapping
-    public ApiResponse<ProductDetailCodeAndQuantityResponseVo> getProductDetailWithOptions(
-            @RequestParam String productCode,
-            @RequestParam Long sizeId,
-            @RequestParam Long colorId) {
+    public ApiResponse<ProductDetailCodeAndQuantityResponseVo> getProductDetailWithOptions(@RequestParam String productCode,
+                                                                                           @RequestParam Long sizeId,
+                                                                                           @RequestParam Long colorId) {
 
         return ApiResponse.ok("상세 상품이 조회되었습니다.",
                 productDetailService.getProductDetailWithOptions(productCode, sizeId, colorId).toVo()
@@ -49,8 +47,7 @@ public class ProductDetailController {
     }
 
     @GetMapping("/options")
-    public ApiResponse<ProductOptionListResponseVo> getProductOptionList(
-            @RequestParam String productCode) {
+    public ApiResponse<ProductOptionListResponseVo> getProductOptionList(@RequestParam String productCode) {
         return ApiResponse.ok("상세 상품 옵션이 조회되었습니다.",
                 productDetailService.getProductOptionList(productCode).toVo()
         );
