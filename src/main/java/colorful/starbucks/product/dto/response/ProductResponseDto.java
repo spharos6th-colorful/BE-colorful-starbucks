@@ -9,7 +9,7 @@ import lombok.Getter;
 public class ProductResponseDto {
 
     private String productName;
-    private String productCode;
+    private Long productCode;
     private String description;
     private int price;
     private String productImageUrl;
@@ -18,7 +18,7 @@ public class ProductResponseDto {
 
     @Builder
     public ProductResponseDto(String productName,
-                              String productCode,
+                              Long productCode,
                               String description,
                               int price,
                               String productImageUrl,

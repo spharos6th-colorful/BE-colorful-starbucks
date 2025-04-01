@@ -13,14 +13,14 @@ public class FilteredProductResponseVo {
     private int size;
     private boolean last;
     private boolean hasNext;
-    private String cursorProductCode;
+    private Long cursorProductCode;
 
     @Builder
     private FilteredProductResponseVo(List<ProductResponseDto> content,
                                       int size,
                                       boolean last,
                                       boolean hasNext,
-                                      String cursorProductCode) {
+                                      Long cursorProductCode) {
         this.content = content;
         this.size = size;
         this.last = last;

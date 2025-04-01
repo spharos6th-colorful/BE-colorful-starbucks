@@ -1,15 +1,14 @@
 package colorful.starbucks.product.generator;
 
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Component
-@Getter
 public class ProductCodeGenerator {
 
-    public String generate() {
-        return UUID.randomUUID().toString();
+    public static Long generate() {
+        return (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
     }
 }

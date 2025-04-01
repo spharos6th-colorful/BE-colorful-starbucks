@@ -12,7 +12,7 @@ public interface ProductService {
                               MultipartFile productThumbnail,
                               MultipartFile productImage);
 
-    ProductResponseDto getProduct(String productCode);
+    ProductResponseDto getProduct(Long productCode);
 
     FilteredProductResponseDto getProductsByFilter(ProductFilterDto productFilterDto, Pageable pageable);
 }

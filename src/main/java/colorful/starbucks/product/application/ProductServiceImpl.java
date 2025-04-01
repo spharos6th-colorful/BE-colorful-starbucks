@@ -23,7 +23,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final S3UploadService s3UploadService;
-    private final ProductCodeGenerator productCodeGenerator;
 
     @Transactional
     @Override
@@ -31,17 +30,19 @@ public class ProductServiceImpl implements ProductService {
                                      MultipartFile productThumbnail,
                                      MultipartFile productImage) {
 
-        String productCode = productCodeGenerator.generate();
+        Long productCode = ProductCodeGenerator.generate();
 
         try {
             String productThumbnailUrl = s3UploadService.uploadFile(productThumbnail);
             String productImageUrl = s3UploadService.uploadFile(productImage);
-            return ProductResponseDto.from(productRepository.save(
+            Product product = productRepository.save(
                     productCreateRequestDto.toEntity(
                             productCode,
                             productThumbnailUrl,
                             productImageUrl)
-            ));
+            );
+            product.changeProductCode(productCode);
+            return ProductResponseDto.from(product);
         } catch (Exception e) {
             throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "상품 등록에 실패했습니다.");
         }
@@ -62,12 +63,11 @@ public class ProductServiceImpl implements ProductService {
             productId = product.getId();
             price = product.getPrice();
         }
-
         return productRepository.getProductsByFilter(productFilterDto, productId, price, pageable);
     }
 
     @Override
-    public ProductResponseDto getProduct(String productCode) {
+    public ProductResponseDto getProduct(Long productCode) {
         return ProductResponseDto.from(
                 productRepository.findByProductCode(productCode).
                         orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND)

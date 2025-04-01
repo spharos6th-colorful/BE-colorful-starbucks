@@ -43,8 +43,8 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
                         )
                 )
                 .from(product)
-                .leftJoin(productCategoryList)
-                .on(productCategoryList.productCode.eq(product.productCode))
+//                .leftJoin(productCategoryList)
+//                .on(productCategoryList.productCode.eq(product.productCode))
                 .where(
                         minPriceGoe(filter.getMinPrice()),
                         maxPriceLoe(filter.getMaxPrice()),
@@ -60,9 +60,10 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
             throw new RuntimeException("더 이상 조회할 상품이 없습니다.");
         }
 
+        ProductResponseDto cursorProduct = content.get(content.size() - 1);
         return FilteredProductResponseDto.of(
                 new SliceImpl<>(content, pageable, hasNextPage(pageable, content)),
-                content.get(content.size() - 1).getProductCode()
+                cursorProduct.getProductCode()
         );
     }
 
@@ -107,20 +108,20 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
                     break;
                 case "createdAt,asc":
                     builder.and(product.id.gt(productId));
-                    query.orderBy(product.createdAt.asc(), product.id.asc());
+                    query.orderBy(product.id.asc());
                     break;
                 case "createdAt,desc":
                     builder.and(product.id.lt(productId));
-                    query.orderBy(product.createdAt.desc(), product.id.desc());
+                    query.orderBy(product.id.desc());
                     break;
                 default:
                     builder.and(product.id.lt(productId));
-                    query.orderBy(product.createdAt.desc(), product.id.desc());
+                    query.orderBy(product.id.desc());
                     break;
             }
         } else {
             builder.and(product.id.lt(productId));
-            query.orderBy(product.createdAt.desc(), product.id.desc());
+            query.orderBy(product.id.desc());
         }
 
         query.where(builder);
