@@ -40,7 +40,7 @@ public class KakaoApiService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
-        // ✅ 주입된 restTemplate 사용
+
         ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, request, String.class);
 
         JSONObject json = new JSONObject(response.getBody());
@@ -52,7 +52,7 @@ public class KakaoApiService {
         headers.setBearerAuth(accessToken);
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
-        // ✅ 주입된 restTemplate 사용
+
         ResponseEntity<String> response = restTemplate.exchange(userInfoUri, HttpMethod.GET, request, String.class);
         JSONObject json = new JSONObject(response.getBody());
 

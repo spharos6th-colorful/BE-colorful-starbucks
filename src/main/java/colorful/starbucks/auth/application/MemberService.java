@@ -27,6 +27,4 @@ public interface MemberService {
 
     MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto kakaoSignInRequestDto);
 
-//    MemberSignInResponseDto GoogleSignIn(GooleSignInRequestDto gooleSignInRequestDto);
-
 }
