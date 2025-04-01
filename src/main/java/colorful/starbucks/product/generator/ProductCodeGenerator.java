@@ -9,6 +9,8 @@ import java.time.ZoneId;
 public class ProductCodeGenerator {
 
     public static Long generate() {
-        return (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        return Long.valueOf(
+                String.valueOf(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()).substring(6, 12)
+        );
     }
 }

@@ -66,7 +66,7 @@ public class Product extends BaseEntity {
         this.markable = markable;
     }
 
-    public void changeProductCode(Long productCode) {
-        this.productCode =productCode;
+    public void initProductCode(Long productCode) {
+        this.productCode = Long.valueOf(String.valueOf(productCode) + this.id);
     }
 }

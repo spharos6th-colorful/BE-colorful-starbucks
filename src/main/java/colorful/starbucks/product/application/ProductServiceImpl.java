@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
                             productThumbnailUrl,
                             productImageUrl)
             );
-            product.changeProductCode(productCode);
+            product.initProductCode(productCode);
             return ProductResponseDto.from(product);
         } catch (Exception e) {
             throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "상품 등록에 실패했습니다.");
