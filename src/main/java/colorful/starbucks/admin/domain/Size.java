@@ -15,7 +15,6 @@ public class Size extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "size_id")
     private Long id;
 
     @Comment("사이즈 이름")

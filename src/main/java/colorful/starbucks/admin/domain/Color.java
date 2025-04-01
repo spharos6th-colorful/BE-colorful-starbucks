@@ -15,7 +15,6 @@ public class Color extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "color_id")
     private Long id;
 
     @Comment("색상 이름")
