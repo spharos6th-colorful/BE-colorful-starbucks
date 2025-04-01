@@ -1,17 +1,14 @@
 package colorful.starbucks.product.application;
 
-import colorful.starbucks.product.dto.request.InterestProductCreateRequestDto;
-import colorful.starbucks.product.dto.response.InterestProductCreateResponseDto;
+import colorful.starbucks.product.dto.request.InterestProductAddRequestDto;
 import colorful.starbucks.product.dto.response.InterestProductListResponseDto;
 import org.springframework.data.domain.Pageable;
 
 public interface InterestProductService {
 
-    InterestProductCreateResponseDto createInterestProduct(
-            InterestProductCreateRequestDto interestProductCreateRequestDto
-    );
+    void addInterestProduct(InterestProductAddRequestDto interestProductAddRequestDto);
 
-    void removeInterestProduct(String memberUuid, String productCode);
+    void removeInterestProduct(Long interestProductId);
 
     InterestProductListResponseDto getInterestProductList(String memberUuid, Pageable pageable);
 }

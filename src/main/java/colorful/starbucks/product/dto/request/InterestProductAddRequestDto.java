@@ -4,7 +4,7 @@ import colorful.starbucks.product.domain.InterestProduct;
 import colorful.starbucks.product.vo.request.InterestProductCreateRequestVo;
 import lombok.Builder;
 
-public class InterestProductCreateRequestDto {
+public class InterestProductAddRequestDto {
 
     private String memberUuid;
     private String productCode;
@@ -13,7 +13,7 @@ public class InterestProductCreateRequestDto {
     private String productThumbnailUrl;
 
     @Builder
-    private InterestProductCreateRequestDto(
+    private InterestProductAddRequestDto(
             String memberUuid,
             String productCode,
             String productName,
@@ -26,11 +26,11 @@ public class InterestProductCreateRequestDto {
         this.productThumbnailUrl = productThumbnailUrl;
     }
 
-    public static InterestProductCreateRequestDto from(
+    public static InterestProductAddRequestDto from(
             InterestProductCreateRequestVo interestProductCreateRequestVo,
             String memberUuid) {
 
-        return InterestProductCreateRequestDto.builder()
+        return InterestProductAddRequestDto.builder()
                 .memberUuid(memberUuid)
                 .productCode(interestProductCreateRequestVo.getProductCode())
                 .productName(interestProductCreateRequestVo.getProductName())

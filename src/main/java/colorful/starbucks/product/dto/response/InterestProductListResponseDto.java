@@ -15,7 +15,9 @@ public class InterestProductListResponseDto {
     private List<InterestProductDto> interestProductDtoList;
 
     @Builder
-    private InterestProductListResponseDto(int totalPages, long totalElements, List<InterestProductDto> interestProductDtoList) {
+    private InterestProductListResponseDto(int totalPages,
+                                           long totalElements,
+                                           List<InterestProductDto> interestProductDtoList) {
         this.totalPages = totalPages;
         this.totalElements = totalElements;
         this.interestProductDtoList = interestProductDtoList;

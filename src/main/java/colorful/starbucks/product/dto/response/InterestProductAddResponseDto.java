@@ -1,10 +1,10 @@
 package colorful.starbucks.product.dto.response;
 
 import colorful.starbucks.product.domain.InterestProduct;
-import colorful.starbucks.product.vo.response.InterestProductCreateResponseVo;
+import colorful.starbucks.product.vo.response.InterestProductAddResponseVo;
 import lombok.Builder;
 
-public class InterestProductCreateResponseDto {
+public class InterestProductAddResponseDto {
 
     private String productCode;
     private String productName;
@@ -12,7 +12,7 @@ public class InterestProductCreateResponseDto {
     private String productThumbnailUrl;
 
     @Builder
-    private InterestProductCreateResponseDto(
+    private InterestProductAddResponseDto(
             String productCode,
             String productName,
             int price,
@@ -23,8 +23,8 @@ public class InterestProductCreateResponseDto {
         this.productThumbnailUrl = productThumbnailUrl;
     }
 
-    public static InterestProductCreateResponseDto from(InterestProduct interestProduct) {
-        return InterestProductCreateResponseDto.builder()
+    public static InterestProductAddResponseDto from(InterestProduct interestProduct) {
+        return InterestProductAddResponseDto.builder()
                 .productCode(interestProduct.getProductCode())
                 .productName(interestProduct.getProductName())
                 .price(interestProduct.getPrice())
@@ -32,8 +32,8 @@ public class InterestProductCreateResponseDto {
                 .build();
     }
 
-    public InterestProductCreateResponseVo toVo() {
-        return InterestProductCreateResponseVo.builder()
+    public InterestProductAddResponseVo toVo() {
+        return InterestProductAddResponseVo.builder()
                 .productCode(productCode)
                 .productName(productName)
                 .price(price)
