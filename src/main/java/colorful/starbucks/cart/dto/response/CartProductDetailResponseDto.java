@@ -7,12 +7,12 @@ import lombok.Builder;
 public class CartProductDetailResponseDto {
     private boolean checked;
     private String productDetailCode;
-    private String productCode;
+    private long productCode;
     private int quantity;
     private String carvingContent;
 
     @Builder
-    private CartProductDetailResponseDto(boolean checked, String productDetailCode, String productCode, int quantity, String carvingContent) {
+    private CartProductDetailResponseDto(boolean checked, String productDetailCode, long productCode, int quantity, String carvingContent) {
         this.checked = checked;
         this.productDetailCode = productDetailCode;
         this.productCode = productCode;

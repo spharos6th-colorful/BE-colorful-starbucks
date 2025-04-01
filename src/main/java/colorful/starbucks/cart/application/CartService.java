@@ -12,8 +12,8 @@ import java.util.List;
 
 public interface CartService {
 
-    void addCart(List<CartAddRequestDto> cartAddRequestDto);
-    void removeCartList(String memberUuid, List<CartDeleteRequestDto> cartDeleteRequestDto);
+    void addCart(List<CartAddRequestDto> cartAddRequestDtos);
+    void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos);
     CartListResponseDto getCartList(String memberUuid, Pageable pageable);
     void editCartProductOptions(Long cartId, String memberUuid,CartProductOptionEditRequestDto cartProductOptionEditRequestDto);
     CartProductDetailResponseDto getCartProductDetail(Long cartId, String memberUuid);

@@ -30,36 +30,29 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void addCart(List<CartAddRequestDto> cartAddRequestDtoList) {
-//        for (CartAddRequestDto cartProduct : cartAddRequestDto) {
-//            Optional<Cart> cart = cartRepository.findByMemberUuidAndProductDetailCode(cartProduct.getMemberUuid(), cartProduct.getProductDetailCode());
-//            cart.ifPresentOrElse(cartEntity -> {
-//                cartEntity.updateQuantity(cartProduct.getQuantity()+ cartEntity.getQuantity());
-//                    }, () -> cartRepository.save(cartProduct.toEntity(cartProduct.getMemberUuid())));
-//        }
-        cartAddRequestDtoList.forEach(this::addCartProduct);
+    public void addCart(List<CartAddRequestDto> cartAddRequestDtos) {
+
+        cartAddRequestDtos.forEach(this::addCartProduct);
     }
 
     private void addCartProduct(CartAddRequestDto cartAddRequestDto) {
+
         Cart cart = cartRepository.findByMemberUuidAndProductDetailCode(
-                cartAddRequestDto.getMemberUuid(), cartAddRequestDto.getProductDetailCode()).orElse(
-                        cartRepository.save(cartAddRequestDto.toEntity(cartAddRequestDto.getMemberUuid())
-                        ));
-        cart.updateQuantity(cartAddRequestDto.getQuantity()+cart.getQuantity());
+                cartAddRequestDto.getMemberUuid(), cartAddRequestDto.getProductDetailCode()).orElseGet(() ->
+                cartRepository.save(cartAddRequestDto.toEntity(cartAddRequestDto.getMemberUuid())
+                ));
+        cart.updateQuantity(cartAddRequestDto.getQuantity() + cart.getQuantity());
 
     }
 
     @Transactional
     @Override
-    public void removeCartList(String memberUuid, List<CartDeleteRequestDto> cartDeleteRequestDto) {
-        for(CartDeleteRequestDto cartProduct: cartDeleteRequestDto) {
-            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartProduct.getId())
-                            .orElseThrow(()-> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-            if (cart.isDeleted()) {
-                throw new BaseException(ResponseStatus.ALREADY_DELETED_CART_ITEM);
-            }
-            cartRepository.deleteByMemberUuidAndId(memberUuid, cartProduct.getId());
-        }
+    public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
+
+        cartDeleteRequestDtos.stream()
+                .map(cartProduct -> cartRepository.findById(cartProduct.getId())
+                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND)))
+                .forEach(cart -> cartRepository.deleteById(cart.getId()));
     }
 
     @Override
@@ -81,7 +74,7 @@ public class CartServiceImpl implements CartService {
             }
             cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
                     cartProductOptionEditRequestDto.getQuantity());
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new BaseException(ResponseStatus.DATABASE_ERROR);
         }
     }
@@ -96,17 +89,16 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto, String memberUuid) {
-        try{
+        try {
             for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
                 Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, checkProduct.getId())
-                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
                 cart.updateProductChecked(checkProduct.isChecked());
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new BaseException(ResponseStatus.DATABASE_ERROR);
         }
     }
-
 
 
 }
