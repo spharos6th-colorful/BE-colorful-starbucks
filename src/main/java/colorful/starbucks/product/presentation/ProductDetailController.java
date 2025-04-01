@@ -2,7 +2,9 @@ package colorful.starbucks.product.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.product.application.ProductDetailService;
+import colorful.starbucks.product.dto.request.ProductDetailCodeAndQuantityRequestDto;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
+import colorful.starbucks.product.vo.request.ProductDetailCodeAndQuantityRequestVo;
 import colorful.starbucks.product.vo.request.ProductDetailCreateRequestVo;
 import colorful.starbucks.product.vo.response.ProductDetailCodeAndQuantityResponseVo;
 import colorful.starbucks.product.vo.response.ProductDetailResponseVo;
@@ -37,13 +39,13 @@ public class ProductDetailController {
     }
 
     @GetMapping
-    public ApiResponse<ProductDetailCodeAndQuantityResponseVo> getProductDetailWithOptions(@RequestParam String productCode,
-                                                                                           @RequestParam Long sizeId,
-                                                                                           @RequestParam Long colorId) {
+    public ApiResponse<ProductDetailCodeAndQuantityResponseVo> getProductDetailWithOptions(
+            @RequestParam ProductDetailCodeAndQuantityRequestVo productDetailCodeAndQuantityRequestVo) {
 
         return ApiResponse.ok("상세 상품이 조회되었습니다.",
-                productDetailService.getProductDetailWithOptions(productCode, sizeId, colorId).toVo()
-        );
+                productDetailService.getProductDetailWithOptions(
+                        ProductDetailCodeAndQuantityRequestDto.from(productDetailCodeAndQuantityRequestVo)
+                ).toVo());
     }
 
     @GetMapping("/options")

@@ -1,12 +1,13 @@
 package colorful.starbucks.product.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.product.application.ProductService;
 import colorful.starbucks.product.dto.ProductFilterDto;
 import colorful.starbucks.product.dto.request.ProductCreateRequestDto;
+import colorful.starbucks.product.dto.response.ProductResponseDto;
 import colorful.starbucks.product.vo.ProductFilterVo;
 import colorful.starbucks.product.vo.request.ProductCreateRequestVo;
-import colorful.starbucks.product.vo.response.FilteredProductResponseVo;
 import colorful.starbucks.product.vo.response.ProductResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -29,19 +30,26 @@ public class ProductController {
         return ApiResponse.of(
                 HttpStatus.CREATED,
                 "상품 등록을 완료했습니다.",
-                productService.create(
+                productService.createProduct(
                                 ProductCreateRequestDto.from(productCreateRequestVo), productThumbnail, productImage)
                         .toVo()
         );
     }
 
     @GetMapping
-    public ApiResponse<FilteredProductResponseVo> getProductsByFilter(@RequestParam ProductFilterVo productFilterVo,
-                                                                      @PageableDefault(size = 3) Pageable pageable) {
+    public ApiResponse<CursorPage<ProductResponseVo>> getProductsByFilter(@ModelAttribute ProductFilterVo productFilterVo,
+                                                                          @PageableDefault(size = 3) Pageable pageable) {
 
+        CursorPage<ProductResponseDto> response = productService.getProductsByFilter(ProductFilterDto.from(productFilterVo), pageable);
         return ApiResponse.ok(
                 "상품 목록 조회를 완료했습니다.",
-                productService.getProductsByFilter(ProductFilterDto.from(productFilterVo), pageable).toVo()
+                CursorPage.<ProductResponseVo>builder()
+                        .content(response.getContent().stream()
+                                .map(ProductResponseDto::toVo)
+                                .toList())
+                        .hasNext(response.isHasNext())
+                        .nextCursor(response.getNextCursor())
+                        .build()
         );
     }
 

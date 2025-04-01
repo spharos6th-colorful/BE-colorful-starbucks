@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class ProductFilterDto {
 
-    private Long cursorProductCode;
+    private Long nextCursor;
     private Integer minPrice;
     private Integer maxPrice;
     private String topCategory;
@@ -15,13 +15,13 @@ public class ProductFilterDto {
     private String sortBy;
 
     @Builder
-    private ProductFilterDto(Long cursorProductCode,
+    private ProductFilterDto(Long nextCursor,
                              Integer minPrice,
                              Integer maxPrice,
                              String topCategory,
                              String bottomCategory,
                              String sortBy) {
-        this.cursorProductCode = cursorProductCode;
+        this.nextCursor = nextCursor;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.topCategory = topCategory;
@@ -31,7 +31,7 @@ public class ProductFilterDto {
 
     public static ProductFilterDto from(ProductFilterVo productFilterVo) {
         return ProductFilterDto.builder()
-                .cursorProductCode(productFilterVo.getCursorProductCode())
+                .nextCursor(productFilterVo.getNextCursor())
                 .minPrice(productFilterVo.getMinPrice())
                 .maxPrice(productFilterVo.getMaxPrice())
                 .topCategory(productFilterVo.getTopCategory())

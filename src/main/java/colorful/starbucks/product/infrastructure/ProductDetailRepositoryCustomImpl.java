@@ -1,6 +1,7 @@
 package colorful.starbucks.product.infrastructure;
 
 import colorful.starbucks.product.domain.ProductDetail;
+import colorful.starbucks.product.dto.request.ProductDetailCodeAndQuantityRequestDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +18,14 @@ public class ProductDetailRepositoryCustomImpl implements ProductDetailRepositor
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<ProductDetail> findByProductCodeAndOptions(String productCode, Long sizeId, Long colorId) {
+    public Optional<ProductDetail> findByProductCodeAndOptions(ProductDetailCodeAndQuantityRequestDto productDetailCodeAndQuantityRequestDto) {
 
         return Optional.ofNullable(
                 queryFactory.selectFrom(productDetail)
                         .where(
-                                productDetail.productCode.eq(productCode),
-                                eqSizeId(sizeId),
-                                eqColorId(colorId),
+                                productDetail.productCode.eq(productDetailCodeAndQuantityRequestDto.getProductCode()),
+                                eqSizeId(productDetailCodeAndQuantityRequestDto.getSizeId()),
+                                eqColorId(productDetailCodeAndQuantityRequestDto.getColorId()),
                                 productDetail.isDeleted.isFalse()
                         ).fetchOne()
         );

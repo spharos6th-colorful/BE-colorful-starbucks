@@ -44,7 +44,7 @@ public class Product extends BaseEntity {
     private String productThumbnailUrl;
 
     @Comment("상품 각인 가능 여부")
-    @Column(nullable = false, columnDefinition = "Tinyint(1) default 0")
+    @Column(nullable = false)
     private boolean markable;
 
     @Builder
@@ -66,7 +66,7 @@ public class Product extends BaseEntity {
         this.markable = markable;
     }
 
-    public void changeProductCode(Long productCode) {
-        this.productCode =productCode;
+    public void initProductCode() {
+        this.productCode = Long.valueOf(String.valueOf(this.productCode) + this.id);
     }
 }

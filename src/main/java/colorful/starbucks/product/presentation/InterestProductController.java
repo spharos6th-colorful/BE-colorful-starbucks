@@ -44,7 +44,10 @@ public class InterestProductController {
 
     @DeleteMapping("/{interestProductId}")
     public ApiResponse<Void> removeInterestProduct(@PathVariable Long interestProductId) {
+
         interestProductService.removeInterestProduct(interestProductId);
-        return ApiResponse.of(HttpStatus.NO_CONTENT, "관심 상품 삭제를 완료했습니다.", null);
+        return ApiResponse.of(HttpStatus.NO_CONTENT,
+                "관심 상품 삭제를 완료했습니다.",
+                null);
     }
 }
