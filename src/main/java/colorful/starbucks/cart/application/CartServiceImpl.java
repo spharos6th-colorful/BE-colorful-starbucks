@@ -30,13 +30,23 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void addCart(List<CartAddRequestDto> cartAddRequestDto, String memberUuid) {
-        for (CartAddRequestDto cartProduct : cartAddRequestDto) {
-            Optional<Cart> cart = cartRepository.findByMemberUuidAndProductDetailCode(memberUuid, cartProduct.getProductDetailCode());
-            cart.ifPresentOrElse(cartEntity -> {
-                cartEntity.updateQuantity(cartProduct.getQuantity()+ cartEntity.getQuantity());
-                    }, () -> cartRepository.save(cartProduct.toEntity(memberUuid)));
-        }
+    public void addCart(List<CartAddRequestDto> cartAddRequestDtoList) {
+//        for (CartAddRequestDto cartProduct : cartAddRequestDto) {
+//            Optional<Cart> cart = cartRepository.findByMemberUuidAndProductDetailCode(cartProduct.getMemberUuid(), cartProduct.getProductDetailCode());
+//            cart.ifPresentOrElse(cartEntity -> {
+//                cartEntity.updateQuantity(cartProduct.getQuantity()+ cartEntity.getQuantity());
+//                    }, () -> cartRepository.save(cartProduct.toEntity(cartProduct.getMemberUuid())));
+//        }
+        cartAddRequestDtoList.forEach(this::addCartProduct);
+    }
+
+    private void addCartProduct(CartAddRequestDto cartAddRequestDto) {
+        Cart cart = cartRepository.findByMemberUuidAndProductDetailCode(
+                cartAddRequestDto.getMemberUuid(), cartAddRequestDto.getProductDetailCode()).orElse(
+                        cartRepository.save(cartAddRequestDto.toEntity(cartAddRequestDto.getMemberUuid())
+                        ));
+        cart.updateQuantity(cartAddRequestDto.getQuantity()+cart.getQuantity());
+
     }
 
     @Transactional
@@ -96,6 +106,8 @@ public class CartServiceImpl implements CartService {
             throw new BaseException(ResponseStatus.DATABASE_ERROR);
         }
     }
+
+
 
 }
 

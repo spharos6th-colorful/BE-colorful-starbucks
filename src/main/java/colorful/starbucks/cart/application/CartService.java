@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface CartService {
 
-    void addCart(List<CartAddRequestDto> cartAddRequestDto, String memberUuid);
+    void addCart(List<CartAddRequestDto> cartAddRequestDto);
     void removeCartList(String memberUuid, List<CartDeleteRequestDto> cartDeleteRequestDto);
     CartListResponseDto getCartList(String memberUuid, Pageable pageable);
     void editCartProductOptions(Long cartId, String memberUuid,CartProductOptionEditRequestDto cartProductOptionEditRequestDto);

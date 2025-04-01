@@ -19,8 +19,8 @@ public class CartDeleteRequestDto {
 
     public static CartDeleteRequestDto from(CartDeleteRequestVo cartDeleteRequestVo) {
         return CartDeleteRequestDto.builder()
-                        .id(cartDeleteRequestVo.getId())
-                        .build();
+                .id(cartDeleteRequestVo.getId())
+                .build();
     }
 
 
@@ -29,7 +29,6 @@ public class CartDeleteRequestDto {
                 .map(CartDeleteRequestDto::from)
                 .collect(Collectors.toList());
     }
-
 
 
 }

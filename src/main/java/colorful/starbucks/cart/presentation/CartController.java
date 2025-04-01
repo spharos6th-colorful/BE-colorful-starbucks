@@ -29,9 +29,10 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping
-    public ApiResponse<Void> create(@RequestBody List<CartAddRequestVo> cartAddRequestVos, Authentication authentication) {
+    public ApiResponse<Void> createCart(Authentication authentication,
+                                        @RequestBody List<CartAddRequestVo> cartAddRequestVos) {
 
-        cartService.addCart(CartAddRequestDto.fromList(cartAddRequestVos), authentication.getName());
+        cartService.addCart(CartAddRequestDto.fromList(cartAddRequestVos, authentication.getName()));
 
         return ApiResponse.ok(
                 "장바구니 담기를 성공적으로 완료했습니다",
@@ -40,7 +41,7 @@ public class CartController {
     }
 
     @DeleteMapping
-    public ApiResponse<Void> delete(Authentication authentication,
+    public ApiResponse<Void> deleteCart(Authentication authentication,
                                  @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
 
         cartService.removeCartList(authentication.getName(), CartDeleteRequestDto.fromList(cartDeleteRequestVos));
