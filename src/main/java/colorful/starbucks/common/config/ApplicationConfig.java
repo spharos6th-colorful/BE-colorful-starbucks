@@ -1,7 +1,7 @@
 package colorful.starbucks.common.config;
 
 import colorful.starbucks.auth.infrastructure.MemberRepository;
-import colorful.starbucks.common.security.CustomUserDetails;
+import colorful.starbucks.auth.domain.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

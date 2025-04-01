@@ -8,7 +8,7 @@ import colorful.starbucks.auth.infrastructure.MemberRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
 import colorful.starbucks.common.response.ResponseStatus;
-import colorful.starbucks.common.security.CustomUserDetails;
+import colorful.starbucks.auth.domain.CustomUserDetails;
 import colorful.starbucks.common.service.EmailService;
 import colorful.starbucks.common.util.TempPasswordGenerator;
 import lombok.RequiredArgsConstructor;

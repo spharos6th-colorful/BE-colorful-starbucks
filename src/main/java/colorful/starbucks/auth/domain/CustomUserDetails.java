@@ -1,6 +1,5 @@
-package colorful.starbucks.common.security;
+package colorful.starbucks.auth.domain;
 
-import colorful.starbucks.auth.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
