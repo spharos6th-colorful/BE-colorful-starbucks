@@ -24,7 +24,7 @@ public class ProductCategoryListRepositoryCustomImpl implements ProductCategoryL
     private static final Integer DEFAULT_PAGE_SIZE = 20;
 
     @Override
-    public CursorPage<ProductCategoryCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto filter,
+    public CursorPage<ProductCategoryCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto productCategoryListFilterDto,
                                                                                Long id,
                                                                                int price) {
 
@@ -36,16 +36,16 @@ public class ProductCategoryListRepositoryCustomImpl implements ProductCategoryL
                 )
                 .from(productCategoryList)
                 .where(
-                        minPriceGoe(filter.getMinPrice()),
-                        maxPriceLoe(filter.getMaxPrice()),
-                        topCategoryEq(filter.getTopCategoryId()),
-                        bottomCategoryEq(filter.getBottomCategoryIds()),
+                        minPriceGoe(productCategoryListFilterDto.getMinPrice()),
+                        maxPriceLoe(productCategoryListFilterDto.getMaxPrice()),
+                        topCategoryEq(productCategoryListFilterDto.getTopCategoryId()),
+                        bottomCategoryEq(productCategoryListFilterDto.getBottomCategoryIds()),
                         productCategoryList.isDeleted.isFalse()
                 );
 
-        applySorting(query, filter, id, price);
-        int pageSize = filter.getSize() == null ? DEFAULT_PAGE_SIZE : filter.getSize();
+        applySorting(query, productCategoryListFilterDto, id, price);
 
+        int pageSize = productCategoryListFilterDto.getSize() == null ? DEFAULT_PAGE_SIZE : productCategoryListFilterDto.getSize();
         List<ProductCategoryCursorResponseDto> content = query.limit(pageSize + 1).fetch();
 
         Long nextCursor = null;
@@ -81,13 +81,13 @@ public class ProductCategoryListRepositoryCustomImpl implements ProductCategoryL
     }
 
     private void applySorting(JPAQuery<ProductCategoryCursorResponseDto> query,
-                              ProductCategoryListFilterDto filter,
+                              ProductCategoryListFilterDto productCategoryListFilterDto,
                               Long productListId,
                               int price) {
 
         BooleanBuilder builder = new BooleanBuilder();
-        if (filter.getSortBy() != null) {
-            switch (filter.getSortBy()) {
+        if (productCategoryListFilterDto.getSortBy() != null) {
+            switch (productCategoryListFilterDto.getSortBy()) {
                 case "price,asc":
                     builder.and(productCategoryList.price.gt(price))
                             .or(productCategoryList.price.eq(price).and(productCategoryList.id.loe(productListId)));
