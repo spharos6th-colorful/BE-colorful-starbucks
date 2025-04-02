@@ -42,7 +42,6 @@ public class ProductDetailController {
     public ApiResponse<ProductDetailCodeAndQuantityResponseVo> getProductDetailWithOptions(
             @ModelAttribute ProductDetailCodeAndQuantityRequestVo productDetailCodeAndQuantityRequestVo) {
 
-        System.out.println("productDetailCodeAndQuantityRequestVo.getProductCode() = " + productDetailCodeAndQuantityRequestVo.getProductCode());
         return ApiResponse.ok("상세 상품이 조회되었습니다.",
                 productDetailService.getProductDetailWithOptions(
                         ProductDetailCodeAndQuantityRequestDto.from(productDetailCodeAndQuantityRequestVo)

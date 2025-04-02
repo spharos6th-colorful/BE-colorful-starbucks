@@ -32,7 +32,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     public ProductDetailResponseDto createProductDetail(ProductDetailCreateRequestDto productDetailCreateRequestDto,
                                                         MultipartFile productDetailThumbnail) {
 
-        if (productDetailRepository.existsByProductCodeAndSizeIdAndColorIdAndIsDeletedFalse(
+        if (productDetailRepository.existsByProductCodeAndSizeIdAndColorIdAndIsDeletedIsFalse(
                 productDetailCreateRequestDto.getProductCode(),
                 productDetailCreateRequestDto.getSizeId(),
                 productDetailCreateRequestDto.getColorId())) {
@@ -55,14 +55,14 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     @Override
     public ProductDetailResponseDto getProductDetail(String productDetailCode) {
         return ProductDetailResponseDto.from(
-                productDetailRepository.findByProductDetailCode(productDetailCode)
+                productDetailRepository.findByProductDetailCodeAndIsDeletedIsFalse(productDetailCode)
                         .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }
 
     @Override
     public ProductOptionListResponseDto getProductOptionList(String productCode) {
-        List<ProductDetail> productDetails = productDetailRepository.findAllByProductCode(productCode);
+        List<ProductDetail> productDetails = productDetailRepository.findAllByProductCodeAndIsDeletedIsFalse(productCode);
         return ProductOptionListResponseDto.from(productDetails);
     }
 

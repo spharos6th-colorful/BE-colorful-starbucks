@@ -8,7 +8,7 @@ public interface InterestProductService {
 
     void addInterestProduct(InterestProductAddRequestDto interestProductAddRequestDto);
 
-    void removeInterestProduct(Long interestProductId);
+    void removeInterestProduct(Long interestProductId, String memberUuid);
 
     InterestProductListResponseDto getInterestProductList(String memberUuid, Pageable pageable);
 }

@@ -23,14 +23,13 @@ public class InterestProductServiceImpl implements InterestProductService {
 
     @Transactional
     @Override
-    public void removeInterestProduct(Long interestProductId) {
-        interestProductRepository.deleteById(interestProductId);
+    public void removeInterestProduct(Long interestProductId, String memberUuid) {
+        interestProductRepository.deleteByIdAndMemberUuid(interestProductId, memberUuid);
     }
 
     @Override
     public InterestProductListResponseDto getInterestProductList(String memberUuid,
                                                                  Pageable pageable) {
-
         return InterestProductListResponseDto.from(
                 interestProductRepository.findAllByMemberUuidAndIsDeletedIsFalse(memberUuid, pageable)
         );

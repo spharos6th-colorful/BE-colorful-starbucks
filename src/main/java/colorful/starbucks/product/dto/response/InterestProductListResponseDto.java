@@ -24,6 +24,7 @@ public class InterestProductListResponseDto {
     }
 
     public static InterestProductListResponseDto from(Page<InterestProduct> interestProducts) {
+
         return InterestProductListResponseDto.builder()
                 .totalPages(interestProducts.getTotalPages())
                 .totalElements(interestProducts.getTotalElements())
@@ -40,7 +41,9 @@ public class InterestProductListResponseDto {
         return InterestProductListResponseVo.builder()
                 .totalPages(totalPages)
                 .totalElements(totalElements)
-                .interestProductList(interestProductDtoList)
+                .content(interestProductDtoList.stream()
+                        .map(InterestProductDto::toVo)
+                        .toList())
                 .build();
     }
 }

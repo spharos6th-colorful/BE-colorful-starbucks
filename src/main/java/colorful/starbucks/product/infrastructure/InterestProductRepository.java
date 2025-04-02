@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface InterestProductRepository extends JpaRepository<InterestProduct, Long> {
 
-    @Query(countQuery = "select count(ip) from InterestProduct ip " +
-            "where ip.memberUuid = :memberUuid " +
-            "and ip.isDeleted = false")
+    @Query(countQuery = "SELECT count(ip) FROM InterestProduct ip " +
+            "WHERE ip.memberUuid = :memberUuid " +
+            "AND ip.isDeleted = false")
     Page<InterestProduct> findAllByMemberUuidAndIsDeletedIsFalse(String memberUuid, Pageable pageable);
+
+    void deleteByIdAndMemberUuid(Long interestProductId, String memberUuid);
 }

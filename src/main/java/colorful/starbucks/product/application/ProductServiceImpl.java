@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
             productId = productFilterDto.getSortBy().equals("createdAt,asc") ? 0L : Long.MAX_VALUE;
             price = productFilterDto.getSortBy().equals("price,asc") ? 0 : Integer.MAX_VALUE;
         } else {
-            Product product = productRepository.findByProductCode(productFilterDto.getNextCursor())
+            Product product = productRepository.findByProductCodeAndIsDeletedIsFalse(productFilterDto.getNextCursor())
                     .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
             productId = product.getId();
             price = product.getPrice();
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto getProduct(Long productCode) {
         return ProductResponseDto.from(
-                productRepository.findByProductCode(productCode).
+                productRepository.findByProductCodeAndIsDeletedIsFalse(productCode).
                         orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }

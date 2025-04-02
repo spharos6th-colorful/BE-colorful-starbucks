@@ -1,6 +1,7 @@
 package colorful.starbucks.product.dto;
 
 import colorful.starbucks.product.domain.InterestProduct;
+import colorful.starbucks.product.vo.InterestProductVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -33,6 +34,16 @@ public class InterestProductDto {
                 .productName(interestProduct.getProductName())
                 .price(interestProduct.getPrice())
                 .productThumbnailUrl(interestProduct.getProductThumbnailUrl())
+                .build();
+    }
+
+    public InterestProductVo toVo() {
+        return InterestProductVo.builder()
+                .interestProductId(interestProductId)
+                .productCode(productCode)
+                .productName(productName)
+                .price(price)
+                .productThumbnailUrl(productThumbnailUrl)
                 .build();
     }
 }
