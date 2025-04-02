@@ -15,4 +15,8 @@ public interface DeliveryRepository extends JpaRepository<DeliveryAddress, Long>
 
     void deleteByMemberUuidAndMemberAddressUuid(String memberUuid, String memberAddressUuid);
 
+    Optional<DeliveryAddress> findByMemberUuidAndMemberAddressUuid(String memberUuid, String memberAddressUuid);
+
+    DeliveryAddress findByMemberUuidAndIsDefaultAddress(String memberUuid, boolean isDefaultAddress);
+
 }
