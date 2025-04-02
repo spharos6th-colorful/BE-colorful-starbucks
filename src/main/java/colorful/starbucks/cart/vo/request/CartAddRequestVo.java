@@ -6,6 +6,6 @@ import lombok.Getter;
 public class CartAddRequestVo {
     private String productDetailCode;
     private String carvingContent;
-    private String productCode;
+    private Long productCode;
     private int quantity;
 }

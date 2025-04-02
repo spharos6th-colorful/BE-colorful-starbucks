@@ -1,6 +1,6 @@
 package colorful.starbucks.cart.domain;
 
-import colorful.starbucks.cart.dto.request.CartProductCheckRequestDto;
+
 import colorful.starbucks.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,8 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
-
-import java.util.List;
 
 @Entity
 @Getter
@@ -45,7 +43,7 @@ public class Cart extends BaseEntity {
 
     @Column(nullable = false)
     @Comment("상품 코드")
-    private String productCode;
+    private Long productCode;
 
     @Builder
     private Cart(Long id,
@@ -54,7 +52,7 @@ public class Cart extends BaseEntity {
                  int quantity,
                  String productDetailCode,
                  String carvingContent,
-                 String productCode) {
+                 Long productCode) {
         this.id = id;
         this.memberUuid = memberUuid;
         this.checked = checked;
@@ -73,7 +71,7 @@ public class Cart extends BaseEntity {
         this.checked = checked;
     }
 
-    public void updateQuantity(int newQuantity) {
-        this.quantity = newQuantity;
+    public void addQuantity(int newQuantity) {
+        this.quantity = newQuantity + this.quantity;
     }
 }
