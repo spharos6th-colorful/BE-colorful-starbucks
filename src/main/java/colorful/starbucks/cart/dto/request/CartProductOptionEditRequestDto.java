@@ -7,19 +7,22 @@ import lombok.Getter;
 @Getter
 public class CartProductOptionEditRequestDto {
 
-    private String productCode;
+    private long cartId;
+    private long productCode;
     private String productDetailCode;
     private int quantity;
 
     @Builder
-    private CartProductOptionEditRequestDto(String productCode, String productDetailCode, int quantity) {
+    private CartProductOptionEditRequestDto(long productCode, String productDetailCode, int quantity, long cartId) {
+        this.cartId = cartId;
         this.productCode = productCode;
         this.productDetailCode = productDetailCode;
         this.quantity = quantity;
     }
 
-    public static CartProductOptionEditRequestDto from(CartProductOptionEditRequestVo cartProductOptionEditRequestVo) {
+    public static CartProductOptionEditRequestDto from(CartProductOptionEditRequestVo cartProductOptionEditRequestVo, long cartId) {
         return CartProductOptionEditRequestDto.builder()
+                .cartId(cartId)
                 .productCode(cartProductOptionEditRequestVo.getProductCode())
                 .productDetailCode(cartProductOptionEditRequestVo.getProductDetailCode())
                 .quantity(cartProductOptionEditRequestVo.getQuantity())

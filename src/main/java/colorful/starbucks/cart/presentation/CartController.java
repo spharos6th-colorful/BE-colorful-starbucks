@@ -47,20 +47,18 @@ public class CartController {
 
     @GetMapping
     public ApiResponse<CartListResponseVo> getCartList(Authentication authentication,
-                                                       @PageableDefault(size = 3) Pageable pageable,
-                                                       CartGetListRequestVo cartGetListRequestVo) {
+                                                       @PageableDefault(size = 3) Pageable pageable) {
         return ApiResponse.ok(
                 "장바구니 목록 조회를 성공적으로 완료했습니다",
-                cartService.getCartList(CartGetListRequestDto.from(cartGetListRequestVo, authentication.getName())).toVo()
+                cartService.getCartList(CartGetListRequestDto.from(authentication.getName(), pageable)).toVo()
         );
     }
 
     @PutMapping("/{cartId}")
-    public ApiResponse<Void> editCartProductOptions(Authentication authentication,
-                                                                  @PathVariable Long cartId,
-                                                                  @RequestBody CartProductOptionEditRequestVo cartProductOptionEditRequestVo){
+    public ApiResponse<Void> editCartProductOptions(@PathVariable Long cartId,
+                                                    @RequestBody CartProductOptionEditRequestVo cartProductOptionEditRequestVo){
 
-        cartService.editCartProductOptions(cartId, authentication.getName(), CartProductOptionEditRequestDto.from(cartProductOptionEditRequestVo));
+        cartService.editCartProductOptions(CartProductOptionEditRequestDto.from(cartProductOptionEditRequestVo, cartId));
         return ApiResponse.ok(
                 "장바구니 옵션 변경 완료했습니다.",
                 null

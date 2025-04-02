@@ -12,7 +12,7 @@ public interface CartService {
     void addCart(List<CartAddRequestDto> cartAddRequestDtos);
     void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos);
     CartListResponseDto getCartList(CartGetListRequestDto cartGetListRequestDto);
-    void editCartProductOptions(Long cartId, String memberUuid,CartProductOptionEditRequestDto cartProductOptionEditRequestDto);
+    void editCartProductOptions(CartProductOptionEditRequestDto cartProductOptionEditRequestDto);
     CartProductDetailResponseDto getCartProductDetail(Long cartId, String memberUuid);
     void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto, String memberUuid);
 }

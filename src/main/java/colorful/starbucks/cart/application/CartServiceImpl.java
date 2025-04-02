@@ -10,6 +10,7 @@ import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
@@ -54,6 +56,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartListResponseDto getCartList(CartGetListRequestDto cartGetListRequestDto) {
+        log.info("카트페이지: {}", cartGetListRequestDto.getPageable());
         return CartListResponseDto.from(
                 cartRepository.findAllByMemberUuid(cartGetListRequestDto.getMemberUuid(), cartGetListRequestDto.getPageable())
         );
@@ -61,14 +64,11 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void editCartProductOptions(Long cartId, String memberUuid, CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
+    public void editCartProductOptions(CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
         try {
-            Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId)
+            Cart cart = cartRepository.findById(cartProductOptionEditRequestDto.getCartId())
                     .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
-            if (!productDetailRepository.existsByProductDetailCode((cartProductOptionEditRequestDto.getProductDetailCode()))) {
-                throw new BaseException(ResponseStatus.NO_EXIST_OPTION);
-            }
             cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
                     cartProductOptionEditRequestDto.getQuantity());
         } catch (Exception e) {

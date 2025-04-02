@@ -1,6 +1,5 @@
 package colorful.starbucks.cart.dto.request;
 
-import colorful.starbucks.cart.vo.request.CartGetListRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +16,10 @@ public class CartGetListRequestDto {
         this.pageable = pageable;
     }
 
-    public static CartGetListRequestDto from(CartGetListRequestVo cartGetListRequestVo, String memberUuid) {
+    public static CartGetListRequestDto from(String memberUuid, Pageable pageable) {
         return CartGetListRequestDto.builder()
                 .memberUuid(memberUuid)
-                .pageable(cartGetListRequestVo.getPageable())
+                .pageable(pageable)
                 .build();
     }
 }
