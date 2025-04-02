@@ -23,6 +23,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+    // todo: 프론트에서 s3 업로드 구현 완료되면 file이 아닌 image url을 받는 것으로 수정할 것
     @PostMapping
     public ApiResponse<ProductResponseVo> createProduct(@RequestPart ProductCreateRequestVo productCreateRequestVo,
                                                         @RequestPart(required = false) MultipartFile productThumbnail,
