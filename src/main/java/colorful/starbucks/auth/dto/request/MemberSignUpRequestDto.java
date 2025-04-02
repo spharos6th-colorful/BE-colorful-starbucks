@@ -6,6 +6,9 @@ import colorful.starbucks.auth.domain.MemberLevel;
 import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -54,6 +57,12 @@ public class MemberSignUpRequestDto {
                         MemberLevel.WHITE)
                 .gender(memberSignUpRequestVo.getGender())
                 .build();
+    }
+
+    public Member toEntityWithEncodePassword(PasswordEncoder passwordEncoder){
+        String encodedPassword = passwordEncoder.encode(password);
+        String memberUuid = UUID.randomUUID().toString();
+        return this.toEntity(memberUuid, encodedPassword);
     }
 
 

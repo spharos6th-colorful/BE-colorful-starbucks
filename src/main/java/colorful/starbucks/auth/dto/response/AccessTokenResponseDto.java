@@ -12,4 +12,11 @@ public class AccessTokenResponseDto {
     public AccessTokenResponseDto(String accessToken) {
         this.accessToken = accessToken;
     }
+
+    public static AccessTokenResponseDto from(String accessToken) {
+        return AccessTokenResponseDto.builder()
+                .accessToken(accessToken)
+                .build();
+    }
 }
+

@@ -15,32 +15,29 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v1/auth")
 @RestController
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
 
     @PostMapping("/sign-up")
-    public ApiResponse<String> signUp(
-            @RequestBody MemberSignUpRequestVo memberSignUpRequestVo
+    public ApiResponse<String> signUp(@RequestBody MemberSignUpRequestVo memberSignUpRequestVo
             ){
         memberService.signUp(MemberSignUpRequestDto.from(memberSignUpRequestVo));
         return ApiResponse.ok("회원가입이 완료되었습니다.",null);
     }
 
     @GetMapping("/validate/email")
-    public ApiResponse<Boolean> checkEmail(
-            @RequestParam String email
+    public ApiResponse<Boolean> checkEmail(@RequestParam String email
     ){
         boolean isDuplicated = memberService.isEmailDuplicated(email);
         return ApiResponse.ok("이메일 중복 체크를 완료하였습니다. ",isDuplicated);
     }
 
     @PostMapping("/sign-in")
-    public ApiResponse<MemberSignInResponseVo> signIn(
-            @RequestBody MemberSignInRequestVo memberSignInRequestVo
+    public ApiResponse<MemberSignInResponseVo> signIn(@RequestBody MemberSignInRequestVo memberSignInRequestVo
     ){
         return ApiResponse.ok(
                 "로그인에 성공하였습니다",
@@ -49,8 +46,7 @@ public class MemberController {
     }
 
     @PostMapping("/access-token")
-    public ApiResponse<AccessTokenResponseVo> refreshToken(
-            @RequestBody RefreshTokenRequestVo refreshTokenRequestVo){
+    public ApiResponse<AccessTokenResponseVo> refreshToken(@RequestBody RefreshTokenRequestVo refreshTokenRequestVo){
 
         AccessTokenResponseDto accessTokenResponseDto = memberService.reIssueAccessToken(
                 RefreshTokenRequestDto.from(refreshTokenRequestVo)
@@ -61,8 +57,7 @@ public class MemberController {
     }
 
     @PostMapping("/email")
-    public ApiResponse<MemberEmailFindResponseVo> findeMail(
-            @RequestBody MemberEmailFindRequestVo memberEmailFindRequestVo) {
+    public ApiResponse<MemberEmailFindResponseVo> findEmail(@RequestBody MemberEmailFindRequestVo memberEmailFindRequestVo) {
 
         MemberEmailFindRequestDto requestDto = MemberEmailFindRequestDto.from(memberEmailFindRequestVo);
 
@@ -74,8 +69,7 @@ public class MemberController {
     }
 
     @PostMapping("/password")
-    public ApiResponse<MemberPasswordResetResponseVo> resetPassword(
-            @RequestBody MemberPasswordResetRequestVo memberPasswordResetRequestVo){
+    public ApiResponse<MemberPasswordResetResponseVo> resetPassword(@RequestBody MemberPasswordResetRequestVo memberPasswordResetRequestVo){
 
         MemberPasswordResetRequestDto requestDto = MemberPasswordResetRequestDto.from(memberPasswordResetRequestVo);
 
@@ -92,8 +86,7 @@ public class MemberController {
     }
 
     @PostMapping("/kakao")
-    public ApiResponse<MemberSignInResponseVo> kakaoSignIn(
-            @RequestBody KakaoSignInRequestVo kakaoSignInRequestVo
+    public ApiResponse<MemberSignInResponseVo> kakaoSignIn(@RequestBody KakaoSignInRequestVo kakaoSignInRequestVo
     ){
         return ApiResponse.ok(
                 "로그인에 성공하였습니다.",

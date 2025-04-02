@@ -1,6 +1,5 @@
 package colorful.starbucks.auth.dto.response;
 
-import colorful.starbucks.auth.domain.Member;
 import colorful.starbucks.auth.vo.response.MemberSignInResponseVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +18,7 @@ public class MemberSignInResponseDto {
         this.refreshToken = refreshToken;
     }
 
-    public static MemberSignInResponseDto from(Member member, String accessToken, String refreshToken) {
+    public static MemberSignInResponseDto from(String accessToken, String refreshToken) {
         return MemberSignInResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

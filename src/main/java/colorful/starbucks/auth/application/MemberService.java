@@ -13,8 +13,6 @@ public interface MemberService {
 
     boolean isEmailDuplicated(String email);
 
-    UserDetails loadUserByUsername(String email);
-
     UserDetails loadUserByUuid(String uuid);
 
     MemberSignInResponseDto signIn(MemberSignInRequestDto memberSignInRequestDto);
