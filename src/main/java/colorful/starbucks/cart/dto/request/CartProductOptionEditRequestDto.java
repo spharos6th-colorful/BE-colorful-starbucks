@@ -8,13 +8,13 @@ import lombok.Getter;
 public class CartProductOptionEditRequestDto {
 
     private String memberUuid;
-    private long cartId;
-    private long productCode;
+    private Long cartId;
+    private Long productCode;
     private String productDetailCode;
     private int quantity;
 
     @Builder
-    private CartProductOptionEditRequestDto(String memberUuid,long cartId, long productCode, String productDetailCode, int quantity) {
+    private CartProductOptionEditRequestDto(String memberUuid,Long cartId, Long productCode, String productDetailCode, int quantity) {
         this.memberUuid = memberUuid;
         this.cartId = cartId;
         this.productCode = productCode;
@@ -22,7 +22,7 @@ public class CartProductOptionEditRequestDto {
         this.quantity = quantity;
     }
 
-    public static CartProductOptionEditRequestDto from(CartProductOptionEditRequestVo cartProductOptionEditRequestVo, long cartId, String memberUuid) {
+    public static CartProductOptionEditRequestDto from(CartProductOptionEditRequestVo cartProductOptionEditRequestVo, Long cartId, String memberUuid) {
         return CartProductOptionEditRequestDto.builder()
                 .memberUuid(memberUuid)
                 .cartId(cartId)

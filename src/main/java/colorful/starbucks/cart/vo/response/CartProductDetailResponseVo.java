@@ -8,7 +8,7 @@ public class CartProductDetailResponseVo {
 
     private boolean checked;
     private String productDetailCode;
-    private long productCode;
+    private Long productCode;
     private int quantity;
     private String carvingContent;
 

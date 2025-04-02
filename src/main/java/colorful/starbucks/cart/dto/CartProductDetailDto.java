@@ -6,17 +6,17 @@ import lombok.Getter;
 
 @Getter
 public class CartProductDetailDto {
-    private long cartId;
+    private Long cartId;
     private boolean checked;
-    private long productCode;
+    private Long productCode;
     private int quantity;
     private String productDetailCode;
     private String carvingContent;
 
     @Builder
-    public CartProductDetailDto(long cartId,
+    public CartProductDetailDto(Long cartId,
                                 boolean checked,
-                                long productCode,
+                                Long productCode,
                                 int quantity,
                                 String productDetailCode,
                                 String carvingContent) {
