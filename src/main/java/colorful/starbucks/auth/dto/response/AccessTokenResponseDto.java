@@ -1,5 +1,6 @@
 package colorful.starbucks.auth.dto.response;
 
+import colorful.starbucks.auth.vo.response.AccessTokenResponseVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -18,5 +19,11 @@ public class AccessTokenResponseDto {
                 .accessToken(accessToken)
                 .build();
     }
+    public AccessTokenResponseVo toVo() {
+        return AccessTokenResponseVo.builder()
+                .accessToken(accessToken)
+                .build();
+    }
+
 }
 

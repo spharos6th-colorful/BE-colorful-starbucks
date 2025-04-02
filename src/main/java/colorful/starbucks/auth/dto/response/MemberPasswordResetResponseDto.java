@@ -15,7 +15,7 @@ public class MemberPasswordResetResponseDto {
         this.message = message;
     }
 
-    public static MemberPasswordResetResponseDto fromMessage(String message) {
+    public static MemberPasswordResetResponseDto from(String message) {
      return MemberPasswordResetResponseDto.builder()
              .message(message)
              .build();
