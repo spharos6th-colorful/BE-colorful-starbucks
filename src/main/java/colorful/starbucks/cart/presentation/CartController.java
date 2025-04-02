@@ -52,7 +52,7 @@ public class CartController {
 
         return ApiResponse.ok(
                 "장바구니 목록 조회를 성공적으로 완료했습니다",
-                cartService.getCartList(CartGetListRequestDto.from(authentication.getName(), pageable)).toVo()
+                cartService.getCartList(authentication.getName(), pageable).toVo()
         );
     }
 

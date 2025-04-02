@@ -11,6 +11,7 @@ import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +21,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
-    private final ProductDetailRepository productDetailRepository;
 
     @Transactional
     @Override
@@ -54,10 +53,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartListResponseDto getCartList(CartGetListRequestDto cartGetListRequestDto) {
-        log.info("카트페이지: {}", cartGetListRequestDto.getPageable());
+    public CartListResponseDto getCartList(String memberUuid, Pageable pageable) {
+
         return CartListResponseDto.from(
-                cartRepository.findAllByMemberUuid(cartGetListRequestDto.getMemberUuid(), cartGetListRequestDto.getPageable())
+                cartRepository.findAllByMemberUuid(memberUuid, pageable)
         );
     }
 
