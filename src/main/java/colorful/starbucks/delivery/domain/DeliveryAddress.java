@@ -63,12 +63,12 @@ public class DeliveryAddress extends BaseEntity {
         this.isDefaultAddress = isDefaultAddress;
     }
     public void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
-        this.address = deliveryAddressEditRequestDto.getAddress();
-        this.zoneCode = deliveryAddressEditRequestDto.getZoneCode();
-        this.detailAddress = deliveryAddressEditRequestDto.getDetailAddress();
-        this.phoneNumber = deliveryAddressEditRequestDto.getPhoneNumber();
-        this.addressNickname = deliveryAddressEditRequestDto.getAddressNickname();
-        this.receiverName = deliveryAddressEditRequestDto.getReceiverName();
+        this.address = deliveryAddressEditRequestDto.getAddress() == null ?this.address : deliveryAddressEditRequestDto.getAddress();
+        this.zoneCode = deliveryAddressEditRequestDto.getZoneCode() == null ?this.zoneCode : deliveryAddressEditRequestDto.getZoneCode();
+        this.detailAddress = deliveryAddressEditRequestDto.getDetailAddress() == null ?this.detailAddress : deliveryAddressEditRequestDto.getDetailAddress();
+        this.phoneNumber = deliveryAddressEditRequestDto.getPhoneNumber() == null ?this.phoneNumber : deliveryAddressEditRequestDto.getPhoneNumber();
+        this.addressNickname = deliveryAddressEditRequestDto.getAddressNickname() == null ?this.addressNickname : deliveryAddressEditRequestDto.getAddressNickname();
+        this.receiverName = deliveryAddressEditRequestDto.getReceiverName() == null ?this.receiverName : deliveryAddressEditRequestDto.getReceiverName();
         this.isDefaultAddress = deliveryAddressEditRequestDto.isDefaultAddress();
     }
 

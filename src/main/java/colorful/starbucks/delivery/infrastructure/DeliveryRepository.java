@@ -17,6 +17,7 @@ public interface DeliveryRepository extends JpaRepository<DeliveryAddress, Long>
 
     Optional<DeliveryAddress> findByMemberUuidAndMemberAddressUuid(String memberUuid, String memberAddressUuid);
 
-    DeliveryAddress findByMemberUuidAndIsDefaultAddress(String memberUuid, boolean isDefaultAddress);
+    Optional<DeliveryAddress> findByMemberUuidAndIsDefaultAddress(String memberUuid, boolean isDefaultAddress);
+
 
 }

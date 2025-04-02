@@ -8,6 +8,7 @@ import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryAddressRequestDto;
 import colorful.starbucks.delivery.dto.response.DeliveryAddressResponseDto;
+import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDto;
 import colorful.starbucks.delivery.generator.MemberAddressUuidGenerator;
 import colorful.starbucks.delivery.infrastructure.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class DeliveryServiceImpl implements DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
@@ -51,9 +52,9 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public DeliveryAddressResponseDto getIndividualAddress(DeliveryAddressRequestDto deliveryAddressRequestDto) {
         DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(
-                        deliveryAddressRequestDto.getMemberUuid(),
-                        deliveryAddressRequestDto.getMemberAddressUuid()
-                ).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+                deliveryAddressRequestDto.getMemberUuid(),
+                deliveryAddressRequestDto.getMemberAddressUuid()
+        ).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
         return DeliveryAddressResponseDto.from(deliveryAddress);
     }
 
@@ -61,15 +62,24 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
 
-        if(deliveryAddressEditRequestDto.isDefaultAddress()) {
-            DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(deliveryAddressEditRequestDto.getMemberUuid(), true);
-            deliveryAddress.updateIsDefaultAddress(false);
+        if (deliveryAddressEditRequestDto.isDefaultAddress()) {
+            Optional<DeliveryAddress> deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(deliveryAddressEditRequestDto.getMemberUuid(), true);
+            //  deliveryAddress.updateIsDefaultAddress(false);
         }
         DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryAddressEditRequestDto.getMemberUuid(),
                 deliveryAddressEditRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
         deliveryAddress.editAddress(deliveryAddressEditRequestDto);
 
+    }
+
+    @Override
+    public DeliveryDefaultAddressResponseDto getDefaultAddress(String memberUuid) {
+
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(memberUuid, true)
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND, "기본 배송지가 존재하지 않습니다."));
+
+        return DeliveryDefaultAddressResponseDto.from(deliveryAddress);
     }
 
 }

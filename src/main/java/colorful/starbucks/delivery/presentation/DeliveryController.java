@@ -6,10 +6,12 @@ import colorful.starbucks.delivery.dto.request.DeliveryAddRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryAddressRequestDto;
+import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDto;
 import colorful.starbucks.delivery.vo.request.DeliveryAddRequestVo;
 
 import colorful.starbucks.delivery.vo.request.DeliveryAddressEditRequestVo;
 import colorful.starbucks.delivery.vo.response.DeliveryAddressResponseVo;
+import colorful.starbucks.delivery.vo.response.DeliveryDefaultAddressResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,14 @@ public class DeliveryController {
         deliveryService.editAddress(DeliveryAddressEditRequestDto.from(deliveryAddressEditRequestVo, authentication.getName(), memberAddressUuid));
         return ApiResponse.ok("배송지 수정이 완료 되었습니다.",null);
     }
+
+    @GetMapping("/default-address")
+    public ApiResponse<DeliveryDefaultAddressResponseVo> getDefaultAddress(Authentication authentication) {
+
+        return ApiResponse.ok("기본 배송지 조회가 완료 되었습니다.",
+                deliveryService.getDefaultAddress(authentication.getName()).toVo());
+    }
+
 
 
 
