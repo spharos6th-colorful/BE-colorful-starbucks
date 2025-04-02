@@ -57,6 +57,8 @@ public enum ResponseStatus {
     EMAIL_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 2116, "이메일 발송에 실패했습니다."),
     PASSWORD_RESET_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 2117, "비밀번호 초기화 중 오류 발생"),
     TERMS_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 2118, "약관 동의 저장에 실패했습니다."),
+    INVALID_AUTH_CODE(HttpStatus.BAD_REQUEST, false, 2119, "잘못된 인증번호입니다."),
+
 
 
 

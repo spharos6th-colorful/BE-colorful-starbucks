@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TermsServiceImpl implements TermsService {
 
     private final TermsRepository termsRepository;

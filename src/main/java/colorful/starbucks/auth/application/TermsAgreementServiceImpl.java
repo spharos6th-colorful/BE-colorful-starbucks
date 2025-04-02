@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TermsAgreementServiceImpl implements TermsAgreementService {
 
     private final TermsAgreementRepository termsAgreementRepository;

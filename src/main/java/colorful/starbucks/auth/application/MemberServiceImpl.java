@@ -21,8 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
@@ -32,6 +32,7 @@ public class MemberServiceImpl implements MemberService {
     private final EmailService emailService;
     private final KakaoApiService kakaoApiService;
     private final UserDetailsService userDetailsService;
+    private final EmailAuthRedisService emailAuthRedisService;
 
     @Override
     @Transactional
@@ -127,4 +128,26 @@ public class MemberServiceImpl implements MemberService {
                 jwtTokenProvider.generateRefreshToken(authentication)
         );
     }
+
+    @Override
+    @Transactional
+    public EmailCodeSendResponseDto sendEmail(EmailCodeSendRequestDto emailCodeSendRequestDto) {
+        String code = emailCodeSendRequestDto.codeGenerator();
+        emailAuthRedisService.saveCode(emailCodeSendRequestDto.getEmail(), code);
+        emailService.sendEmailCode(emailCodeSendRequestDto.getEmail(), code);
+
+        return EmailCodeSendResponseDto.from(code);
+    }
+
+    @Override
+    @Transactional
+    public void verifyEmailCode(EmailVerifyCodeRequestDto dto) {
+        if (!emailAuthRedisService.verifyCode(dto.getEmail(), dto.getCode())) {
+            throw new BaseException(ResponseStatus.INVALID_AUTH_CODE);
+        }
+        emailAuthRedisService.deleteCode(dto.getEmail());
+    }
+
+
+
 }

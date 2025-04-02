@@ -14,8 +14,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
+@Transactional
 public class KakaoApiService {
 
     @Value("${oauth.kakao.client-id}")
