@@ -20,7 +20,7 @@ public class DeliveryController {
     @PostMapping("/address")
     public ApiResponse<Void> addAddress(Authentication authentication,
                                                          @RequestBody DeliveryAddRequestVo deliveryAddRequestVo) {
-        deliveryService.addAddress(authentication.getName(), DeliveryAddRequestDto.from(deliveryAddRequestVo));
+        deliveryService.addAddress(DeliveryAddRequestDto.from(deliveryAddRequestVo, authentication.getName()));
         return ApiResponse.ok("배송지 추가가 완료 되었습니다.",
                 null);
     }
