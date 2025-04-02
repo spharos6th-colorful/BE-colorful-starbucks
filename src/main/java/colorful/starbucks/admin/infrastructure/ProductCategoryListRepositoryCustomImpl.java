@@ -19,9 +19,8 @@ import static colorful.starbucks.admin.domain.QProductCategoryList.productCatego
 @RequiredArgsConstructor
 public class ProductCategoryListRepositoryCustomImpl implements ProductCategoryListRepositoryCustom {
 
-    private final JPAQueryFactory queryFactory;
-
     private static final Integer DEFAULT_PAGE_SIZE = 20;
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public CursorPage<ProductCategoryCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto productCategoryListFilterDto,
