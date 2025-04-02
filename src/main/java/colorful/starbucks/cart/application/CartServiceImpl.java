@@ -64,7 +64,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void editCartProductOptions(CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
 
-            Cart cart = cartRepository.findById(cartProductOptionEditRequestDto.getCartId())
+            Cart cart = cartRepository.findByIdAndMemberUuid(cartProductOptionEditRequestDto.getCartId(), cartProductOptionEditRequestDto.getMemberUuid())
                     .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
             cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
