@@ -12,15 +12,15 @@ public class InterestProductListResponseDto {
 
     private int totalPages;
     private long totalElements;
-    private List<InterestProductDto> interestProductDtoList;
+    private List<InterestProductDto> interestProductDtos;
 
     @Builder
     private InterestProductListResponseDto(int totalPages,
                                            long totalElements,
-                                           List<InterestProductDto> interestProductDtoList) {
+                                           List<InterestProductDto> interestProductDtos) {
         this.totalPages = totalPages;
         this.totalElements = totalElements;
-        this.interestProductDtoList = interestProductDtoList;
+        this.interestProductDtos = interestProductDtos;
     }
 
     public static InterestProductListResponseDto from(Page<InterestProduct> interestProducts) {
@@ -28,7 +28,7 @@ public class InterestProductListResponseDto {
         return InterestProductListResponseDto.builder()
                 .totalPages(interestProducts.getTotalPages())
                 .totalElements(interestProducts.getTotalElements())
-                .interestProductDtoList(
+                .interestProductDtos(
                         interestProducts.getContent()
                                 .stream()
                                 .map(InterestProductDto::from)
@@ -41,7 +41,7 @@ public class InterestProductListResponseDto {
         return InterestProductListResponseVo.builder()
                 .totalPages(totalPages)
                 .totalElements(totalElements)
-                .content(interestProductDtoList.stream()
+                .content(interestProductDtos.stream()
                         .map(InterestProductDto::toVo)
                         .toList())
                 .build();

@@ -1,5 +1,8 @@
 package colorful.starbucks.product.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
+import colorful.starbucks.product.domain.InterestProduct;
 import colorful.starbucks.product.dto.request.InterestProductAddRequestDto;
 import colorful.starbucks.product.dto.response.InterestProductListResponseDto;
 import colorful.starbucks.product.infrastructure.InterestProductRepository;
@@ -24,7 +27,10 @@ public class InterestProductServiceImpl implements InterestProductService {
     @Transactional
     @Override
     public void removeInterestProduct(Long interestProductId, String memberUuid) {
-        interestProductRepository.deleteByIdAndMemberUuid(interestProductId, memberUuid);
+        interestProductRepository.findByIdAndMemberUuid(interestProductId, memberUuid)
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+
+        interestProductRepository.deleteById(interestProductId);
     }
 
     @Override
