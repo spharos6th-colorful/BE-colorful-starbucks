@@ -77,8 +77,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartProductDetailResponseDto getCartProductDetail(Long cartId, String memberUuid) {
-        Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, cartId).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+    public CartProductDetailResponseDto getCartProductDetail(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
         return CartProductDetailResponseDto.from(cart);
 
     }

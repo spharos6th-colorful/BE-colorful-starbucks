@@ -13,6 +13,6 @@ public interface CartService {
     void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos);
     CartListResponseDto getCartList(CartGetListRequestDto cartGetListRequestDto);
     void editCartProductOptions(CartProductOptionEditRequestDto cartProductOptionEditRequestDto);
-    CartProductDetailResponseDto getCartProductDetail(Long cartId, String memberUuid);
+    CartProductDetailResponseDto getCartProductDetail(Long cartId);
     void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto, String memberUuid);
 }

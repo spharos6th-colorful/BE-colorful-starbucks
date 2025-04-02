@@ -13,7 +13,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     void deleteById(Long id);
 
     @Query(value = "SELECT * FROM Cart cp WHERE cp.member_uuid = :memberUuid AND cp.is_deleted = FALSE",
-        countQuery = "select COUNT(*) from Cart cp WHERE cp.member_uuid = :memberUuid AND cp.is_deleted = FALSE",
+        countQuery = "SELECT COUNT(*) from Cart cp WHERE cp.member_uuid = :memberUuid AND cp.is_deleted = FALSE",
         nativeQuery = true)
     Page<Cart> findAllByMemberUuid(String memberUuid, Pageable pageable);
 

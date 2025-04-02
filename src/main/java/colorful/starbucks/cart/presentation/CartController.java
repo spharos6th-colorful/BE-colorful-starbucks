@@ -48,6 +48,7 @@ public class CartController {
     @GetMapping
     public ApiResponse<CartListResponseVo> getCartList(Authentication authentication,
                                                        @PageableDefault(size = 3) Pageable pageable) {
+
         return ApiResponse.ok(
                 "장바구니 목록 조회를 성공적으로 완료했습니다",
                 cartService.getCartList(CartGetListRequestDto.from(authentication.getName(), pageable)).toVo()
@@ -65,12 +66,11 @@ public class CartController {
         );
     }
 
-    @GetMapping("/detail/{cartId}")
-    public ApiResponse<CartProductDetailResponseVo> getCartProductDetails(Authentication authentication,
-                                                                          @PathVariable Long cartId) {
+    @GetMapping("/{cartId}")
+    public ApiResponse<CartProductDetailResponseVo> getCartProductDetails(@PathVariable Long cartId) {
 
         return ApiResponse.ok("장바구니 상품 상세 조회에 성공했습니다.",
-                cartService.getCartProductDetail(cartId, authentication.getName()).toVo()
+                cartService.getCartProductDetail(cartId).toVo()
         );
     }
     @PutMapping("/checked")
