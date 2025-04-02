@@ -12,18 +12,21 @@ public class ProductCategoryListCreateRequestDto {
     private String topCategoryName;
     private Long bottomCategoryId;
     private String bottomCategoryName;
+    private int price;
 
     @Builder
     private ProductCategoryListCreateRequestDto(Long productCode,
                                                 Long topCategoryId,
                                                 String topCategoryName,
                                                 Long bottomCategoryId,
-                                                String bottomCategoryName) {
+                                                String bottomCategoryName,
+                                                int price) {
         this.productCode = productCode;
         this.topCategoryId = topCategoryId;
         this.topCategoryName = topCategoryName;
         this.bottomCategoryId = bottomCategoryId;
         this.bottomCategoryName = bottomCategoryName;
+        this.price = price;
     }
 
     public static ProductCategoryListCreateRequestDto from(
@@ -35,6 +38,7 @@ public class ProductCategoryListCreateRequestDto {
                 .topCategoryName(productCategoryListCreateRequestVo.getTopCategoryName())
                 .bottomCategoryId(productCategoryListCreateRequestVo.getBottomCategoryId())
                 .bottomCategoryName(productCategoryListCreateRequestVo.getBottomCategoryName())
+                .price(productCategoryListCreateRequestVo.getPrice())
                 .build();
     }
 
@@ -45,6 +49,7 @@ public class ProductCategoryListCreateRequestDto {
                 .topCategoryName(topCategoryName)
                 .bottomCategoryId(bottomCategoryId)
                 .bottomCategoryName(bottomCategoryName)
+                .price(price)
                 .build();
     }
 

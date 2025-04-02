@@ -10,4 +10,5 @@ public class ProductCategoryListCreateRequestVo {
     private String topCategoryName;
     private Long bottomCategoryId;
     private String bottomCategoryName;
+    private int price;
 }
