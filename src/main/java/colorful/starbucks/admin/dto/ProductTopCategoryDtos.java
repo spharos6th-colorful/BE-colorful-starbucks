@@ -12,13 +12,13 @@ import java.util.List;
 public class ProductTopCategoryDtos {
 
     private List<ProductTopCategoryDto> content;
-    private Long totalElements;
-    private Integer totalPages;
+    private long totalElements;
+    private int totalPages;
 
     @Builder
     private ProductTopCategoryDtos(List<ProductTopCategoryDto> content,
-                                   Long totalElements,
-                                   Integer totalPages) {
+                                   long totalElements,
+                                   int totalPages) {
         this.content = content;
         this.totalElements = totalElements;
         this.totalPages = totalPages;
