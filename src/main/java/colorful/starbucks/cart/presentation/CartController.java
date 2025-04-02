@@ -4,7 +4,7 @@ import colorful.starbucks.cart.application.CartService;
 import colorful.starbucks.cart.dto.request.*;
 import colorful.starbucks.cart.vo.request.*;
 import colorful.starbucks.cart.vo.response.CartListResponseVo;
-import colorful.starbucks.cart.vo.response.CartProductDetailResponseVo;
+import colorful.starbucks.cart.vo.response.CartDetailResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -59,9 +59,9 @@ public class CartController {
     @PutMapping("/{cartId}")
     public ApiResponse<Void> editCartProductOptions(Authentication authentication,
                                                     @PathVariable Long cartId,
-                                                    @RequestBody CartProductOptionEditRequestVo cartProductOptionEditRequestVo){
+                                                    @RequestBody CartOptionEditRequestVo cartOptionEditRequestVo){
 
-        cartService.editCartProductOptions(CartProductOptionEditRequestDto.from(cartProductOptionEditRequestVo, cartId, authentication.getName()));
+        cartService.editCartOptions(CartOptionEditRequestDto.from(cartOptionEditRequestVo, cartId, authentication.getName()));
         return ApiResponse.ok(
                 "장바구니 옵션 변경 완료했습니다.",
                 null
@@ -69,17 +69,17 @@ public class CartController {
     }
 
     @GetMapping("/{cartId}")
-    public ApiResponse<CartProductDetailResponseVo> getCartProductDetails(@PathVariable Long cartId) {
+    public ApiResponse<CartDetailResponseVo> getCartProductDetails(@PathVariable Long cartId) {
 
         return ApiResponse.ok("장바구니 상품 상세 조회에 성공했습니다.",
-                cartService.getCartProductDetail(cartId).toVo()
+                cartService.getCartDetail(cartId).toVo()
         );
     }
     @PutMapping("/checked")
-    public ApiResponse<CartProductCheckRequestVo> updateCartProductCheck(Authentication authentication,
-                                                                         @RequestBody List<CartProductCheckRequestVo> cartProductCheckRequestVos) {
+    public ApiResponse<CartCheckRequestVo> updateCartProductCheck(Authentication authentication,
+                                                                  @RequestBody List<CartCheckRequestVo> cartCheckRequestVos) {
 
-        cartService.updateCartProductChecked(CartProductCheckRequestDto.from(cartProductCheckRequestVos, authentication.getName()));
+        cartService.updateCartChecked(CartCheckRequestDto.from(cartCheckRequestVos, authentication.getName()));
         return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
         null);
     }

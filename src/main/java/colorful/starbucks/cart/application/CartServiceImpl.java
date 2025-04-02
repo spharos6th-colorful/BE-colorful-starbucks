@@ -4,7 +4,7 @@ package colorful.starbucks.cart.application;
 import colorful.starbucks.cart.domain.Cart;
 import colorful.starbucks.cart.dto.request.*;
 import colorful.starbucks.cart.dto.response.CartListResponseDto;
-import colorful.starbucks.cart.dto.response.CartProductDetailResponseDto;
+import colorful.starbucks.cart.dto.response.CartDetailResponseDto;
 import colorful.starbucks.cart.infrastructure.CartRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
@@ -59,28 +59,28 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void editCartProductOptions(CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
+    public void editCartOptions(CartOptionEditRequestDto cartOptionEditRequestDto) {
 
-            Cart cart = cartRepository.findByIdAndMemberUuid(cartProductOptionEditRequestDto.getCartId(), cartProductOptionEditRequestDto.getMemberUuid())
+            Cart cart = cartRepository.findByIdAndMemberUuid(cartOptionEditRequestDto.getCartId(), cartOptionEditRequestDto.getMemberUuid())
                     .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
-            cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
-                    cartProductOptionEditRequestDto.getQuantity());
+            cart.updateProductOption(cartOptionEditRequestDto.getProductDetailCode(),
+                    cartOptionEditRequestDto.getQuantity());
 
     }
 
     @Override
-    public CartProductDetailResponseDto getCartProductDetail(Long cartId) {
+    public CartDetailResponseDto getCartDetail(Long cartId) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-        return CartProductDetailResponseDto.from(cart);
+        return CartDetailResponseDto.from(cart);
 
     }
 
     @Transactional
     @Override
-    public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDtos) {
+    public void updateCartChecked(List<CartCheckRequestDto> cartCheckRequestDtos) {
 
-        cartProductCheckRequestDtos
+        cartCheckRequestDtos
                 .forEach(c-> {
                     cartRepository.findByMemberUuidAndId(c.getMemberUuid(), c.getId())
                             .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))

@@ -1,10 +1,10 @@
 package colorful.starbucks.cart.dto.response;
 
 import colorful.starbucks.cart.domain.Cart;
-import colorful.starbucks.cart.vo.response.CartProductDetailResponseVo;
+import colorful.starbucks.cart.vo.response.CartDetailResponseVo;
 import lombok.Builder;
 
-public class CartProductDetailResponseDto {
+public class CartDetailResponseDto {
     private boolean checked;
     private String productDetailCode;
     private Long productCode;
@@ -12,7 +12,7 @@ public class CartProductDetailResponseDto {
     private String carvingContent;
 
     @Builder
-    private CartProductDetailResponseDto(boolean checked, String productDetailCode, Long productCode, int quantity, String carvingContent) {
+    private CartDetailResponseDto(boolean checked, String productDetailCode, Long productCode, int quantity, String carvingContent) {
         this.checked = checked;
         this.productDetailCode = productDetailCode;
         this.productCode = productCode;
@@ -20,8 +20,8 @@ public class CartProductDetailResponseDto {
         this.carvingContent = carvingContent;
     }
 
-    public CartProductDetailResponseVo toVo() {
-        return CartProductDetailResponseVo.builder()
+    public CartDetailResponseVo toVo() {
+        return CartDetailResponseVo.builder()
                 .checked(checked)
                 .productDetailCode(productDetailCode)
                 .productCode(productCode)
@@ -30,8 +30,8 @@ public class CartProductDetailResponseDto {
                 .build();
     }
 
-    public static CartProductDetailResponseDto from(Cart cart) {
-        return CartProductDetailResponseDto.builder()
+    public static CartDetailResponseDto from(Cart cart) {
+        return CartDetailResponseDto.builder()
                 .checked(cart.isChecked())
                 .productDetailCode(cart.getProductDetailCode())
                 .productCode(cart.getProductCode())

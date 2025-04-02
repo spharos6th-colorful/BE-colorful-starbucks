@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CartProductDetailResponseVo {
+public class CartDetailResponseVo {
 
     private boolean checked;
     private String productDetailCode;
@@ -13,7 +13,7 @@ public class CartProductDetailResponseVo {
     private String carvingContent;
 
     @Builder
-    private CartProductDetailResponseVo(boolean checked, String productDetailCode, long productCode, int quantity, String carvingContent) {
+    private CartDetailResponseVo(boolean checked, String productDetailCode, long productCode, int quantity, String carvingContent) {
         this.checked = checked;
         this.productDetailCode = productDetailCode;
         this.productCode = productCode;

@@ -3,7 +3,7 @@ package colorful.starbucks.cart.vo.request;
 import lombok.Getter;
 
 @Getter
-public class CartProductOptionEditRequestVo {
+public class CartOptionEditRequestVo {
 
     private Long productCode;
     private String productDetailCode;
