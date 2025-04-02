@@ -24,7 +24,7 @@ public enum ResponseStatus {
     NO_EXIST_OAUTH(HttpStatus.NOT_FOUND, false, 406, "소셜 로그인 정보가 존재하지 않습니다."),
 
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, false, 404, "리소스가 존재하지 않습니다."),
-    CONFLICT_REQUEST(HttpStatus.CONFLICT, false, 409, "POST 요청에 실패했습니다."),
+    CONFLICT_REQUEST(HttpStatus.CONFLICT, false, 409, "데이터 삽입 요청이 충돌했습니다."),
 
     /**
      * 9xx: 기타 에러
