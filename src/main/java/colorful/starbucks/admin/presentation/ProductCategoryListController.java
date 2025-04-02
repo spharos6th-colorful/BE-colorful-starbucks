@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/product-category-lists")
+@RequestMapping("/api/v1/product-category-list")
 @RequiredArgsConstructor
 public class ProductCategoryListController {
 
