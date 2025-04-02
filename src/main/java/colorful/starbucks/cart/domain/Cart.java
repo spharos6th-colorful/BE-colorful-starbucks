@@ -1,6 +1,6 @@
 package colorful.starbucks.cart.domain;
 
-import colorful.starbucks.cart.dto.request.CartProductCheckRequestDto;
+
 import colorful.starbucks.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,8 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
-
-import java.util.List;
 
 @Entity
 @Getter
