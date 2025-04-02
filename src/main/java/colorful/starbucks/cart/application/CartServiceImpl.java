@@ -11,12 +11,10 @@ import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +34,7 @@ public class CartServiceImpl implements CartService {
 
     private void addCartProduct(CartAddRequestDto cartAddRequestDto) {
 
-        Cart cart = cartRepository.findByMemberUuidAndProductDetailCode(
+        Cart cart = cartRepository.findByMemberUuidAndProductDetailCodeAndIsDeletedIsFalse(
                 cartAddRequestDto.getMemberUuid(), cartAddRequestDto.getProductDetailCode()).orElseGet(() ->
                 cartRepository.save(cartAddRequestDto.toEntity(cartAddRequestDto.getMemberUuid())
                 ));
@@ -49,7 +47,7 @@ public class CartServiceImpl implements CartService {
     public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
 
         cartDeleteRequestDtos.stream()
-                .map(cartProduct -> cartRepository.findById(cartProduct.getId())
+                .map(cartProduct -> cartRepository.findByIdAndMemberUuid(cartProduct.getId(),cartProduct.getMemberUuid())
                         .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND)))
                 .forEach(cart -> cartRepository.deleteById(cart.getId()));
     }
@@ -65,15 +63,13 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void editCartProductOptions(CartProductOptionEditRequestDto cartProductOptionEditRequestDto) {
-        try {
+
             Cart cart = cartRepository.findById(cartProductOptionEditRequestDto.getCartId())
                     .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
             cart.updateProductOption(cartProductOptionEditRequestDto.getProductDetailCode(),
                     cartProductOptionEditRequestDto.getQuantity());
-        } catch (Exception e) {
-            throw new BaseException(ResponseStatus.DATABASE_ERROR);
-        }
+
     }
 
     @Override

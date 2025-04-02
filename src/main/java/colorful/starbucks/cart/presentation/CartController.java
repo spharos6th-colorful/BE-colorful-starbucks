@@ -35,9 +35,10 @@ public class CartController {
     }
 
     @DeleteMapping
-    public ApiResponse<Void> deleteCart(@RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
+    public ApiResponse<Void> deleteCart(Authentication authentication,
+                                        @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
 
-        cartService.removeCartList(CartDeleteRequestDto.fromList(cartDeleteRequestVos));
+        cartService.removeCartList(CartDeleteRequestDto.fromList(cartDeleteRequestVos, authentication.getName()));
         return ApiResponse.of(
                 HttpStatus.NO_CONTENT,
                 "장바구니 상품 삭제를 완료했습니다",

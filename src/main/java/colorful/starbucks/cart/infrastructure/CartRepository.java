@@ -19,7 +19,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     Optional<Cart> findByMemberUuidAndId(String memberUuid, Long id);
 
-    @Query(value = "select c from Cart c " +
-            "where c.memberUuid = :memberUuid and c.productDetailCode = :productDetailCode and c.isDeleted = false")
-    Optional<Cart> findByMemberUuidAndProductDetailCode(String memberUuid, String productDetailCode);
+    Optional<Cart> findByMemberUuidAndProductDetailCodeAndIsDeletedIsFalse(String memberUuid, String productDetailCode);
+
+    Optional<Cart> findByIdAndMemberUuid(Long id, String memberUuid);
 }
