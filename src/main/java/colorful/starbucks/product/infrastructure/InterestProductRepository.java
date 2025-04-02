@@ -6,16 +6,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface InterestProductRepository extends JpaRepository<InterestProduct, Long> {
 
-    void deleteByMemberUuidAndProductCode(String memberUuid, String productCode);
+    @Query(countQuery = "SELECT count(ip) FROM InterestProduct ip " +
+            "WHERE ip.memberUuid = :memberUuid " +
+            "AND ip.isDeleted = false")
+    Page<InterestProduct> findAllByMemberUuidAndIsDeletedIsFalse(String memberUuid, Pageable pageable);
 
-    boolean existsInterestProductByMemberUuidAndProductCode(String memberUuid, String productCode);
+    void deleteByIdAndMemberUuid(Long interestProductId, String memberUuid);
 
-    @Query(value = "select ip from InterestProduct ip " +
-            "where ip.memberUuid = :memberUuid and ip.isDeleted = false",
-            countQuery = "select count(ip) from InterestProduct ip " +
-                    "where ip.memberUuid = :memberUuid " +
-                    "and ip.isDeleted = false")
-    Page<InterestProduct> findAllByMemberUuid(String memberUuid, Pageable pageable);
+    Optional<InterestProduct> findByIdAndMemberUuid(Long interestProductId, String memberUuid);
 }

@@ -1,5 +1,6 @@
 package colorful.starbucks.product.application;
 
+import colorful.starbucks.product.dto.request.ProductDetailCodeAndQuantityRequestDto;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
 import colorful.starbucks.product.dto.response.ProductDetailCodeAndQuantityResponseDto;
 import colorful.starbucks.product.dto.response.ProductDetailResponseDto;
@@ -13,7 +14,7 @@ public interface ProductDetailService {
     ProductOptionListResponseDto getProductOptionList(String productCode);
 
     ProductDetailCodeAndQuantityResponseDto getProductDetailWithOptions(
-            String productCode, Long sizeId, Long colorId
+            ProductDetailCodeAndQuantityRequestDto productDetailCodeAndQuantityRequestDto
     );
 
     ProductDetailResponseDto getProductDetail(String productDetailCode);

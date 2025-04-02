@@ -3,7 +3,7 @@ package colorful.starbucks.product.vo.request;
 import lombok.Getter;
 
 @Getter
-public class InterestProductCreateRequestVo {
+public class InterestProductAddRequestVo {
 
     private String productCode;
     private String productName;

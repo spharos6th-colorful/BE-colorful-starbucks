@@ -2,8 +2,8 @@ package colorful.starbucks.product.application;
 
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
-import colorful.starbucks.product.dto.request.InterestProductCreateRequestDto;
-import colorful.starbucks.product.dto.response.InterestProductCreateResponseDto;
+import colorful.starbucks.product.domain.InterestProduct;
+import colorful.starbucks.product.dto.request.InterestProductAddRequestDto;
 import colorful.starbucks.product.dto.response.InterestProductListResponseDto;
 import colorful.starbucks.product.infrastructure.InterestProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,31 +20,24 @@ public class InterestProductServiceImpl implements InterestProductService {
 
     @Transactional
     @Override
-    public InterestProductCreateResponseDto createInterestProduct(
-            InterestProductCreateRequestDto interestProductCreateRequestDto
-    ) {
-
-        return InterestProductCreateResponseDto.from(
-                interestProductRepository.save(interestProductCreateRequestDto.toEntity())
-        );
+    public void addInterestProduct(InterestProductAddRequestDto interestProductAddRequestDto) {
+        interestProductRepository.save(interestProductAddRequestDto.toEntity());
     }
 
     @Transactional
     @Override
-    public void removeInterestProduct(String memberUuid, String productCode) {
+    public void removeInterestProduct(Long interestProductId, String memberUuid) {
+        interestProductRepository.findByIdAndMemberUuid(interestProductId, memberUuid)
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
-        if (!interestProductRepository.existsInterestProductByMemberUuidAndProductCode(memberUuid, productCode)) {
-            throw new BaseException(ResponseStatus.RESOURCE_NOT_FOUND);
-        }
-
-        interestProductRepository.deleteByMemberUuidAndProductCode(memberUuid, productCode);
+        interestProductRepository.deleteById(interestProductId);
     }
 
     @Override
-    public InterestProductListResponseDto getInterestProductList(String memberUuid, Pageable pageable) {
-
+    public InterestProductListResponseDto getInterestProductList(String memberUuid,
+                                                                 Pageable pageable) {
         return InterestProductListResponseDto.from(
-                interestProductRepository.findAllByMemberUuid(memberUuid, pageable)
+                interestProductRepository.findAllByMemberUuidAndIsDeletedIsFalse(memberUuid, pageable)
         );
     }
 }

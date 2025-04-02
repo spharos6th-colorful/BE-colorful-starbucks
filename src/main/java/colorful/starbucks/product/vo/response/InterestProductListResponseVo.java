@@ -1,6 +1,6 @@
 package colorful.starbucks.product.vo.response;
 
-import colorful.starbucks.product.dto.InterestProductDto;
+import colorful.starbucks.product.vo.InterestProductVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,14 +9,17 @@ import java.util.List;
 @Getter
 public class InterestProductListResponseVo {
 
+    private List<InterestProductVo> content;
     private int totalPages;
     private long totalElements;
-    private List<InterestProductDto> interestProductList;
 
     @Builder
-    private InterestProductListResponseVo(int totalPages, long totalElements, List<InterestProductDto> interestProductList) {
+
+    public InterestProductListResponseVo(List<InterestProductVo> content,
+                                         int totalPages,
+                                         long totalElements) {
+        this.content = content;
         this.totalPages = totalPages;
         this.totalElements = totalElements;
-        this.interestProductList = interestProductList;
     }
 }

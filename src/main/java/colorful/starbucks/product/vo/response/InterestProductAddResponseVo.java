@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class InterestProductCreateResponseVo {
+public class InterestProductAddResponseVo {
 
     private String productCode;
     private String productName;
@@ -12,7 +12,7 @@ public class InterestProductCreateResponseVo {
     private String productThumbnailUrl;
 
     @Builder
-    private InterestProductCreateResponseVo(
+    private InterestProductAddResponseVo(
             String productCode,
             String productName,
             int price,
