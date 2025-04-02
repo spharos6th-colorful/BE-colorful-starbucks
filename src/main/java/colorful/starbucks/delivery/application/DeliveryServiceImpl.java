@@ -5,7 +5,9 @@ import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.delivery.domain.DeliveryAddress;
 import colorful.starbucks.delivery.dto.request.DeliveryAddRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
-import colorful.starbucks.delivery.dto.response.DeliveryIndividualAddressResponseDto;
+import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
+import colorful.starbucks.delivery.dto.request.DeliveryAddressRequestDto;
+import colorful.starbucks.delivery.dto.response.DeliveryAddressResponseDto;
 import colorful.starbucks.delivery.generator.MemberAddressUuidGenerator;
 import colorful.starbucks.delivery.infrastructure.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,10 +27,10 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void addAddress(DeliveryAddRequestDto deliveryAddRequestDto) {
 
-        if(deliveryRepository.existsByMemberUuidAndZoneCodeAndAddressAndDetailAddress(deliveryAddRequestDto.getMemberUuid(),
+        if (deliveryRepository.existsByMemberUuidAndZoneCodeAndAddressAndDetailAddress(deliveryAddRequestDto.getMemberUuid(),
                 deliveryAddRequestDto.getZoneCode(),
                 deliveryAddRequestDto.getAddress(),
-                deliveryAddRequestDto.getDetailAddress())){
+                deliveryAddRequestDto.getDetailAddress())) {
             throw new BaseException(ResponseStatus.DUPLICATED_DELIVERY, "이미 등록된 배송지 입니다.");
         }
 
@@ -41,36 +42,34 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Transactional
     @Override
-    public void deleteAddress(String memberUuid, String memberAddressUuid) {
-        deliveryRepository.deleteByMemberUuidAndMemberAddressUuid(memberUuid, memberAddressUuid);
+    public void deleteAddress(DeliveryDeleteRequestDto deliveryDeleteRequestDto) {
+        deliveryRepository.deleteByMemberUuidAndMemberAddressUuid(deliveryDeleteRequestDto.getMemberUuid(),
+                deliveryDeleteRequestDto.getMemberAddressUuid());
     }
 
 
     @Override
-    public DeliveryIndividualAddressResponseDto getIndividualAddress(String memberUuid, String memberAddressUuid) {
-        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(memberUuid, memberAddressUuid).orElseThrow(()-> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-        return DeliveryIndividualAddressResponseDto.from(deliveryAddress);
+    public DeliveryAddressResponseDto getIndividualAddress(DeliveryAddressRequestDto deliveryAddressRequestDto) {
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(
+                        deliveryAddressRequestDto.getMemberUuid(),
+                        deliveryAddressRequestDto.getMemberAddressUuid()
+                ).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        return DeliveryAddressResponseDto.from(deliveryAddress);
     }
 
     @Transactional
     @Override
-    public void editAddress(String memberUuid, String memberAddressUuid, DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
-        // 기본 배송지로 변경한 경우
-        if(deliveryAddressEditRequestDto.isDefaultAddress()){
-            DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(memberUuid, true);
+    public void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
+
+        if(deliveryAddressEditRequestDto.isDefaultAddress()) {
+            DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(deliveryAddressEditRequestDto.getMemberUuid(), true);
             deliveryAddress.updateIsDefaultAddress(false);
         }
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryAddressEditRequestDto.getMemberUuid(),
+                deliveryAddressEditRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
-        if(deliveryRepository.existsByMemberUuidAndZoneCodeAndAddressAndDetailAddress(memberUuid,
-                deliveryAddressEditRequestDto.getZoneCode(),
-                deliveryAddressEditRequestDto.getAddress(),
-                deliveryAddressEditRequestDto.getDetailAddress())){
-            throw new BaseException(ResponseStatus.DUPLICATED_DELIVERY, "이미 등록된 배송지 입니다.");
-        }
-        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(memberUuid, memberAddressUuid).orElseThrow(()-> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-
+        deliveryAddress.editAddress(deliveryAddressEditRequestDto);
 
     }
-
 
 }

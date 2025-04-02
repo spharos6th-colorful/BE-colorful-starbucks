@@ -1,6 +1,7 @@
 package colorful.starbucks.delivery.domain;
 
 import colorful.starbucks.common.entity.BaseEntity;
+import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -57,4 +58,18 @@ public class DeliveryAddress extends BaseEntity {
         this.memberUuid = memberUuid;
         this.memberAddressUuid = memberAddressUuid;
     }
+
+    public void updateIsDefaultAddress(boolean isDefaultAddress) {
+        this.isDefaultAddress = isDefaultAddress;
+    }
+    public void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
+        this.address = deliveryAddressEditRequestDto.getAddress();
+        this.zoneCode = deliveryAddressEditRequestDto.getZoneCode();
+        this.detailAddress = deliveryAddressEditRequestDto.getDetailAddress();
+        this.phoneNumber = deliveryAddressEditRequestDto.getPhoneNumber();
+        this.addressNickname = deliveryAddressEditRequestDto.getAddressNickname();
+        this.receiverName = deliveryAddressEditRequestDto.getReceiverName();
+        this.isDefaultAddress = deliveryAddressEditRequestDto.isDefaultAddress();
+    }
+
 }

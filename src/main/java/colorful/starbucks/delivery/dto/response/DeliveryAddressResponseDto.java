@@ -1,12 +1,12 @@
 package colorful.starbucks.delivery.dto.response;
 
 import colorful.starbucks.delivery.domain.DeliveryAddress;
-import colorful.starbucks.delivery.vo.response.DeliveryIndividualAddressResponseVo;
+import colorful.starbucks.delivery.vo.response.DeliveryAddressResponseVo;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class DeliveryIndividualAddressResponseDto {
+public class DeliveryAddressResponseDto {
 
     private String memberAddressUuid;
     private String addressNickname;
@@ -18,7 +18,7 @@ public class DeliveryIndividualAddressResponseDto {
     private String phoneNumber;
 
     @Builder
-    private DeliveryIndividualAddressResponseDto(String memberAddressUuid, String addressNickname, String receiverName, String address, String zoneCode, boolean isDefaultAddress, String detailAddress, String phoneNumber) {
+    private DeliveryAddressResponseDto(String memberAddressUuid, String addressNickname, String receiverName, String address, String zoneCode, boolean isDefaultAddress, String detailAddress, String phoneNumber) {
         this.memberAddressUuid = memberAddressUuid;
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;
@@ -29,8 +29,8 @@ public class DeliveryIndividualAddressResponseDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public DeliveryIndividualAddressResponseVo toVo() {
-        return DeliveryIndividualAddressResponseVo.builder()
+    public DeliveryAddressResponseVo toVo() {
+        return DeliveryAddressResponseVo.builder()
                 .memberAddressUuid(memberAddressUuid)
                 .addressNickname(addressNickname)
                 .receiverName(receiverName)
@@ -42,8 +42,8 @@ public class DeliveryIndividualAddressResponseDto {
                 .build();
     }
 
-    public static DeliveryIndividualAddressResponseDto from(DeliveryAddress deliveryAddress) {
-        return DeliveryIndividualAddressResponseDto.builder()
+    public static DeliveryAddressResponseDto from(DeliveryAddress deliveryAddress) {
+        return DeliveryAddressResponseDto.builder()
                 .memberAddressUuid(deliveryAddress.getMemberUuid())
                 .addressNickname(deliveryAddress.getAddressNickname())
                 .receiverName(deliveryAddress.getReceiverName())

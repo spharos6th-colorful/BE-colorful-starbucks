@@ -2,12 +2,14 @@ package colorful.starbucks.delivery.application;
 
 import colorful.starbucks.delivery.dto.request.DeliveryAddRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
-import colorful.starbucks.delivery.dto.response.DeliveryIndividualAddressResponseDto;
+import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
+import colorful.starbucks.delivery.dto.request.DeliveryAddressRequestDto;
+import colorful.starbucks.delivery.dto.response.DeliveryAddressResponseDto;
 
 public interface DeliveryService {
 
     void addAddress(DeliveryAddRequestDto deliveryAddRequestDto);
-    void deleteAddress(String memberUuid, String memberAddressUuid);
-    DeliveryIndividualAddressResponseDto getIndividualAddress(String memberUuid, String memberAddressUuid);
-    void editAddress(String memberUuid, String memberAddressUuid, DeliveryAddressEditRequestDto deliveryAddressEditRequestDto);
+    void deleteAddress(DeliveryDeleteRequestDto deliveryDeleteRequestDto);
+    DeliveryAddressResponseDto getIndividualAddress(DeliveryAddressRequestDto deliveryAddressRequestDto);
+    void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto);
 }
