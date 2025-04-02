@@ -1,7 +1,7 @@
 package colorful.starbucks.admin.infrastructure;
 
-import colorful.starbucks.admin.dto.response.ProductCategoryCursorResponseDto;
 import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
+import colorful.starbucks.admin.dto.response.ProductCategoryCursorResponseDto;
 import colorful.starbucks.common.util.CursorPage;
 
 public interface ProductCategoryListRepositoryCustom {
