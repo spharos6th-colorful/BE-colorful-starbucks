@@ -39,7 +39,7 @@ public class CartAddRequestDto {
                 .quantity(cartAddRequestVo.getQuantity())
                 .build();
     }
-    public static List<CartAddRequestDto> fromList(List<CartAddRequestVo> cartAddRequestVos, String memberUuid) {
+    public static List<CartAddRequestDto> from(List<CartAddRequestVo> cartAddRequestVos, String memberUuid) {
         return cartAddRequestVos.stream()
                 .map(vo -> from(vo, memberUuid))
                 .collect(Collectors.toList());

@@ -27,7 +27,7 @@ public class CartDeleteRequestDto {
     }
 
 
-    public static List<CartDeleteRequestDto> fromList(List<CartDeleteRequestVo> cartDeleteRequestVos, String memberUuid) {
+    public static List<CartDeleteRequestDto> from(List<CartDeleteRequestVo> cartDeleteRequestVos, String memberUuid) {
         return cartDeleteRequestVos.stream()
                 .map(vo -> from(vo, memberUuid))
                 .collect(Collectors.toList());

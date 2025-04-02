@@ -71,7 +71,7 @@ public class Cart extends BaseEntity {
         this.checked = checked;
     }
 
-    public void updateQuantity(int newQuantity) {
-        this.quantity = newQuantity;
+    public void addQuantity(int newQuantity) {
+        this.quantity = newQuantity + this.quantity;
     }
 }

@@ -28,7 +28,7 @@ public class CartProductCheckRequestDto {
                 .memberUuid(memberUuid)
                 .build();
     }
-    public static List<CartProductCheckRequestDto> fromList(List<CartProductCheckRequestVo> cartProductCheckRequestVos, String memberUuid) {
+    public static List<CartProductCheckRequestDto> from(List<CartProductCheckRequestVo> cartProductCheckRequestVos, String memberUuid) {
         return cartProductCheckRequestVos.stream()
                 .map(vo -> from(vo, memberUuid))
                 .collect(Collectors.toList());

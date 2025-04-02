@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
                 cartAddRequestDto.getMemberUuid(), cartAddRequestDto.getProductDetailCode()).orElseGet(() ->
                 cartRepository.save(cartAddRequestDto.toEntity(cartAddRequestDto.getMemberUuid())
                 ));
-        cart.updateQuantity(cartAddRequestDto.getQuantity() + cart.getQuantity());
+        cart.addQuantity(cartAddRequestDto.getQuantity());
 
     }
 
@@ -53,7 +53,7 @@ public class CartServiceImpl implements CartService {
     public CartListResponseDto getCartList(String memberUuid, Pageable pageable) {
 
         return CartListResponseDto.from(
-                cartRepository.findAllByMemberUuid(memberUuid, pageable)
+                cartRepository.findAllByMemberUuidAndIsDeletedIsFalse(memberUuid, pageable)
         );
     }
 

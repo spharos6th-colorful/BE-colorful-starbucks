@@ -26,7 +26,7 @@ public class CartController {
     public ApiResponse<Void> createCart(Authentication authentication,
                                         @RequestBody List<CartAddRequestVo> cartAddRequestVos) {
 
-        cartService.addCart(CartAddRequestDto.fromList(cartAddRequestVos, authentication.getName()));
+        cartService.addCart(CartAddRequestDto.from(cartAddRequestVos, authentication.getName()));
 
         return ApiResponse.ok(
                 "장바구니 담기를 성공적으로 완료했습니다",
@@ -38,7 +38,7 @@ public class CartController {
     public ApiResponse<Void> deleteCart(Authentication authentication,
                                         @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
 
-        cartService.removeCartList(CartDeleteRequestDto.fromList(cartDeleteRequestVos, authentication.getName()));
+        cartService.removeCartList(CartDeleteRequestDto.from(cartDeleteRequestVos, authentication.getName()));
         return ApiResponse.of(
                 HttpStatus.NO_CONTENT,
                 "장바구니 상품 삭제를 완료했습니다",
@@ -79,7 +79,7 @@ public class CartController {
     public ApiResponse<CartProductCheckRequestVo> updateCartProductCheck(Authentication authentication,
                                                                          @RequestBody List<CartProductCheckRequestVo> cartProductCheckRequestVos) {
 
-        cartService.updateCartProductChecked(CartProductCheckRequestDto.fromList(cartProductCheckRequestVos, authentication.getName()));
+        cartService.updateCartProductChecked(CartProductCheckRequestDto.from(cartProductCheckRequestVos, authentication.getName()));
         return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
         null);
     }

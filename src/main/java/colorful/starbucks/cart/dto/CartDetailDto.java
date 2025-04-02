@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CartProductDetailDto {
+public class CartDetailDto {
     private Long cartId;
     private boolean checked;
     private Long productCode;
@@ -14,12 +14,12 @@ public class CartProductDetailDto {
     private String carvingContent;
 
     @Builder
-    public CartProductDetailDto(Long cartId,
-                                boolean checked,
-                                Long productCode,
-                                int quantity,
-                                String productDetailCode,
-                                String carvingContent) {
+    public CartDetailDto(Long cartId,
+                         boolean checked,
+                         Long productCode,
+                         int quantity,
+                         String productDetailCode,
+                         String carvingContent) {
         this.cartId = cartId;
         this.checked = checked;
         this.productCode = productCode;
@@ -28,8 +28,8 @@ public class CartProductDetailDto {
         this.carvingContent = carvingContent;
     }
 
-    public static CartProductDetailDto from(Cart cart) {
-        return CartProductDetailDto.builder()
+    public static CartDetailDto from(Cart cart) {
+        return CartDetailDto.builder()
                 .cartId(cart.getId())
                 .checked(cart.isChecked())
                 .productCode(cart.getProductCode())
