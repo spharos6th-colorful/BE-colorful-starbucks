@@ -12,22 +12,25 @@ public class CartProductCheckRequestDto {
 
     private Long id;
     private boolean checked;
+    private String memberUuid;
 
     @Builder
-    public CartProductCheckRequestDto(Long id, boolean checked) {
+    public CartProductCheckRequestDto(Long id, boolean checked, String memberUuid) {
         this.id = id;
         this.checked = checked;
+        this.memberUuid = memberUuid;
     }
 
-    private static CartProductCheckRequestDto from(CartProductCheckRequestVo cartProductCheckRequestVo) {
+    private static CartProductCheckRequestDto from(CartProductCheckRequestVo cartProductCheckRequestVo, String memberUuid) {
         return CartProductCheckRequestDto.builder()
                 .id(cartProductCheckRequestVo.getId())
                 .checked(cartProductCheckRequestVo.isChecked())
+                .memberUuid(memberUuid)
                 .build();
     }
-    public static List<CartProductCheckRequestDto> fromList(List<CartProductCheckRequestVo> cartProductCheckRequestVos) {
+    public static List<CartProductCheckRequestDto> fromList(List<CartProductCheckRequestVo> cartProductCheckRequestVos, String memberUuid) {
         return cartProductCheckRequestVos.stream()
-                .map(CartProductCheckRequestDto::from)
+                .map(vo -> from(vo, memberUuid))
                 .collect(Collectors.toList());
     }
 }

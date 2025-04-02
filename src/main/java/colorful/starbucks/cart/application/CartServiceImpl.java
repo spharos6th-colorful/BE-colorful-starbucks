@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.AbstractMap;
 import java.util.List;
 
 @Service
@@ -81,18 +82,16 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDto, String memberUuid) {
-        try {
-            for (CartProductCheckRequestDto checkProduct : cartProductCheckRequestDto) {
-                Cart cart = cartRepository.findByMemberUuidAndId(memberUuid, checkProduct.getId())
-                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-                cart.updateProductChecked(checkProduct.isChecked());
-            }
-        } catch (Exception e) {
-            throw new BaseException(ResponseStatus.DATABASE_ERROR);
-        }
-    }
+    public void updateCartProductChecked(List<CartProductCheckRequestDto> cartProductCheckRequestDtos) {
 
+        cartProductCheckRequestDtos.stream()
+                .map(checkProduct-> { Cart cart = cartRepository.findByMemberUuidAndId(checkProduct.getMemberUuid(),checkProduct.getId())
+                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+                    return new AbstractMap.SimpleEntry<>(cart, checkProduct.isChecked());
+                })
+                .forEach(entry -> entry.getKey().updateProductChecked(entry.getValue()));
+
+    }
 
 }
 

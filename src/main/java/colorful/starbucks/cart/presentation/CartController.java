@@ -77,9 +77,9 @@ public class CartController {
     }
     @PutMapping("/checked")
     public ApiResponse<CartProductCheckRequestVo> updateCartProductCheck(Authentication authentication,
-                                                                         @RequestBody List<CartProductCheckRequestVo> cartProductCheckRequestVo) {
+                                                                         @RequestBody List<CartProductCheckRequestVo> cartProductCheckRequestVos) {
 
-        cartService.updateCartProductChecked(CartProductCheckRequestDto.fromList(cartProductCheckRequestVo), authentication.getName());
+        cartService.updateCartProductChecked(CartProductCheckRequestDto.fromList(cartProductCheckRequestVos, authentication.getName()));
         return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
         null);
     }
