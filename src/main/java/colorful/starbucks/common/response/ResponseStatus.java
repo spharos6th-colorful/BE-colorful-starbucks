@@ -31,7 +31,7 @@ public enum ResponseStatus {
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "Internal server error"),
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
-    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 902, "Database error"),
+    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "Database error"),
     /**
      * 2000: users service error
      */
@@ -68,7 +68,7 @@ public enum ResponseStatus {
     NO_EXIST_OPTIONS_IN_PRODUCT(HttpStatus.NOT_FOUND, false, 3007, "해당 상품에 옵션이 존재하지 않습니다"),
 
     // Cart
-    DUPLICATED_DELIVERY(HttpStatus.CONFLICT, false, 3009, "이미 등록된 배송지입니다");
+    DUPLICATED_ADDRESS(HttpStatus.CONFLICT, false, 409, "이미 등록된 배송지입니다");
 
 
     private final HttpStatus httpStatus;

@@ -3,10 +3,7 @@ package colorful.starbucks.delivery.application;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.delivery.domain.DeliveryAddress;
-import colorful.starbucks.delivery.dto.request.DeliveryAddRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryAddressRequestDto;
+import colorful.starbucks.delivery.dto.request.*;
 import colorful.starbucks.delivery.dto.response.DeliveryAddressResponseDto;
 import colorful.starbucks.delivery.dto.response.DeliveryAddressesResponseDto;
 import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDto;
@@ -31,14 +28,6 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Transactional
     @Override
     public void addAddress(DeliveryAddRequestDto deliveryAddRequestDto) {
-
-        if (deliveryRepository.existsByMemberUuidAndZoneCodeAndAddressAndDetailAddress(deliveryAddRequestDto.getMemberUuid(),
-                deliveryAddRequestDto.getZoneCode(),
-                deliveryAddRequestDto.getAddress(),
-                deliveryAddRequestDto.getDetailAddress())) {
-            throw new BaseException(ResponseStatus.DUPLICATED_DELIVERY, "이미 등록된 배송지 입니다.");
-        }
-
         Optional<DeliveryAddress> deliveryAddress =
                 deliveryRepository.findByMemberUuid((deliveryAddRequestDto.getMemberUuid()));
         boolean isDefaultAddress = deliveryAddress.isPresent() ? false : true;
@@ -67,13 +56,28 @@ public class DeliveryServiceImpl implements DeliveryService {
     public void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
 
         if (deliveryAddressEditRequestDto.isDefaultAddress()) {
-            DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(deliveryAddressEditRequestDto.getMemberUuid(), true)
-                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-            deliveryAddress.updateIsDefaultAddress(false);
+            changeDefaultAddressToFalse(deliveryAddressEditRequestDto.getMemberUuid());
         }
-
         deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
                 .editAddress(deliveryAddressEditRequestDto);
+    }
+
+    @Transactional
+    @Override
+    public void editDefaultAddress(DeliveryDefaultAddressRequestDto deliveryDefaultAddressRequestDto) {
+
+        changeDefaultAddressToFalse(deliveryDefaultAddressRequestDto.getMemberUuid());
+
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryDefaultAddressRequestDto.getMemberUuid(),
+                deliveryDefaultAddressRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        deliveryAddress.updateIsDefaultAddress(true);
+    }
+
+    public void changeDefaultAddressToFalse(String memberUuid) {
+
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(memberUuid, true)
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        deliveryAddress.updateIsDefaultAddress(false);
 
     }
 
@@ -96,3 +100,5 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
 }
+
+

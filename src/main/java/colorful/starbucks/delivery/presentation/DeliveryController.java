@@ -2,10 +2,7 @@ package colorful.starbucks.delivery.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.delivery.application.DeliveryService;
-import colorful.starbucks.delivery.dto.request.DeliveryAddRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryAddressRequestDto;
+import colorful.starbucks.delivery.dto.request.*;
 import colorful.starbucks.delivery.dto.response.DeliveryAddressesResponseDto;
 import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDto;
 import colorful.starbucks.delivery.vo.request.DeliveryAddRequestVo;
@@ -37,6 +34,7 @@ public class DeliveryController {
         return ApiResponse.ok("배송지 추가가 완료 되었습니다.",
                 null);
     }
+
     @DeleteMapping("/address/{memberAddressUuid}")
     public ApiResponse<Void> deleteAddress(Authentication authentication,
                                            @PathVariable String memberAddressUuid) {
@@ -44,6 +42,7 @@ public class DeliveryController {
         return ApiResponse.ok("배송지 삭제가 완료 되었습니다.",
                 null);
     }
+
     @GetMapping("/{memberAddressUuid}")
     public ApiResponse<DeliveryAddressResponseVo> getIndividualAddress(Authentication authentication,
                                                                        @PathVariable String memberAddressUuid) {
@@ -51,13 +50,14 @@ public class DeliveryController {
         return ApiResponse.ok("개별 배송지 조회가 완료 되었습니다.",
                 deliveryService.getIndividualAddress(DeliveryAddressRequestDto.of(authentication.getName(), memberAddressUuid)).toVo());
     }
+
     @PutMapping("/address/{memberAddressUuid}")
     public ApiResponse<Void> editDeliveryAddress(Authentication authentication,
                                                  @PathVariable String memberAddressUuid,
                                                  @RequestBody DeliveryAddressEditRequestVo deliveryAddressEditRequestVo) {
 
         deliveryService.editAddress(DeliveryAddressEditRequestDto.from(deliveryAddressEditRequestVo, authentication.getName(), memberAddressUuid));
-        return ApiResponse.ok("배송지 수정이 완료 되었습니다.",null);
+        return ApiResponse.ok("배송지 수정이 완료 되었습니다.", null);
     }
 
     @GetMapping("/default-address")
@@ -70,11 +70,20 @@ public class DeliveryController {
     @GetMapping("/addresses")
     public ApiResponse<List<DeliveryAddressesResponseVo>> getAddressList(Authentication authentication) {
 
-       return ApiResponse.ok("배송지 목록 조회가 완료 되었습니다.",
-               deliveryService.getAddressList(authentication.getName())
-                       .stream()
-                       .map(DeliveryAddressesResponseDto::toVo)
-                       .collect(Collectors.toList()));
+        return ApiResponse.ok("배송지 목록 조회가 완료 되었습니다.",
+                deliveryService.getAddressList(authentication.getName())
+                        .stream()
+                        .map(DeliveryAddressesResponseDto::toVo)
+                        .collect(Collectors.toList()));
+    }
+
+    @PutMapping("/default-address/{memberAddressUuid}")
+    public ApiResponse<Void> changeDefaultAddressToTrue(Authentication authentication,
+                                                        @PathVariable String memberAddressUuid) {
+
+        deliveryService.editDefaultAddress(DeliveryDefaultAddressRequestDto.of(memberAddressUuid, authentication.getName()));
+        return ApiResponse.ok("기본 배송지로 변경 완료 했습니다.", null);
+
     }
 
 }

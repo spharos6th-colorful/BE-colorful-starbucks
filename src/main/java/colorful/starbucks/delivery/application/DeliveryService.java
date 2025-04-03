@@ -1,9 +1,6 @@
 package colorful.starbucks.delivery.application;
 
-import colorful.starbucks.delivery.dto.request.DeliveryAddRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
-import colorful.starbucks.delivery.dto.request.DeliveryAddressRequestDto;
+import colorful.starbucks.delivery.dto.request.*;
 import colorful.starbucks.delivery.dto.response.DeliveryAddressResponseDto;
 import colorful.starbucks.delivery.dto.response.DeliveryAddressesResponseDto;
 import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDto;
@@ -18,4 +15,5 @@ public interface DeliveryService {
     void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto);
     DeliveryDefaultAddressResponseDto getDefaultAddress(String memberUuid);
     List<DeliveryAddressesResponseDto> getAddressList(String memberUuid);
+    void editDefaultAddress(DeliveryDefaultAddressRequestDto deliveryDefaultAddressRequestDto);
 }

@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public interface DeliveryRepository extends JpaRepository<DeliveryAddress, Long> {
 
-    Boolean existsByMemberUuidAndZoneCodeAndAddressAndDetailAddress(String memberUuid, String zoneCode, String address, String detailAddress);
-
     Optional<DeliveryAddress> findByMemberUuid(String memberUuid);
 
     void deleteByMemberUuidAndMemberAddressUuid(String memberUuid, String memberAddressUuid);
