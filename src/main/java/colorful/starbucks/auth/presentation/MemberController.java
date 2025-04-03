@@ -16,8 +16,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/sign-up")
-    public ApiResponse<String> signUp(@RequestBody MemberSignUpRequestVo vo) {
-        memberService.signUp(MemberSignUpRequestDto.from(vo));
+    public ApiResponse<String> signUp(@RequestBody MemberSignUpRequestVo memberSignUpRequestVo) {
+        memberService.signUp(MemberSignUpRequestDto.from(memberSignUpRequestVo));
         return ApiResponse.ok("회원가입이 완료되었습니다.", null);
     }
 
@@ -29,31 +29,31 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public ApiResponse<MemberSignInResponseVo> signIn(@RequestBody MemberSignInRequestVo vo) {
+    public ApiResponse<MemberSignInResponseVo> signIn(@RequestBody MemberSignInRequestVo memberSignInRequestVo) {
         return ApiResponse.ok(
                 "로그인에 성공하였습니다.",
-                memberService.signIn(MemberSignInRequestDto.from(vo)).toVo());
+                memberService.signIn(MemberSignInRequestDto.from(memberSignInRequestVo)).toVo());
     }
 
     @PostMapping("/access-token")
-    public ApiResponse<AccessTokenResponseVo> refreshToken(@RequestBody RefreshTokenRequestVo vo) {
+    public ApiResponse<AccessTokenResponseVo> refreshToken(@RequestBody RefreshTokenRequestVo refreshTokenRequestVo) {
         return ApiResponse.ok(
                 "accessToken 재발급에 성공하였습니다.",
-                memberService.reIssueAccessToken(RefreshTokenRequestDto.from(vo)).toVo());
+                memberService.reIssueAccessToken(RefreshTokenRequestDto.from(refreshTokenRequestVo)).toVo());
     }
 
     @PostMapping("/email")
-    public ApiResponse<MemberEmailFindResponseVo> findEmail(@RequestBody MemberEmailFindRequestVo vo) {
+    public ApiResponse<MemberEmailFindResponseVo> findEmail(@RequestBody MemberEmailFindRequestVo memberEmailFindRequestVo) {
         return ApiResponse.ok(
                 "이메일 찾기를 완료하였습니다.",
-                memberService.findEmail(MemberEmailFindRequestDto.from(vo)).toVo());
+                memberService.findEmail(MemberEmailFindRequestDto.from(memberEmailFindRequestVo)).toVo());
     }
 
     @PostMapping("/password")
-    public ApiResponse<MemberPasswordResetResponseVo> resetPassword(@RequestBody MemberPasswordResetRequestVo vo) {
+    public ApiResponse<MemberPasswordResetResponseVo> resetPassword(@RequestBody MemberPasswordResetRequestVo memberPasswordResetRequestVo) {
         return ApiResponse.ok(
                 "비밀번호 찾기를 완료하였습니다.",
-                memberService.findPassword(MemberPasswordResetRequestDto.from(vo)).toVo());
+                memberService.findPassword(MemberPasswordResetRequestDto.from(memberPasswordResetRequestVo)).toVo());
     }
 
     @DeleteMapping("/sign-out")
@@ -62,23 +62,23 @@ public class MemberController {
     }
 
     @PostMapping("/kakao")
-    public ApiResponse<MemberSignInResponseVo> kakaoSignIn(@RequestBody KakaoSignInRequestVo vo) {
+    public ApiResponse<MemberSignInResponseVo> kakaoSignIn(@RequestBody KakaoSignInRequestVo kakaoSignInRequestVo) {
         return ApiResponse.ok(
                 "로그인에 성공하였습니다.",
-                memberService.kakaoSignIn(KakaoSignInRequestDto.from(vo)).toVo());
+                memberService.kakaoSignIn(KakaoSignInRequestDto.from(kakaoSignInRequestVo)).toVo());
     }
 
     @PostMapping("/email/send-code")
-    public ApiResponse<EmailCodeSendResponseVo> sendEmail(@RequestBody EmailCodeSendRequestVo vo){
+    public ApiResponse<EmailCodeSendResponseVo> sendEmail(@RequestBody EmailCodeSendRequestVo emailCodeSendRequestVo) {
         return ApiResponse.ok(
                 "이메일 인증 번호를 전송하였습니다",
-                memberService.sendEmail(EmailCodeSendRequestDto.from(vo)).toVo()
+                memberService.sendEmail(EmailCodeSendRequestDto.from(emailCodeSendRequestVo)).toVo()
         );
     }
 
     @PostMapping("/email/verify-code")
-    public ApiResponse<String> verifyEmailCode(@RequestBody EmailVerifyCodeRequestVo vo) {
-        memberService.verifyEmailCode(EmailVerifyCodeRequestDto.from(vo));
+    public ApiResponse<String> verifyEmailCode(@RequestBody EmailVerifyCodeRequestVo emailVerifyCodeRequestVo) {
+        memberService.verifyEmailCode(EmailVerifyCodeRequestDto.from(emailVerifyCodeRequestVo));
         return ApiResponse.ok("이메일 인증이 완료되었습니다.");
     }
 

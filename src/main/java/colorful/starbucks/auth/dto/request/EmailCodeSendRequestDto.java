@@ -17,9 +17,9 @@ public class EmailCodeSendRequestDto {
     public String codeGenerator() {
         return EmailAuthCodeGenerator.generateCode(6);
     }
-    public static EmailCodeSendRequestDto from(EmailCodeSendRequestVo vo) {
+    public static EmailCodeSendRequestDto from(EmailCodeSendRequestVo emailCodeSendRequestVo) {
         return EmailCodeSendRequestDto.builder()
-                .email(vo.getEmail())
+                .email(emailCodeSendRequestVo.getEmail())
                 .build();
     }
 

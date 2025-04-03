@@ -17,8 +17,9 @@ public class TermsAgreementController {
     private final TermsAgreementService termsAgreementService;
 
     @PostMapping("/terms-agreement")
-    public ApiResponse<String> termsAgreement(@RequestBody TermsAgreementRequestDto dto) {
-        termsAgreementService.saveTermsAgreement(dto.getAgreements(), dto.getMemberUuid());
+    public ApiResponse<String> termsAgreement(@RequestBody TermsAgreementRequestDto termsAgreementRequestDto) {
+        termsAgreementService.saveTermsAgreement(termsAgreementRequestDto.getAgreements(),
+                                                 termsAgreementRequestDto.getMemberUuid());
         return ApiResponse.ok("이용약관 동의가 완료되었습니다.");
     }
 }

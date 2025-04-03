@@ -24,8 +24,6 @@ public class MemberSignInRequestDto {
                 .password(memberSignInRequestVo.getPassword())
                 .build();
     }
-    public UsernamePasswordAuthenticationToken toAuthenticationToken() {
-        return new UsernamePasswordAuthenticationToken(email, password);
-    }
+
 
 }

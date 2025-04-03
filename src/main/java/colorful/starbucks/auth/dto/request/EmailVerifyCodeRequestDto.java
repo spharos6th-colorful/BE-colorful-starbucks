@@ -17,10 +17,10 @@ public class EmailVerifyCodeRequestDto {
         this.code = code;
     }
 
-    public static EmailVerifyCodeRequestDto from(EmailVerifyCodeRequestVo vo) {
+    public static EmailVerifyCodeRequestDto from(EmailVerifyCodeRequestVo emailVerifyCodeRequestVo) {
         return EmailVerifyCodeRequestDto.builder()
-                .email(vo.getEmail())
-                .code(vo.getCode())
+                .email(emailVerifyCodeRequestVo.getEmail())
+                .code(emailVerifyCodeRequestVo.getCode())
                 .build();
     }
 }

@@ -29,11 +29,11 @@ public class MemberPasswordResetRequestDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public static MemberPasswordResetRequestDto from(MemberPasswordResetRequestVo vo) {
+    public static MemberPasswordResetRequestDto from(MemberPasswordResetRequestVo memberPasswordResetRequestVo) {
         return MemberPasswordResetRequestDto.builder()
-                .memberName(vo.getMemberName())
-                .email(vo.getEmail())
-                .phoneNumber(vo.getPhoneNumber())
+                .memberName(memberPasswordResetRequestVo.getMemberName())
+                .email(memberPasswordResetRequestVo.getEmail())
+                .phoneNumber(memberPasswordResetRequestVo.getPhoneNumber())
                 .build();
     }
 

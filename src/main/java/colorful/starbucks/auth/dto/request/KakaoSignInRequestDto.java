@@ -20,9 +20,9 @@ public class KakaoSignInRequestDto {
         this.code = code;
     }
 
-    public static KakaoSignInRequestDto from(KakaoSignInRequestVo vo) {
+    public static KakaoSignInRequestDto from(KakaoSignInRequestVo kakaoSignInRequestVo) {
         return KakaoSignInRequestDto.builder()
-                .code(vo.getCode())
+                .code(kakaoSignInRequestVo.getCode())
                 .build();
     }
 
@@ -30,16 +30,6 @@ public class KakaoSignInRequestDto {
         return kakaoApiService.getUserInfo(kakaoApiService.getAccessToken(code));
     }
 
-    public Member findOrCreateKakaoMember(KakaoUserInfo userInfo, MemberRepository repository) {
-        return repository.findBySignTypeAndSocialId(SignType.KAKAO, userInfo.getId())
-                .orElseGet(() -> repository.save(
-                        Member.builder()
-                                .signType(SignType.KAKAO)
-                                .socialId(userInfo.getId())
-                                .email(userInfo.getEmail())
-                                .memberUuid(UuidGenerator.generateUuid())
-                                .build()
-                ));
-    }
+
 }
 

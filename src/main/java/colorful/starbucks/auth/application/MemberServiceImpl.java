@@ -2,6 +2,8 @@ package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.domain.CustomUserDetails;
 import colorful.starbucks.auth.domain.Member;
+import colorful.starbucks.auth.domain.MemberLevel;
+import colorful.starbucks.auth.domain.SignType;
 import colorful.starbucks.auth.dto.request.*;
 import colorful.starbucks.auth.dto.response.*;
 import colorful.starbucks.auth.infrastructure.MemberRepository;
@@ -9,6 +11,7 @@ import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.service.EmailService;
+import colorful.starbucks.common.util.UuidGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -65,11 +68,14 @@ public class MemberServiceImpl implements MemberService {
     private String createRefreshToken(Authentication authentication) {
         return jwtTokenProvider.generateRefreshToken(authentication);
     }
+    private UsernamePasswordAuthenticationToken toAuthenticationToken(MemberSignInRequestDto memberSignInRequestDto) {
+        return new UsernamePasswordAuthenticationToken(memberSignInRequestDto.getEmail(), memberSignInRequestDto.getPassword());
+    }
 
     @Transactional
     @Override
     public MemberSignInResponseDto signIn(MemberSignInRequestDto signInRequestDto) {
-        Authentication authentication = authenticationManager.authenticate(signInRequestDto.toAuthenticationToken());
+        Authentication authentication = authenticationManager.authenticate(toAuthenticationToken(signInRequestDto));
 
         String accessToken = createAccessToken(authentication);
         String refreshToken = createRefreshToken(authentication);
@@ -77,12 +83,21 @@ public class MemberServiceImpl implements MemberService {
         return MemberSignInResponseDto.from(accessToken, refreshToken);
     }
 
+
     @Transactional
     @Override
     public AccessTokenResponseDto reIssueAccessToken(RefreshTokenRequestDto refreshTokenRequestDto) {
-        Authentication authentication = refreshTokenRequestDto.toAuthentication(jwtTokenProvider, userDetailsService);
-        return AccessTokenResponseDto.from(jwtTokenProvider.generateAccessToken(authentication));
+        Authentication authentication = getAuthenticationFromRefreshToken(refreshTokenRequestDto.getRefreshToken());
+        String newAccessToken = jwtTokenProvider.generateAccessToken(authentication);
+        return AccessTokenResponseDto.from(newAccessToken);
     }
+
+    private Authentication getAuthenticationFromRefreshToken(String refreshToken) {
+        String uuid = jwtTokenProvider.validateAndExtractUuid(refreshToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(uuid);
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    }
+
 
     @Transactional
     @Override
@@ -119,7 +134,7 @@ public class MemberServiceImpl implements MemberService {
             throw new BaseException(ResponseStatus.INVALID_EMAIL_ADDRESS);
         }
 
-        Member member = kakaoSignInRequestDto.findOrCreateKakaoMember(userInfo, memberRepository);
+        Member member = findOrCreateKakaoMember(userInfo);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(member.getMemberUuid(), null, null);
 
@@ -128,6 +143,20 @@ public class MemberServiceImpl implements MemberService {
                 jwtTokenProvider.generateRefreshToken(authentication)
         );
     }
+
+    private Member findOrCreateKakaoMember(KakaoUserInfo kakaoUserInfo) {
+        return memberRepository.findBySignTypeAndSocialId(SignType.KAKAO, kakaoUserInfo.getId())
+                .orElseGet(() -> memberRepository.save(
+                        Member.builder()
+                                .signType(SignType.KAKAO)
+                                .socialId(kakaoUserInfo.getId())
+                                .email(kakaoUserInfo.getEmail())
+                                .memberUuid(UuidGenerator.generateUuid())
+                                .memberLevel(MemberLevel.WHITE)
+                                .build()
+                ));
+    }
+
 
     @Transactional
     @Override
@@ -150,6 +179,7 @@ public class MemberServiceImpl implements MemberService {
             throw new BaseException(ResponseStatus.INVALID_AUTH_CODE);
         }
     }
+
 
 
 

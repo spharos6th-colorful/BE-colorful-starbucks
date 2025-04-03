@@ -22,10 +22,4 @@ public class RefreshTokenRequestDto {
                 .build() ;
     }
 
-    public Authentication toAuthentication(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService) {
-        String uuid = jwtTokenProvider.validateAndExtractUuid(refreshToken);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(uuid);
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-    }
-
 }
