@@ -84,7 +84,7 @@ public class CartController {
         null);
     }
 
-    @PutMapping("/all")
+    @DeleteMapping("/all")
     public ApiResponse<Void> removeAllCart(Authentication authentication){
         cartService.removeAllCart(authentication.getName());
         return ApiResponse.ok("장바구니 전체 삭제를 완료 했습니다.",
