@@ -46,7 +46,7 @@ public class CustomUserDetails implements UserDetails {
         return member.getMemberUuid();
     }
 
-    public Member getMember() {
-        return member;
+    public SignType getSignType(){
+        return member.getSignType();
     }
 }
