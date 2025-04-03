@@ -21,8 +21,8 @@ public class MemberController {
         return ApiResponse.ok("회원가입이 완료되었습니다.", null);
     }
 
-    @GetMapping("/validate/email")
-    public ApiResponse<Boolean> checkEmail(@RequestParam String email) {
+    @GetMapping("email/exists")
+    public ApiResponse<Boolean> checkEmailDuplication(@RequestParam String email) {
         return ApiResponse.ok(
                 "이메일 중복 체크를 완료하였습니다.",
                 memberService.isEmailDuplicated(email));
@@ -56,7 +56,7 @@ public class MemberController {
                 memberService.findPassword(MemberPasswordResetRequestDto.from(vo)).toVo());
     }
 
-    @DeleteMapping("/signout")
+    @DeleteMapping("/sign-out")
     public ApiResponse<String> logout() {
         return ApiResponse.ok("로그아웃을 완료했습니다.");
     }
@@ -85,7 +85,7 @@ public class MemberController {
 
 
 
-    //백엔드 카카오 로그인 인가 코드 api
+    //TODO 백엔드 카카오 로그인 인가 코드 api
     @GetMapping("/kakao")
     public String kakaoRedirect(@RequestParam String code) {
 

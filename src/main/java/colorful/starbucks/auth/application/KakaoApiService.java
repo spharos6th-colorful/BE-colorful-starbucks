@@ -24,8 +24,12 @@ public class KakaoApiService {
     @Value("${oauth.kakao.redirect-uri}")
     private String redirectUri;
 
-    private final String tokenUri = "https://kauth.kakao.com/oauth/token";
-    private final String userInfoUri = "https://kapi.kakao.com/v2/user/me";
+    @Value("${oauth.kakao.TokenURI}")
+    private String TokenURI;
+
+    @Value("${oauth.kakao.UserInfoURI}")
+    private  String UserInfoURI;
+
     private final RestTemplate restTemplate;
 
     public String getAccessToken(String code) {
@@ -41,7 +45,7 @@ public class KakaoApiService {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
 
-        ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(TokenURI, request, String.class);
 
         JSONObject json = new JSONObject(response.getBody());
         return json.getString("access_token");
@@ -53,7 +57,7 @@ public class KakaoApiService {
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
 
-        ResponseEntity<String> response = restTemplate.exchange(userInfoUri, HttpMethod.GET, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(UserInfoURI, HttpMethod.GET, request, String.class);
         JSONObject json = new JSONObject(response.getBody());
 
         String id = json.get("id").toString();

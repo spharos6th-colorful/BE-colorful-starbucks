@@ -7,8 +7,9 @@ import lombok.Getter;
 @Getter
 public class EmailVerifyCodeRequestDto {
 
-    private final String email;
-    private final String code;
+    private String email;
+
+    private String code;
 
     @Builder
     private EmailVerifyCodeRequestDto(String email, String code) {

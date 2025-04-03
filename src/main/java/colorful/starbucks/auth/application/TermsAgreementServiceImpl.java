@@ -20,8 +20,8 @@ public class TermsAgreementServiceImpl implements TermsAgreementService {
     private final TermsAgreementRepository termsAgreementRepository;
     private final TermsRepository termsRepository;
 
-    @Override
     @Transactional
+    @Override
     public void saveTermsAgreement(List<TermsAgreementRequestVo> agreementVos, String memberUuid) {
 
         List<TermsAgreement> agreements = agreementVos.stream()

@@ -6,10 +6,9 @@ import colorful.starbucks.auth.domain.SignType;
 import colorful.starbucks.auth.dto.response.KakaoUserInfo;
 import colorful.starbucks.auth.infrastructure.MemberRepository;
 import colorful.starbucks.auth.vo.request.KakaoSignInRequestVo;
+import colorful.starbucks.common.util.UuidGenerator;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.UUID;
 
 @Getter
 public class KakaoSignInRequestDto {
@@ -38,7 +37,7 @@ public class KakaoSignInRequestDto {
                                 .signType(SignType.KAKAO)
                                 .socialId(userInfo.getId())
                                 .email(userInfo.getEmail())
-                                .memberUuid(UUID.randomUUID().toString())
+                                .memberUuid(UuidGenerator.generateUuid())
                                 .build()
                 ));
     }

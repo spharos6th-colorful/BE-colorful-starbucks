@@ -17,8 +17,8 @@ public class TermsServiceImpl implements TermsService {
 
     private final TermsRepository termsRepository;
 
-    @Override
     @Transactional
+    @Override
     public void createTerms(TermsCreateRequestDto termsCreateRequestDto) {
         Terms terms = Terms.builder()
                         .termsTitle(termsCreateRequestDto.getTermsTitle())
