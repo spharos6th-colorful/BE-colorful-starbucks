@@ -11,17 +11,16 @@ import colorful.starbucks.delivery.vo.response.DeliveryAddressResponseVo;
 import colorful.starbucks.delivery.vo.response.DeliveryAddressesResponseVo;
 import colorful.starbucks.delivery.vo.response.DeliveryDefaultAddressResponseVo;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequestMapping("/api/v1/delivery")
+
 @RestController
+@RequestMapping("/api/v1/delivery")
 @RequiredArgsConstructor
-@Slf4j
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
