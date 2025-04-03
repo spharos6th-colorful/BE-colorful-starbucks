@@ -18,7 +18,15 @@ public class DeliveryAddressEditRequestDto {
     private String phoneNumber;
 
     @Builder
-    private DeliveryAddressEditRequestDto(String memberUuid, String memberAddressUuid, String addressNickname, String receiverName, boolean defaultAddress, String zoneCode, String address, String detailAddress, String phoneNumber) {
+    private DeliveryAddressEditRequestDto(String memberUuid,
+                                          String memberAddressUuid,
+                                          String addressNickname,
+                                          String receiverName,
+                                          boolean defaultAddress,
+                                          String zoneCode,
+                                          String address,
+                                          String detailAddress,
+                                          String phoneNumber) {
         this.memberUuid = memberUuid;
         this.memberAddressUuid = memberAddressUuid;
         this.addressNickname = addressNickname;

@@ -15,7 +15,12 @@ public class DeliveryDefaultAddressResponseVo {
     private String phoneNumber;
 
     @Builder
-    public DeliveryDefaultAddressResponseVo(String addressNickname, String receiverName, boolean isDefaultAddress, String zoneCode, String address, String detailAddress, String phoneNumber) {
+    private DeliveryDefaultAddressResponseVo(String addressNickname,
+                                             String receiverName,
+                                             boolean isDefaultAddress,
+                                             String zoneCode, String address,
+                                             String detailAddress,
+                                             String phoneNumber) {
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;
         this.isDefaultAddress = isDefaultAddress;

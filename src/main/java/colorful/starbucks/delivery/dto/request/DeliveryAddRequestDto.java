@@ -17,7 +17,13 @@ public class DeliveryAddRequestDto {
     private String phoneNumber;
 
     @Builder
-    private DeliveryAddRequestDto(String memberUuid, String addressNickname, String receiverName, String zoneCode, String address, String detailAddress, String phoneNumber) {
+    private DeliveryAddRequestDto(String memberUuid,
+                                  String addressNickname,
+                                  String receiverName,
+                                  String zoneCode,
+                                  String address,
+                                  String detailAddress,
+                                  String phoneNumber) {
         this.memberUuid = memberUuid;
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;
