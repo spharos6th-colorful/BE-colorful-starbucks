@@ -1,7 +1,5 @@
-package colorful.starbucks.admin.vo;
+package colorful.starbucks.admin.dto;
 
-import colorful.starbucks.admin.dto.response.ColorDto;
-import colorful.starbucks.admin.dto.response.SizeDto;
 import lombok.Builder;
 import lombok.Getter;
 

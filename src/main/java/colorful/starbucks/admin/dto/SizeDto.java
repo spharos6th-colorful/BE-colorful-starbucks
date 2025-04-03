@@ -1,4 +1,4 @@
-package colorful.starbucks.admin.dto.response;
+package colorful.starbucks.admin.dto;
 
 import lombok.Builder;
 import lombok.Getter;

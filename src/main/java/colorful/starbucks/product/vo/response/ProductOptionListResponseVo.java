@@ -1,6 +1,6 @@
 package colorful.starbucks.product.vo.response;
 
-import colorful.starbucks.admin.vo.OptionDto;
+import colorful.starbucks.admin.dto.OptionDto;
 import lombok.Builder;
 import lombok.Getter;
 

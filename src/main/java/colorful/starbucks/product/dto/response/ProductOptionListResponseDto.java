@@ -1,8 +1,8 @@
 package colorful.starbucks.product.dto.response;
 
-import colorful.starbucks.admin.dto.response.ColorDto;
-import colorful.starbucks.admin.dto.response.SizeDto;
-import colorful.starbucks.admin.vo.OptionDto;
+import colorful.starbucks.admin.dto.ColorDto;
+import colorful.starbucks.admin.dto.SizeDto;
+import colorful.starbucks.admin.dto.OptionDto;
 import colorful.starbucks.product.domain.ProductDetail;
 import colorful.starbucks.product.vo.response.ProductOptionListResponseVo;
 import lombok.Builder;
