@@ -16,7 +16,7 @@ public class DeliveryAddressesResponseVo {
     private boolean isDefaultAddress;
 
     @Builder
-    public DeliveryAddressesResponseVo(String memberAddressUuid,
+    private DeliveryAddressesResponseVo(String memberAddressUuid,
                                        String addressNickname,
                                        String receiverName,
                                        String address,

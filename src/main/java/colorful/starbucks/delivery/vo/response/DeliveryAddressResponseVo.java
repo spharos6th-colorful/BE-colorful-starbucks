@@ -16,7 +16,7 @@ public class DeliveryAddressResponseVo {
     private String phoneNumber;
 
     @Builder
-    public DeliveryAddressResponseVo(String memberAddressUuid,
+    private DeliveryAddressResponseVo(String memberAddressUuid,
                                       String addressNickname,
                                       String receiverName,
                                       String address,
