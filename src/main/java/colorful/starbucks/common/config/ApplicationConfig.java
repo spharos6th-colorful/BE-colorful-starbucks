@@ -26,7 +26,6 @@ public class ApplicationConfig {
 
     private final MemberRepository memberRepository;
 
-
     @Bean
     public UserDetailsService userDetailsService() {
         return email -> memberRepository.findByEmail(email)

@@ -82,7 +82,7 @@ public class CartServiceImpl implements CartService {
 
         cartCheckRequestDtos
                 .forEach(c-> {
-                    cartRepository.findByMemberUuidAndId(c.getMemberUuid(), c.getId())
+                    cartRepository.findByIdAndMemberUuid(c.getId(), c.getMemberUuid())
                             .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
                             .updateProductChecked(c.isChecked());
 

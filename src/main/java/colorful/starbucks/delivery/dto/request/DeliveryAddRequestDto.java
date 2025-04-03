@@ -8,6 +8,7 @@ import lombok.Getter;
 
 @Getter
 public class DeliveryAddRequestDto {
+    private String memberUuid;
     private String addressNickname;
     private String receiverName;
     private String zoneCode;
@@ -16,7 +17,14 @@ public class DeliveryAddRequestDto {
     private String phoneNumber;
 
     @Builder
-    private DeliveryAddRequestDto(String addressNickname, String receiverName, String zoneCode, String address, String detailAddress, String phoneNumber) {
+    private DeliveryAddRequestDto(String memberUuid,
+                                  String addressNickname,
+                                  String receiverName,
+                                  String zoneCode,
+                                  String address,
+                                  String detailAddress,
+                                  String phoneNumber) {
+        this.memberUuid = memberUuid;
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;
         this.zoneCode = zoneCode;
@@ -25,8 +33,9 @@ public class DeliveryAddRequestDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public static DeliveryAddRequestDto from(DeliveryAddRequestVo deliveryAddRequestVo) {
+    public static DeliveryAddRequestDto from(DeliveryAddRequestVo deliveryAddRequestVo, String memberUuid) {
         return DeliveryAddRequestDto.builder()
+                .memberUuid(memberUuid)
                 .addressNickname(deliveryAddRequestVo.getAddressNickname())
                 .receiverName(deliveryAddRequestVo.getReceiverName())
                 .zoneCode(deliveryAddRequestVo.getZoneCode())
