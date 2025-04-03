@@ -15,6 +15,7 @@ import colorful.starbucks.delivery.vo.response.DeliveryAddressResponseVo;
 import colorful.starbucks.delivery.vo.response.DeliveryAddressesResponseVo;
 import colorful.starbucks.delivery.vo.response.DeliveryDefaultAddressResponseVo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/delivery")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
@@ -49,10 +51,11 @@ public class DeliveryController {
         return ApiResponse.ok("개별 배송지 조회가 완료 되었습니다.",
                 deliveryService.getIndividualAddress(DeliveryAddressRequestDto.of(authentication.getName(), memberAddressUuid)).toVo());
     }
-    @PatchMapping("/address/{memberAddressUuid}")
+    @PutMapping("/address/{memberAddressUuid}")
     public ApiResponse<Void> editDeliveryAddress(Authentication authentication,
                                                  @PathVariable String memberAddressUuid,
                                                  @RequestBody DeliveryAddressEditRequestVo deliveryAddressEditRequestVo) {
+
         deliveryService.editAddress(DeliveryAddressEditRequestDto.from(deliveryAddressEditRequestVo, authentication.getName(), memberAddressUuid));
         return ApiResponse.ok("배송지 수정이 완료 되었습니다.",null);
     }

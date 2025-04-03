@@ -22,5 +22,5 @@ public interface DeliveryRepository extends JpaRepository<DeliveryAddress, Long>
 
     List<DeliveryAddress> findAllByMemberUuid(String memberUuid);
 
-
+    DeliveryAddress findByMemberAddressUuid(String memberAddressUuid);
 }

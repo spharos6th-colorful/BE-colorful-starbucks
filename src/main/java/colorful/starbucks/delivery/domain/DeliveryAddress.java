@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -18,22 +19,41 @@ public class DeliveryAddress extends BaseEntity {
     @Column(name = "member_address_id")
     private Long id;
 
+
+    @Column(nullable = false)
+    @Comment("주소지 별칭")
     private String addressNickname;
 
+    @Column(nullable = false)
+    @Comment("수령인")
     private String receiverName;
 
+    @Column(nullable = true)
+    @Comment("기본 배송지 여부")
     private boolean isDefaultAddress;
 
+    @Column(nullable = false)
+    @Comment("우편 번호")
     private String zoneCode;
 
+    @Column(nullable = false)
+    @Comment("메인 주소")
     private String address;
 
+    @Column(nullable = false)
+    @Comment("상세 주소")
     private String detailAddress;
 
+    @Column(nullable = false)
+    @Comment("전화 번호")
     private String phoneNumber;
 
+    @Column(nullable = false)
+    @Comment("회원 uuid")
     private String memberUuid;
 
+    @Column(nullable = false)
+    @Comment("회원 주소 uuid")
     private String memberAddressUuid;
 
     @Builder
@@ -59,17 +79,18 @@ public class DeliveryAddress extends BaseEntity {
         this.memberAddressUuid = memberAddressUuid;
     }
 
-    public void updateIsDefaultAddress(boolean isDefaultAddress) {
-        this.isDefaultAddress = isDefaultAddress;
+    public void updateIsDefaultAddress(boolean newAddressDefault) {
+        this.isDefaultAddress = newAddressDefault;
     }
+
     public void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
-        this.address = deliveryAddressEditRequestDto.getAddress() == null ?this.address : deliveryAddressEditRequestDto.getAddress();
-        this.zoneCode = deliveryAddressEditRequestDto.getZoneCode() == null ?this.zoneCode : deliveryAddressEditRequestDto.getZoneCode();
-        this.detailAddress = deliveryAddressEditRequestDto.getDetailAddress() == null ?this.detailAddress : deliveryAddressEditRequestDto.getDetailAddress();
-        this.phoneNumber = deliveryAddressEditRequestDto.getPhoneNumber() == null ?this.phoneNumber : deliveryAddressEditRequestDto.getPhoneNumber();
-        this.addressNickname = deliveryAddressEditRequestDto.getAddressNickname() == null ?this.addressNickname : deliveryAddressEditRequestDto.getAddressNickname();
-        this.receiverName = deliveryAddressEditRequestDto.getReceiverName() == null ?this.receiverName : deliveryAddressEditRequestDto.getReceiverName();
+        this.addressNickname = deliveryAddressEditRequestDto.getAddressNickname();
+        this.receiverName = deliveryAddressEditRequestDto.getReceiverName();
         this.isDefaultAddress = deliveryAddressEditRequestDto.isDefaultAddress();
+        this.zoneCode = deliveryAddressEditRequestDto.getZoneCode();
+        this.address = deliveryAddressEditRequestDto.getAddress();
+        this.detailAddress = deliveryAddressEditRequestDto.getDetailAddress();
+        this.phoneNumber = deliveryAddressEditRequestDto.getPhoneNumber();
     }
 
 }

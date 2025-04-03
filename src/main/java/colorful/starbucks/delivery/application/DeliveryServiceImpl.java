@@ -13,6 +13,7 @@ import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDt
 import colorful.starbucks.delivery.generator.MemberAddressUuidGenerator;
 import colorful.starbucks.delivery.infrastructure.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,12 +69,11 @@ public class DeliveryServiceImpl implements DeliveryService {
         if (deliveryAddressEditRequestDto.isDefaultAddress()) {
             DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(deliveryAddressEditRequestDto.getMemberUuid(), true)
                     .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-            //  deliveryAddress.updateIsDefaultAddress(false);
+            deliveryAddress.updateIsDefaultAddress(false);
         }
-        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryAddressEditRequestDto.getMemberUuid(),
-                deliveryAddressEditRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
-        deliveryAddress.editAddress(deliveryAddressEditRequestDto);
+        deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
+                .editAddress(deliveryAddressEditRequestDto);
 
     }
 

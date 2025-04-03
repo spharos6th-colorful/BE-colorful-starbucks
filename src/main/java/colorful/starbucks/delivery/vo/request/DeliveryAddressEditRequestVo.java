@@ -7,7 +7,7 @@ public class DeliveryAddressEditRequestVo {
 
     private String addressNickname;
     private String receiverName;
-    private boolean isDefaultAddress;
+    private boolean defaultAddress;
     private String zoneCode;
     private String address;
     private String detailAddress;
