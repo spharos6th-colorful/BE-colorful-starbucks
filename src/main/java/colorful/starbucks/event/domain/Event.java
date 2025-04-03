@@ -1,7 +1,6 @@
 package colorful.starbucks.event.domain;
 
 import colorful.starbucks.common.entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -21,7 +20,7 @@ public class Event extends BaseEntity {
     private Long id;
 
     @Comment("이벤트 코드")
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String eventUuid;
 
     @Comment("이벤트 이름")
