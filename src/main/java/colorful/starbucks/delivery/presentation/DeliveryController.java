@@ -6,15 +6,20 @@ import colorful.starbucks.delivery.dto.request.DeliveryAddRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryAddressRequestDto;
+import colorful.starbucks.delivery.dto.response.DeliveryAddressesResponseDto;
 import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDto;
 import colorful.starbucks.delivery.vo.request.DeliveryAddRequestVo;
 
 import colorful.starbucks.delivery.vo.request.DeliveryAddressEditRequestVo;
 import colorful.starbucks.delivery.vo.response.DeliveryAddressResponseVo;
+import colorful.starbucks.delivery.vo.response.DeliveryAddressesResponseVo;
 import colorful.starbucks.delivery.vo.response.DeliveryDefaultAddressResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/api/v1/delivery")
 @RestController
@@ -59,7 +64,14 @@ public class DeliveryController {
                 deliveryService.getDefaultAddress(authentication.getName()).toVo());
     }
 
+    @GetMapping("/addresses")
+    public ApiResponse<List<DeliveryAddressesResponseVo>> getAddressList(Authentication authentication) {
 
-
+       return ApiResponse.ok("배송지 목록 조회가 완료 되었습니다.",
+               deliveryService.getAddressList(authentication.getName())
+                       .stream()
+                       .map(DeliveryAddressesResponseDto::toVo)
+                       .collect(Collectors.toList()));
+    }
 
 }

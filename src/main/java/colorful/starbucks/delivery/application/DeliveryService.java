@@ -5,7 +5,10 @@ import colorful.starbucks.delivery.dto.request.DeliveryAddressEditRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryDeleteRequestDto;
 import colorful.starbucks.delivery.dto.request.DeliveryAddressRequestDto;
 import colorful.starbucks.delivery.dto.response.DeliveryAddressResponseDto;
+import colorful.starbucks.delivery.dto.response.DeliveryAddressesResponseDto;
 import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDto;
+
+import java.util.List;
 
 public interface DeliveryService {
 
@@ -14,4 +17,5 @@ public interface DeliveryService {
     DeliveryAddressResponseDto getIndividualAddress(DeliveryAddressRequestDto deliveryAddressRequestDto);
     void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto);
     DeliveryDefaultAddressResponseDto getDefaultAddress(String memberUuid);
+    List<DeliveryAddressesResponseDto> getAddressList(String memberUuid);
 }
