@@ -49,17 +49,17 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public MemberSignInResponseDto signIn(MemberSignInRequestDto dto) {
+    public MemberSignInResponseDto signIn(MemberSignInRequestDto memberSignInRequestDto) {
         Authentication authentication = authenticationManager.authenticate(
-                toAuthenticationToken(dto)
+                toAuthenticationToken(memberSignInRequestDto)
         );
         return generateTokensAndSaveRefresh(authentication);
     }
 
     @Transactional
     @Override
-    public MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto dto) {
-        KakaoUserInfo userInfo = dto.fetchUserInfo(kakaoApiService);
+    public MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto kakaoSignInRequestDto) {
+        KakaoUserInfo userInfo = kakaoSignInRequestDto.fetchUserInfo(kakaoApiService);
 
         if (userInfo.getEmail() == null || userInfo.getEmail().isBlank()) {
             throw new BaseException(ResponseStatus.INVALID_EMAIL_ADDRESS);
@@ -89,18 +89,18 @@ public class MemberServiceImpl implements MemberService {
         return MemberSignInResponseDto.from(accessToken, refreshToken);
     }
 
-    private UsernamePasswordAuthenticationToken toAuthenticationToken(MemberSignInRequestDto dto) {
-        return new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
+    private UsernamePasswordAuthenticationToken toAuthenticationToken(MemberSignInRequestDto memberSignInRequestDto) {
+        return new UsernamePasswordAuthenticationToken(memberSignInRequestDto.getEmail(), memberSignInRequestDto.getPassword());
     }
 
 
     @Transactional
     @Override
-    public void signUp(MemberSignUpRequestDto dto) {
-        memberRepository.findByEmail(dto.getEmail()).orElseThrow(
+    public void signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
+        memberRepository.findByEmail(memberSignUpRequestDto.getEmail()).orElseThrow(
                 () -> new BaseException(ResponseStatus.DUPLICATED_USER)
         );
-        memberRepository.save(dto.toEntityWithEncodePassword(passwordEncoder));
+        memberRepository.save(memberSignUpRequestDto.toEntityWithEncodePassword(passwordEncoder));
     }
 
     @Override
@@ -110,8 +110,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public AccessTokenResponseDto reIssueAccessToken(RefreshTokenRequestDto dto) {
-        Authentication authentication = getAuthenticationFromRefreshToken(dto.getRefreshToken());
+    public AccessTokenResponseDto reIssueAccessToken(RefreshTokenRequestDto refreshTokenRequestDto) {
+        Authentication authentication = getAuthenticationFromRefreshToken(refreshTokenRequestDto.getRefreshToken());
         String newAccessToken = jwtTokenProvider.generateAccessToken(authentication);
         return AccessTokenResponseDto.from(newAccessToken);
     }
@@ -132,18 +132,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public EmailCodeSendResponseDto sendEmail(EmailCodeSendRequestDto dto) {
-        String code = dto.codeGenerator();
-        emailAuthRedisService.saveCode(dto.getEmail(), code);
-        emailService.sendEmailCode(dto.getEmail(), code);
+    public EmailCodeSendResponseDto sendEmail(EmailCodeSendRequestDto emailCodeSendRequestDto) {
+        String code = emailCodeSendRequestDto.codeGenerator();
+        emailAuthRedisService.saveCode(emailCodeSendRequestDto.getEmail(), code);
+        emailService.sendEmailCode(emailCodeSendRequestDto.getEmail(), code);
         return EmailCodeSendResponseDto.from(code);
     }
 
     @Transactional
     @Override
-    public void verifyEmailCode(EmailVerifyCodeRequestDto dto) {
-        if (emailAuthRedisService.verifyCode(dto.getEmail(), dto.getCode())) {
-            emailAuthRedisService.deleteCode(dto.getEmail());
+    public void verifyEmailCode(EmailVerifyCodeRequestDto emailVerifyCodeRequestDto) {
+        if (emailAuthRedisService.verifyCode(emailVerifyCodeRequestDto.getEmail(), emailVerifyCodeRequestDto.getCode())) {
+            emailAuthRedisService.deleteCode(emailVerifyCodeRequestDto.getEmail());
         } else {
             throw new BaseException(ResponseStatus.INVALID_AUTH_CODE);
         }
@@ -151,17 +151,17 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto dto) {
-        if (!memberRepository.existsByEmail(dto.getEmail())) {
+    public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto memberPasswordResetRequestDto) {
+        if (!memberRepository.existsByEmail(memberPasswordResetRequestDto.getEmail())) {
             throw new BaseException(ResponseStatus.NO_EXIST_USER);
         }
 
-        Member member = dto.findMatchingMember(memberRepository)
+        Member member = memberPasswordResetRequestDto.findMatchingMember(memberRepository)
                 .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER));
 
-        dto.generateTempPassword(passwordEncoder);
-        member.updatePassword(dto.getEncodedPassword());
-        emailService.sendTempPassword(member.getEmail(), dto.getTempPassword());
+        memberPasswordResetRequestDto.generateTempPassword(passwordEncoder);
+        member.updatePassword(memberPasswordResetRequestDto.getEncodedPassword());
+        emailService.sendTempPassword(member.getEmail(), memberPasswordResetRequestDto.getTempPassword());
 
         return MemberPasswordResetResponseDto.from("임시 비밀번호가 이메일로 전송 되었습니다.");
     }
@@ -182,8 +182,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public MemberEmailFindResponseDto findEmail(MemberEmailFindRequestDto dto) {
-        Member member = dto.findByMemberNameAndPhoneNumber(memberRepository)
+    public MemberEmailFindResponseDto findEmail(MemberEmailFindRequestDto memberEmailFindRequestDto) {
+        Member member = memberEmailFindRequestDto.findByMemberNameAndPhoneNumber(memberRepository)
                 .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER));
         return MemberEmailFindResponseDto.from(member.getEmail());
     }
