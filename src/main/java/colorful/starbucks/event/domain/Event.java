@@ -6,58 +6,78 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
 public class Event extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id")
     private Long id;
 
+    @Comment("이벤트 코드")
+    @Column(nullable = false, unique = true)
     private String eventUuid;
 
-    private String eventName;
+    @Comment("이벤트 이름")
+    @Column(nullable = false)
+    private String title;
 
-    private LocalDateTime eventStartDate;
+    @Comment("이벤트 설명")
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
-    private LocalDateTime eventEndDate;
+    @Lob
+    @Comment("이벤트 이미지")
+    @Column(nullable = false)
+    private String imageUrl;
 
-    private String eventDescription;
+    @Lob
+    @Comment("이벤트 썸네일")
+    @Column(nullable = false)
+    private String thumbnailUrl;
 
-    private String eventImage;
+    @Comment("이벤트 시작일")
+    @Column(nullable = false)
+    private LocalDateTime startDate;
 
-    private String eventPolicy;
+    @Comment("이벤트 종료일")
+    @Column(nullable = false)
+    private LocalDateTime endDate;
 
-    private Boolean eventPostStatus;
+    @Comment("이벤트 정책")
+    @Column(nullable = false)
+    private String policy;
 
-    private String eventThumbnail;
-
+    @Enumerated(EnumType.STRING)
+    @Comment("이벤트 상태")
+    @Column(nullable = false)
+    private EventStatus status;
 
     @Builder
     private Event(Long id,
                   String eventUuid,
-                  String eventName,
-                  LocalDateTime eventStartDate,
-                  LocalDateTime eventEndDate,
-                  String eventImage,
-                  String eventPolicy,
-                  Boolean eventPostStatus,
-                  String eventThumbnail) {
+                  String title,
+                  LocalDateTime startDate,
+                  LocalDateTime endDate,
+                  String description,
+                  String imageUrl,
+                  String thumbnailUrl,
+                  String policy,
+                  EventStatus status) {
         this.id = id;
         this.eventUuid = eventUuid;
-        this.eventName = eventName;
-        this.eventStartDate = eventStartDate;
-        this.eventEndDate = eventEndDate;
-        this.eventDescription = eventDescription;
-        this.eventImage = eventImage;
-        this.eventPolicy = eventPolicy;
-        this.eventPostStatus = eventPostStatus;
-        this.eventThumbnail = eventThumbnail;
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.thumbnailUrl = thumbnailUrl;
+        this.policy = policy;
+        this.status = status;
     }
-
 }
