@@ -1,7 +1,7 @@
 package colorful.starbucks.common.config;
 
 import colorful.starbucks.auth.infrastructure.MemberRepository;
-import colorful.starbucks.common.security.CustomUserDetails;
+import colorful.starbucks.auth.domain.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -56,16 +56,16 @@ public class ApplicationConfig {
     @Configuration
     public class MailConfig {
 
-        @Value("${spring.mail.host}")
+        @Value("${mail.host}")
         private String host;
 
-        @Value("${spring.mail.port}")
+        @Value("${mail.port}")
         private Integer port;
 
-        @Value("${spring.mail.username}")
+        @Value("${mail.username}")
         private String username;
 
-        @Value("${spring.mail.password}")
+        @Value("${mail.password}")
         private String password;
 
         @Bean

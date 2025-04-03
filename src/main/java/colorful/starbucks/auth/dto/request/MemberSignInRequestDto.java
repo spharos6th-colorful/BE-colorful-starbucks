@@ -3,6 +3,7 @@ package colorful.starbucks.auth.dto.request;
 import colorful.starbucks.auth.vo.request.MemberSignInRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @Getter
 public class MemberSignInRequestDto {
@@ -23,5 +24,6 @@ public class MemberSignInRequestDto {
                 .password(memberSignInRequestVo.getPassword())
                 .build();
     }
+
 
 }

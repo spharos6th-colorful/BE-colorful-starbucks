@@ -1,9 +1,13 @@
 package colorful.starbucks.auth.dto.request;
 
+import colorful.starbucks.auth.domain.Member;
+import colorful.starbucks.auth.infrastructure.MemberRepository;
 import colorful.starbucks.auth.vo.request.MemberEmailFindRequestVo;
 import colorful.starbucks.auth.vo.request.MemberSignInRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.Optional;
 
 @Getter
 public class MemberEmailFindRequestDto {
@@ -24,4 +28,11 @@ public class MemberEmailFindRequestDto {
                 .phoneNumber(memberEmailFindRequestVo.getPhoneNumber())
                 .build();
     }
+
+    public Optional<Member>  findByMemberNameAndPhoneNumber(MemberRepository memberRepository) {
+        return memberRepository.findByMemberNameAndPhoneNumber(memberName, phoneNumber);
+
+    }
+
+
 }

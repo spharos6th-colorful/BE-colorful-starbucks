@@ -23,11 +23,11 @@ public class Terms extends BaseEntity {
     private boolean required;
 
     @Comment("약관 제목")
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String termsTitle;
 
     @Comment("약관 내용")
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false)
     private String termsContent;
 
     @Builder

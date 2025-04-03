@@ -36,7 +36,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
                 productDetailCreateRequestDto.getProductCode(),
                 productDetailCreateRequestDto.getSizeId(),
                 productDetailCreateRequestDto.getColorId())) {
-            throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "이미 등록된 상품입니다.");
+            throw new BaseException(ResponseStatus.REQUEST_CONFLICT, "이미 등록된 상품입니다.");
         }
 
         try {
@@ -48,7 +48,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
                     )
             ));
         } catch (Exception e) {
-            throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "상세 상품 등록에 실패했습니다.");
+            throw new BaseException(ResponseStatus.REQUEST_CONFLICT, "상세 상품 등록에 실패했습니다.");
         }
     }
 
