@@ -3,7 +3,6 @@ package colorful.starbucks.delivery.dto.request;
 import colorful.starbucks.delivery.vo.request.DeliveryAddressEditRequestVo;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
 @Getter
 public class DeliveryAddressEditRequestDto {

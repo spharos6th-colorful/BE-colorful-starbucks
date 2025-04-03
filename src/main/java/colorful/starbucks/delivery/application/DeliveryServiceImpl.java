@@ -10,7 +10,6 @@ import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDt
 import colorful.starbucks.delivery.generator.MemberAddressUuidGenerator;
 import colorful.starbucks.delivery.infrastructure.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

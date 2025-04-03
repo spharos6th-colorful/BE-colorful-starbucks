@@ -1,7 +1,6 @@
 package colorful.starbucks.delivery.dto.response;
 
 import colorful.starbucks.delivery.domain.DeliveryAddress;
-import colorful.starbucks.delivery.vo.response.DeliveryAddressResponseVo;
 import colorful.starbucks.delivery.vo.response.DeliveryDefaultAddressResponseVo;
 import lombok.Builder;
 import lombok.Getter;

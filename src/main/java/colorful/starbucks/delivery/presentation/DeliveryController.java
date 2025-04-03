@@ -4,7 +4,6 @@ import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.delivery.application.DeliveryService;
 import colorful.starbucks.delivery.dto.request.*;
 import colorful.starbucks.delivery.dto.response.DeliveryAddressesResponseDto;
-import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDto;
 import colorful.starbucks.delivery.vo.request.DeliveryAddRequestVo;
 
 import colorful.starbucks.delivery.vo.request.DeliveryAddressEditRequestVo;
