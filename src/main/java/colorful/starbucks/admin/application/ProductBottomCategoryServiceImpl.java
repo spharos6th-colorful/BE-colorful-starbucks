@@ -31,7 +31,7 @@ public class ProductBottomCategoryServiceImpl implements ProductBottomCategorySe
                     )
             );
         } catch (Exception e) {
-//            throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "하위 카테고리 등록에 실패했습니다.");
+            throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "하위 카테고리 등록에 실패했습니다.");
         }
     }
 
