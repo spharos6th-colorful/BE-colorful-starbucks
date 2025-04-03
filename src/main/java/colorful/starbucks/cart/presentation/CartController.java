@@ -35,7 +35,7 @@ public class CartController {
     }
 
     @DeleteMapping
-    public ApiResponse<Void> deleteCart(Authentication authentication,
+    public ApiResponse<Void> removeCart(Authentication authentication,
                                         @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
 
         cartService.removeCartList(CartDeleteRequestDto.from(cartDeleteRequestVos, authentication.getName()));
@@ -82,5 +82,12 @@ public class CartController {
         cartService.updateCartChecked(CartCheckRequestDto.from(cartCheckRequestVos, authentication.getName()));
         return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
         null);
+    }
+
+    @DeleteMapping("/all")
+    public ApiResponse<Void> removeAllCart(Authentication authentication){
+        cartService.removeAllCart(authentication.getName());
+        return ApiResponse.ok("장바구니 전체 삭제를 완료 했습니다.",
+                null);
     }
 }

@@ -15,4 +15,5 @@ public interface CartService {
     void editCartOptions(CartOptionEditRequestDto cartOptionEditRequestDto);
     CartDetailResponseDto getCartDetail(Long cartId);
     void updateCartChecked(List<CartCheckRequestDto> cartCheckRequestDtos);
+    void removeAllCart(String memberUuid);
 }
