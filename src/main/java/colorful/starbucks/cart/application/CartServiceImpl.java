@@ -89,5 +89,11 @@ public class CartServiceImpl implements CartService {
                 });
     }
 
+    @Transactional
+    @Override
+    public void removeAllCart(String memberUuid) {
+        cartRepository.deleteAllByMemberUuid(memberUuid);
+    }
+
 }
 

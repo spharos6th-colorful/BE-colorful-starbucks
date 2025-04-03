@@ -18,4 +18,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     Optional<Cart> findByMemberUuidAndProductDetailCodeAndIsDeletedIsFalse(String memberUuid, String productDetailCode);
 
     Optional<Cart> findByIdAndMemberUuid(Long id, String memberUuid);
+
+    void deleteAllByMemberUuid(String memberUuid);
 }
