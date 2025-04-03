@@ -69,5 +69,13 @@ public class JwtTokenProvider {
             throw new IllegalArgumentException("유효하지 않은 RefreshToken 입니다.");
         }
     }
+    public long getRefreshTokenExpireTime() {
+        return env.getProperty("JWT.token.refresh-expire-time", Long.class);
+    }
+
+    public long getAccessTokenExpireTime() {
+        return env.getProperty("JWT.token.access-expire-time", Long.class);
+    }
+
 }
 

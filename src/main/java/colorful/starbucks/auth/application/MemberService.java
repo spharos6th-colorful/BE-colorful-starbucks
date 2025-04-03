@@ -26,5 +26,7 @@ public interface MemberService {
 
     void verifyEmailCode(EmailVerifyCodeRequestDto emailVerifyCodeRequestDto);
 
+    void signOut(MemberSignOutRequestDto memberSignOutRequestDto);
+
 
 }
