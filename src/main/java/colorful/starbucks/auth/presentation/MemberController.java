@@ -56,9 +56,10 @@ public class MemberController {
                 memberService.findPassword(MemberPasswordResetRequestDto.from(memberPasswordResetRequestVo)).toVo());
     }
 
-    @DeleteMapping("/sign-out")
-    public ApiResponse<String> logout() {
-        return ApiResponse.ok("로그아웃을 완료했습니다.");
+    @PostMapping("/sign-out")
+    public ApiResponse<Void> signOut(@RequestBody MemberSignOutRequestDto dto) {
+        memberService.signOut(dto);
+        return ApiResponse.ok("로그아웃을 완료했습니다",null);
     }
 
     @PostMapping("/kakao")

@@ -36,24 +36,9 @@ public class MemberServiceImpl implements MemberService {
     private final KakaoApiService kakaoApiService;
     private final UserDetailsService userDetailsService;
     private final EmailAuthRedisService emailAuthRedisService;
+    private final RefreshTokenRedisService refreshTokenRedisService;
 
-    @Transactional
-    @Override
-    public void signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
 
-        memberRepository.findByEmail(memberSignUpRequestDto.getEmail()).orElseThrow(
-                () -> new BaseException(ResponseStatus.DUPLICATED_USER)
-        );
-        memberRepository.save(memberSignUpRequestDto.toEntityWithEncodePassword(passwordEncoder));
-    }
-
-    @Override
-    public boolean isEmailDuplicated(String email) {
-
-        return memberRepository.existsByEmail(email);
-    }
-
-    @Transactional
     @Override
     public UserDetails loadUserByUuid(String uuid) {
         Member member = memberRepository.findByMemberUuid(uuid)
@@ -61,33 +46,72 @@ public class MemberServiceImpl implements MemberService {
         return new CustomUserDetails(member);
     }
 
-    private String createAccessToken(Authentication authentication) {
-        return jwtTokenProvider.generateAccessToken(authentication);
-    }
 
-    private String createRefreshToken(Authentication authentication) {
-        return jwtTokenProvider.generateRefreshToken(authentication);
-    }
-    private UsernamePasswordAuthenticationToken toAuthenticationToken(MemberSignInRequestDto memberSignInRequestDto) {
-        return new UsernamePasswordAuthenticationToken(memberSignInRequestDto.getEmail(), memberSignInRequestDto.getPassword());
+    @Transactional
+    @Override
+    public MemberSignInResponseDto signIn(MemberSignInRequestDto dto) {
+        Authentication authentication = authenticationManager.authenticate(
+                toAuthenticationToken(dto)
+        );
+        return generateTokensAndSaveRefresh(authentication);
     }
 
     @Transactional
     @Override
-    public MemberSignInResponseDto signIn(MemberSignInRequestDto signInRequestDto) {
-        Authentication authentication = authenticationManager.authenticate(toAuthenticationToken(signInRequestDto));
+    public MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto dto) {
+        KakaoUserInfo userInfo = dto.fetchUserInfo(kakaoApiService);
 
+        if (userInfo.getEmail() == null || userInfo.getEmail().isBlank()) {
+            throw new BaseException(ResponseStatus.INVALID_EMAIL_ADDRESS);
+        }
+
+        Member member = findOrCreateKakaoMember(userInfo);
+        UserDetails userDetails = new CustomUserDetails(member);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities()
+        );
+
+        return generateTokensAndSaveRefresh(authentication);
+    }
+
+    private MemberSignInResponseDto generateTokensAndSaveRefresh(Authentication authentication) {
         String accessToken = createAccessToken(authentication);
         String refreshToken = createRefreshToken(authentication);
+
+        String uuid = ((CustomUserDetails) authentication.getPrincipal()).getMemberUuid();
+        refreshTokenRedisService.saveRefreshToken(
+                uuid,
+                refreshToken,
+                jwtTokenProvider.getRefreshTokenExpireTime()
+        );
 
         return MemberSignInResponseDto.from(accessToken, refreshToken);
     }
 
+    private UsernamePasswordAuthenticationToken toAuthenticationToken(MemberSignInRequestDto dto) {
+        return new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
+    }
+
 
     @Transactional
     @Override
-    public AccessTokenResponseDto reIssueAccessToken(RefreshTokenRequestDto refreshTokenRequestDto) {
-        Authentication authentication = getAuthenticationFromRefreshToken(refreshTokenRequestDto.getRefreshToken());
+    public void signUp(MemberSignUpRequestDto dto) {
+        memberRepository.findByEmail(dto.getEmail()).orElseThrow(
+                () -> new BaseException(ResponseStatus.DUPLICATED_USER)
+        );
+        memberRepository.save(dto.toEntityWithEncodePassword(passwordEncoder));
+    }
+
+    @Override
+    public boolean isEmailDuplicated(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Transactional
+    @Override
+    public AccessTokenResponseDto reIssueAccessToken(RefreshTokenRequestDto dto) {
+        Authentication authentication = getAuthenticationFromRefreshToken(dto.getRefreshToken());
         String newAccessToken = jwtTokenProvider.generateAccessToken(authentication);
         return AccessTokenResponseDto.from(newAccessToken);
     }
@@ -98,51 +122,50 @@ public class MemberServiceImpl implements MemberService {
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
+    private String createAccessToken(Authentication authentication) {
+        return jwtTokenProvider.generateAccessToken(authentication);
+    }
 
-    @Transactional
-    @Override
-    public MemberEmailFindResponseDto findEmail(MemberEmailFindRequestDto memberEmailFindRequestDto) {
-        Member member = memberEmailFindRequestDto.findByMemberNameAndPhoneNumber(memberRepository)
-                .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER));
-
-        return MemberEmailFindResponseDto.from(member.getEmail());
+    private String createRefreshToken(Authentication authentication) {
+        return jwtTokenProvider.generateRefreshToken(authentication);
     }
 
     @Transactional
     @Override
-    public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto memberPasswordResetRequestDto) {
-        if (!memberRepository.existsByEmail(memberPasswordResetRequestDto.getEmail())) {
+    public EmailCodeSendResponseDto sendEmail(EmailCodeSendRequestDto dto) {
+        String code = dto.codeGenerator();
+        emailAuthRedisService.saveCode(dto.getEmail(), code);
+        emailService.sendEmailCode(dto.getEmail(), code);
+        return EmailCodeSendResponseDto.from(code);
+    }
+
+    @Transactional
+    @Override
+    public void verifyEmailCode(EmailVerifyCodeRequestDto dto) {
+        if (emailAuthRedisService.verifyCode(dto.getEmail(), dto.getCode())) {
+            emailAuthRedisService.deleteCode(dto.getEmail());
+        } else {
+            throw new BaseException(ResponseStatus.INVALID_AUTH_CODE);
+        }
+    }
+
+    @Transactional
+    @Override
+    public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto dto) {
+        if (!memberRepository.existsByEmail(dto.getEmail())) {
             throw new BaseException(ResponseStatus.NO_EXIST_USER);
         }
 
-        Member member = memberPasswordResetRequestDto.findMatchingMember(memberRepository)
+        Member member = dto.findMatchingMember(memberRepository)
                 .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER));
 
-        memberPasswordResetRequestDto.generateTempPassword(passwordEncoder);
-        member.updatePassword(memberPasswordResetRequestDto.getEncodedPassword());
-        emailService.sendTempPassword(member.getEmail(), memberPasswordResetRequestDto.getTempPassword());
+        dto.generateTempPassword(passwordEncoder);
+        member.updatePassword(dto.getEncodedPassword());
+        emailService.sendTempPassword(member.getEmail(), dto.getTempPassword());
 
         return MemberPasswordResetResponseDto.from("임시 비밀번호가 이메일로 전송 되었습니다.");
     }
 
-    @Transactional
-    @Override
-    public MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto kakaoSignInRequestDto) {
-        KakaoUserInfo userInfo = kakaoSignInRequestDto.fetchUserInfo(kakaoApiService);
-
-        if (userInfo.getEmail() == null || userInfo.getEmail().isBlank()) {
-            throw new BaseException(ResponseStatus.INVALID_EMAIL_ADDRESS);
-        }
-
-        Member member = findOrCreateKakaoMember(userInfo);
-
-        Authentication authentication = new UsernamePasswordAuthenticationToken(member.getMemberUuid(), null, null);
-
-        return MemberSignInResponseDto.from(
-                jwtTokenProvider.generateAccessToken(authentication),
-                jwtTokenProvider.generateRefreshToken(authentication)
-        );
-    }
 
     private Member findOrCreateKakaoMember(KakaoUserInfo kakaoUserInfo) {
         return memberRepository.findBySignTypeAndSocialId(SignType.KAKAO, kakaoUserInfo.getId())
@@ -157,30 +180,20 @@ public class MemberServiceImpl implements MemberService {
                 ));
     }
 
+    @Transactional
+    @Override
+    public MemberEmailFindResponseDto findEmail(MemberEmailFindRequestDto dto) {
+        Member member = dto.findByMemberNameAndPhoneNumber(memberRepository)
+                .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER));
+        return MemberEmailFindResponseDto.from(member.getEmail());
+    }
 
     @Transactional
     @Override
-    public EmailCodeSendResponseDto sendEmail(EmailCodeSendRequestDto emailCodeSendRequestDto) {
-        String code = emailCodeSendRequestDto.codeGenerator();
-        emailAuthRedisService.saveCode(emailCodeSendRequestDto.getEmail(), code);
-        emailService.sendEmailCode(emailCodeSendRequestDto.getEmail(), code);
-
-        return EmailCodeSendResponseDto.from(code);
+    public void signOut(MemberSignOutRequestDto memberSignOutRequeestDto) {
+        String uuid = jwtTokenProvider.validateAndExtractUuid(memberSignOutRequeestDto.getRefreshToken());
+        refreshTokenRedisService.deleteRefreshToken(uuid);
     }
-
-
-
-    @Transactional
-    @Override
-    public void verifyEmailCode(EmailVerifyCodeRequestDto dto) {
-        if (emailAuthRedisService.verifyCode(dto.getEmail(), dto.getCode())) {
-            emailAuthRedisService.deleteCode(dto.getEmail());
-        } else {
-            throw new BaseException(ResponseStatus.INVALID_AUTH_CODE);
-        }
-    }
-
-
 
 
 }
