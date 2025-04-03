@@ -2,9 +2,8 @@ package colorful.starbucks.product.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.product.application.InterestProductService;
-import colorful.starbucks.product.dto.request.InterestProductCreateRequestDto;
-import colorful.starbucks.product.vo.request.InterestProductCreateRequestVo;
-import colorful.starbucks.product.vo.response.InterestProductCreateResponseVo;
+import colorful.starbucks.product.dto.request.InterestProductAddRequestDto;
+import colorful.starbucks.product.vo.request.InterestProductAddRequestVo;
 import colorful.starbucks.product.vo.response.InterestProductListResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,24 +29,26 @@ public class InterestProductController {
     }
 
     @PostMapping
-    public ApiResponse<InterestProductCreateResponseVo> createInterestProduct(
-            @RequestBody InterestProductCreateRequestVo interestProductCreateRequestVo,
-            Authentication authentication) {
+    public ApiResponse<Void> addInterestProduct(Authentication authentication,
+                                                @RequestBody InterestProductAddRequestVo interestProductAddRequestVo) {
 
+        interestProductService.addInterestProduct(
+                InterestProductAddRequestDto.from(interestProductAddRequestVo, authentication.getName())
+        );
         return ApiResponse.of(
                 HttpStatus.CREATED,
                 "관심 상품 등록을 완료했습니다.",
-                interestProductService.createInterestProduct(
-                                InterestProductCreateRequestDto.from(interestProductCreateRequestVo, authentication.getName()))
-                        .toVo()
+                null
         );
     }
 
-    @DeleteMapping("/{productCode}")
+    @DeleteMapping("/{interestProductId}")
     public ApiResponse<Void> removeInterestProduct(Authentication authentication,
-                                                   @PathVariable String productCode) {
+                                                   @PathVariable Long interestProductId) {
 
-        interestProductService.removeInterestProduct(authentication.getName(), productCode);
-        return ApiResponse.of(HttpStatus.NO_CONTENT, "관심 상품 삭제를 완료했습니다.", null);
+        interestProductService.removeInterestProduct(interestProductId, authentication.getName());
+        return ApiResponse.of(HttpStatus.NO_CONTENT,
+                "관심 상품 삭제를 완료했습니다.",
+                null);
     }
 }

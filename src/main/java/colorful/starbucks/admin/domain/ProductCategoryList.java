@@ -20,7 +20,7 @@ public class ProductCategoryList extends BaseEntity {
 
     @Comment("상품 코드")
     @Column(nullable = false)
-    private String productCode;
+    private Long productCode;
 
     @Comment("상위 카테고리 ID")
     @Column(nullable = false)
@@ -38,18 +38,24 @@ public class ProductCategoryList extends BaseEntity {
     @Column(nullable = false)
     private String bottomCategoryName;
 
+    @Comment("상품 가격")
+    @Column(nullable = false)
+    private int price;
+
     @Builder
     private ProductCategoryList(Long id,
-                                String productCode,
+                                Long productCode,
                                 Long topCategoryId,
                                 String topCategoryName,
                                 Long bottomCategoryId,
-                                String bottomCategoryName) {
+                                String bottomCategoryName,
+                                int price) {
         this.id = id;
         this.productCode = productCode;
         this.topCategoryId = topCategoryId;
         this.topCategoryName = topCategoryName;
         this.bottomCategoryId = bottomCategoryId;
         this.bottomCategoryName = bottomCategoryName;
+        this.price = price;
     }
 }

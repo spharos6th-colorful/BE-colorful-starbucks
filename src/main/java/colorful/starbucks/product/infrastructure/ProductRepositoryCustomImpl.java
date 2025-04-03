@@ -1,7 +1,7 @@
 package colorful.starbucks.product.infrastructure;
 
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.product.dto.ProductFilterDto;
-import colorful.starbucks.product.dto.response.FilteredProductResponseDto;
 import colorful.starbucks.product.dto.response.ProductResponseDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -10,7 +10,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -26,10 +25,10 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public FilteredProductResponseDto getProductsByFilter(ProductFilterDto filter,
-                                                          Long productId,
-                                                          int price,
-                                                          Pageable pageable) {
+    public CursorPage<ProductResponseDto> getProductsByFilter(ProductFilterDto filter,
+                                            Long productId,
+                                            int price,
+                                            Pageable pageable) {
 
         JPAQuery<ProductResponseDto> query = queryFactory.select(
                         Projections.constructor(ProductResponseDto.class,
@@ -43,8 +42,8 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
                         )
                 )
                 .from(product)
-                .leftJoin(productCategoryList)
-                .on(productCategoryList.productCode.eq(product.productCode))
+//                .leftJoin(productCategoryList)
+//                .on(productCategoryList.productCode.eq(product.productCode))
                 .where(
                         minPriceGoe(filter.getMinPrice()),
                         maxPriceLoe(filter.getMaxPrice()),
@@ -54,19 +53,21 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
                 );
 
         applySorting(query, filter, productId, price);
+
         List<ProductResponseDto> content = query.limit(pageable.getPageSize() + 1).fetch();
 
-        if (content.isEmpty()) {
-            throw new RuntimeException("더 이상 조회할 상품이 없습니다.");
-        }
+        ProductResponseDto cursorProduct = content.get(content.size() - 1);
+        boolean hasNext = hasNextPage(content, pageable);
+        Long nextCursor = hasNext ? cursorProduct.getProductCode() : null;
 
-        return FilteredProductResponseDto.of(
-                new SliceImpl<>(content, pageable, hasNextPage(pageable, content)),
-                content.get(content.size() - 1).getProductCode()
-        );
+        return CursorPage.<ProductResponseDto>builder()
+                .content(content)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .build();
     }
 
-    private boolean hasNextPage(Pageable pageable, List<ProductResponseDto> content) {
+    private boolean hasNextPage(List<ProductResponseDto> content, Pageable pageable) {
         boolean hasNext = content.size() > pageable.getPageSize();
         if (hasNext) {
             content.remove(pageable.getPageSize());
@@ -107,20 +108,20 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
                     break;
                 case "createdAt,asc":
                     builder.and(product.id.gt(productId));
-                    query.orderBy(product.createdAt.asc(), product.id.asc());
+                    query.orderBy(product.id.asc());
                     break;
                 case "createdAt,desc":
                     builder.and(product.id.lt(productId));
-                    query.orderBy(product.createdAt.desc(), product.id.desc());
+                    query.orderBy(product.id.desc());
                     break;
                 default:
                     builder.and(product.id.lt(productId));
-                    query.orderBy(product.createdAt.desc(), product.id.desc());
+                    query.orderBy(product.id.desc());
                     break;
             }
         } else {
             builder.and(product.id.lt(productId));
-            query.orderBy(product.createdAt.desc(), product.id.desc());
+            query.orderBy(product.id.desc());
         }
 
         query.where(builder);

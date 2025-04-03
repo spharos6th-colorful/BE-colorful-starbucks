@@ -4,6 +4,7 @@ import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.s3.S3UploadService;
 import colorful.starbucks.product.domain.ProductDetail;
+import colorful.starbucks.product.dto.request.ProductDetailCodeAndQuantityRequestDto;
 import colorful.starbucks.product.dto.request.ProductDetailCreateRequestDto;
 import colorful.starbucks.product.dto.response.ProductDetailCodeAndQuantityResponseDto;
 import colorful.starbucks.product.dto.response.ProductDetailResponseDto;
@@ -31,7 +32,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     public ProductDetailResponseDto createProductDetail(ProductDetailCreateRequestDto productDetailCreateRequestDto,
                                                         MultipartFile productDetailThumbnail) {
 
-        if (productDetailRepository.existsByProductCodeAndSizeIdAndColorIdAndIsDeletedFalse(
+        if (productDetailRepository.existsByProductCodeAndSizeIdAndColorIdAndIsDeletedIsFalse(
                 productDetailCreateRequestDto.getProductCode(),
                 productDetailCreateRequestDto.getSizeId(),
                 productDetailCreateRequestDto.getColorId())) {
@@ -54,25 +55,23 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     @Override
     public ProductDetailResponseDto getProductDetail(String productDetailCode) {
         return ProductDetailResponseDto.from(
-                productDetailRepository.findByProductDetailCode(productDetailCode)
+                productDetailRepository.findByProductDetailCodeAndIsDeletedIsFalse(productDetailCode)
                         .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }
 
     @Override
     public ProductOptionListResponseDto getProductOptionList(String productCode) {
-        List<ProductDetail> productDetails = productDetailRepository.findAllByProductCode(productCode);
+        List<ProductDetail> productDetails = productDetailRepository.findAllByProductCodeAndIsDeletedIsFalse(productCode);
         return ProductOptionListResponseDto.from(productDetails);
     }
 
     @Override
     public ProductDetailCodeAndQuantityResponseDto getProductDetailWithOptions(
-            String productCode,
-            Long sizeId,
-            Long colorId) {
+            ProductDetailCodeAndQuantityRequestDto productDetailCodeAndQuantityRequestDto) {
 
         return ProductDetailCodeAndQuantityResponseDto.from(
-                productDetailRepository.findByProductCodeAndOptions(productCode, sizeId, colorId)
+                productDetailRepository.findByProductCodeAndOptions(productDetailCodeAndQuantityRequestDto)
                         .orElseThrow(() ->  new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }

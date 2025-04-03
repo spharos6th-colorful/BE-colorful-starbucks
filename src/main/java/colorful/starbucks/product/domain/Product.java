@@ -19,7 +19,7 @@ public class Product extends BaseEntity {
 
     @Comment("상품 코드")
     @Column(nullable = false, unique = true)
-    private String productCode;
+    private Long productCode;
 
     @Comment("상품명")
     @Column(nullable = false, length = 150)
@@ -44,12 +44,12 @@ public class Product extends BaseEntity {
     private String productThumbnailUrl;
 
     @Comment("상품 각인 가능 여부")
-    @Column(nullable = false, columnDefinition = "Tinyint(1) default 0")
+    @Column(nullable = false)
     private boolean markable;
 
     @Builder
     public Product(Long id,
-                   String productCode,
+                   Long productCode,
                    String productName,
                    int price,
                    String description,
@@ -64,5 +64,9 @@ public class Product extends BaseEntity {
         this.productImageUrl = productImageUrl;
         this.productThumbnailUrl = productThumbnailUrl;
         this.markable = markable;
+    }
+
+    public void initProductCode() {
+        this.productCode = Long.valueOf(String.valueOf(this.productCode) + this.id);
     }
 }

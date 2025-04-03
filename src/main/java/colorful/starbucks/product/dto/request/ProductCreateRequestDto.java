@@ -41,7 +41,7 @@ public class ProductCreateRequestDto {
                 .build();
     }
 
-    public Product toEntity(String productCode,
+    public Product toEntity(Long productCode,
                             String productThumbnailUrl,
                             String productImageUrl) {
         return Product.builder()

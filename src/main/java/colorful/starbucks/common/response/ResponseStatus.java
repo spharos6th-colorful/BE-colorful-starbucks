@@ -24,6 +24,7 @@ public enum ResponseStatus {
     NO_EXIST_OAUTH(HttpStatus.NOT_FOUND, false, 406, "소셜 로그인 정보가 존재하지 않습니다."),
 
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, false, 404, "리소스가 존재하지 않습니다."),
+
     REQUEST_CONFLICT(HttpStatus.CONFLICT, false, 409, "POST 요청에 실패했습니다."),
     SAME_NICKNAME(HttpStatus.CONFLICT, false, 409, "현재 사용중인 닉네임입니다."),
     INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 400, "이메일을 다시 확인해주세요."),
@@ -35,14 +36,12 @@ public enum ResponseStatus {
     TERMS_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "약관 동의 저장에 실패했습니다."),
     INVALID_AUTH_CODE(HttpStatus.BAD_REQUEST, false, 400, "잘못된 인증번호입니다."),
 
-
-
     /**
      * 9xx: 기타 에러
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "Internal server error"),
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
-
+    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 902, "Database error"),
     /**
      * 2000: users service error
      */
@@ -78,8 +77,11 @@ public enum ResponseStatus {
     DUPLICATED_OPTION(HttpStatus.CONFLICT, false, 3005, "이미 등록된 옵션입니다"),
     DUPLICATED_CATEGORY(HttpStatus.CONFLICT, false, 3006, "이미 등록된 카테고리입니다"),
 
-    NO_EXIST_OPTIONS_IN_PRODUCT(HttpStatus.NOT_FOUND, false, 3007, "해당 상품에 옵션이 존재하지 않습니다")
-    ;
+    NO_EXIST_OPTIONS_IN_PRODUCT(HttpStatus.NOT_FOUND, false, 3007, "해당 상품에 옵션이 존재하지 않습니다"),
+
+    // Cart
+    ALREADY_DELETED_CART_ITEM(HttpStatus.CONFLICT, false, 3008,"이미 삭제된 장바구니 상품입니다." ),
+    DUPLICATED_DELIVERY(HttpStatus.CONFLICT, false, 3009, "이미 등록된 배송지입니다");
 
 
     private final HttpStatus httpStatus;

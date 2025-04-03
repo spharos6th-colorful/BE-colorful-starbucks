@@ -22,9 +22,16 @@ public class ProductBottomCategory extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String categoryName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_top_category_id")
+    private ProductTopCategory productTopCategory;
+
     @Builder
-    private ProductBottomCategory(Long id, String categoryName) {
+    public ProductBottomCategory(Long id,
+                                 String categoryName,
+                                 ProductTopCategory productTopCategory) {
         this.id = id;
         this.categoryName = categoryName;
+        this.productTopCategory = productTopCategory;
     }
 }
