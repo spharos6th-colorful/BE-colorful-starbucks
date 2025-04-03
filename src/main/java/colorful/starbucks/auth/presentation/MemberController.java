@@ -21,7 +21,7 @@ public class MemberController {
         return ApiResponse.ok("회원가입이 완료되었습니다.", null);
     }
 
-    @GetMapping("email/exists")
+    @GetMapping("/email/exists")
     public ApiResponse<Boolean> checkEmailDuplication(@RequestParam String email) {
         return ApiResponse.ok(
                 "이메일 중복 체크를 완료하였습니다.",

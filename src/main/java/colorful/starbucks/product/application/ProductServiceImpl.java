@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
                             productImageUrl)
             ));
         } catch (Exception e) {
-            throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "상품 등록에 실패했습니다.");
+            throw new BaseException(ResponseStatus.REQUEST_CONFLICT, "상품 등록에 실패했습니다.");
         }
     }
 
