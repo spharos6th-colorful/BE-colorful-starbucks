@@ -19,7 +19,7 @@ public class CartDeleteRequestDto {
         this.memberUuid = memberUuid;
     }
 
-    public static CartDeleteRequestDto from(CartDeleteRequestVo cartDeleteRequestVo, String memberUuid) {
+    public static CartDeleteRequestDto of(CartDeleteRequestVo cartDeleteRequestVo, String memberUuid) {
         return CartDeleteRequestDto.builder()
                 .id(cartDeleteRequestVo.getId())
                 .memberUuid(memberUuid)
@@ -27,9 +27,9 @@ public class CartDeleteRequestDto {
     }
 
 
-    public static List<CartDeleteRequestDto> from(List<CartDeleteRequestVo> cartDeleteRequestVos, String memberUuid) {
+    public static List<CartDeleteRequestDto> of(List<CartDeleteRequestVo> cartDeleteRequestVos, String memberUuid) {
         return cartDeleteRequestVos.stream()
-                .map(vo -> from(vo, memberUuid))
+                .map(vo -> of(vo, memberUuid))
                 .collect(Collectors.toList());
     }
 

@@ -26,7 +26,7 @@ public class CartController {
     public ApiResponse<Void> createCart(Authentication authentication,
                                         @RequestBody List<CartAddRequestVo> cartAddRequestVos) {
 
-        cartService.addCart(CartAddRequestDto.from(cartAddRequestVos, authentication.getName()));
+        cartService.addCart(CartAddRequestDto.of(cartAddRequestVos, authentication.getName()));
 
         return ApiResponse.ok(
                 "장바구니 담기를 성공적으로 완료했습니다",
@@ -34,17 +34,27 @@ public class CartController {
         );
     }
 
-    @DeleteMapping
-    public ApiResponse<Void> removeCart(Authentication authentication,
-                                        @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
+    @PutMapping("/{cartId}")
+    public ApiResponse<Void> editCartProductOptions(Authentication authentication,
+                                                    @PathVariable Long cartId,
+                                                    @RequestBody CartOptionEditRequestVo cartOptionEditRequestVo) {
 
-        cartService.removeCartList(CartDeleteRequestDto.from(cartDeleteRequestVos, authentication.getName()));
-        return ApiResponse.of(
-                HttpStatus.NO_CONTENT,
-                "장바구니 상품 삭제를 완료했습니다",
+        cartService.editCartOptions(CartOptionEditRequestDto.of(cartOptionEditRequestVo, cartId, authentication.getName()));
+        return ApiResponse.ok(
+                "장바구니 옵션 변경 완료했습니다.",
                 null
         );
     }
+
+    @PutMapping("/checked")
+    public ApiResponse<CartCheckRequestVo> updateCartProductCheck(Authentication authentication,
+                                                                  @RequestBody List<CartCheckRequestVo> cartCheckRequestVos) {
+
+        cartService.updateCartChecked(CartCheckRequestDto.of(cartCheckRequestVos, authentication.getName()));
+        return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
+                null);
+    }
+
 
     @GetMapping
     public ApiResponse<CartListResponseVo> getCartList(Authentication authentication,
@@ -56,17 +66,6 @@ public class CartController {
         );
     }
 
-    @PutMapping("/{cartId}")
-    public ApiResponse<Void> editCartProductOptions(Authentication authentication,
-                                                    @PathVariable Long cartId,
-                                                    @RequestBody CartOptionEditRequestVo cartOptionEditRequestVo){
-
-        cartService.editCartOptions(CartOptionEditRequestDto.from(cartOptionEditRequestVo, cartId, authentication.getName()));
-        return ApiResponse.ok(
-                "장바구니 옵션 변경 완료했습니다.",
-                null
-        );
-    }
 
     @GetMapping("/{cartId}")
     public ApiResponse<CartDetailResponseVo> getCartProductDetails(@PathVariable Long cartId) {
@@ -75,19 +74,25 @@ public class CartController {
                 cartService.getCartDetail(cartId).toVo()
         );
     }
-    @PutMapping("/checked")
-    public ApiResponse<CartCheckRequestVo> updateCartProductCheck(Authentication authentication,
-                                                                  @RequestBody List<CartCheckRequestVo> cartCheckRequestVos) {
 
-        cartService.updateCartChecked(CartCheckRequestDto.from(cartCheckRequestVos, authentication.getName()));
-        return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
-        null);
-    }
 
     @DeleteMapping("/all")
-    public ApiResponse<Void> removeAllCart(Authentication authentication){
+    public ApiResponse<Void> removeAllCart(Authentication authentication) {
         cartService.removeAllCart(authentication.getName());
         return ApiResponse.ok("장바구니 전체 삭제를 완료 했습니다.",
                 null);
     }
+
+    @DeleteMapping
+    public ApiResponse<Void> removeCart(Authentication authentication,
+                                        @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
+
+        cartService.removeCartList(CartDeleteRequestDto.of(cartDeleteRequestVos, authentication.getName()));
+        return ApiResponse.of(
+                HttpStatus.NO_CONTENT,
+                "장바구니 상품 삭제를 완료했습니다",
+                null
+        );
+    }
+
 }

@@ -1,6 +1,5 @@
 package colorful.starbucks.member.dto.request;
 
-import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.member.vo.request.MemberMyPageEditRequestVo;
 import lombok.Builder;
 import lombok.Getter;
