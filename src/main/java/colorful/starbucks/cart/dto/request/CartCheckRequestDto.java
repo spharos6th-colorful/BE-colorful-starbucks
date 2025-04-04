@@ -21,16 +21,16 @@ public class CartCheckRequestDto {
         this.memberUuid = memberUuid;
     }
 
-    private static CartCheckRequestDto from(CartCheckRequestVo cartCheckRequestVo, String memberUuid) {
+    private static CartCheckRequestDto of(CartCheckRequestVo cartCheckRequestVo, String memberUuid) {
         return CartCheckRequestDto.builder()
                 .id(cartCheckRequestVo.getId())
                 .checked(cartCheckRequestVo.isChecked())
                 .memberUuid(memberUuid)
                 .build();
     }
-    public static List<CartCheckRequestDto> from(List<CartCheckRequestVo> cartCheckRequestVos, String memberUuid) {
+    public static List<CartCheckRequestDto> of(List<CartCheckRequestVo> cartCheckRequestVos, String memberUuid) {
         return cartCheckRequestVos.stream()
-                .map(vo -> from(vo, memberUuid))
+                .map(vo -> of(vo, memberUuid))
                 .collect(Collectors.toList());
     }
 }

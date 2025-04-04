@@ -22,7 +22,9 @@ public class CartOptionEditRequestDto {
         this.quantity = quantity;
     }
 
-    public static CartOptionEditRequestDto from(CartOptionEditRequestVo cartOptionEditRequestVo, Long cartId, String memberUuid) {
+    public static CartOptionEditRequestDto of(CartOptionEditRequestVo cartOptionEditRequestVo,
+                                              Long cartId,
+                                              String memberUuid) {
         return CartOptionEditRequestDto.builder()
                 .memberUuid(memberUuid)
                 .cartId(cartId)

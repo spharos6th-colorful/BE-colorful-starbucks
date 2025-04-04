@@ -33,7 +33,7 @@ public class DeliveryAddRequestDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public static DeliveryAddRequestDto from(DeliveryAddRequestVo deliveryAddRequestVo, String memberUuid) {
+    public static DeliveryAddRequestDto of(DeliveryAddRequestVo deliveryAddRequestVo, String memberUuid) {
         return DeliveryAddRequestDto.builder()
                 .memberUuid(memberUuid)
                 .addressNickname(deliveryAddRequestVo.getAddressNickname())

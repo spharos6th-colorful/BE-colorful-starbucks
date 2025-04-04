@@ -41,12 +41,27 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
+    public void editCartOptions(CartOptionEditRequestDto cartOptionEditRequestDto) {
 
-        cartDeleteRequestDtos.stream()
-                .map(cartProduct -> cartRepository.findByIdAndMemberUuid(cartProduct.getId(),cartProduct.getMemberUuid())
-                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND)))
-                .forEach(cart -> cartRepository.deleteById(cart.getId()));
+        Cart cart = cartRepository.findByIdAndMemberUuid(cartOptionEditRequestDto.getCartId(), cartOptionEditRequestDto.getMemberUuid())
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+
+        cart.updateProductOption(cartOptionEditRequestDto.getProductDetailCode(),
+                cartOptionEditRequestDto.getQuantity());
+
+    }
+
+    @Transactional
+    @Override
+    public void updateCartChecked(List<CartCheckRequestDto> cartCheckRequestDtos) {
+
+        cartCheckRequestDtos
+                .forEach(c -> {
+                    cartRepository.findByIdAndMemberUuid(c.getId(), c.getMemberUuid())
+                            .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
+                            .updateProductChecked(c.isChecked());
+
+                });
     }
 
     @Override
@@ -57,18 +72,6 @@ public class CartServiceImpl implements CartService {
         );
     }
 
-    @Transactional
-    @Override
-    public void editCartOptions(CartOptionEditRequestDto cartOptionEditRequestDto) {
-
-            Cart cart = cartRepository.findByIdAndMemberUuid(cartOptionEditRequestDto.getCartId(), cartOptionEditRequestDto.getMemberUuid())
-                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-
-            cart.updateProductOption(cartOptionEditRequestDto.getProductDetailCode(),
-                    cartOptionEditRequestDto.getQuantity());
-
-    }
-
     @Override
     public CartDetailResponseDto getCartDetail(Long cartId) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
@@ -76,18 +79,16 @@ public class CartServiceImpl implements CartService {
 
     }
 
+
     @Transactional
     @Override
-    public void updateCartChecked(List<CartCheckRequestDto> cartCheckRequestDtos) {
+    public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
 
-        cartCheckRequestDtos
-                .forEach(c-> {
-                    cartRepository.findByIdAndMemberUuid(c.getId(), c.getMemberUuid())
-                            .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
-                            .updateProductChecked(c.isChecked());
+        cartDeleteRequestDtos.stream()
+                .forEach(cartProduct -> cartRepository.deleteByIdAndMemberUuid(cartProduct.getId(), cartProduct.getMemberUuid()));
 
-                });
     }
+
 
     @Transactional
     @Override

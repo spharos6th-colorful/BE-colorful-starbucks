@@ -30,7 +30,7 @@ public class CartAddRequestDto {
         this.quantity = quantity;
     }
 
-    public static CartAddRequestDto from(CartAddRequestVo cartAddRequestVo, String memberUuid) {
+    public static CartAddRequestDto of(CartAddRequestVo cartAddRequestVo, String memberUuid) {
         return CartAddRequestDto.builder()
                 .memberUuid(memberUuid)
                 .productDetailCode(cartAddRequestVo.getProductDetailCode())
@@ -39,9 +39,9 @@ public class CartAddRequestDto {
                 .quantity(cartAddRequestVo.getQuantity())
                 .build();
     }
-    public static List<CartAddRequestDto> from(List<CartAddRequestVo> cartAddRequestVos, String memberUuid) {
+    public static List<CartAddRequestDto> of(List<CartAddRequestVo> cartAddRequestVos, String memberUuid) {
         return cartAddRequestVos.stream()
-                .map(vo -> from(vo, memberUuid))
+                .map(vo -> of(vo, memberUuid))
                 .collect(Collectors.toList());
     }
 

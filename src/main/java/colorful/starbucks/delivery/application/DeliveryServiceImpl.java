@@ -33,22 +33,6 @@ public class DeliveryServiceImpl implements DeliveryService {
         deliveryRepository.save(deliveryAddRequestDto.toEntity(deliveryAddRequestDto.getMemberUuid(), isDefaultAddress, MemberAddressUuidGenerator.generate()));
     }
 
-    @Transactional
-    @Override
-    public void deleteAddress(DeliveryDeleteRequestDto deliveryDeleteRequestDto) {
-        deliveryRepository.deleteByMemberUuidAndMemberAddressUuid(deliveryDeleteRequestDto.getMemberUuid(),
-                deliveryDeleteRequestDto.getMemberAddressUuid());
-    }
-
-
-    @Override
-    public DeliveryAddressResponseDto getIndividualAddress(DeliveryAddressRequestDto deliveryAddressRequestDto) {
-        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(
-                deliveryAddressRequestDto.getMemberUuid(),
-                deliveryAddressRequestDto.getMemberAddressUuid()
-        ).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-        return DeliveryAddressResponseDto.from(deliveryAddress);
-    }
 
     @Transactional
     @Override
@@ -80,6 +64,17 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     }
 
+
+    @Override
+    public DeliveryAddressResponseDto getIndividualAddress(DeliveryAddressRequestDto deliveryAddressRequestDto) {
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(
+                deliveryAddressRequestDto.getMemberUuid(),
+                deliveryAddressRequestDto.getMemberAddressUuid()
+        ).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        return DeliveryAddressResponseDto.from(deliveryAddress);
+    }
+
+
     @Override
     public DeliveryDefaultAddressResponseDto getDefaultAddress(String memberUuid) {
 
@@ -96,6 +91,13 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .stream()
                 .map(DeliveryAddressesResponseDto::from)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public void deleteAddress(DeliveryDeleteRequestDto deliveryDeleteRequestDto) {
+        deliveryRepository.deleteByMemberUuidAndMemberAddressUuid(deliveryDeleteRequestDto.getMemberUuid(),
+                deliveryDeleteRequestDto.getMemberAddressUuid());
     }
 
 }
