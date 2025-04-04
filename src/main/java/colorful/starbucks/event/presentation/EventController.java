@@ -3,13 +3,13 @@ package colorful.starbucks.event.presentation;
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.common.util.PageResponse;
 import colorful.starbucks.event.application.EventService;
-import colorful.starbucks.event.dto.EventCreateRequestDto;
-import colorful.starbucks.event.dto.EventResponseDto;
-import colorful.starbucks.event.vo.EventCreateRequestVo;
-import colorful.starbucks.event.vo.EventResponseVo;
+import colorful.starbucks.event.dto.request.EventCreateRequestDto;
+import colorful.starbucks.event.dto.request.EventFilterRequestDto;
+import colorful.starbucks.event.dto.response.EventResponseDto;
+import colorful.starbucks.event.vo.request.EventCreateRequestVo;
+import colorful.starbucks.event.vo.request.EventFilterRequestVo;
+import colorful.starbucks.event.vo.response.EventResponseVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +31,12 @@ public class EventController {
     }
 
     @GetMapping
-    public ApiResponse<PageResponse<EventResponseVo>> getEvents(@PageableDefault(size = 3) Pageable pageable) {
+    public ApiResponse<PageResponse<EventResponseVo>> getEvents(@ModelAttribute EventFilterRequestVo eventFilterRequestVo) {
         return ApiResponse.ok(
                 "이벤트 조회를 완료했습니다.",
-                PageResponse.from(eventService.getEvents(pageable).map(EventResponseDto::toVo))
+                PageResponse.from(eventService.getEvents(EventFilterRequestDto.from(eventFilterRequestVo))
+                        .map(EventResponseDto::toVo)
+                )
         );
     }
 }

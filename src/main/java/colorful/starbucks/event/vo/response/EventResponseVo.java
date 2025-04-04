@@ -1,4 +1,4 @@
-package colorful.starbucks.event.vo;
+package colorful.starbucks.event.vo.response;
 
 import lombok.Builder;
 import lombok.Getter;

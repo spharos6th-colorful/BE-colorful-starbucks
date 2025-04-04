@@ -1,7 +1,8 @@
 package colorful.starbucks.event.application;
 
-import colorful.starbucks.event.dto.EventCreateRequestDto;
-import colorful.starbucks.event.dto.EventResponseDto;
+import colorful.starbucks.event.dto.request.EventCreateRequestDto;
+import colorful.starbucks.event.dto.request.EventFilterRequestDto;
+import colorful.starbucks.event.dto.response.EventResponseDto;
 import colorful.starbucks.event.infrastructure.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Page<EventResponseDto> getEvents(Pageable pageable) {
-        return eventRepository.getEvents(pageable).map(EventResponseDto::from);
+    public Page<EventResponseDto> getEvents(EventFilterRequestDto eventFilterRequestDto) {
+        return eventRepository.getEvents(eventFilterRequestDto).map(EventResponseDto::from);
     }
 }

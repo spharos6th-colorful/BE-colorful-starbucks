@@ -1,8 +1,8 @@
-package colorful.starbucks.event.dto;
+package colorful.starbucks.event.dto.request;
 
 import colorful.starbucks.event.domain.Event;
 import colorful.starbucks.event.domain.EventStatus;
-import colorful.starbucks.event.vo.EventCreateRequestVo;
+import colorful.starbucks.event.vo.request.EventCreateRequestVo;
 import colorful.starbucks.product.generator.ProductDetailCodeGenerator;
 import lombok.Builder;
 import lombok.Getter;
