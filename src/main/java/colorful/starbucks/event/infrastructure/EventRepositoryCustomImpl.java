@@ -2,11 +2,13 @@ package colorful.starbucks.event.infrastructure;
 
 import colorful.starbucks.event.domain.Event;
 import colorful.starbucks.event.domain.EventStatus;
+import colorful.starbucks.event.dto.request.EventFilterRequestDto;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
@@ -20,29 +22,45 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    private static final int DEFAULT_PAGE_SIZE = 20;
+    private static final int DEFAULT_PAGE_NUMBER = 0;
+
     @Override
-    public Page<Event> getEvents(Pageable pageable) {
+    public Page<Event> getEvents(EventFilterRequestDto eventFilterRequestDto) {
+
+        int currentPage = eventFilterRequestDto.getPage() != null ? eventFilterRequestDto.getPage() : DEFAULT_PAGE_NUMBER;
+        int size = eventFilterRequestDto.getSize() != null ? eventFilterRequestDto.getSize() : DEFAULT_PAGE_SIZE;
+        int offset = currentPage == 0 ? 0 : (currentPage) * size;
+
         List<Event> content = queryFactory.selectFrom(event)
                 .where(
-                        event.status.eq(EventStatus.ONGOING),
-                        event.isDeleted.isFalse()
+                        eqEventStatus(eventFilterRequestDto.getStatus()),
+                        eqIsDeleted(eventFilterRequestDto.getIsDeleted())
                 )
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .offset(offset)
+                .limit(size)
                 .orderBy(event.id.desc())
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory.select(event.count())
                 .from(event)
                 .where(
-                        event.status.eq(EventStatus.ONGOING),
-                        event.isDeleted.isFalse()
+                        eqEventStatus(eventFilterRequestDto.getStatus()),
+                        eqIsDeleted(eventFilterRequestDto.getIsDeleted())
                 );
 
         return PageableExecutionUtils.getPage(
                 content,
-                pageable,
+                PageRequest.of(currentPage, size),
                 countQuery::fetchOne
         );
+    }
+
+    private BooleanExpression eqIsDeleted(Boolean isDeleted) {
+        return isDeleted != null ? event.isDeleted.eq(isDeleted) : null;
+    }
+
+    private BooleanExpression eqEventStatus(EventStatus eventStatus) {
+        return eventStatus != null ? event.status.eq(eventStatus) : null;
     }
 }

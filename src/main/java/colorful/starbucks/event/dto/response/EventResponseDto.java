@@ -1,7 +1,7 @@
-package colorful.starbucks.event.dto;
+package colorful.starbucks.event.dto.response;
 
 import colorful.starbucks.event.domain.Event;
-import colorful.starbucks.event.vo.EventResponseVo;
+import colorful.starbucks.event.vo.response.EventResponseVo;
 import lombok.Builder;
 import lombok.Getter;
 

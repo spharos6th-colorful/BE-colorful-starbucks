@@ -1,4 +1,4 @@
-package colorful.starbucks.event.vo;
+package colorful.starbucks.event.vo.request;
 
 import colorful.starbucks.event.domain.EventStatus;
 import lombok.Getter;
