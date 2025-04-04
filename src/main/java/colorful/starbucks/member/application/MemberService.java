@@ -4,6 +4,6 @@ import colorful.starbucks.member.dto.response.MemberMyPageResponseDto;
 
 public interface MemberService {
 
-    MemberMyPageResponseDto getMemberMyPage(String memberUuid);
+    MemberMyPageResponseDto getMyPage(String memberUuid);
 
 }

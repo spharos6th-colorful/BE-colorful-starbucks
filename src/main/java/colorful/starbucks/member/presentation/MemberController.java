@@ -19,7 +19,7 @@ public class MemberController {
     @GetMapping("/my-page")
     public ApiResponse<MemberMyPageResponseVo> getMemberMyPage(Authentication authentication) {
         return ApiResponse.ok("마이페이지 조회를 완료했습니다.",
-                memberService.getMemberMyPage(authentication.getName()).toVo());
+                memberService.getMyPage(authentication.getName()).toVo());
 
     }
 
