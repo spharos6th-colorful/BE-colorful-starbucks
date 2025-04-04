@@ -8,6 +8,7 @@ import colorful.starbucks.event.dto.request.EventFilterRequestDto;
 import colorful.starbucks.event.dto.response.EventResponseDto;
 import colorful.starbucks.event.vo.request.EventCreateRequestVo;
 import colorful.starbucks.event.vo.request.EventFilterRequestVo;
+import colorful.starbucks.event.vo.response.EventDetailResponseVo;
 import colorful.starbucks.event.vo.response.EventResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,14 @@ public class EventController {
                 PageResponse.from(eventService.getEvents(EventFilterRequestDto.from(eventFilterRequestVo))
                         .map(EventResponseDto::toVo)
                 )
+        );
+    }
+
+    @GetMapping("/{eventUuid}")
+    public ApiResponse<EventDetailResponseVo> getEventDetail(@PathVariable String eventUuid) {
+        return ApiResponse.ok(
+                "이벤트 조회를 완료했습니다.",
+                eventService.getEventDetail(eventUuid).toVo()
         );
     }
 }

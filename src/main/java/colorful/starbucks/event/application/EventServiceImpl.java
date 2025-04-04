@@ -2,6 +2,7 @@ package colorful.starbucks.event.application;
 
 import colorful.starbucks.event.dto.request.EventCreateRequestDto;
 import colorful.starbucks.event.dto.request.EventFilterRequestDto;
+import colorful.starbucks.event.dto.response.EventDetailResponseDto;
 import colorful.starbucks.event.dto.response.EventResponseDto;
 import colorful.starbucks.event.infrastructure.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,12 @@ public class EventServiceImpl implements EventService {
     @Override
     public Page<EventResponseDto> getEvents(EventFilterRequestDto eventFilterRequestDto) {
         return eventRepository.getEvents(eventFilterRequestDto).map(EventResponseDto::from);
+    }
+
+    @Override
+    public EventDetailResponseDto getEventDetail(String eventUuid) {
+        return EventDetailResponseDto.from(eventRepository.findByEventUuid(eventUuid)
+                .orElseThrow(() -> new IllegalArgumentException("이벤트를 찾을 수 없습니다."))
+        );
     }
 }
