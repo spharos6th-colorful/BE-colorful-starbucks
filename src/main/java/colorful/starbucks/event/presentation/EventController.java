@@ -44,7 +44,7 @@ public class EventController {
     @GetMapping("/{eventUuid}")
     public ApiResponse<EventDetailResponseVo> getEventDetail(@PathVariable String eventUuid) {
         return ApiResponse.ok(
-                "이벤트 조회를 완료했습니다.",
+                "이벤트 상세 조회를 완료했습니다.",
                 eventService.getEventDetail(eventUuid).toVo()
         );
     }
