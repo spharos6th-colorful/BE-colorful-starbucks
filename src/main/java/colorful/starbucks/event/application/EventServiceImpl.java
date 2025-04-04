@@ -37,4 +37,10 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }
+
+    @Transactional
+    @Override
+    public void deleteEvent(String eventUuid) {
+         eventRepository.deleteByEventUuid(eventUuid);
+    }
 }

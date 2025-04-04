@@ -13,4 +13,6 @@ public interface EventService {
     Page<EventResponseDto> getEvents(EventFilterRequestDto eventFilterRequestDto);
 
     EventDetailResponseDto getEventDetail(String eventUuid);
+
+    void deleteEvent(String eventUuid);
 }
