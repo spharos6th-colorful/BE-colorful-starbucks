@@ -85,9 +85,8 @@ public class CartServiceImpl implements CartService {
     public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
 
         cartDeleteRequestDtos.stream()
-                .map(cartProduct -> cartRepository.findByIdAndMemberUuid(cartProduct.getId(), cartProduct.getMemberUuid())
-                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND)))
-                .forEach(cart -> cartRepository.deleteById(cart.getId()));
+                .forEach(cartProduct -> cartRepository.deleteByIdAndMemberUuid(cartProduct.getId(), cartProduct.getMemberUuid()));
+
     }
 
 
