@@ -12,11 +12,10 @@ public class InterestProductAddResponseDto {
     private String productThumbnailUrl;
 
     @Builder
-    private InterestProductAddResponseDto(
-            String productCode,
-            String productName,
-            int price,
-            String productThumbnailUrl) {
+    private InterestProductAddResponseDto(String productCode,
+                                          String productName,
+                                          int price,
+                                          String productThumbnailUrl) {
         this.productCode = productCode;
         this.productName = productName;
         this.price = price;
