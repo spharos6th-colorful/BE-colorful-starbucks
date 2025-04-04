@@ -18,7 +18,7 @@ public class PreOrderDto {
 
     private String detailAddress;
 
-    private boolean gifted;
+    private Boolean isGifted;
 
     private String buyer;
 }

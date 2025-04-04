@@ -37,11 +37,11 @@ public class OrderDetail extends BaseEntity {
 
     private String carvingContent;
 
-    private Long categoryId;
+    private String categoryName;
 
+    private Boolean carving;
 
     @Builder
-
     private OrderDetail(Long id,
                        Order order,
                        String productCode,
@@ -52,7 +52,8 @@ public class OrderDetail extends BaseEntity {
                        int quantity,
                        int price,
                        String carvingContent,
-                       Long categoryId) {
+                       String categoryName,
+                       Boolean carving) {
         this.id = id;
         this.order = order;
         this.productCode = productCode;
@@ -63,7 +64,8 @@ public class OrderDetail extends BaseEntity {
         this.quantity = quantity;
         this.price = price;
         this.carvingContent = carvingContent;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.carving = carving;
     }
 }
 

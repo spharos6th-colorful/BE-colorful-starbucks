@@ -1,5 +1,7 @@
 package colorful.starbucks.order.application;
 
+import colorful.starbucks.order.dto.in.OrderCreateRequestDto;
+import colorful.starbucks.order.dto.out.OrderCreateResponseDto;
 import colorful.starbucks.order.infrastructure.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,5 +17,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
+    public OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto) {
+
+
+
+    }
 
 }

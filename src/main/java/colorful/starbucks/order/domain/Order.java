@@ -18,52 +18,50 @@ public class Order extends BaseEntity {
     @Column(name = "order_id")
     private Long id;
 
-    private String orderUuid;
-
-    private Long couponId;
-
-    private int beforeDiscountPrice;
-
-    private int afterDiscountPrice;
-
     private String memberUuid;
 
-    private String postNumber;
+    private String couponUuid;
 
-    private String mainAddress;
+    private String couponName;
 
-    private String subAddress;
+    private int totalAmount;
 
-    private boolean payStatus;
+    private int discountAmount;
 
-    private boolean gifted;
+    private String ZoneCode;
+
+    private String address;
+
+    private String detailAddress;
+
+    private Boolean isGift;
+
+    private String buyer;
+
 
     @Builder
-    private Order(
-            Long id,
-            String orderUuid,
-            Long couponId,
-            int beforeDiscountPrice,
-            int afterDiscountPrice,
-            String memberUuid,
-            String postNumber,
-            String mainAddress,
-            String subAddress,
-            Boolean payStatus,
-            Boolean gifted
 
-    ){
+    private Order(Long id,
+                 String memberUuid,
+                 String couponUuid,
+                 String couponName,
+                 int totalAmount,
+                 int discountAmount,
+                 String zoneCode,
+                 String address,
+                 String detailAddress,
+                 Boolean isGift,
+                 String buyer) {
         this.id = id;
-        this.orderUuid = orderUuid;
-        this.couponId = couponId;
-        this.beforeDiscountPrice = beforeDiscountPrice;
-        this.afterDiscountPrice = afterDiscountPrice;
         this.memberUuid = memberUuid;
-        this.postNumber = postNumber;
-        this.mainAddress = mainAddress;
-        this.subAddress = subAddress;
-        this.payStatus = payStatus;
-        this.gifted = gifted;
-
+        this.couponUuid = couponUuid;
+        this.couponName = couponName;
+        this.totalAmount = totalAmount;
+        this.discountAmount = discountAmount;
+        ZoneCode = zoneCode;
+        this.address = address;
+        this.detailAddress = detailAddress;
+        this.isGift = isGift;
+        this.buyer = buyer;
     }
 }
