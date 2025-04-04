@@ -45,6 +45,9 @@ public enum ResponseStatus {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "Internal server error"),
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
     DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "Database error"),
+    REDIS_SERIALIZE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 9501, "Redis 직렬화 실패"),
+    REDIS_DESERIALIZE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 9502, "Redis 역직렬화 실패"),
+
     /**
      * 2000: users service error
      */

@@ -36,7 +36,7 @@ public class Order extends BaseEntity {
 
     private boolean payStatus;
 
-    private boolean giftStatus;
+    private boolean gifted;
 
     @Builder
     private Order(
@@ -50,7 +50,7 @@ public class Order extends BaseEntity {
             String mainAddress,
             String subAddress,
             Boolean payStatus,
-            Boolean giftStatus
+            Boolean gifted
 
     ){
         this.id = id;
@@ -63,7 +63,7 @@ public class Order extends BaseEntity {
         this.mainAddress = mainAddress;
         this.subAddress = subAddress;
         this.payStatus = payStatus;
-        this.giftStatus = giftStatus;
+        this.gifted = gifted;
 
     }
 }
