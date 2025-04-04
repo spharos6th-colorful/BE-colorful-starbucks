@@ -18,15 +18,6 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Override
-    public MemberMyPageResponseDto getMyPage(String memberUuid) {
-
-        Member member = memberRepository.findAllByMemberUuid(memberUuid)
-                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-
-        return MemberMyPageResponseDto.from(member);
-    }
-
     @Transactional
     @Override
     public void editMyPage(MemberMyPageEditRequestDto memberMyPageEditRequestDto) {
@@ -36,4 +27,15 @@ public class MemberServiceImpl implements MemberService {
 
         member.editMypage(memberMyPageEditRequestDto.getPhoneNumber(), memberMyPageEditRequestDto.getNickName());
     }
+
+    @Override
+    public MemberMyPageResponseDto getMyPage(String memberUuid) {
+
+        Member member = memberRepository.findAllByMemberUuid(memberUuid)
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+
+        return MemberMyPageResponseDto.from(member);
+    }
+
+
 }
