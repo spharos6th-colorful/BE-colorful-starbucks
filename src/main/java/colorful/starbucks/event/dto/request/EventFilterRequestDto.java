@@ -11,14 +11,17 @@ public class EventFilterRequestDto {
     private EventStatus status;
     private Integer page;
     private Integer size;
+    private Boolean isDeleted;
 
     @Builder
     private EventFilterRequestDto(EventStatus status,
                                   Integer page,
-                                  Integer size) {
+                                  Integer size,
+                                  Boolean isDeleted) {
         this.status = status;
         this.page = page;
         this.size = size;
+        this.isDeleted = isDeleted;
     }
 
     public static EventFilterRequestDto from(EventFilterRequestVo eventFilterRequestVo) {
@@ -26,6 +29,7 @@ public class EventFilterRequestDto {
                 .status(eventFilterRequestVo.getStatus())
                 .page(eventFilterRequestVo.getPage())
                 .size(eventFilterRequestVo.getSize())
+                .isDeleted(eventFilterRequestVo.getIsDeleted())
                 .build();
     }
 }

@@ -35,7 +35,7 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
         List<Event> content = queryFactory.selectFrom(event)
                 .where(
                         eqEventStatus(eventFilterRequestDto.getStatus()),
-                        event.isDeleted.isFalse()
+                        eqIsDeleted(eventFilterRequestDto.getIsDeleted())
                 )
                 .offset(offset)
                 .limit(size)
@@ -46,7 +46,7 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
                 .from(event)
                 .where(
                         eqEventStatus(eventFilterRequestDto.getStatus()),
-                        event.isDeleted.isFalse()
+                        eqIsDeleted(eventFilterRequestDto.getIsDeleted())
                 );
 
         return PageableExecutionUtils.getPage(
@@ -54,6 +54,10 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
                 PageRequest.of(currentPage, size),
                 countQuery::fetchOne
         );
+    }
+
+    private BooleanExpression eqIsDeleted(Boolean isDeleted) {
+        return isDeleted != null ? event.isDeleted.eq(isDeleted) : null;
     }
 
     private BooleanExpression eqEventStatus(EventStatus eventStatus) {

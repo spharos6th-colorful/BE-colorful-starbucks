@@ -11,4 +11,5 @@ public class EventFilterRequestVo {
     private EventStatus status;
     private Integer page;
     private Integer size;
+    private Boolean isDeleted;
 }
