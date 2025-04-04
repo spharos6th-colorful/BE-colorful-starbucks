@@ -1,5 +1,7 @@
 package colorful.starbucks.event.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.event.dto.request.EventCreateRequestDto;
 import colorful.starbucks.event.dto.request.EventFilterRequestDto;
 import colorful.starbucks.event.dto.response.EventDetailResponseDto;
@@ -32,7 +34,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventDetailResponseDto getEventDetail(String eventUuid) {
         return EventDetailResponseDto.from(eventRepository.findByEventUuid(eventUuid)
-                .orElseThrow(() -> new IllegalArgumentException("이벤트를 찾을 수 없습니다."))
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }
 }
