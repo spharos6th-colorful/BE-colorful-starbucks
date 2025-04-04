@@ -11,9 +11,9 @@ public interface EventService {
 
     void createEvent(EventCreateRequestDto eventCreateRequestDto);
 
+    void updateEvent(EventUpdateRequestDto eventUpdateRequestDto);
+
     Page<EventResponseDto> getEvents(EventFilterRequestDto eventFilterRequestDto);
 
     EventDetailResponseDto getEventDetail(String eventUuid);
-
-    void updateEvent(EventUpdateRequestDto eventUpdateRequestDto);
 }
