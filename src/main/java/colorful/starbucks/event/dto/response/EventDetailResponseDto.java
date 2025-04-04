@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Getter
 public class EventDetailResponseDto {
 
-    private String eventUuid;
     private String title;
     private String description;
     private String imageUrl;
@@ -22,8 +21,7 @@ public class EventDetailResponseDto {
     private EventStatus status;
 
     @Builder
-    private EventDetailResponseDto(String eventUuid,
-                                   String title,
+    private EventDetailResponseDto(String title,
                                    String description,
                                    String imageUrl,
                                    String thumbnailUrl,
@@ -31,7 +29,6 @@ public class EventDetailResponseDto {
                                    LocalDateTime endDate,
                                    String policy,
                                    EventStatus status) {
-        this.eventUuid = eventUuid;
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;
@@ -44,7 +41,6 @@ public class EventDetailResponseDto {
 
     public static EventDetailResponseDto from(Event event) {
         return EventDetailResponseDto.builder()
-                .eventUuid(event.getEventUuid())
                 .title(event.getTitle())
                 .description(event.getDescription())
                 .imageUrl(event.getImageUrl())
@@ -58,7 +54,6 @@ public class EventDetailResponseDto {
 
     public EventDetailResponseVo toVo() {
         return EventDetailResponseVo.builder()
-                .eventUuid(eventUuid)
                 .title(title)
                 .description(description)
                 .imageUrl(imageUrl)

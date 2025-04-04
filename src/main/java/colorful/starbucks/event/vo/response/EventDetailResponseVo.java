@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Getter
 public class EventDetailResponseVo {
 
-    private String eventUuid;
     private String title;
     private String description;
     private String imageUrl;
@@ -20,8 +19,7 @@ public class EventDetailResponseVo {
     private EventStatus status;
 
     @Builder
-    private EventDetailResponseVo(String eventUuid,
-                                  String title,
+    private EventDetailResponseVo(String title,
                                   String description,
                                   String imageUrl,
                                   String thumbnailUrl,
@@ -29,7 +27,6 @@ public class EventDetailResponseVo {
                                   LocalDateTime endDate,
                                   String policy,
                                   EventStatus status) {
-        this.eventUuid = eventUuid;
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;
