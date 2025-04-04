@@ -5,6 +5,7 @@ import colorful.starbucks.common.util.PageResponse;
 import colorful.starbucks.event.application.EventService;
 import colorful.starbucks.event.dto.request.EventCreateRequestDto;
 import colorful.starbucks.event.dto.request.EventFilterRequestDto;
+import colorful.starbucks.event.dto.request.EventUpdateRequestDto;
 import colorful.starbucks.event.dto.response.EventResponseDto;
 import colorful.starbucks.event.vo.request.EventCreateRequestVo;
 import colorful.starbucks.event.vo.request.EventFilterRequestVo;
@@ -46,6 +47,16 @@ public class EventController {
         return ApiResponse.ok(
                 "이벤트 상세 조회를 완료했습니다.",
                 eventService.getEventDetail(eventUuid).toVo()
+        );
+    }
+
+    @PutMapping("/{eventUuid}")
+    public ApiResponse<Void> updateEvent(@PathVariable String eventUuid,
+                                          @RequestBody EventCreateRequestVo eventCreateRequestVo) {
+        eventService.updateEvent(EventUpdateRequestDto.of(eventUuid, eventCreateRequestVo));
+        return ApiResponse.ok(
+                "이벤트 수정을 완료했습니다.",
+                null
         );
     }
 }
