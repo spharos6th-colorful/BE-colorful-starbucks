@@ -1,7 +1,7 @@
 package colorful.starbucks.auth.dto.request;
 
-import colorful.starbucks.auth.domain.Member;
-import colorful.starbucks.auth.infrastructure.MemberRepository;
+import colorful.starbucks.member.domain.Member;
+import colorful.starbucks.auth.infrastructure.AuthRepository;
 import colorful.starbucks.auth.vo.request.MemberPasswordResetRequestVo;
 import colorful.starbucks.common.util.TempPasswordGenerator;
 import lombok.Builder;
@@ -44,7 +44,7 @@ public class MemberPasswordResetRequestDto {
     }
 
 
-    public Optional<Member> findMatchingMember(MemberRepository repository) {
+    public Optional<Member> findMatchingMember(AuthRepository repository) {
         return repository.findByEmailAndMemberNameAndPhoneNumber(
                 email.trim(),
                 memberName.trim(),

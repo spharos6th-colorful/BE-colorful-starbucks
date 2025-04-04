@@ -1,7 +1,7 @@
 package colorful.starbucks.auth.vo.request;
 
-import colorful.starbucks.auth.domain.Gender;
-import colorful.starbucks.auth.domain.MemberLevel;
+import colorful.starbucks.member.domain.Gender;
+import colorful.starbucks.member.domain.MemberLevel;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

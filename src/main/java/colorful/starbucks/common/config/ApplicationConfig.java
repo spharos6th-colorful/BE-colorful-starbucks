@@ -1,6 +1,6 @@
 package colorful.starbucks.common.config;
 
-import colorful.starbucks.auth.infrastructure.MemberRepository;
+import colorful.starbucks.auth.infrastructure.AuthRepository;
 import colorful.starbucks.auth.domain.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,11 +24,11 @@ import java.util.Properties;
 @Configuration
 public class ApplicationConfig {
 
-    private final MemberRepository memberRepository;
+    private final AuthRepository authRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return email -> memberRepository.findByEmail(email)
+        return email -> authRepository.findByEmail(email)
                 .map(CustomUserDetails::new)
                 .orElseThrow(() -> new IllegalArgumentException("해당 email을 가진 회원이 없습니다."));
     }
