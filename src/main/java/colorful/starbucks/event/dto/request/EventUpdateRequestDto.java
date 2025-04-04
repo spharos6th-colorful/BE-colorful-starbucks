@@ -2,17 +2,16 @@ package colorful.starbucks.event.dto.request;
 
 import colorful.starbucks.event.domain.Event;
 import colorful.starbucks.event.domain.EventStatus;
-import colorful.starbucks.event.generator.EventUuidGenerator;
 import colorful.starbucks.event.vo.request.EventCreateRequestVo;
-import colorful.starbucks.product.generator.ProductDetailCodeGenerator;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class EventCreateRequestDto {
+public class EventUpdateRequestDto {
 
+    private String eventUuid;
     private String title;
     private String description;
     private String imageUrl;
@@ -23,7 +22,8 @@ public class EventCreateRequestDto {
     private EventStatus status;
 
     @Builder
-    private EventCreateRequestDto(String title,
+    private EventUpdateRequestDto(String eventUuid,
+                                  String title,
                                   String description,
                                   String imageUrl,
                                   String thumbnailUrl,
@@ -31,6 +31,7 @@ public class EventCreateRequestDto {
                                   LocalDateTime endDate,
                                   String policy,
                                   EventStatus status) {
+        this.eventUuid = eventUuid;
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;
@@ -41,8 +42,10 @@ public class EventCreateRequestDto {
         this.status = status;
     }
 
-    public static EventCreateRequestDto from(EventCreateRequestVo eventCreateRequestVo) {
-        return EventCreateRequestDto.builder()
+    public static EventUpdateRequestDto of(String eventUuid,
+                                           EventCreateRequestVo eventCreateRequestVo) {
+        return EventUpdateRequestDto.builder()
+                .eventUuid(eventUuid)
                 .title(eventCreateRequestVo.getTitle())
                 .description(eventCreateRequestVo.getDescription())
                 .imageUrl(eventCreateRequestVo.getImageUrl())
@@ -56,7 +59,7 @@ public class EventCreateRequestDto {
 
     public Event toEntity() {
         return Event.builder()
-                .eventUuid(EventUuidGenerator.generate())
+                .eventUuid(eventUuid)
                 .title(title)
                 .description(description)
                 .imageUrl(imageUrl)

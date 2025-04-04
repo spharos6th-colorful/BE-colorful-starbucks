@@ -13,12 +13,11 @@ public class InterestProductAddRequestDto {
     private String productThumbnailUrl;
 
     @Builder
-    private InterestProductAddRequestDto(
-            String memberUuid,
-            String productCode,
-            String productName,
-            int price,
-            String productThumbnailUrl) {
+    private InterestProductAddRequestDto(String memberUuid,
+                                         String productCode,
+                                         String productName,
+                                         int price,
+                                         String productThumbnailUrl) {
         this.memberUuid = memberUuid;
         this.productCode = productCode;
         this.productName = productName;
@@ -26,9 +25,8 @@ public class InterestProductAddRequestDto {
         this.productThumbnailUrl = productThumbnailUrl;
     }
 
-    public static InterestProductAddRequestDto from(
-            InterestProductAddRequestVo interestProductAddRequestVo,
-            String memberUuid) {
+    public static InterestProductAddRequestDto of(InterestProductAddRequestVo interestProductAddRequestVo,
+                                                  String memberUuid) {
 
         return InterestProductAddRequestDto.builder()
                 .memberUuid(memberUuid)
