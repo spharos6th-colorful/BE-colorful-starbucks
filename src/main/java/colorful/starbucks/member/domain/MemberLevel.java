@@ -1,4 +1,4 @@
-package colorful.starbucks.auth.domain;
+package colorful.starbucks.member.domain;
 
 import lombok.Getter;
 

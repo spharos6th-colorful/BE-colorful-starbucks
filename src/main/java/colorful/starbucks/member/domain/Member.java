@@ -1,5 +1,6 @@
-package colorful.starbucks.auth.domain;
+package colorful.starbucks.member.domain;
 
+import colorful.starbucks.auth.domain.SignType;
 import colorful.starbucks.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

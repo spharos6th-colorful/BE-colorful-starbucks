@@ -1,15 +1,13 @@
 package colorful.starbucks.auth.dto.request;
 
-import colorful.starbucks.auth.domain.Gender;
-import colorful.starbucks.auth.domain.Member;
-import colorful.starbucks.auth.domain.MemberLevel;
+import colorful.starbucks.member.domain.Gender;
+import colorful.starbucks.member.domain.Member;
+import colorful.starbucks.member.domain.MemberLevel;
 import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
 import colorful.starbucks.common.util.UuidGenerator;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.UUID;
 
 @Getter
 @Builder

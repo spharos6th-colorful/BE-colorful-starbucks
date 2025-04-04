@@ -1,6 +1,6 @@
 package colorful.starbucks.common.jwt;
 
-import colorful.starbucks.auth.application.MemberService;
+import colorful.starbucks.auth.application.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberService memberService;
+    private final AuthService authService;
 
     @Override
     protected void doFilterInternal(
@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         uuid = jwtTokenProvider.extractClaims(jwt, claims -> claims.get("uuid", String.class));
 
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = memberService.loadUserByUuid(uuid);
+            UserDetails userDetails = authService.loadUserByUuid(uuid);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,

@@ -1,4 +1,4 @@
-package colorful.starbucks.auth.domain;
+package colorful.starbucks.member.domain;
 
 public enum Gender {
     M("남성"),

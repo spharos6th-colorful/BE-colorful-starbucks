@@ -1,12 +1,12 @@
 package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.domain.CustomUserDetails;
-import colorful.starbucks.auth.domain.Member;
-import colorful.starbucks.auth.domain.MemberLevel;
+import colorful.starbucks.member.domain.Member;
+import colorful.starbucks.member.domain.MemberLevel;
 import colorful.starbucks.auth.domain.SignType;
 import colorful.starbucks.auth.dto.request.*;
 import colorful.starbucks.auth.dto.response.*;
-import colorful.starbucks.auth.infrastructure.MemberRepository;
+import colorful.starbucks.auth.infrastructure.AuthRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
 import colorful.starbucks.common.response.ResponseStatus;
@@ -26,9 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberServiceImpl implements MemberService {
+public class AuthServiceImpl implements AuthService {
 
-    private final MemberRepository memberRepository;
+    private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public UserDetails loadUserByUuid(String uuid) {
-        Member member = memberRepository.findByMemberUuid(uuid)
+        Member member = authRepository.findByMemberUuid(uuid)
                 .orElseThrow(() -> new UsernameNotFoundException("UUID 사용자 없음: " + uuid));
         return new CustomUserDetails(member);
     }
@@ -97,15 +97,15 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public void signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
-        memberRepository.findByEmail(memberSignUpRequestDto.getEmail()).orElseThrow(
+        authRepository.findByEmail(memberSignUpRequestDto.getEmail()).orElseThrow(
                 () -> new BaseException(ResponseStatus.DUPLICATED_USER)
         );
-        memberRepository.save(memberSignUpRequestDto.toEntityWithEncodePassword(passwordEncoder));
+        authRepository.save(memberSignUpRequestDto.toEntityWithEncodePassword(passwordEncoder));
     }
 
     @Override
     public boolean isEmailDuplicated(String email) {
-        return memberRepository.existsByEmail(email);
+        return authRepository.existsByEmail(email);
     }
 
     @Transactional
@@ -152,11 +152,11 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public MemberPasswordResetResponseDto findPassword(MemberPasswordResetRequestDto memberPasswordResetRequestDto) {
-        if (!memberRepository.existsByEmail(memberPasswordResetRequestDto.getEmail())) {
+        if (!authRepository.existsByEmail(memberPasswordResetRequestDto.getEmail())) {
             throw new BaseException(ResponseStatus.NO_EXIST_USER);
         }
 
-        Member member = memberPasswordResetRequestDto.findMatchingMember(memberRepository)
+        Member member = memberPasswordResetRequestDto.findMatchingMember(authRepository)
                 .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER));
 
         memberPasswordResetRequestDto.generateTempPassword(passwordEncoder);
@@ -168,8 +168,8 @@ public class MemberServiceImpl implements MemberService {
 
 
     private Member findOrCreateKakaoMember(KakaoUserInfo kakaoUserInfo) {
-        return memberRepository.findBySignTypeAndSocialId(SignType.KAKAO, kakaoUserInfo.getId())
-                .orElseGet(() -> memberRepository.save(
+        return authRepository.findBySignTypeAndSocialId(SignType.KAKAO, kakaoUserInfo.getId())
+                .orElseGet(() -> authRepository.save(
                         Member.builder()
                                 .signType(SignType.KAKAO)
                                 .socialId(kakaoUserInfo.getId())
@@ -183,7 +183,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public MemberEmailFindResponseDto findEmail(MemberEmailFindRequestDto memberEmailFindRequestDto) {
-        Member member = memberEmailFindRequestDto.findByMemberNameAndPhoneNumber(memberRepository)
+        Member member = memberEmailFindRequestDto.findByMemberNameAndPhoneNumber(authRepository)
                 .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER));
         return MemberEmailFindResponseDto.from(member.getEmail());
     }

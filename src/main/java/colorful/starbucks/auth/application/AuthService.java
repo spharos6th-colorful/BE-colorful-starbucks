@@ -4,7 +4,7 @@ import colorful.starbucks.auth.dto.request.*;
 import colorful.starbucks.auth.dto.response.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public interface MemberService {
+public interface AuthService {
 
     void signUp(MemberSignUpRequestDto memberSignUpRequestDto);
 
