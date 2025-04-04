@@ -17,7 +17,13 @@ public class DeliveryDefaultAddressResponseDto {
     private String phoneNumber;
 
     @Builder
-    private DeliveryDefaultAddressResponseDto(String addressNickname, String receiverName, boolean isDefaultAddress, String zoneCode, String address, String detailAddress, String phoneNumber) {
+    private DeliveryDefaultAddressResponseDto(String addressNickname,
+                                              String receiverName,
+                                              boolean isDefaultAddress,
+                                              String zoneCode,
+                                              String address,
+                                              String detailAddress,
+                                              String phoneNumber) {
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;
         this.isDefaultAddress = isDefaultAddress;

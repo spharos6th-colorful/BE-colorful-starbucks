@@ -8,6 +8,7 @@ import colorful.starbucks.product.dto.response.ProductOptionListResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ProductDetailService {
+
     ProductDetailResponseDto createProductDetail(ProductDetailCreateRequestDto productDetailCreateRequestDto,
                                                  MultipartFile productDetailThumbnail);
 

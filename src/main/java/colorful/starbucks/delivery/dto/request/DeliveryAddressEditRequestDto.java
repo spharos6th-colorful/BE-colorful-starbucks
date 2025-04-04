@@ -38,7 +38,9 @@ public class DeliveryAddressEditRequestDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public static DeliveryAddressEditRequestDto from(DeliveryAddressEditRequestVo deliveryAddressEditRequestVo, String memberUuid, String memberAddressUuid) {
+    public static DeliveryAddressEditRequestDto of(DeliveryAddressEditRequestVo deliveryAddressEditRequestVo,
+                                                     String memberUuid,
+                                                     String memberAddressUuid) {
 
         return DeliveryAddressEditRequestDto.builder()
                 .memberUuid(memberUuid)

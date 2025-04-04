@@ -20,13 +20,6 @@ public class ProductDetailController {
 
     private final ProductDetailService productDetailService;
 
-    @GetMapping("/{productDetailCode}")
-    public ApiResponse<ProductDetailResponseVo> getProductDetail(@PathVariable String productDetailCode) {
-        return ApiResponse.ok("상세 상품이 조회되었습니다.",
-                productDetailService.getProductDetail(productDetailCode).toVo()
-        );
-    }
-
     @PostMapping
     public ApiResponse<ProductDetailResponseVo> createProductDetail(@RequestPart ProductDetailCreateRequestVo productDetailCreateRequestVo,
                                                                     @RequestPart MultipartFile productDetailThumbnail) {
@@ -35,6 +28,13 @@ public class ProductDetailController {
                 productDetailService.createProductDetail(
                         ProductDetailCreateRequestDto.from(productDetailCreateRequestVo),
                         productDetailThumbnail).toVo()
+        );
+    }
+
+    @GetMapping("/{productDetailCode}")
+    public ApiResponse<ProductDetailResponseVo> getProductDetail(@PathVariable String productDetailCode) {
+        return ApiResponse.ok("상세 상품이 조회되었습니다.",
+                productDetailService.getProductDetail(productDetailCode).toVo()
         );
     }
 

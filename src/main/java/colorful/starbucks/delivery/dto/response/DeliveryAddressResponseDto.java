@@ -18,7 +18,14 @@ public class DeliveryAddressResponseDto {
     private String phoneNumber;
 
     @Builder
-    private DeliveryAddressResponseDto(String memberAddressUuid, String addressNickname, String receiverName, String address, String zoneCode, boolean isDefaultAddress, String detailAddress, String phoneNumber) {
+    private DeliveryAddressResponseDto(String memberAddressUuid,
+                                       String addressNickname,
+                                       String receiverName,
+                                       String address,
+                                       String zoneCode,
+                                       boolean isDefaultAddress,
+                                       String detailAddress,
+                                       String phoneNumber) {
         this.memberAddressUuid = memberAddressUuid;
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;

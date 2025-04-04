@@ -28,18 +28,29 @@ public class DeliveryController {
     @PostMapping("/address")
     public ApiResponse<Void> addAddress(Authentication authentication,
                                         @RequestBody DeliveryAddRequestVo deliveryAddRequestVo) {
-        deliveryService.addAddress(DeliveryAddRequestDto.from(deliveryAddRequestVo, authentication.getName()));
+        deliveryService.addAddress(DeliveryAddRequestDto.of(deliveryAddRequestVo, authentication.getName()));
         return ApiResponse.ok("배송지 추가가 완료 되었습니다.",
                 null);
     }
 
-    @DeleteMapping("/address/{memberAddressUuid}")
-    public ApiResponse<Void> deleteAddress(Authentication authentication,
-                                           @PathVariable String memberAddressUuid) {
-        deliveryService.deleteAddress(DeliveryDeleteRequestDto.of(authentication.getName(), memberAddressUuid));
-        return ApiResponse.ok("배송지 삭제가 완료 되었습니다.",
-                null);
+    @PutMapping("/default-address/{memberAddressUuid}")
+    public ApiResponse<Void> changeDefaultAddressToTrue(Authentication authentication,
+                                                        @PathVariable String memberAddressUuid) {
+
+        deliveryService.editDefaultAddress(DeliveryDefaultAddressRequestDto.of(memberAddressUuid, authentication.getName()));
+        return ApiResponse.ok("기본 배송지로 변경 완료 했습니다.", null);
+
     }
+
+    @PutMapping("/address/{memberAddressUuid}")
+    public ApiResponse<Void> editDeliveryAddress(Authentication authentication,
+                                                 @PathVariable String memberAddressUuid,
+                                                 @RequestBody DeliveryAddressEditRequestVo deliveryAddressEditRequestVo) {
+
+        deliveryService.editAddress(DeliveryAddressEditRequestDto.of(deliveryAddressEditRequestVo, authentication.getName(), memberAddressUuid));
+        return ApiResponse.ok("배송지 수정이 완료 되었습니다.", null);
+    }
+
 
     @GetMapping("/{memberAddressUuid}")
     public ApiResponse<DeliveryAddressResponseVo> getIndividualAddress(Authentication authentication,
@@ -49,14 +60,6 @@ public class DeliveryController {
                 deliveryService.getIndividualAddress(DeliveryAddressRequestDto.of(authentication.getName(), memberAddressUuid)).toVo());
     }
 
-    @PutMapping("/address/{memberAddressUuid}")
-    public ApiResponse<Void> editDeliveryAddress(Authentication authentication,
-                                                 @PathVariable String memberAddressUuid,
-                                                 @RequestBody DeliveryAddressEditRequestVo deliveryAddressEditRequestVo) {
-
-        deliveryService.editAddress(DeliveryAddressEditRequestDto.from(deliveryAddressEditRequestVo, authentication.getName(), memberAddressUuid));
-        return ApiResponse.ok("배송지 수정이 완료 되었습니다.", null);
-    }
 
     @GetMapping("/default-address")
     public ApiResponse<DeliveryDefaultAddressResponseVo> getDefaultAddress(Authentication authentication) {
@@ -75,13 +78,13 @@ public class DeliveryController {
                         .collect(Collectors.toList()));
     }
 
-    @PutMapping("/default-address/{memberAddressUuid}")
-    public ApiResponse<Void> changeDefaultAddressToTrue(Authentication authentication,
-                                                        @PathVariable String memberAddressUuid) {
-
-        deliveryService.editDefaultAddress(DeliveryDefaultAddressRequestDto.of(memberAddressUuid, authentication.getName()));
-        return ApiResponse.ok("기본 배송지로 변경 완료 했습니다.", null);
-
+    @DeleteMapping("/address/{memberAddressUuid}")
+    public ApiResponse<Void> deleteAddress(Authentication authentication,
+                                           @PathVariable String memberAddressUuid) {
+        deliveryService.deleteAddress(DeliveryDeleteRequestDto.of(authentication.getName(), memberAddressUuid));
+        return ApiResponse.ok("배송지 삭제가 완료 되었습니다.",
+                null);
     }
+
 
 }
