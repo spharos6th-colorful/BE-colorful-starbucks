@@ -1,5 +1,6 @@
 package colorful.starbucks.order.dto.out;
 
+import colorful.starbucks.order.vo.out.OrderCreateResponseVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,5 +12,11 @@ public class OrderCreateResponseDto {
     @Builder
     private OrderCreateResponseDto(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public OrderCreateResponseVo toVo() {
+        return OrderCreateResponseVo.builder()
+                .orderCode(this.orderCode)
+                .build();
     }
 }

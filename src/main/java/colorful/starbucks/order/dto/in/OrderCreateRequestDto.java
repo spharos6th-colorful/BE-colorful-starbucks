@@ -1,7 +1,7 @@
 package colorful.starbucks.order.dto.in;
 
 import colorful.starbucks.order.domain.Order;
-import colorful.starbucks.order.domain.OrderStatus;
+import colorful.starbucks.order.vo.in.OrderCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,6 +9,8 @@ import java.util.List;
 
 @Getter
 public class OrderCreateRequestDto {
+
+    private Long orderCode;
 
     private String couponUuid;
 
@@ -29,7 +31,8 @@ public class OrderCreateRequestDto {
     private List<OrderDetailRequestDto> orderDetails;
 
     @Builder
-    private OrderCreateRequestDto(String couponUuid,
+    private OrderCreateRequestDto(Long orderCode,
+                                 String couponUuid,
                                  int totalAmount,
                                  int discountAmount,
                                  String zoneCode,
@@ -38,6 +41,7 @@ public class OrderCreateRequestDto {
                                  Boolean isGift,
                                  String buyer,
                                  List<OrderDetailRequestDto> orderDetails) {
+        this.orderCode = orderCode;
         this.couponUuid = couponUuid;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
@@ -48,8 +52,9 @@ public class OrderCreateRequestDto {
         this.buyer = buyer;
         this.orderDetails = orderDetails;
     }
-    public Order toEntity(){
+    public Order toEntity(Long orderCode){
         return Order.builder()
+                .orderCode(orderCode)
                 .couponUuid(couponUuid)
                 .totalAmount(totalAmount)
                 .discountAmount(discountAmount)
@@ -59,6 +64,23 @@ public class OrderCreateRequestDto {
                 .buyer(buyer)
                 .build();
     }
+    public static OrderCreateRequestDto of(OrderCreateRequestVo vo, String memberUuid) {
+        return OrderCreateRequestDto.builder()
+                .orderCode(vo.getOrderCode())
+                .couponUuid(vo.getCouponUuid())
+                .totalAmount(vo.getTotalAmount())
+                .discountAmount(vo.getDiscountAmount())
+                .zoneCode(vo.getZoneCode())
+                .address(vo.getAddress())
+                .detailAddress(vo.getDetailAddress())
+                .isGift(vo.getIsGift())
+                .buyer(vo.getBuyer())
+                .orderDetails(vo.getOrderDetails().stream()
+                        .map(OrderDetailRequestDto::of)
+                        .toList())
+                .build();
+    }
+
 
 
 }

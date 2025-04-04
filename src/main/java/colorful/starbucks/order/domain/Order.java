@@ -19,6 +19,9 @@ public class Order extends BaseEntity {
     @Column(name = "order_id")
     private Long id;
 
+    @Comment("주문 코드")
+    private Long orderCode;
+
     @Comment("회원 UUID")
     private String memberUuid;
 
@@ -56,6 +59,7 @@ public class Order extends BaseEntity {
 
     @Builder
     private Order(Long id,
+                    Long orderCode,
                   String memberUuid,
                   String couponUuid,
                   String couponName,
@@ -68,6 +72,7 @@ public class Order extends BaseEntity {
                   Boolean isGift,
                   String buyer) {
         this.id = id;
+        this.orderCode = orderCode;
         this.memberUuid = memberUuid;
         this.couponUuid = couponUuid;
         this.couponName = couponName;

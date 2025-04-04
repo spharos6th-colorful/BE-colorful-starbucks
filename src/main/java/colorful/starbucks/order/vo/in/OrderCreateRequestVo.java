@@ -9,13 +9,15 @@ import java.util.List;
 @Getter
 public class OrderCreateRequestVo {
 
+    private Long orderCode;
+
     private String couponUuid;
 
     private int totalAmount;
 
     private int discountAmount;
 
-    private String ZoneCode;
+    private String zoneCode;
 
     private String address;
 
@@ -28,7 +30,8 @@ public class OrderCreateRequestVo {
     private List<OrderDetailRequestVo> orderDetails;
 
     @Builder
-    private OrderCreateRequestVo(String couponUuid,
+    private OrderCreateRequestVo(Long orderCode,
+                                 String couponUuid,
                                  int totalAmount,
                                  int discountAmount,
                                  String zoneCode,
@@ -37,10 +40,11 @@ public class OrderCreateRequestVo {
                                  Boolean isGift,
                                  String buyer,
                                  List<OrderDetailRequestVo> orderDetails) {
+        this.orderCode = orderCode;
         this.couponUuid = couponUuid;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
-        this.ZoneCode = zoneCode;
+        this.zoneCode = zoneCode;
         this.address = address;
         this.detailAddress = detailAddress;
         this.isGift = isGift;

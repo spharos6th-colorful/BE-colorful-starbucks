@@ -19,7 +19,7 @@ public class OrderRedisService {
     private static final String PREFIX = "order:";
 
     public void saveOrder(String orderId, PreOrderDto preOrderDto, long timeoutSeconds) {
-        String json = toJson(preOrderDto); // JSON 변환 + 예외 처리
+        String json = toJson(preOrderDto);
         redisTemplate.opsForValue().set(PREFIX + orderId, json, timeoutSeconds, TimeUnit.SECONDS);
     }
 
@@ -35,6 +35,13 @@ public class OrderRedisService {
 
     public boolean orderExists(String orderId) {
         return redisTemplate.hasKey(PREFIX + orderId);
+    }
+
+    public void extendOrderTtl(String orderId, long timeoutSeconds) {
+        Boolean extended = redisTemplate.expire(PREFIX + orderId, timeoutSeconds, TimeUnit.SECONDS);
+        if(Boolean.FALSE.equals(extended)) {
+            throw new BaseException(ResponseStatus.REDIS_TTL_EXTEND_FAIL);
+        }
     }
 
 

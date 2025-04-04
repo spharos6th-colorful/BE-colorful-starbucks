@@ -1,6 +1,8 @@
 package colorful.starbucks.order.dto.in;
 
+import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderDetail;
+import colorful.starbucks.order.vo.in.OrderDetailRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -38,8 +40,9 @@ public class OrderDetailRequestDto {
         this.carving = carving;
     }
 
-    public OrderDetail toEntity() {
+    public OrderDetail toEntity(Order order) {
         return OrderDetail.builder()
+                .order(order)
                 .productCode(productCode)
                 .productName(productName)
                 .size(size)
@@ -49,5 +52,18 @@ public class OrderDetailRequestDto {
                 .carving(carving)
                 .build();
     }
+
+    public static OrderDetailRequestDto of(OrderDetailRequestVo vo) {
+        return OrderDetailRequestDto.builder()
+                .productCode(vo.getProductCode())
+                .productName(vo.getProductName())
+                .size(vo.getSize())
+                .color(vo.getColor())
+                .quantity(vo.getQuantity())
+                .price(vo.getPrice())
+                .carving(vo.getCarving())
+                .build();
+    }
+
 
 }
