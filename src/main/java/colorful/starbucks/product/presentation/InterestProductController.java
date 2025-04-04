@@ -7,7 +7,6 @@ import colorful.starbucks.product.dto.InterestProductDto;
 import colorful.starbucks.product.dto.request.InterestProductAddRequestDto;
 import colorful.starbucks.product.vo.InterestProductVo;
 import colorful.starbucks.product.vo.request.InterestProductAddRequestVo;
-import colorful.starbucks.product.vo.response.InterestProductListResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
