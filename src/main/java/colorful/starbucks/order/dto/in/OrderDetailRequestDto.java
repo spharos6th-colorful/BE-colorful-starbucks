@@ -1,5 +1,6 @@
 package colorful.starbucks.order.dto.in;
 
+import colorful.starbucks.order.domain.OrderDetail;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -35,6 +36,18 @@ public class OrderDetailRequestDto {
         this.quantity = quantity;
         this.price = price;
         this.carving = carving;
+    }
+
+    public OrderDetail toEntity() {
+        return OrderDetail.builder()
+                .productCode(productCode)
+                .productName(productName)
+                .size(size)
+                .color(color)
+                .quantity(quantity)
+                .price(price)
+                .carving(carving)
+                .build();
     }
 
 }
