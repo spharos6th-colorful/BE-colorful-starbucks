@@ -53,15 +53,15 @@ public class OrderDetailRequestDto {
                 .build();
     }
 
-    public static OrderDetailRequestDto of(OrderDetailRequestVo vo) {
+    public static OrderDetailRequestDto of(OrderDetailRequestVo orderDetailRequestVo) {
         return OrderDetailRequestDto.builder()
-                .productCode(vo.getProductCode())
-                .productName(vo.getProductName())
-                .size(vo.getSize())
-                .color(vo.getColor())
-                .quantity(vo.getQuantity())
-                .price(vo.getPrice())
-                .carving(vo.getCarving())
+                .productCode(orderDetailRequestVo.getProductCode())
+                .productName(orderDetailRequestVo.getProductName())
+                .size(orderDetailRequestVo.getSize())
+                .color(orderDetailRequestVo.getColor())
+                .quantity(orderDetailRequestVo.getQuantity())
+                .price(orderDetailRequestVo.getPrice())
+                .carving(orderDetailRequestVo.getCarving())
                 .build();
     }
 

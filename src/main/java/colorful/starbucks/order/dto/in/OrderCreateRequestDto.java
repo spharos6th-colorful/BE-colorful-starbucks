@@ -64,18 +64,18 @@ public class OrderCreateRequestDto {
                 .buyer(buyer)
                 .build();
     }
-    public static OrderCreateRequestDto of(OrderCreateRequestVo vo, String memberUuid) {
+    public static OrderCreateRequestDto of(OrderCreateRequestVo orderCreateRequestVo, String memberUuid) {
         return OrderCreateRequestDto.builder()
-                .orderCode(vo.getOrderCode())
-                .couponUuid(vo.getCouponUuid())
-                .totalAmount(vo.getTotalAmount())
-                .discountAmount(vo.getDiscountAmount())
-                .zoneCode(vo.getZoneCode())
-                .address(vo.getAddress())
-                .detailAddress(vo.getDetailAddress())
-                .isGift(vo.getIsGift())
-                .buyer(vo.getBuyer())
-                .orderDetails(vo.getOrderDetails().stream()
+                .orderCode(orderCreateRequestVo.getOrderCode())
+                .couponUuid(orderCreateRequestVo.getCouponUuid())
+                .totalAmount(orderCreateRequestVo.getTotalAmount())
+                .discountAmount(orderCreateRequestVo.getDiscountAmount())
+                .zoneCode(orderCreateRequestVo.getZoneCode())
+                .address(orderCreateRequestVo.getAddress())
+                .detailAddress(orderCreateRequestVo.getDetailAddress())
+                .isGift(orderCreateRequestVo.getIsGift())
+                .buyer(orderCreateRequestVo.getBuyer())
+                .orderDetails(orderCreateRequestVo.getOrderDetails().stream()
                         .map(OrderDetailRequestDto::of)
                         .toList())
                 .build();

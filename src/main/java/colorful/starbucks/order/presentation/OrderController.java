@@ -19,8 +19,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ApiResponse<OrderCreateResponseVo> createOrder(@RequestBody OrderCreateRequestVo orderCreateRequestVo,
-                                                          Authentication authentication) {
+    public ApiResponse<OrderCreateResponseVo> createOrder(Authentication authentication,
+                                                          @RequestBody OrderCreateRequestVo orderCreateRequestVo) {
 
         OrderCreateRequestDto orderCreateRequestDto = OrderCreateRequestDto.of(orderCreateRequestVo,
                                                                                authentication.getName());
