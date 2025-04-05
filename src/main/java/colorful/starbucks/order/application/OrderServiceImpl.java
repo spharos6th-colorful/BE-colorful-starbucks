@@ -37,10 +37,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderDetailRepository.saveAll(orderDetails);
 
-        return OrderCreateResponseDto.builder()
-                .orderCode(String.valueOf(orderCode))
-                .build();
-
+        return OrderCreateResponseDto.from(orderCode);
 
 
 

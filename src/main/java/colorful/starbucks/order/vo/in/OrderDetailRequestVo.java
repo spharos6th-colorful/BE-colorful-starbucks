@@ -7,23 +7,17 @@ import lombok.Getter;
 public class OrderDetailRequestVo {
 
     private String productCode;
-
     private String productName;
-
-    private int size;
-
+    private String size;
     private String color;
-
     private int quantity;
-
     private int price;
-
     private Boolean carving;
 
     @Builder
     private OrderDetailRequestVo(String productCode,
                                 String productName,
-                                int size,
+                                String size,
                                 String color,
                                 int quantity,
                                 int price,

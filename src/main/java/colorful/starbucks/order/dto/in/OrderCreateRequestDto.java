@@ -11,23 +11,14 @@ import java.util.List;
 public class OrderCreateRequestDto {
 
     private Long orderCode;
-
     private String couponUuid;
-
     private int totalAmount;
-
     private int discountAmount;
-
     private String zoneCode;
-
     private String address;
-
     private String detailAddress;
-
     private Boolean isGift;
-
     private String buyer;
-
     private List<OrderDetailRequestDto> orderDetails;
 
     @Builder

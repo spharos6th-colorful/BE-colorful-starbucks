@@ -21,13 +21,12 @@ public class OrderController {
     @PostMapping
     public ApiResponse<OrderCreateResponseVo> createOrder(Authentication authentication,
                                                           @RequestBody OrderCreateRequestVo orderCreateRequestVo) {
-
-        OrderCreateRequestDto orderCreateRequestDto = OrderCreateRequestDto.of(orderCreateRequestVo,
-                                                                               authentication.getName());
-
-        OrderCreateResponseVo orderCreateResponseVo = orderService.createOrder(orderCreateRequestDto).toVo();
-
-        return ApiResponse.ok("주문이 완료되었습니다.", orderCreateResponseVo);
+        return ApiResponse.ok(
+                "주문이 완료되었습니다.",
+                orderService
+                        .createOrder(OrderCreateRequestDto.of(orderCreateRequestVo, authentication.getName()))
+                        .toVo()
+        );
     }
 
     }

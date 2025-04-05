@@ -14,6 +14,10 @@ public class OrderCreateResponseDto {
         this.orderCode = orderCode;
     }
 
+    public static OrderCreateResponseDto from(Long orderCode) {
+        return new OrderCreateResponseDto(String.valueOf(orderCode));
+    }
+
     public OrderCreateResponseVo toVo() {
         return OrderCreateResponseVo.builder()
                 .orderCode(this.orderCode)

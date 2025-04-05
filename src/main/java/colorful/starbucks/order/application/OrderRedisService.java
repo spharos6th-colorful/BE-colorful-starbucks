@@ -19,14 +19,14 @@ public class OrderRedisService {
     private static final String PREFIX = "order:";
 
     public void saveOrder(String orderId, PreOrderDto preOrderDto, long timeoutSeconds) {
-        String json = toJson(preOrderDto);
+        String json = preOrderDto.toJson(objectMapper);
         redisTemplate.opsForValue().set(PREFIX + orderId, json, timeoutSeconds, TimeUnit.SECONDS);
     }
 
     public PreOrderDto getOrder(String orderId) {
         String json = redisTemplate.opsForValue().get(PREFIX + orderId);
         if (json == null) return null;
-        return fromJson(json);
+        return PreOrderDto.fromJson(json, objectMapper);
     }
 
     public void deleteOrder(String orderId) {
@@ -41,23 +41,6 @@ public class OrderRedisService {
         Boolean extended = redisTemplate.expire(PREFIX + orderId, timeoutSeconds, TimeUnit.SECONDS);
         if(Boolean.FALSE.equals(extended)) {
             throw new BaseException(ResponseStatus.REDIS_TTL_EXTEND_FAIL);
-        }
-    }
-
-
-    private String toJson(PreOrderDto dto) {
-        try {
-            return objectMapper.writeValueAsString(dto);
-        } catch (Exception e) {
-            throw new BaseException(ResponseStatus.REDIS_SERIALIZE_FAIL);
-        }
-    }
-
-    private PreOrderDto fromJson(String json) {
-        try {
-            return objectMapper.readValue(json, PreOrderDto.class);
-        } catch (Exception e) {
-            throw new BaseException(ResponseStatus.REDIS_DESERIALIZE_FAIL);
         }
     }
 }
