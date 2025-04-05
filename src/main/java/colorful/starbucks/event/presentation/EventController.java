@@ -60,4 +60,13 @@ public class EventController {
                 eventService.getEventDetail(eventUuid).toVo()
         );
     }
+
+    @DeleteMapping("/{eventUuid}")
+    public ApiResponse<Void> deleteEvent(@PathVariable String eventUuid) {
+        eventService.deleteEvent(eventUuid);
+        return ApiResponse.of(HttpStatus.NO_CONTENT,
+                "이벤트 삭제를 완료했습니다.",
+                null
+        );
+    }
 }

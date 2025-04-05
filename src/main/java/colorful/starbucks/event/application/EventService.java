@@ -7,7 +7,9 @@ import colorful.starbucks.event.dto.response.EventDetailResponseDto;
 import colorful.starbucks.event.dto.response.EventResponseDto;
 import org.springframework.data.domain.Page;
 
-public interface EventService {
+public interface
+
+EventService {
 
     void createEvent(EventCreateRequestDto eventCreateRequestDto);
 
@@ -16,4 +18,6 @@ public interface EventService {
     Page<EventResponseDto> getEvents(EventFilterRequestDto eventFilterRequestDto);
 
     EventDetailResponseDto getEventDetail(String eventUuid);
+
+    void deleteEvent(String eventUuid);
 }
