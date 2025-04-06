@@ -4,8 +4,6 @@ import colorful.starbucks.cart.vo.request.CartCheckRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class CartCheckRequestDto {
