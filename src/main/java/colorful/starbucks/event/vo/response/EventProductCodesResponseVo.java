@@ -4,11 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class EventProductCodeResponseVo {
+public class EventProductCodesResponseVo {
     private Long productCode;
 
     @Builder
-    private EventProductCodeResponseVo(Long productCode) {
+    private EventProductCodesResponseVo(Long productCode) {
         this.productCode = productCode;
     }
 }
