@@ -1,7 +1,7 @@
 package colorful.starbucks.event.application;
 
 import colorful.starbucks.event.dto.request.EventProductCreateRequestDto;
-import colorful.starbucks.event.dto.request.EventProductFilterRequestDto;
+import colorful.starbucks.event.dto.request.EventProductCodesRequestDto;
 import colorful.starbucks.event.dto.response.EventProductCodeResponseDto;
 import colorful.starbucks.event.infrastructure.EventProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,11 @@ public class EventProductServiceImpl implements EventProductService {
     }
 
     @Override
-    public Page<EventProductCodeResponseDto> getEventProductCodes(EventProductFilterRequestDto eventProductFilterRequestDto) {
+    public Page<EventProductCodeResponseDto> getEventProductCodes(EventProductCodesRequestDto eventProductCodesRequestDto) {
         return eventProductRepository.getEventProductCodes(
-                        eventProductFilterRequestDto.getEventUuid(),
-                        eventProductFilterRequestDto.getPage(),
-                        eventProductFilterRequestDto.getSize())
+                        eventProductCodesRequestDto.getEventUuid(),
+                        eventProductCodesRequestDto.getPage(),
+                        eventProductCodesRequestDto.getSize())
                 .map(EventProductCodeResponseDto::from);
     }
 }

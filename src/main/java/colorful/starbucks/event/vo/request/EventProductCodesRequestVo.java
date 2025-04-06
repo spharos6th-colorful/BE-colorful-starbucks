@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class EventProductFilterRequestVo {
+public class EventProductCodesRequestVo {
 
     private String eventUuid;
     private Integer page;
