@@ -5,6 +5,7 @@ import colorful.starbucks.event.application.EventProductService;
 import colorful.starbucks.event.dto.request.EventProductCreateRequestDto;
 import colorful.starbucks.event.vo.request.EventProductCreateRequestVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,8 @@ public class EventProductController {
     @PostMapping
     public ApiResponse<Void> createEventProduct(@RequestBody EventProductCreateRequestVo eventProductCreateRequestVo) {
         eventProductService.createEventProduct(EventProductCreateRequestDto.from(eventProductCreateRequestVo));
-        return ApiResponse.ok("이벤트 상품 등록을 완료했습니다.", null);
+        return ApiResponse.of(HttpStatus.CREATED,
+                "이벤트 상품 등록을 완료했습니다.",
+                null);
     }
 }
