@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -18,52 +19,82 @@ public class Order extends BaseEntity {
     @Column(name = "order_id")
     private Long id;
 
-    private String orderUuid;
+    @Comment("주문 코드")
+    @Column( nullable = false, unique = true)
+    private Long orderCode;
 
-    private Long couponId;
-
-    private int beforeDiscountPrice;
-
-    private int afterDiscountPrice;
-
+    @Comment("회원 UUID")
+    @Column( nullable = false)
     private String memberUuid;
 
-    private String postNumber;
+    @Comment("쿠폰 UUID")
+    @Column( nullable = true)
+    private String couponUuid;
 
-    private String mainAddress;
+    @Comment("쿠폰 이름")
+    @Column( nullable = true)
+    private String couponName;
 
-    private String subAddress;
+    @Comment("총 결제 금액")
+    @Column( nullable = false)
+    private int totalAmount;
 
-    private boolean payStatus;
+    @Comment("할인 금액")
+    @Column( nullable = true)
+    private int discountAmount;
 
-    private boolean giftStatus;
+    @Comment("우편 번호")
+    @Column( nullable = false)
+    private String ZoneCode;
+
+    @Comment("주소")
+    @Column( nullable = false)
+    private String address;
+
+    @Comment("상세 주소")
+    @Column( nullable = false)
+    private String detailAddress;
+
+    @Comment("주문 상태")
+    @Enumerated(EnumType.STRING)
+    @Column( nullable = false)
+    private OrderStatus orderStatus;
+
+    @Comment("선물 여부")
+    @Column( nullable = true)
+    private Boolean isGift;
+
+    @Comment("구매자")
+    @Column( nullable = true)
+    private String buyer;
+
 
     @Builder
-    private Order(
-            Long id,
-            String orderUuid,
-            Long couponId,
-            int beforeDiscountPrice,
-            int afterDiscountPrice,
-            String memberUuid,
-            String postNumber,
-            String mainAddress,
-            String subAddress,
-            Boolean payStatus,
-            Boolean giftStatus
-
-    ){
+    private Order(Long id,
+                    Long orderCode,
+                  String memberUuid,
+                  String couponUuid,
+                  String couponName,
+                  int totalAmount,
+                  int discountAmount,
+                  String zoneCode,
+                  String address,
+                  String detailAddress,
+                  OrderStatus orderStatus,
+                  Boolean isGift,
+                  String buyer) {
         this.id = id;
-        this.orderUuid = orderUuid;
-        this.couponId = couponId;
-        this.beforeDiscountPrice = beforeDiscountPrice;
-        this.afterDiscountPrice = afterDiscountPrice;
+        this.orderCode = orderCode;
         this.memberUuid = memberUuid;
-        this.postNumber = postNumber;
-        this.mainAddress = mainAddress;
-        this.subAddress = subAddress;
-        this.payStatus = payStatus;
-        this.giftStatus = giftStatus;
-
+        this.couponUuid = couponUuid;
+        this.couponName = couponName;
+        this.totalAmount = totalAmount;
+        this.discountAmount = discountAmount;
+        ZoneCode = zoneCode;
+        this.address = address;
+        this.detailAddress = detailAddress;
+        this.orderStatus = orderStatus;
+        this.isGift = isGift;
+        this.buyer = buyer;
     }
 }
