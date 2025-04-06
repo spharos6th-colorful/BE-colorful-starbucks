@@ -53,15 +53,12 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void updateCartChecked(List<CartCheckRequestDto> cartCheckRequestDtos) {
+    public void updateCartChecked(CartCheckRequestDto cartCheckRequestDto) {
 
-        cartCheckRequestDtos
-                .forEach(c -> {
-                    cartRepository.findByIdAndMemberUuid(c.getId(), c.getMemberUuid())
-                            .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
-                            .updateProductChecked(c.isChecked());
+        cartRepository.findByIdAndMemberUuid(cartCheckRequestDto.getId(), cartCheckRequestDto.getMemberUuid())
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
+                .updateProductChecked(cartCheckRequestDto.isChecked());
 
-                });
     }
 
     @Override
