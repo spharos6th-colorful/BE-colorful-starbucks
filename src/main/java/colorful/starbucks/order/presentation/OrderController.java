@@ -2,9 +2,9 @@ package colorful.starbucks.order.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.order.application.OrderService;
-import colorful.starbucks.order.dto.in.OrderCreateRequestDto;
-import colorful.starbucks.order.vo.in.OrderCreateRequestVo;
-import colorful.starbucks.order.vo.out.OrderCreateResponseVo;
+import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
+import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
+import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;

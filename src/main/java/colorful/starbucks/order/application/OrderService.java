@@ -1,9 +1,11 @@
 package colorful.starbucks.order.application;
 
-import colorful.starbucks.order.dto.in.OrderCreateRequestDto;
-import colorful.starbucks.order.dto.out.OrderCreateResponseDto;
+import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
+import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 
 public interface OrderService {
 
     OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto);
+
+
 }
