@@ -6,25 +6,50 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
+@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
 public class EventProduct extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_product_id")
     private Long id;
 
-    private String productCode;
+    @Comment("상품 코드")
+    @Column(nullable = false)
+    private Long productCode;
 
+    @Comment("이벤트 UUID")
+    @Column(nullable = false)
     private String eventUuid;
 
+    @Lob
+    @Comment("상품 썸네일 URL")
+    @Column(nullable = false)
+    private String productThumbnailUrl;
+
+    @Comment("상품 이름")
+    @Column(nullable = false)
+    private String productName;
+
+    @Comment("상품 가격")
+    @Column(nullable = false)
+    private int price;
+
     @Builder
-    public EventProduct(Long id,String productCode, String eventUuid) {
+    private EventProduct(Long id,
+                         Long productCode,
+                         String eventUuid,
+                         String productThumbnailUrl,
+                         String productName,
+                         int price) {
         this.id = id;
         this.productCode = productCode;
         this.eventUuid = eventUuid;
+        this.productThumbnailUrl = productThumbnailUrl;
+        this.productName = productName;
+        this.price = price;
     }
 }
