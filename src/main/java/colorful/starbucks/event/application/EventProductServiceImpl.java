@@ -24,7 +24,7 @@ public class EventProductServiceImpl implements EventProductService {
 
     @Override
     public Page<EventProductCodeResponseDto> getEventProductCodes(EventProductCodesRequestDto eventProductCodesRequestDto) {
-        return eventProductRepository.getEventProductCodes(
+        return eventProductRepository.getEventProductCodesByEventUuid(
                         eventProductCodesRequestDto.getEventUuid(),
                         eventProductCodesRequestDto.getPage(),
                         eventProductCodesRequestDto.getSize())

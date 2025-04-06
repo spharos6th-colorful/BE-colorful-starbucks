@@ -22,7 +22,7 @@ public class EventProductRepositoryCustomImpl implements EventProductRepositoryC
     private static final int DEFAULT_PAGE_NUMBER = 0;
 
     @Override
-    public Page<Long> getEventProductCodes(String eventUuid, Integer page, Integer size) {
+    public Page<Long> getEventProductCodesByEventUuid(String eventUuid, Integer page, Integer size) {
 
         int currentPage = page != null ? page : DEFAULT_PAGE_NUMBER;
         int pageSize = size != null ? size : DEFAULT_PAGE_SIZE;
