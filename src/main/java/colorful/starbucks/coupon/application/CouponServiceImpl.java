@@ -2,6 +2,7 @@ package colorful.starbucks.coupon.application;
 
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
+import colorful.starbucks.coupon.domain.Coupon;
 import colorful.starbucks.coupon.dto.request.CouponCreateRequestDto;
 import colorful.starbucks.coupon.dto.response.CouponResponseDto;
 import colorful.starbucks.coupon.infrastructure.CouponRepository;
@@ -18,8 +19,8 @@ public class CouponServiceImpl implements CouponService{
 
     @Transactional
     @Override
-    public void createCoupon(CouponCreateRequestDto couponCreateRequestDto) {
-        couponRepository.save(couponCreateRequestDto.toEntity());
+    public Coupon createCoupon(CouponCreateRequestDto couponCreateRequestDto) {
+        return couponRepository.save(couponCreateRequestDto.toEntity());
     }
 
     @Override
