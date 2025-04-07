@@ -4,8 +4,6 @@ import colorful.starbucks.cart.vo.request.CartCheckRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class CartCheckRequestDto {
@@ -21,16 +19,12 @@ public class CartCheckRequestDto {
         this.memberUuid = memberUuid;
     }
 
-    private static CartCheckRequestDto of(CartCheckRequestVo cartCheckRequestVo, String memberUuid) {
+    public static CartCheckRequestDto of(CartCheckRequestVo cartCheckRequestVo, String memberUuid) {
         return CartCheckRequestDto.builder()
                 .id(cartCheckRequestVo.getId())
                 .checked(cartCheckRequestVo.isChecked())
                 .memberUuid(memberUuid)
                 .build();
     }
-    public static List<CartCheckRequestDto> of(List<CartCheckRequestVo> cartCheckRequestVos, String memberUuid) {
-        return cartCheckRequestVos.stream()
-                .map(vo -> of(vo, memberUuid))
-                .collect(Collectors.toList());
-    }
+
 }
