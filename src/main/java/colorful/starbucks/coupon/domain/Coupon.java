@@ -51,22 +51,36 @@ public class Coupon extends BaseEntity {
     @Column(nullable = false)
     private int minOrderPrice;
 
+    @Comment("쿠폰 발급 한도")
+    @Column(nullable = false)
+    private int maxIssuanceLimit;
+
+    @Comment("현재 발급된 쿠폰 수")
+    @Column(nullable = false)
+    private int currentIssuanceCount;
+
     @Builder
     private Coupon(Long id,
                    String couponUuid,
                    String couponName,
+                   String couponDescription,
                    DiscountType discountType,
                    int discountValue,
                    String couponImageUrl,
                    int maxDiscountPrice,
-                   int minOrderPrice) {
+                   int minOrderPrice,
+                   int maxIssuanceLimit,
+                   int currentIssuanceCount) {
         this.id = id;
         this.couponUuid = couponUuid;
         this.couponName = couponName;
+        this.couponDescription = couponDescription;
         this.discountType = discountType;
         this.discountValue = discountValue;
         this.couponImageUrl = couponImageUrl;
         this.maxDiscountPrice = maxDiscountPrice;
         this.minOrderPrice = minOrderPrice;
+        this.maxIssuanceLimit = maxIssuanceLimit;
+        this.currentIssuanceCount = currentIssuanceCount;
     }
 }
