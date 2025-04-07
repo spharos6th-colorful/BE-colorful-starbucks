@@ -1,6 +1,9 @@
 package colorful.starbucks.coupon.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.coupon.dto.request.CouponCreateRequestDto;
+import colorful.starbucks.coupon.dto.response.CouponResponseDto;
 import colorful.starbucks.coupon.infrastructure.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,5 +20,12 @@ public class CouponServiceImpl implements CouponService{
     @Override
     public void createCoupon(CouponCreateRequestDto couponCreateRequestDto) {
         couponRepository.save(couponCreateRequestDto.toEntity());
+    }
+
+    @Override
+    public CouponResponseDto getCoupon(String couponUuid) {
+        return CouponResponseDto.from(couponRepository.findByCouponUuid(couponUuid)
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
+        );
     }
 }
