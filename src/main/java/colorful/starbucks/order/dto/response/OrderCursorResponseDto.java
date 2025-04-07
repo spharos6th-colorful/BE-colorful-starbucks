@@ -27,13 +27,13 @@ public class OrderCursorResponseDto {
     }
 
 
-    public static List<OrderCursorResponseDto> from(List<OrderListResponseDto> orderListResponseDtos) {
-        return orderListResponseDtos.stream()
-                .map(orderListResponseDto -> new OrderCursorResponseDto(
-                        orderListResponseDto.getCreatedAt(),
-                        orderListResponseDto.getOrderCode(),
-                        orderListResponseDto.getTotalAmount(),
-                        orderListResponseDto.getDiscountAmount()))
+    public static List<OrderCursorResponseDto> from(List<OrderResponseDto> orderResponseDtos) {
+        return orderResponseDtos.stream()
+                .map(orderResponseDto -> new OrderCursorResponseDto(
+                        orderResponseDto.getCreatedAt(),
+                        orderResponseDto.getOrderCode(),
+                        orderResponseDto.getTotalAmount(),
+                        orderResponseDto.getDiscountAmount()))
                 .toList();
     }
 

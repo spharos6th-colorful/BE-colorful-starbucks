@@ -81,13 +81,8 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         Long cursor = orderListFilterDto.getCursor();
 
-        if (cursor == null) {
-            if ("createdAt,asc".equals(orderListFilterDto.getSortBy())) {
-                cursor = 0L;
-            } else {
-                cursor = Long.MAX_VALUE;
-            }
-        }
+        String sortBy = orderListFilterDto.getSortBy();
+        cursor = (cursor == null) ? ("createdAt,asc".equals(sortBy) ? 0L : Long.MAX_VALUE) : cursor;
 
         if (orderListFilterDto.getSortBy() != null) {
             switch (orderListFilterDto.getSortBy()) {

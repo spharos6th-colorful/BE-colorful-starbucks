@@ -2,7 +2,7 @@ package colorful.starbucks.order.dto.response;
 
 
 import colorful.starbucks.order.dto.OrderAddressDto;
-import colorful.starbucks.order.vo.response.OrderListResponseVo;
+import colorful.starbucks.order.vo.response.OrderResponseVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-public class OrderListResponseDto {
+public class OrderResponseDto {
 
     private LocalDateTime createdAt;
     private Long orderCode;
@@ -20,12 +20,12 @@ public class OrderListResponseDto {
     private OrderAddressDto orderAddress;
 
     @Builder
-    private OrderListResponseDto(LocalDateTime createdAt,
-                                 Long orderCode,
-                                 int totalAmount,
-                                 int discountAmount,
-                                 List<OrderDetailResponseDto> orderDetails,
-                                 OrderAddressDto orderAddress) {
+    private OrderResponseDto(LocalDateTime createdAt,
+                             Long orderCode,
+                             int totalAmount,
+                             int discountAmount,
+                             List<OrderDetailResponseDto> orderDetails,
+                             OrderAddressDto orderAddress) {
         this.createdAt = createdAt;
         this.orderCode = orderCode;
         this.totalAmount = totalAmount;
@@ -34,8 +34,8 @@ public class OrderListResponseDto {
         this.orderAddress = orderAddress;
     }
 
-    public OrderListResponseVo toVo(){
-        return OrderListResponseVo.builder()
+    public OrderResponseVo toVo(){
+        return OrderResponseVo.builder()
                 .createdAt(createdAt)
                 .orderCode(orderCode)
                 .totalAmount(totalAmount)
@@ -45,13 +45,13 @@ public class OrderListResponseDto {
                 .build();
     }
 
-    public static OrderListResponseDto of(LocalDateTime createdAt,
-                                          Long orderCode,
-                                          int totalAmount,
-                                          int discountAmount,
-                                          List<OrderDetailResponseDto> orderDetails,
-                                          OrderAddressDto orderAddress) {
-        return OrderListResponseDto.builder()
+    public static OrderResponseDto of(LocalDateTime createdAt,
+                                      Long orderCode,
+                                      int totalAmount,
+                                      int discountAmount,
+                                      List<OrderDetailResponseDto> orderDetails,
+                                      OrderAddressDto orderAddress) {
+        return OrderResponseDto.builder()
                 .createdAt(createdAt)
                 .orderCode(orderCode)
                 .totalAmount(totalAmount)

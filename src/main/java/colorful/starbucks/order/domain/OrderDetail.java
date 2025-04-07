@@ -24,7 +24,7 @@ public class OrderDetail extends BaseEntity {
 
     @Comment("상품 코드")
     @Column(nullable = false)
-    private String productCode;
+    private Long productCode;
 
     @Comment("상품 상세 코드")
     @Column(nullable = false)
@@ -65,7 +65,7 @@ public class OrderDetail extends BaseEntity {
     @Builder
     private OrderDetail(Long id,
                        Order order,
-                       String productCode,
+                        Long productCode,
                        String productDetailCode,
                        String productName,
                        String size,

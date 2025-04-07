@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class OrderDetailResponseVo {
 
-    private String productCode;
+    private Long productCode;
     private String productName;
     private String size;
     private String color;
@@ -17,7 +17,7 @@ public class OrderDetailResponseVo {
     private String productDetailThumbnailUrl;
 
     @Builder
-    private OrderDetailResponseVo(String productCode,
+    private OrderDetailResponseVo(Long productCode,
                                    String productName,
                                    String size,
                                    String color,

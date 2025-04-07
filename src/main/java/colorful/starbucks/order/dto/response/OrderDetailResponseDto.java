@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class OrderDetailResponseDto {
 
-    private String productCode;
+    private Long productCode;
     private String productName;
     private String size;
     private String color;
@@ -18,7 +18,7 @@ public class OrderDetailResponseDto {
     private String productDetailThumbnailUrl;
 
     @Builder
-    private OrderDetailResponseDto(String productCode,
+    private OrderDetailResponseDto(Long productCode,
                                     String productName,
                                     String size,
                                     String color,

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-public class OrderListResponseVo {
+public class OrderResponseVo {
 
     private LocalDateTime createdAt;
     private Long orderCode;
@@ -19,12 +19,12 @@ public class OrderListResponseVo {
     private OrderAddressVo OrderAddress;
 
     @Builder
-    private OrderListResponseVo(LocalDateTime createdAt,
-                                Long orderCode,
-                                int totalAmount,
-                                int discountAmount,
-                                List<OrderDetailResponseVo> orderDetails,
-                                OrderAddressVo OrderAddress) {
+    private OrderResponseVo(LocalDateTime createdAt,
+                            Long orderCode,
+                            int totalAmount,
+                            int discountAmount,
+                            List<OrderDetailResponseVo> orderDetails,
+                            OrderAddressVo OrderAddress) {
         this.createdAt = createdAt;
         this.orderCode = orderCode;
         this.totalAmount = totalAmount;

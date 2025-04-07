@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class OrderDetailRequestDto {
 
-    private String productCode;
+    private Long productCode;
     private String productName;
     private String size;
     private String color;
@@ -18,7 +18,7 @@ public class OrderDetailRequestDto {
     private Boolean carving;
 
     @Builder
-    private OrderDetailRequestDto(String productCode,
+    private OrderDetailRequestDto(Long productCode,
                                   String productName,
                                   String size,
                                   String color,
