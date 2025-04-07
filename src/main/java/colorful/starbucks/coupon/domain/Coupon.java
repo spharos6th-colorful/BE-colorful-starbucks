@@ -47,11 +47,11 @@ public class Coupon extends BaseEntity {
 
     @Comment("최대 할인 금액")
     @Column(nullable = false)
-    private int maxDiscountPrice;
+    private int maxDiscountAmount;
 
     @Comment("최소 주문 금액")
     @Column(nullable = false)
-    private int minOrderPrice;
+    private int minOrderAmount;
 
     @Comment("쿠폰 발급 한도")
     @Column(nullable = false)
@@ -77,8 +77,8 @@ public class Coupon extends BaseEntity {
                    DiscountType discountType,
                    int discountValue,
                    String couponImageUrl,
-                   int maxDiscountPrice,
-                   int minOrderPrice,
+                   int maxDiscountAmount,
+                   int minOrderAmount,
                    int maxIssuanceLimit,
                    int currentIssuanceCount,
                    LocalDateTime startAt,
@@ -90,8 +90,8 @@ public class Coupon extends BaseEntity {
         this.discountType = discountType;
         this.discountValue = discountValue;
         this.couponImageUrl = couponImageUrl;
-        this.maxDiscountPrice = maxDiscountPrice;
-        this.minOrderPrice = minOrderPrice;
+        this.maxDiscountAmount = maxDiscountAmount;
+        this.minOrderAmount = minOrderAmount;
         this.maxIssuanceLimit = maxIssuanceLimit;
         this.currentIssuanceCount = currentIssuanceCount;
         this.startAt = startAt;

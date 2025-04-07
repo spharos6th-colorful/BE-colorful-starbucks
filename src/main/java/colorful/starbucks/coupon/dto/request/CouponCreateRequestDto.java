@@ -18,8 +18,8 @@ public class CouponCreateRequestDto {
     private DiscountType discountType;
     private int discountValue;
     private String couponImageUrl;
-    private int maxDiscountPrice;
-    private int minOrderPrice;
+    private int maxDiscountAmount;
+    private int minOrderAmount;
     private int maxIssuanceLimit;
     private LocalDateTime startAt;
     private LocalDateTime expiredAt;
@@ -31,10 +31,9 @@ public class CouponCreateRequestDto {
                                    DiscountType discountType,
                                    int discountValue,
                                    String couponImageUrl,
-                                   int maxDiscountPrice,
-                                   int minOrderPrice,
+                                   int maxDiscountAmount,
+                                   int minOrderAmount,
                                    int maxIssuanceLimit,
-                                   int currentIssuanceCount,
                                    LocalDateTime startAt,
                                    LocalDateTime expiredAt) {
         this.couponUuid = couponUuid;
@@ -43,8 +42,8 @@ public class CouponCreateRequestDto {
         this.discountType = discountType;
         this.discountValue = discountValue;
         this.couponImageUrl = couponImageUrl;
-        this.maxDiscountPrice = maxDiscountPrice;
-        this.minOrderPrice = minOrderPrice;
+        this.maxDiscountAmount = maxDiscountAmount;
+        this.minOrderAmount = minOrderAmount;
         this.maxIssuanceLimit = maxIssuanceLimit;
         this.startAt = startAt;
         this.expiredAt = expiredAt;
@@ -58,8 +57,8 @@ public class CouponCreateRequestDto {
                 .discountType(couponCreateRequestVo.getDiscountType())
                 .discountValue(couponCreateRequestVo.getDiscountValue())
                 .couponImageUrl(couponCreateRequestVo.getCouponImageUrl())
-                .maxDiscountPrice(couponCreateRequestVo.getMaxDiscountPrice())
-                .minOrderPrice(couponCreateRequestVo.getMinOrderPrice())
+                .maxDiscountAmount(couponCreateRequestVo.getMaxDiscountAmount())
+                .minOrderAmount(couponCreateRequestVo.getMinOrderAmount())
                 .maxIssuanceLimit(couponCreateRequestVo.getMaxIssuanceLimit())
                 .startAt(couponCreateRequestVo.getStartAt())
                 .expiredAt(couponCreateRequestVo.getExpiredAt())
@@ -74,8 +73,8 @@ public class CouponCreateRequestDto {
                 .discountType(discountType)
                 .discountValue(discountValue)
                 .couponImageUrl(couponImageUrl)
-                .maxDiscountPrice(maxDiscountPrice)
-                .minOrderPrice(minOrderPrice)
+                .maxDiscountAmount(maxDiscountAmount)
+                .minOrderAmount(minOrderAmount)
                 .maxIssuanceLimit(maxIssuanceLimit)
                 .currentIssuanceCount(0)
                 .startAt(startAt)

@@ -13,8 +13,8 @@ public class CouponCreateRequestVo {
     private DiscountType discountType;
     private int discountValue;
     private String couponImageUrl;
-    private int maxDiscountPrice;
-    private int minOrderPrice;
+    private int maxDiscountAmount;
+    private int minOrderAmount;
     private int maxIssuanceLimit;
     private LocalDateTime startAt;
     private LocalDateTime expiredAt;
