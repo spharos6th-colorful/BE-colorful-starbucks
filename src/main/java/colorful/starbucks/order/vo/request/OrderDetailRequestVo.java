@@ -1,4 +1,4 @@
-package colorful.starbucks.order.vo.in;
+package colorful.starbucks.order.vo.request;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class OrderDetailRequestVo {
 
-    private String productCode;
+    private Long productCode;
     private String productName;
     private String size;
     private String color;
@@ -15,7 +15,7 @@ public class OrderDetailRequestVo {
     private Boolean carving;
 
     @Builder
-    private OrderDetailRequestVo(String productCode,
+    private OrderDetailRequestVo(Long productCode,
                                 String productName,
                                 String size,
                                 String color,

@@ -1,10 +1,13 @@
 package colorful.starbucks.order.application;
 
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.common.util.OrderCodeGenerator;
 import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderDetail;
-import colorful.starbucks.order.dto.in.OrderCreateRequestDto;
-import colorful.starbucks.order.dto.out.OrderCreateResponseDto;
+import colorful.starbucks.order.dto.OrderListFilterDto;
+import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
+import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
+import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.infrastructure.OrderDetailRepository;
 import colorful.starbucks.order.infrastructure.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +41,14 @@ public class OrderServiceImpl implements OrderService {
         orderDetailRepository.saveAll(orderDetails);
 
         return OrderCreateResponseDto.from(orderCode);
-
-
-
     }
+
+    @Transactional
+    @Override
+    public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
+        return orderRepository.getOrderList(orderListFilterDto);
+    }
+
+
 
 }

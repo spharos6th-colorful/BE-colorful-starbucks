@@ -1,7 +1,7 @@
-package colorful.starbucks.order.dto.in;
+package colorful.starbucks.order.dto.request;
 
 import colorful.starbucks.order.domain.Order;
-import colorful.starbucks.order.vo.in.OrderCreateRequestVo;
+import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 
