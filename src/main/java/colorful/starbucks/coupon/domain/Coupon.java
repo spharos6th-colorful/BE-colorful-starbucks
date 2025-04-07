@@ -25,6 +25,10 @@ public class Coupon extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String couponName;
 
+    @Comment("쿠폰 설명")
+    @Column(nullable = false, length = 200)
+    private String couponDescription;
+
     @Enumerated(EnumType.STRING)
     @Comment("할인 타입")
     @Column(nullable = false)
