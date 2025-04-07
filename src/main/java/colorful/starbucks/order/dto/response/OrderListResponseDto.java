@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 public class OrderListResponseDto {
 
-    private String orderDate;
+    private LocalDateTime createdAt;
     private Long orderCode;
     private int totalAmount;
     private int discountAmount;
@@ -20,13 +20,13 @@ public class OrderListResponseDto {
     private OrderAddressDto orderAddress;
 
     @Builder
-    private OrderListResponseDto(String orderDate,
+    private OrderListResponseDto(LocalDateTime createdAt,
                                  Long orderCode,
                                  int totalAmount,
                                  int discountAmount,
                                  List<OrderDetailResponseDto> orderDetails,
                                  OrderAddressDto orderAddress) {
-        this.orderDate = orderDate;
+        this.createdAt = createdAt;
         this.orderCode = orderCode;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
@@ -36,7 +36,7 @@ public class OrderListResponseDto {
 
     public OrderListResponseVo toVo(){
         return OrderListResponseVo.builder()
-                .orderDate(orderDate)
+                .createdAt(createdAt)
                 .orderCode(orderCode)
                 .totalAmount(totalAmount)
                 .discountAmount(discountAmount)
@@ -45,14 +45,14 @@ public class OrderListResponseDto {
                 .build();
     }
 
-    public static OrderListResponseDto from(String orderDate,
-                                            Long orderCode,
-                                            int totalAmount,
-                                            int discountAmount,
-                                            List<OrderDetailResponseDto> orderDetails,
-                                            OrderAddressDto orderAddress) {
+    public static OrderListResponseDto of(LocalDateTime createdAt,
+                                          Long orderCode,
+                                          int totalAmount,
+                                          int discountAmount,
+                                          List<OrderDetailResponseDto> orderDetails,
+                                          OrderAddressDto orderAddress) {
         return OrderListResponseDto.builder()
-                .orderDate(orderDate)
+                .createdAt(createdAt)
                 .orderCode(orderCode)
                 .totalAmount(totalAmount)
                 .discountAmount(discountAmount)
@@ -60,17 +60,6 @@ public class OrderListResponseDto {
                 .orderAddress(orderAddress)
                 .build();
     }
-
-    public OrderListResponseDto(LocalDateTime orderDate,
-                                Long orderCode,
-                                int totalAmount,
-                                int discountAmount) {
-        this.orderDate = orderDate.toString();
-        this.orderCode = orderCode;
-        this.totalAmount = totalAmount;
-        this.discountAmount = discountAmount;
-    }
-
 
 
 }

@@ -1,6 +1,7 @@
 package colorful.starbucks.order.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.order.application.OrderService;
 import colorful.starbucks.order.dto.OrderListFilterDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
@@ -33,21 +34,26 @@ public class OrderController {
     }
 
     @GetMapping
-    public ApiResponse<List<OrderCursorResponseVo>> getOrderList(Authentication authentication,
-                                                                 @ModelAttribute OrderListFilterVo orderListFilterVo) {
+    public ApiResponse<CursorPage<OrderCursorResponseVo>> getOrderList(Authentication authentication,
+                                                                       @ModelAttribute OrderListFilterVo orderListFilterVo) {
         String memberUuid = authentication.getName();
 
         OrderListFilterDto orderListFilterDto = OrderListFilterDto.of(orderListFilterVo, memberUuid);
 
-        List<OrderCursorResponseDto> dtoList = orderService.getOrderList(orderListFilterDto);
+        CursorPage<OrderCursorResponseDto> response = orderService.getOrderList(orderListFilterDto);
 
-        List<OrderCursorResponseVo> voList = dtoList.stream()
-                .map(OrderCursorResponseDto::toVo)
-                .toList();
-
-        return ApiResponse.ok("주문 목록 조회 성공", voList);
+        return ApiResponse.ok("주문 목록 조회 성공",
+                CursorPage.<OrderCursorResponseVo>builder()
+                        .content(response.getContent().stream()
+                                .map(OrderCursorResponseDto::toVo)
+                                .toList())
+                        .nextCursor(response.getNextCursor())
+                        .hasNext(response.isHasNext())
+                        .build()
+        );
     }
 
 
-    }
+
+}
 

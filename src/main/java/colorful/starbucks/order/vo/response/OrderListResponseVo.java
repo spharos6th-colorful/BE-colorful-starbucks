@@ -4,12 +4,14 @@ import colorful.starbucks.order.vo.OrderAddressVo;
 import lombok.Builder;
 
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 public class OrderListResponseVo {
 
-    private String orderDate;
+    private LocalDateTime createdAt;
     private Long orderCode;
     private int totalAmount;
     private int discountAmount;
@@ -17,13 +19,13 @@ public class OrderListResponseVo {
     private OrderAddressVo OrderAddress;
 
     @Builder
-    private OrderListResponseVo(String orderDate,
+    private OrderListResponseVo(LocalDateTime createdAt,
                                 Long orderCode,
                                 int totalAmount,
                                 int discountAmount,
                                 List<OrderDetailResponseVo> orderDetails,
                                 OrderAddressVo OrderAddress) {
-        this.orderDate = orderDate;
+        this.createdAt = createdAt;
         this.orderCode = orderCode;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;

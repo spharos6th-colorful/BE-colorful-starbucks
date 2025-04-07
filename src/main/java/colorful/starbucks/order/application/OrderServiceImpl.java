@@ -1,5 +1,6 @@
 package colorful.starbucks.order.application;
 
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.common.util.OrderCodeGenerator;
 import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderDetail;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,11 +47,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public List<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
-
-        List<OrderListResponseDto> orderListResponseDtos = orderRepository.getOrderList(orderListFilterDto);
-
-        return OrderCursorResponseDto.from(orderListResponseDtos);
+    public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
+        return orderRepository.getOrderList(orderListFilterDto);
     }
+
+
 
 }

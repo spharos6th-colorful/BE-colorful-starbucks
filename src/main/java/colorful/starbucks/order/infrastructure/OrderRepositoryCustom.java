@@ -1,12 +1,12 @@
 package colorful.starbucks.order.infrastructure;
 
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.order.dto.OrderListFilterDto;
-import colorful.starbucks.order.dto.response.OrderListResponseDto;
-
-import java.util.List;
+import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 
 public interface OrderRepositoryCustom {
 
-    List<OrderListResponseDto> getOrderList(OrderListFilterDto orderListFilterDto);
+    CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto);
+
 
 }
