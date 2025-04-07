@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -18,8 +20,10 @@ public class EventProductServiceImpl implements EventProductService {
 
     @Transactional
     @Override
-    public void createEventProduct(EventProductCreateRequestDto eventProductCreateRequestDto) {
-        eventProductRepository.save(eventProductCreateRequestDto.toEntity());
+    public void createEventProduct(List<EventProductCreateRequestDto> eventProductCreateRequestDtos) {
+        eventProductRepository.saveAll(eventProductCreateRequestDtos.stream()
+                .map(EventProductCreateRequestDto::toEntity)
+                .toList());
     }
 
     @Override

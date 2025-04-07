@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/event-products")
 @RequiredArgsConstructor
@@ -21,8 +23,8 @@ public class EventProductController {
     private final EventProductService eventProductService;
 
     @PostMapping
-    public ApiResponse<Void> createEventProduct(@RequestBody EventProductCreateRequestVo eventProductCreateRequestVo) {
-        eventProductService.createEventProduct(EventProductCreateRequestDto.from(eventProductCreateRequestVo));
+    public ApiResponse<Void> createEventProduct(@RequestBody List<EventProductCreateRequestVo> eventProductCreateRequestVos) {
+        eventProductService.createEventProduct(eventProductCreateRequestVos.stream().map(EventProductCreateRequestDto::from).toList());
         return ApiResponse.of(HttpStatus.CREATED,
                 "이벤트 상품 등록을 완료했습니다.",
                 null);
