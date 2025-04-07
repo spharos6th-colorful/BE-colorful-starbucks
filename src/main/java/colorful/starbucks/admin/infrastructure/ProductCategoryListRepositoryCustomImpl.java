@@ -1,7 +1,9 @@
 package colorful.starbucks.admin.infrastructure;
 
 import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
+import colorful.starbucks.admin.dto.ProductSearchListFilterDto;
 import colorful.starbucks.admin.dto.response.ProductCategoryCursorResponseDto;
+import colorful.starbucks.admin.dto.response.ProductSearchCursorResponseDto;
 import colorful.starbucks.common.util.CursorPage;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -61,6 +63,14 @@ public class ProductCategoryListRepositoryCustomImpl implements ProductCategoryL
                 .hasNext(hasNext)
                 .nextCursor(nextCursor)
                 .build();
+    }
+
+    @Override
+    public CursorPage<ProductSearchCursorResponseDto> getSearchedProductList(ProductSearchListFilterDto productSearchListFilterDto) {
+
+
+
+        return null;
     }
 
     private BooleanExpression minPriceGoe(Integer minPrice) {

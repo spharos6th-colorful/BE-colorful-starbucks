@@ -2,8 +2,10 @@ package colorful.starbucks.admin.application;
 
 import colorful.starbucks.admin.domain.ProductCategoryList;
 import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
+import colorful.starbucks.admin.dto.ProductSearchListFilterDto;
 import colorful.starbucks.admin.dto.request.ProductCategoryListCreateRequestDto;
 import colorful.starbucks.admin.dto.response.ProductCategoryCursorResponseDto;
+import colorful.starbucks.admin.dto.response.ProductSearchCursorResponseDto;
 import colorful.starbucks.admin.infrastructure.ProductCategoryListRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
@@ -45,5 +47,10 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
         }
 
         return productCategoryListRepository.getFilteredProductList(productCategoryListFilterDto, id, price);
+    }
+
+    @Override
+    public CursorPage<ProductSearchCursorResponseDto> getSearchedProductList(ProductSearchListFilterDto productSearchListFilterDto) {
+        return null;
     }
 }
