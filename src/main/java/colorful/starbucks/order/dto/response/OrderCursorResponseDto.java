@@ -11,15 +11,15 @@ import java.util.List;
 public class OrderCursorResponseDto {
     private Long orderCode;
     private LocalDateTime createdAt;
-    private Integer totalAmount;
-    private Integer discountAmount;
+    private int totalAmount;
+    private int discountAmount;
 
 
     @Builder
     public OrderCursorResponseDto(LocalDateTime createdAt,
                                   Long orderCode,
-                                  Integer totalAmount,
-                                  Integer discountAmount) {
+                                  int totalAmount,
+                                  int discountAmount) {
         this.createdAt = createdAt;
         this.orderCode = orderCode;
         this.totalAmount = totalAmount;
