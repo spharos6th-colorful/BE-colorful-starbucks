@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,40 +15,54 @@ public class Coupon extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coupon_id")
     private Long id;
 
+    @Comment("쿠폰 UUID")
+    @Column(nullable = false, unique = true)
+    private String couponUuid;
+
+    @Comment("쿠폰 이름")
+    @Column(nullable = false, length = 50)
     private String couponName;
 
-    private String couponImage;
+    @Enumerated(EnumType.STRING)
+    @Comment("할인 타입")
+    @Column(nullable = false)
+    private DiscountType discountType;
 
-    private int couponPercent;
+    @Comment("할인 값, 금액 또는 %")
+    @Column(nullable = false)
+    private int discountValue;
 
-    private int couponPrice;
+    @Lob
+    @Comment("쿠폰 이미지 URL")
+    @Column(nullable = false, length = 200)
+    private String couponImageUrl;
 
-    private int maxPrice;
+    @Comment("최대 할인 금액")
+    @Column(nullable = false)
+    private int maxDiscountPrice;
 
+    @Comment("최소 주문 금액")
+    @Column(nullable = false)
     private int minOrderPrice;
-
-    private String couponUuid;
 
     @Builder
     private Coupon(Long id,
+                   String couponUuid,
                    String couponName,
-                   String couponImage,
-                   int couponPercent,
-                   int couponPrice,
-                   int maxPrice,
-                   int minOrderPrice,
-                   String couponUuid) {
+                   DiscountType discountType,
+                   int discountValue,
+                   String couponImageUrl,
+                   int maxDiscountPrice,
+                   int minOrderPrice) {
         this.id = id;
-        this.couponName = couponName;
-        this.couponImage = couponImage;
-        this.couponPercent = couponPercent;
-        this.couponPrice = couponPrice;
-        this.maxPrice = maxPrice;
-        this.minOrderPrice = minOrderPrice;
         this.couponUuid = couponUuid;
+        this.couponName = couponName;
+        this.discountType = discountType;
+        this.discountValue = discountValue;
+        this.couponImageUrl = couponImageUrl;
+        this.maxDiscountPrice = maxDiscountPrice;
+        this.minOrderPrice = minOrderPrice;
     }
-
 }
