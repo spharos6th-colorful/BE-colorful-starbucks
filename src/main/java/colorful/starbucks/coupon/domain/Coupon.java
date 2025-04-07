@@ -42,7 +42,7 @@ public class Coupon extends BaseEntity {
 
     @Lob
     @Comment("쿠폰 이미지 URL")
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false)
     private String couponImageUrl;
 
     @Comment("최대 할인 금액")
