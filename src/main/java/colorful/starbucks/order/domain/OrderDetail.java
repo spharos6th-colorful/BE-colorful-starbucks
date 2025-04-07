@@ -62,6 +62,10 @@ public class OrderDetail extends BaseEntity {
     @Column(nullable = true)
     private Boolean carving;
 
+    @Comment("상품 상세 썸네일 URL")
+    @Column(nullable = true)
+    private String productDetailThumbnailUrl;
+
     @Builder
     private OrderDetail(Long id,
                        Order order,
@@ -74,7 +78,8 @@ public class OrderDetail extends BaseEntity {
                        int price,
                        String carvingContent,
                        String categoryName,
-                       Boolean carving) {
+                       Boolean carving,
+                       String productDetailThumbnailUrl) {
         this.id = id;
         this.order = order;
         this.productCode = productCode;
@@ -87,6 +92,7 @@ public class OrderDetail extends BaseEntity {
         this.carvingContent = carvingContent;
         this.categoryName = categoryName;
         this.carving = carving;
+        this.productDetailThumbnailUrl = productDetailThumbnailUrl;
     }
 }
 

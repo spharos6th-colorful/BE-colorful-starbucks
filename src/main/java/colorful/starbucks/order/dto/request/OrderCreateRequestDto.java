@@ -1,6 +1,7 @@
 package colorful.starbucks.order.dto.request;
 
 import colorful.starbucks.order.domain.Order;
+import colorful.starbucks.order.domain.OrderStatus;
 import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +20,8 @@ public class OrderCreateRequestDto {
     private String detailAddress;
     private Boolean isGift;
     private String buyer;
-    private List<OrderDetailRequestDto> orderDetails;
+    private String memberUuid;
+    private List<OrderCreateDetailRequestDto> orderDetails;
 
     @Builder
     private OrderCreateRequestDto(Long orderCode,
@@ -31,7 +33,8 @@ public class OrderCreateRequestDto {
                                  String detailAddress,
                                  Boolean isGift,
                                  String buyer,
-                                 List<OrderDetailRequestDto> orderDetails) {
+                                  String memberUuid,
+                                 List<OrderCreateDetailRequestDto> orderDetails) {
         this.orderCode = orderCode;
         this.couponUuid = couponUuid;
         this.totalAmount = totalAmount;
@@ -41,6 +44,7 @@ public class OrderCreateRequestDto {
         this.detailAddress = detailAddress;
         this.isGift = isGift;
         this.buyer = buyer;
+        this.memberUuid = memberUuid;
         this.orderDetails = orderDetails;
     }
     public Order toEntity(Long orderCode){
@@ -49,10 +53,13 @@ public class OrderCreateRequestDto {
                 .couponUuid(couponUuid)
                 .totalAmount(totalAmount)
                 .discountAmount(discountAmount)
+                .zoneCode(zoneCode)
                 .address(address)
                 .detailAddress(detailAddress)
                 .isGift(isGift)
                 .buyer(buyer)
+                .memberUuid(memberUuid)
+                .orderStatus(OrderStatus.PAID)
                 .build();
     }
     public static OrderCreateRequestDto of(OrderCreateRequestVo orderCreateRequestVo, String memberUuid) {
@@ -66,8 +73,9 @@ public class OrderCreateRequestDto {
                 .detailAddress(orderCreateRequestVo.getDetailAddress())
                 .isGift(orderCreateRequestVo.getIsGift())
                 .buyer(orderCreateRequestVo.getBuyer())
+                .memberUuid(memberUuid)
                 .orderDetails(orderCreateRequestVo.getOrderDetails().stream()
-                        .map(OrderDetailRequestDto::of)
+                        .map(OrderCreateDetailRequestDto::of)
                         .toList())
                 .build();
     }

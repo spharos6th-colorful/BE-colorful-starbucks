@@ -21,7 +21,7 @@ import static colorful.starbucks.order.domain.QOrder.order;
 @RequiredArgsConstructor
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
-    private static final Integer DEFAULT_PAGE_SIZE = 10;
+    private static final Integer DEFAULT_PAGE_SIZE = 20;
     private final JPAQueryFactory queryFactory;
 
     @Override
