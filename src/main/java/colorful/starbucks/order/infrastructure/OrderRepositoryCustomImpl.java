@@ -81,23 +81,31 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         Long cursor = orderListFilterDto.getCursor();
 
+        if (cursor == null) {
+            if ("createdAt,asc".equals(orderListFilterDto.getSortBy())) {
+                cursor = 0L;
+            } else {
+                cursor = Long.MAX_VALUE;
+            }
+        }
+
         if (orderListFilterDto.getSortBy() != null) {
             switch (orderListFilterDto.getSortBy()) {
                 case "createdAt,asc":
-                    if (cursor != null) booleanBuilder.and(order.orderCode.goe(cursor));
+                    booleanBuilder.and(order.orderCode.goe(cursor));
                     query.orderBy(order.createdAt.asc());
                     break;
                 case "createdAt,desc":
-                    if (cursor != null) booleanBuilder.and(order.orderCode.loe(cursor));
+                    booleanBuilder.and(order.orderCode.loe(cursor));
                     query.orderBy(order.createdAt.desc());
                     break;
                 default:
-                    if (cursor != null) booleanBuilder.and(order.orderCode.loe(cursor));
+                    booleanBuilder.and(order.orderCode.loe(cursor));
                     query.orderBy(order.createdAt.desc());
                     break;
             }
         } else {
-            if (cursor != null) booleanBuilder.and(order.orderCode.loe(cursor));
+            booleanBuilder.and(order.orderCode.loe(cursor));
             query.orderBy(order.createdAt.desc());
         }
 
