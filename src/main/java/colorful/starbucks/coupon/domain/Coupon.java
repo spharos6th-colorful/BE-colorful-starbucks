@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -59,6 +61,14 @@ public class Coupon extends BaseEntity {
     @Column(nullable = false)
     private int currentIssuanceCount;
 
+    @Comment("쿠폰 사용 시작일")
+    @Column(nullable = false)
+    private LocalDateTime startAt;
+
+    @Comment("쿠폰 사용 종료일")
+    @Column(nullable = false)
+    private LocalDateTime expiredAt;
+
     @Builder
     private Coupon(Long id,
                    String couponUuid,
@@ -70,7 +80,9 @@ public class Coupon extends BaseEntity {
                    int maxDiscountPrice,
                    int minOrderPrice,
                    int maxIssuanceLimit,
-                   int currentIssuanceCount) {
+                   int currentIssuanceCount,
+                   LocalDateTime startAt,
+                   LocalDateTime expiredAt) {
         this.id = id;
         this.couponUuid = couponUuid;
         this.couponName = couponName;
@@ -82,5 +94,7 @@ public class Coupon extends BaseEntity {
         this.minOrderPrice = minOrderPrice;
         this.maxIssuanceLimit = maxIssuanceLimit;
         this.currentIssuanceCount = currentIssuanceCount;
+        this.startAt = startAt;
+        this.expiredAt = expiredAt;
     }
 }
