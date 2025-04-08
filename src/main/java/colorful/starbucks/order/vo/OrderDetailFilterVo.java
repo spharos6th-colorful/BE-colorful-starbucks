@@ -9,6 +9,7 @@ public class OrderDetailFilterVo {
 
     private Long cursor;
     private Integer size;
+    private Integer page;
 
 
 }

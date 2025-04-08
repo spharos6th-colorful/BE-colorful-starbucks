@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 public class OrderListFilterVo {
     private Long cursor;
     private Integer size;
+    private Integer page;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private String sortBy;
 
 }
 
