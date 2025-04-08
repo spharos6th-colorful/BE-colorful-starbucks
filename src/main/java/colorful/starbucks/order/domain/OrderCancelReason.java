@@ -1,5 +1,7 @@
 package colorful.starbucks.order.domain;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -28,7 +30,7 @@ public enum OrderCancelReason {
         return Arrays.stream(values())
                 .filter(orderCancelReason -> orderCancelReason.getDescription().equals(description))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 취소 사유입니다.: " + description));
+                .orElseThrow(() -> new BaseException(ResponseStatus.INVALID_ORDER_CANCEL_REASON, "존재하지 않는 취소 사유입니다.: " + description));
     }
 }
 

@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class OrderCreateDetailRequestDto {
+public class OrderDetailCreateRequestDto {
 
     private Long productCode;
     private String productName;
@@ -18,7 +18,7 @@ public class OrderCreateDetailRequestDto {
     private Boolean carving;
 
     @Builder
-    private OrderCreateDetailRequestDto(Long productCode,
+    private OrderDetailCreateRequestDto(Long productCode,
                                         String productName,
                                         String size,
                                         String color,
@@ -49,8 +49,8 @@ public class OrderCreateDetailRequestDto {
                 .build();
     }
 
-    public static OrderCreateDetailRequestDto of(OrderCreateDetailRequestVo orderCreateDetailRequestVo) {
-        return OrderCreateDetailRequestDto.builder()
+    public static OrderDetailCreateRequestDto of(OrderCreateDetailRequestVo orderCreateDetailRequestVo) {
+        return OrderDetailCreateRequestDto.builder()
                 .productCode(orderCreateDetailRequestVo.getProductCode())
                 .productName(orderCreateDetailRequestVo.getProductName())
                 .size(orderCreateDetailRequestVo.getSize())

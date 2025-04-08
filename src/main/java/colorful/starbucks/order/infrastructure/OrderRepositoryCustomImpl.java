@@ -21,9 +21,11 @@ import static colorful.starbucks.order.domain.QOrder.order;
 @RequiredArgsConstructor
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
+    private final JPAQueryFactory queryFactory;
+
     private static final Integer DEFAULT_PAGE_SIZE = 20;
     private static final Integer DEFAULT_PAGE_NUMBER = 0;
-    private final JPAQueryFactory queryFactory;
+
 
     @Override
     public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {

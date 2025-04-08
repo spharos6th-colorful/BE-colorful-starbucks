@@ -25,16 +25,17 @@ public class OrderDetailController {
     @GetMapping
     public ApiResponse<CursorPage<OrderDetailCursorResponseVo>> getOrderDetailList(Authentication authentication,
                                                                                    @ModelAttribute OrderDetailFilterVo orderDetailFilterVo) {
-        String memberUuid = authentication.getName();
 
-        OrderDetailFilterDto dto = OrderDetailFilterDto.of(orderDetailFilterVo, memberUuid);
+        OrderDetailFilterDto orderDetailFilterDto = OrderDetailFilterDto.of(orderDetailFilterVo, authentication.getName());
 
-        CursorPage<OrderDetailCursorResponseVo> result = orderDetailService.getOrderDetailList(dto)
+        CursorPage<OrderDetailCursorResponseVo> result = orderDetailService.getOrderDetailList(orderDetailFilterDto)
                 .map(OrderDetailCursorResponseDto::from)
                 .map(OrderDetailCursorResponseDto::toVo);
 
         return ApiResponse.ok("주문 상세 목록 조회 성공", result);
     }
 
-}
+    }
+
+
 

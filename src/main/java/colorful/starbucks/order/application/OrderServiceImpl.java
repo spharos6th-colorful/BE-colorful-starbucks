@@ -1,5 +1,7 @@
 package colorful.starbucks.order.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.common.util.OrderCodeGenerator;
 import colorful.starbucks.order.domain.Order;
@@ -35,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
         return OrderCreateResponseDto.from(orderCode);
     }
 
-    @Transactional
+
     @Override
     public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
         return orderRepository.getOrderList(orderListFilterDto);
@@ -45,11 +47,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderCancelRequestDto cancelOrder(OrderCancelRequestDto orderCancelRequestDto) {
 
+
         Order order = orderRepository.findByOrderCode(orderCancelRequestDto.getOrderCode())
-                .orElseThrow(() -> new IllegalArgumentException("주문을 찾을 수 없습니다."));
+                .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_ORDER));
 
         if (order.getOrderStatus() == OrderStatus.CANCELLED) {
-            throw new IllegalStateException("이미 취소된 주문입니다.");
+            throw new BaseException(ResponseStatus.CANCELLED_ORDER);
         }
 
         order.cancel(

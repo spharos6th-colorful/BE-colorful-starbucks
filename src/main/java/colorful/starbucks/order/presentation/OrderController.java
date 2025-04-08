@@ -16,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
@@ -59,9 +57,7 @@ public class OrderController {
     public ApiResponse<Void> cancelOrder(Authentication authentication,
                                          @RequestBody OrderCancelRequestVo orderCancelRequestVo) {
 
-        String memberUuid = authentication.getName();
-
-        orderService.cancelOrder(OrderCancelRequestDto.of(orderCancelRequestVo, memberUuid));
+        orderService.cancelOrder(OrderCancelRequestDto.of(orderCancelRequestVo, authentication.getName()));
 
         return ApiResponse.ok("주문이 성공적으로 취소되었습니다.", null);
     }

@@ -3,10 +3,7 @@ package colorful.starbucks.order.infrastructure;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.dto.OrderDetailFilterDto;
-import colorful.starbucks.order.dto.response.OrderDetailCursorResponseDto;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,9 +16,11 @@ import static colorful.starbucks.order.domain.QOrderDetail.orderDetail;
 @RequiredArgsConstructor
 public class OrderDetailRepositoryCustomImpl implements OrderDetailRepositoryCustom {
 
+    private final JPAQueryFactory queryFactory;
+
     private static final Integer DEFAULT_PAGE_SIZE = 20;
     private static final Integer DEFAULT_PAGE_NUMBER = 0;
-    private final JPAQueryFactory queryFactory;
+
 
     @Override
     public CursorPage<OrderDetail> getOrderDetailList(OrderDetailFilterDto orderDetailFilterDto) {

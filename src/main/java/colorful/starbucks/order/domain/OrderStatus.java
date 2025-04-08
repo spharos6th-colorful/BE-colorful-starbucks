@@ -1,5 +1,7 @@
 package colorful.starbucks.order.domain;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import lombok.Getter;
 
 @Getter
@@ -21,7 +23,7 @@ public enum OrderStatus {
                 return status;
             }
         }
-        throw new IllegalArgumentException("존재하지 않는 주문 상태입니다: " + description);
+        throw new BaseException(ResponseStatus.INVALID_ORDER_STATUS, "존재하지 않는 주문 상태입니다: " + description);
     }
 }
 

@@ -21,7 +21,7 @@ public class OrderCreateRequestDto {
     private Boolean isGift;
     private String buyer;
     private String memberUuid;
-    private List<OrderCreateDetailRequestDto> orderDetails;
+    private List<OrderDetailCreateRequestDto> orderDetails;
 
     @Builder
     private OrderCreateRequestDto(Long orderCode,
@@ -34,7 +34,7 @@ public class OrderCreateRequestDto {
                                   Boolean isGift,
                                   String buyer,
                                   String memberUuid,
-                                  List<OrderCreateDetailRequestDto> orderDetails) {
+                                  List<OrderDetailCreateRequestDto> orderDetails) {
         this.orderCode = orderCode;
         this.couponUuid = couponUuid;
         this.totalAmount = totalAmount;
@@ -66,7 +66,7 @@ public class OrderCreateRequestDto {
                 .build();
     }
 
-    public static OrderCreateRequestDto of(OrderCreateRequestVo orderCreateRequestVo, String memberUuid) {
+    public static OrderCreateRequestDto from(OrderCreateRequestVo orderCreateRequestVo, String memberUuid) {
         return OrderCreateRequestDto.builder()
                 .orderCode(orderCreateRequestVo.getOrderCode())
                 .couponUuid(orderCreateRequestVo.getCouponUuid())
@@ -79,9 +79,12 @@ public class OrderCreateRequestDto {
                 .buyer(orderCreateRequestVo.getBuyer())
                 .memberUuid(memberUuid)
                 .orderDetails(orderCreateRequestVo.getOrderDetails().stream()
-                        .map(OrderCreateDetailRequestDto::of)
+                        .map(OrderDetailCreateRequestDto::of)
                         .toList())
                 .build();
+    }
+    public static OrderCreateRequestDto of(OrderCreateRequestVo orderCreateRequestVo, String memberUuid) {
+        return from(orderCreateRequestVo, memberUuid);
     }
 
 
