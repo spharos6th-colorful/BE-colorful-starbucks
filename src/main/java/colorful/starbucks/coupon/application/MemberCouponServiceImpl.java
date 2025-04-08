@@ -30,7 +30,18 @@ public class MemberCouponServiceImpl implements MemberCouponService {
 
         Coupon coupon = couponRepository.findByCouponUuid(memberCouponCreateRequestDto.getCouponUuid())
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+
+        memberCouponRepository.findByMemberUuidAndCouponUuid(
+                memberCouponCreateRequestDto.getMemberUuid(),
+                memberCouponCreateRequestDto.getCouponUuid()
+        ).ifPresent(
+                memberCoupon -> {
+                    throw new BaseException(ResponseStatus.ALREADY_ISSUED_COUPON);
+                }
+        );
+
         coupon.issue();
+
         memberCouponRepository.save(memberCouponCreateRequestDto.toEntity());
     }
 

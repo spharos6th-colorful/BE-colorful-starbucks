@@ -2,7 +2,6 @@ package colorful.starbucks.coupon.infrastructure;
 
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.coupon.domain.MemberCoupon;
-import colorful.starbucks.coupon.domain.QCoupon;
 import colorful.starbucks.coupon.dto.request.MemberCouponRequestDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -14,7 +13,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static colorful.starbucks.coupon.domain.QCoupon.*;
+import static colorful.starbucks.coupon.domain.QCoupon.coupon;
 import static colorful.starbucks.coupon.domain.QMemberCoupon.memberCoupon;
 
 @Repository

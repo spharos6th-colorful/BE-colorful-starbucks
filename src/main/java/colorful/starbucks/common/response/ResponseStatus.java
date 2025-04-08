@@ -91,6 +91,7 @@ public enum ResponseStatus {
     DUPLICATED_ADDRESS(HttpStatus.CONFLICT, false, 409, "이미 등록된 배송지입니다"),
 
     // Coupon
+    ALREADY_ISSUED_COUPON(HttpStatus.CONFLICT, false, 409, "이미 발급된 쿠폰입니다."),
     EXCEED_MAX_COUPON_COUNT(HttpStatus.CONFLICT, false, 409, "쿠폰 발급 한도를 초과했습니다.")
     ;
 
