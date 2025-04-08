@@ -9,7 +9,6 @@ import colorful.starbucks.coupon.dto.response.MemberCouponResponseDto;
 import colorful.starbucks.coupon.infrastructure.CouponRepository;
 import colorful.starbucks.coupon.infrastructure.MemberCouponRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class MemberCouponServiceImpl implements MemberCouponService {
 
     private final MemberCouponRepository memberCouponRepository;
