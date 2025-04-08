@@ -24,9 +24,9 @@ import static colorful.starbucks.product.domain.QProduct.product;
 @Slf4j
 public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCustom {
 
+    private final JPAQueryFactory queryFactory;
     private static final int DEFAULT_PAGE_SIZE = 20;
     private static final int DEFAULT_PAGE_NUMBER = 0;
-    private final JPAQueryFactory queryFactory;
 
     @Override
     public CursorPage<ProductCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto productCategoryListFilterDto,
