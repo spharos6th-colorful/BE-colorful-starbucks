@@ -25,16 +25,16 @@ public class OrderCreateRequestDto {
 
     @Builder
     private OrderCreateRequestDto(Long orderCode,
-                                 String couponUuid,
-                                 int totalAmount,
-                                 int discountAmount,
-                                 String zoneCode,
-                                 String address,
-                                 String detailAddress,
-                                 Boolean isGift,
-                                 String buyer,
+                                  String couponUuid,
+                                  int totalAmount,
+                                  int discountAmount,
+                                  String zoneCode,
+                                  String address,
+                                  String detailAddress,
+                                  Boolean isGift,
+                                  String buyer,
                                   String memberUuid,
-                                 List<OrderCreateDetailRequestDto> orderDetails) {
+                                  List<OrderCreateDetailRequestDto> orderDetails) {
         this.orderCode = orderCode;
         this.couponUuid = couponUuid;
         this.totalAmount = totalAmount;
@@ -47,7 +47,8 @@ public class OrderCreateRequestDto {
         this.memberUuid = memberUuid;
         this.orderDetails = orderDetails;
     }
-    public Order toEntity(Long orderCode){
+
+    public Order toEntity(Long orderCode) {
         return Order.builder()
                 .orderCode(orderCode)
                 .couponUuid(couponUuid)
@@ -60,8 +61,11 @@ public class OrderCreateRequestDto {
                 .buyer(buyer)
                 .memberUuid(memberUuid)
                 .orderStatus(OrderStatus.PAID)
+                .orderCancelReason(null)
+                .orderCancelReasonDetail(null)
                 .build();
     }
+
     public static OrderCreateRequestDto of(OrderCreateRequestVo orderCreateRequestVo, String memberUuid) {
         return OrderCreateRequestDto.builder()
                 .orderCode(orderCreateRequestVo.getOrderCode())
@@ -79,7 +83,6 @@ public class OrderCreateRequestDto {
                         .toList())
                 .build();
     }
-
 
 
 }

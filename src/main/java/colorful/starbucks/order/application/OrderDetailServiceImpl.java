@@ -39,5 +39,4 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         return orderDetailRepository.getOrderDetailList(orderDetailFilterDto);
     }
 
-
 }

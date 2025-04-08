@@ -4,9 +4,11 @@ import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.order.application.OrderService;
 import colorful.starbucks.order.dto.OrderListFilterDto;
+import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.vo.OrderListFilterVo;
+import colorful.starbucks.order.vo.request.OrderCancelRequestVo;
 import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
 import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import colorful.starbucks.order.vo.response.OrderCursorResponseVo;
@@ -52,6 +54,18 @@ public class OrderController {
                         .build()
         );
     }
+
+    @PostMapping("/cancel")
+    public ApiResponse<Void> cancelOrder(Authentication authentication,
+                                         @RequestBody OrderCancelRequestVo orderCancelRequestVo) {
+
+        String memberUuid = authentication.getName();
+
+        orderService.cancelOrder(OrderCancelRequestDto.of(orderCancelRequestVo, memberUuid));
+
+        return ApiResponse.ok("주문이 성공적으로 취소되었습니다.", null);
+    }
+
 
 
 

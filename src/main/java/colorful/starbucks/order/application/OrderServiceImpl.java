@@ -3,7 +3,9 @@ package colorful.starbucks.order.application;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.common.util.OrderCodeGenerator;
 import colorful.starbucks.order.domain.Order;
+import colorful.starbucks.order.domain.OrderStatus;
 import colorful.starbucks.order.dto.OrderListFilterDto;
+import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
@@ -38,6 +40,26 @@ public class OrderServiceImpl implements OrderService {
     public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
         return orderRepository.getOrderList(orderListFilterDto);
     }
+
+    @Transactional
+    @Override
+    public OrderCancelRequestDto cancelOrder(OrderCancelRequestDto orderCancelRequestDto) {
+
+        Order order = orderRepository.findByOrderCode(orderCancelRequestDto.getOrderCode())
+                .orElseThrow(() -> new IllegalArgumentException("주문을 찾을 수 없습니다."));
+
+        if (order.getOrderStatus() == OrderStatus.CANCELLED) {
+            throw new IllegalStateException("이미 취소된 주문입니다.");
+        }
+
+        order.cancel(
+                orderCancelRequestDto.getOrderCancelReason(),
+                orderCancelRequestDto.getOrderCancelReasonDetail()
+        );
+
+        return orderCancelRequestDto;
+    }
+
 
 
 

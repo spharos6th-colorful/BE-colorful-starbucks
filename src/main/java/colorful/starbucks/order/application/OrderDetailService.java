@@ -15,5 +15,4 @@ public interface OrderDetailService {
 
     CursorPage<OrderDetailCursorResponseDto> getOrderDetailList(OrderDetailFilterDto orderDetailFilterDto);
 
-
 }

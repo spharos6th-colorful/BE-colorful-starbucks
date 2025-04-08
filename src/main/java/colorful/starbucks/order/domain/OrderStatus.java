@@ -15,4 +15,15 @@ public enum OrderStatus {
         this.description = description;
     }
 
+    public static OrderStatus fromDescription(String description) {
+        for (OrderStatus status : values()) {
+            if (status.getDescription().equals(description)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("존재하지 않는 주문 상태입니다: " + description);
+    }
 }
+
+
+
