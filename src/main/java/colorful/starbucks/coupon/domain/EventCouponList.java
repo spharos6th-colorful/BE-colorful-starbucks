@@ -6,36 +6,34 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
-import java.time.LocalDateTime;
-
+@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
-public class CouponList extends BaseEntity {
-
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"couponUuid", "eventUuid"})
+        }
+)
+public class EventCouponList extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coupon_list_id")
     private Long id;
 
+    @Comment("쿠폰 UUID")
+    @Column(nullable = false)
     private String couponUuid;
 
+    @Comment("이벤트 UUID")
+    @Column(nullable = false)
     private String eventUuid;
 
-    private LocalDateTime couponEndDate;
-
-    private int endQuantity;
-
     @Builder
-    public CouponList(Long id, String couponUuid, String eventUuid, LocalDateTime couponEndDate, int endQuantity) {
+    private EventCouponList(Long id, String couponUuid, String eventUuid) {
         this.id = id;
         this.couponUuid = couponUuid;
         this.eventUuid = eventUuid;
-        this.couponEndDate = couponEndDate;
-        this.endQuantity = endQuantity;
     }
-
-
 }
