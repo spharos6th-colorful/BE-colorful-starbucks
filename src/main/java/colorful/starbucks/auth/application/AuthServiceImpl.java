@@ -98,7 +98,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
         authRepository.findByEmail(memberSignUpRequestDto.getEmail()).ifPresent(
-                (member) -> new BaseException(ResponseStatus.DUPLICATED_USER)
+                (member) -> { throw new BaseException(ResponseStatus.DUPLICATED_USER); }
         );
         authRepository.save(memberSignUpRequestDto.toEntityWithEncodePassword(passwordEncoder));
     }

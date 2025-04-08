@@ -1,6 +1,6 @@
-package colorful.starbucks.order.dto.out;
+package colorful.starbucks.order.dto.response;
 
-import colorful.starbucks.order.vo.out.OrderCreateResponseVo;
+import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import lombok.Builder;
 import lombok.Getter;
 
