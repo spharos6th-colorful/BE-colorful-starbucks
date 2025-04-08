@@ -104,7 +104,7 @@ public class Coupon extends BaseEntity {
         if (canIssue()) {
             currentIssuanceCount++;
         } else {
-            throw new BaseException(ResponseStatus.CONFLICT_REQUEST, "쿠폰 발급 한도를 초과했습니다.");
+            throw new BaseException(ResponseStatus.EXCEED_MAX_COUPON_COUNT);
         }
     }
 
