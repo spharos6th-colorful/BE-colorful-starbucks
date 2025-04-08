@@ -1,18 +1,18 @@
 package colorful.starbucks.admin.dto.response;
 
-import colorful.starbucks.admin.vo.response.ProductSearchCursorResponseVo;
+import colorful.starbucks.admin.vo.response.ProductCursorResponseVo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ProductSearchCursorResponseDto {
+public class ProductCursorResponseDto {
 
     private Long id;
     private Long productCode;
 
-    public ProductSearchCursorResponseVo toVo(){
-        return ProductSearchCursorResponseVo.builder()
+    public ProductCursorResponseVo toVo(){
+        return ProductCursorResponseVo.builder()
                 .id(id)
                 .productCode(productCode)
                 .build();

@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 public class ProductSearchListFilterDto {
 
+    private String query;
     private Long cursor;
     private Integer minPrice;
     private Integer maxPrice;
@@ -23,7 +24,8 @@ public class ProductSearchListFilterDto {
                                        Integer size,
                                        String sortBy,
                                        Integer page,
-                                       Integer pageSize) {
+                                       Integer pageSize,
+                                       String query) {
         this.cursor = cursor;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
@@ -31,6 +33,7 @@ public class ProductSearchListFilterDto {
         this.sortBy = sortBy;
         this.page = page;
         this.pageSize = pageSize;
+        this.query = query;
     }
 
     public static ProductSearchListFilterDto from(ProductSearchListFilterVo productSearchListFilterVo) {
@@ -42,6 +45,7 @@ public class ProductSearchListFilterDto {
                 .sortBy(productSearchListFilterVo.getSortBy())
                 .page(productSearchListFilterVo.getPage())
                 .pageSize(productSearchListFilterVo.getPageSize())
+                .query(productSearchListFilterVo.getQuery())
                 .build();
     }
 }

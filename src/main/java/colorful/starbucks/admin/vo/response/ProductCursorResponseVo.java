@@ -4,12 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ProductSearchCursorResponseVo {
+public class ProductCursorResponseVo {
     private Long id;
     private Long productCode;
 
     @Builder
-    private ProductSearchCursorResponseVo(Long id, Long productCode) {
+    private ProductCursorResponseVo(Long id, Long productCode) {
         this.id = id;
         this.productCode = productCode;
     }

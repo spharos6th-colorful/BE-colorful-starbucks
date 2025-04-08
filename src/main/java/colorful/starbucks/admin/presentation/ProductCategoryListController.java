@@ -4,9 +4,11 @@ import colorful.starbucks.admin.application.ProductCategoryListService;
 import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
 import colorful.starbucks.admin.dto.request.ProductCategoryListCreateRequestDto;
 import colorful.starbucks.admin.dto.response.ProductCategoryCursorResponseDto;
+import colorful.starbucks.admin.dto.response.ProductCursorResponseDto;
 import colorful.starbucks.admin.vo.ProductCategoryListFilterVo;
 import colorful.starbucks.admin.vo.request.ProductCategoryListCreateRequestVo;
 import colorful.starbucks.admin.vo.response.ProductCategoryCursorResponseVo;
+import colorful.starbucks.admin.vo.response.ProductCursorResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.common.util.CursorPage;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +29,12 @@ public class ProductCategoryListController {
     }
 
     @GetMapping
-    public ApiResponse<CursorPage<ProductCategoryCursorResponseVo>> getProductCategoryList(@ModelAttribute ProductCategoryListFilterVo productCategoryListFilterVo) {
-        CursorPage<ProductCategoryCursorResponseDto> response = productCategoryListService.getFilteredProductList(ProductCategoryListFilterDto.from(productCategoryListFilterVo));
+    public ApiResponse<CursorPage<ProductCursorResponseVo>> getProductCategoryList(@ModelAttribute ProductCategoryListFilterVo productCategoryListFilterVo) {
+        CursorPage<ProductCursorResponseDto> response = productCategoryListService.getFilteredProductList(ProductCategoryListFilterDto.from(productCategoryListFilterVo));
         return ApiResponse.ok("상품 카테고리 목록 조회를 완료했습니다.",
-                CursorPage.<ProductCategoryCursorResponseVo>builder()
+                CursorPage.<ProductCursorResponseVo>builder()
                         .content(response.getContent().stream()
-                                .map(ProductCategoryCursorResponseDto::toVo)
+                                .map(ProductCursorResponseDto::toVo)
                                 .toList())
                         .nextCursor(response.getNextCursor())
                         .hasNext(response.isHasNext())

@@ -4,8 +4,7 @@ import colorful.starbucks.admin.domain.ProductCategoryList;
 import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
 import colorful.starbucks.admin.dto.ProductSearchListFilterDto;
 import colorful.starbucks.admin.dto.request.ProductCategoryListCreateRequestDto;
-import colorful.starbucks.admin.dto.response.ProductCategoryCursorResponseDto;
-import colorful.starbucks.admin.dto.response.ProductSearchCursorResponseDto;
+import colorful.starbucks.admin.dto.response.ProductCursorResponseDto;
 import colorful.starbucks.admin.infrastructure.ProductReadRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
@@ -31,7 +30,7 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
     }
 
     @Override
-    public CursorPage<ProductCategoryCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto productCategoryListFilterDto) {
+    public CursorPage<ProductCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto productCategoryListFilterDto) {
 
         Long id;
         int price;
@@ -50,7 +49,7 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
     }
 
     @Override
-    public CursorPage<ProductSearchCursorResponseDto> getSearchedProductList(ProductSearchListFilterDto productSearchListFilterDto) {
+    public CursorPage<ProductCursorResponseDto> getSearchedProductList(ProductSearchListFilterDto productSearchListFilterDto) {
         return productReadRepository.getSearchedProductList(productSearchListFilterDto);
     }
 }

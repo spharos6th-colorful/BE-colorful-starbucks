@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ProductSearchListFilterVo {
 
+    private String query;
     private Long cursor;
     private Integer minPrice;
     private Integer maxPrice;

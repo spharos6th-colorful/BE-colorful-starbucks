@@ -1,7 +1,7 @@
 package colorful.starbucks.admin.presentation;
 
 import colorful.starbucks.admin.vo.ProductSearchListFilterVo;
-import colorful.starbucks.admin.vo.response.ProductSearchCursorResponseVo;
+import colorful.starbucks.admin.vo.response.ProductCursorResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.common.util.CursorPage;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductSearchController {
 
     @GetMapping
-    public ApiResponse<CursorPage<ProductSearchCursorResponseVo>> searchProducts(@ModelAttribute ProductSearchListFilterVo productSearchListFilterVo) {
+    public ApiResponse<CursorPage<ProductCursorResponseVo>> searchProducts(@ModelAttribute ProductSearchListFilterVo productSearchListFilterVo) {
         return null;
     }
 }
