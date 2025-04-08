@@ -42,7 +42,7 @@ public class MemberCouponRepositoryCustomImpl implements MemberCouponRepositoryC
         }
 
         List<MemberCoupon> content = queryFactory.selectFrom(memberCoupon)
-                .join(coupon).fetchJoin()
+                .innerJoin(coupon)
                 .on(coupon.couponUuid.eq(memberCoupon.couponUuid))
                 .where(
                         builder,
