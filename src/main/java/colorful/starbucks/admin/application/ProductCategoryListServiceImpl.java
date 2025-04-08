@@ -54,9 +54,11 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
         Long id;
         int price;
 
+        String sortBy = productSearchListFilterDto.getSortBy() == null?"createdAt,desc":productSearchListFilterDto.getSortBy();
+
         if (productSearchListFilterDto.getCursor() == null) {
-            id = productSearchListFilterDto.getSortBy().equals("createdAt,asc") ? 0L : Long.MAX_VALUE;
-            price = productSearchListFilterDto.getSortBy().equals("price,asc") ? 0 : Integer.MAX_VALUE;
+            id = sortBy.equals("createdAt,asc") ? 0L : Long.MAX_VALUE;
+            price = sortBy.equals("price,asc") ? 0 : Integer.MAX_VALUE;
         }else{
             id = productSearchListFilterDto.getCursor();
             ProductCategoryList productCategoryList = productReadRepository.findById(id).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
