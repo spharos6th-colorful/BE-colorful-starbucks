@@ -15,7 +15,7 @@ public class BaseExceptionHandler {
      */
     @ExceptionHandler(BaseException.class)
     protected ApiResponse<Void> BaseError(BaseException e) {
-//        log.error("BaseException -> {} ({})", e.getStatus(), e.getMessage());
+        log.error("BaseException -> {} ({})", e.getStatus(), e.getMessage());
         return ApiResponse.error(e.getStatus());
     }
 
