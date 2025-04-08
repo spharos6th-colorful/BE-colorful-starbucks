@@ -16,7 +16,7 @@ import org.hibernate.annotations.Comment;
                 @UniqueConstraint(columnNames = {"couponUuid", "eventUuid"})
         }
 )
-public class EventCouponList extends BaseEntity {
+public class EventCouponMapping extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class EventCouponList extends BaseEntity {
     private String eventUuid;
 
     @Builder
-    private EventCouponList(Long id, String couponUuid, String eventUuid) {
+    private EventCouponMapping(Long id, String couponUuid, String eventUuid) {
         this.id = id;
         this.couponUuid = couponUuid;
         this.eventUuid = eventUuid;
