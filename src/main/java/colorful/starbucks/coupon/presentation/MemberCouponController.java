@@ -22,7 +22,7 @@ public class MemberCouponController {
     public ApiResponse<Void> createMemberCoupon(Authentication authentication,
                                                 @RequestBody MemberCouponCreateRequestVo memberCouponCreateRequestVo) {
         memberCouponService.createMemberCoupon(
-                MemberCouponCreateRequestDto.from(authentication.getName(), memberCouponCreateRequestVo)
+                MemberCouponCreateRequestDto.of(authentication.getName(), memberCouponCreateRequestVo)
         );
         return ApiResponse.ok(
                 "쿠폰 발급을 완료했습니다.",

@@ -29,7 +29,7 @@ public class MemberCouponCreateRequestDto {
         this.usedOrderCode = usedOrderCode;
     }
 
-    public static MemberCouponCreateRequestDto from(String memberUuid, MemberCouponCreateRequestVo memberCouponCreateRequestVo) {
+    public static MemberCouponCreateRequestDto of(String memberUuid, MemberCouponCreateRequestVo memberCouponCreateRequestVo) {
         return MemberCouponCreateRequestDto.builder()
                 .memberUuid(memberUuid)
                 .couponUuid(memberCouponCreateRequestVo.getCouponUuid())
