@@ -3,11 +3,13 @@ package colorful.starbucks.order.presentation;
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.order.application.OrderDetailService;
+import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.dto.OrderDetailFilterDto;
 import colorful.starbucks.order.dto.response.OrderDetailCursorResponseDto;
 import colorful.starbucks.order.vo.OrderDetailFilterVo;
 import colorful.starbucks.order.vo.response.OrderDetailCursorResponseVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,18 +27,14 @@ public class OrderDetailController {
                                                                                    @ModelAttribute OrderDetailFilterVo orderDetailFilterVo) {
         String memberUuid = authentication.getName();
 
-        OrderDetailFilterDto orderDetailFilterDto = OrderDetailFilterDto.of(orderDetailFilterVo, memberUuid);
+        OrderDetailFilterDto dto = OrderDetailFilterDto.of(orderDetailFilterVo, memberUuid);
 
-        CursorPage<OrderDetailCursorResponseDto> response = orderDetailService.getOrderDetailList(orderDetailFilterDto);
+        CursorPage<OrderDetailCursorResponseVo> result = orderDetailService.getOrderDetailList(dto)
+                .map(OrderDetailCursorResponseDto::from)
+                .map(OrderDetailCursorResponseDto::toVo);
 
-        return ApiResponse.ok("주문 상세 목록 조회 성공",
-                CursorPage.<OrderDetailCursorResponseVo>builder()
-                        .content(response.getContent().stream()
-                                .map(OrderDetailCursorResponseDto::toVo)
-                                .toList())
-                        .nextCursor(response.getNextCursor())
-                        .hasNext(response.isHasNext())
-                        .build()
-        );
+        return ApiResponse.ok("주문 상세 목록 조회 성공", result);
     }
+
 }
+

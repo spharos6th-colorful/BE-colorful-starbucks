@@ -5,7 +5,6 @@ import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.dto.OrderDetailFilterDto;
 import colorful.starbucks.order.dto.request.OrderCreateDetailRequestDto;
-import colorful.starbucks.order.dto.response.OrderDetailCursorResponseDto;
 import colorful.starbucks.order.infrastructure.OrderDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Transactional
     @Override
-    public CursorPage<OrderDetailCursorResponseDto> getOrderDetailList(OrderDetailFilterDto orderDetailFilterDto) {
+    public CursorPage<OrderDetail> getOrderDetailList(OrderDetailFilterDto orderDetailFilterDto) {
         return orderDetailRepository.getOrderDetailList(orderDetailFilterDto);
     }
 

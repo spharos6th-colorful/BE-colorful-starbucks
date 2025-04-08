@@ -50,13 +50,12 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
                 )
                 .from(order)
                 .where(createdAtGreaterThanOrEqual(orderListFilterDto.getStartDate()),
-                        createdAtLessThanOrEqual(orderListFilterDto.getEndDate())
-//                       orderCodeLessThanOrEqual(orderListFilterDto.getCursor()),
-//                       order.isDeleted.isFalse()
+                        createdAtLessThanOrEqual(orderListFilterDto.getEndDate()),
+                        builder
                 )
                 .offset(offset)
                 .limit(pageSize + 1)
-                .orderBy(order.orderCode.desc());
+                .orderBy(order.id.desc());
 
 
         List<OrderCursorResponseDto> content = query

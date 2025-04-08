@@ -1,6 +1,7 @@
 package colorful.starbucks.order.infrastructure;
 
 import colorful.starbucks.common.util.CursorPage;
+import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.dto.OrderDetailFilterDto;
 import colorful.starbucks.order.dto.response.OrderDetailCursorResponseDto;
 import com.querydsl.core.BooleanBuilder;
@@ -23,54 +24,41 @@ public class OrderDetailRepositoryCustomImpl implements OrderDetailRepositoryCus
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public CursorPage<OrderDetailCursorResponseDto> getOrderDetailList(OrderDetailFilterDto orderDetailFilterDto) {
+    public CursorPage<OrderDetail> getOrderDetailList(OrderDetailFilterDto orderDetailFilterDto) {
 
         int pageSize = orderDetailFilterDto.getSize() != null ? orderDetailFilterDto.getSize() : DEFAULT_PAGE_SIZE;
         int offset = 0;
-        BooleanBuilder build = new BooleanBuilder();
+        BooleanBuilder builder = new BooleanBuilder();
 
         Long cursor = orderDetailFilterDto.getCursor();
         if (cursor != null) {
-            build.and(orderDetail.productCode.loe(cursor));
+            builder.and(orderDetail.id.loe(cursor));
         } else {
             int currentPage = orderDetailFilterDto.getPage() != null ? orderDetailFilterDto.getPage() : DEFAULT_PAGE_NUMBER;
             offset = currentPage == 0 ? 0 : (currentPage) * pageSize;
         }
 
-        JPAQuery<OrderDetailCursorResponseDto> query = queryFactory.select(
-                        Projections.constructor(OrderDetailCursorResponseDto.class,
-                                orderDetail.productCode,
-                                orderDetail.productName,
-                                orderDetail.size,
-                                orderDetail.color,
-                                orderDetail.quantity,
-                                orderDetail.price,
-                                orderDetail.carving,
-                                orderDetail.carvingContent,
-                                orderDetail.productDetailThumbnailUrl
+        List<OrderDetail> content = queryFactory.selectFrom(orderDetail)
+                .where(
+                        builder
 
-                        )
                 )
-                .from(orderDetail)
-                .where()
                 .offset(offset)
-                .limit(pageSize + 1);
-
-
-        List<OrderDetailCursorResponseDto> content = query
                 .limit(pageSize + 1)
+                .orderBy(orderDetail.id.desc())
                 .fetch();
+
 
         Long nextCursor = null;
         boolean hasNext = false;
 
         if (content.size() > pageSize) {
-            nextCursor = content.get(pageSize).getProductCode();
+            nextCursor = content.get(pageSize).getId();
             content.remove(pageSize);
             hasNext = true;
         }
 
-        return CursorPage.<OrderDetailCursorResponseDto>builder()
+        return CursorPage.<OrderDetail>builder()
                 .content(content)
                 .hasNext(hasNext)
                 .nextCursor(nextCursor)
