@@ -3,8 +3,10 @@ package colorful.starbucks.coupon.application;
 import colorful.starbucks.common.aop.DistributedLock;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.coupon.domain.Coupon;
 import colorful.starbucks.coupon.dto.request.MemberCouponCreateRequestDto;
+import colorful.starbucks.coupon.dto.request.MemberCouponRequestDto;
 import colorful.starbucks.coupon.dto.response.MemberCouponResponseDto;
 import colorful.starbucks.coupon.infrastructure.CouponRepository;
 import colorful.starbucks.coupon.infrastructure.MemberCouponRepository;
@@ -33,7 +35,8 @@ public class MemberCouponServiceImpl implements MemberCouponService {
     }
 
     @Override
-    public MemberCouponResponseDto getMemberCoupons(String memberUuid) {
-        return null;
+    public CursorPage<MemberCouponResponseDto> getMemberCoupons(MemberCouponRequestDto memberCouponRequestDto) {
+        return memberCouponRepository.getAllCouponsByMemberUuid(memberCouponRequestDto)
+                .map(MemberCouponResponseDto::from);
     }
 }

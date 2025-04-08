@@ -1,9 +1,14 @@
 package colorful.starbucks.coupon.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.coupon.application.MemberCouponService;
 import colorful.starbucks.coupon.dto.request.MemberCouponCreateRequestDto;
+import colorful.starbucks.coupon.dto.request.MemberCouponRequestDto;
+import colorful.starbucks.coupon.dto.response.MemberCouponResponseDto;
 import colorful.starbucks.coupon.vo.request.MemberCouponCreateRequestVo;
+import colorful.starbucks.coupon.vo.request.MemberCouponRequestVo;
+import colorful.starbucks.coupon.vo.response.MemberCouponResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +33,12 @@ public class MemberCouponController {
     }
 
     @GetMapping
-    public ApiResponse<Void> getMemberCoupons(Authentication authentication) {
-        memberCouponService.getMemberCoupons(authentication.getName());
+    public ApiResponse<CursorPage<MemberCouponResponseVo>> getMemberCoupons(Authentication authentication,
+                                                                            @ModelAttribute MemberCouponRequestVo memberCouponRequestVo) {
         return ApiResponse.ok(
-                "쿠폰 조회를 완료했습니다.",
-                null
+                "사용자 쿠폰 조회를 완료했습니다.",
+                memberCouponService.getMemberCoupons(MemberCouponRequestDto.of(authentication.getName(), memberCouponRequestVo))
+                        .map(MemberCouponResponseDto::toVo)
         );
     }
 }
