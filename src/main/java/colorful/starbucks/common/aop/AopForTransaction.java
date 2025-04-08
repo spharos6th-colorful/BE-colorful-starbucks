@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class AopForTransaction {
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, timeout = 2)
     public Object proceed(final ProceedingJoinPoint joinPoint) throws Throwable {
-        return joinPoint.proceed();
+            return joinPoint.proceed();
     }
 }
