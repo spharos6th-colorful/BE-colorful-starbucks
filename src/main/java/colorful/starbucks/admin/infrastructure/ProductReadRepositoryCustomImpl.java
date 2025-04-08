@@ -1,9 +1,13 @@
 package colorful.starbucks.admin.infrastructure;
 
+import colorful.starbucks.admin.domain.ProductCategoryList;
+import colorful.starbucks.admin.dto.IdAndPriceDto;
 import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
 import colorful.starbucks.admin.dto.ProductSearchListFilterDto;
 import colorful.starbucks.admin.dto.response.ProductCategoryCursorResponseDto;
 import colorful.starbucks.admin.dto.response.ProductSearchCursorResponseDto;
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.CursorPage;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -19,10 +23,11 @@ import static colorful.starbucks.admin.domain.QProductCategoryList.productCatego
 
 @Repository
 @RequiredArgsConstructor
-public class ProductCategoryListRepositoryCustomImpl implements ProductCategoryListRepositoryCustom {
+public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCustom {
 
     private static final Integer DEFAULT_PAGE_SIZE = 20;
     private final JPAQueryFactory queryFactory;
+    private final ProductReadRepository productReadRepository;
 
     @Override
     public CursorPage<ProductCategoryCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto productCategoryListFilterDto,
@@ -67,10 +72,30 @@ public class ProductCategoryListRepositoryCustomImpl implements ProductCategoryL
 
     @Override
     public CursorPage<ProductSearchCursorResponseDto> getSearchedProductList(ProductSearchListFilterDto productSearchListFilterDto) {
-
-
+        IdAndPriceDto idAndPriceDto = decideIdAndPrice(productSearchListFilterDto.getCursor(), productSearchListFilterDto.getSortBy());
+        Long id = idAndPriceDto.getId();
+        int price = idAndPriceDto.getPrice();
 
         return null;
+    }
+
+    private IdAndPriceDto decideIdAndPrice(Long cursor, String sortBy) {
+        Long id;
+        int price;
+
+        if (cursor == null) {
+            id = sortBy.equals("createdAt,asc") ? 0L : Long.MAX_VALUE;
+            price = sortBy.equals("price,asc") ? 0 : Integer.MAX_VALUE;
+        } else {
+            ProductCategoryList productCategoryList = productReadRepository.findById(cursor)
+                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+            id = productCategoryList.getId();
+            price = productCategoryList.getPrice();
+        }
+        return IdAndPriceDto.builder()
+                .id(id)
+                .price(price)
+                .build();
     }
 
     private BooleanExpression minPriceGoe(Integer minPrice) {

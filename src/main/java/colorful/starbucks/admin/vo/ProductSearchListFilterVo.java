@@ -12,4 +12,6 @@ public class ProductSearchListFilterVo {
     private Integer maxPrice;
     private Integer size;
     private String sortBy;
+    private Integer page;
+    private Integer pageSize;
 }

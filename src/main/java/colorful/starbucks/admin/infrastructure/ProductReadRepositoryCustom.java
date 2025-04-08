@@ -6,7 +6,7 @@ import colorful.starbucks.admin.dto.response.ProductCategoryCursorResponseDto;
 import colorful.starbucks.admin.dto.response.ProductSearchCursorResponseDto;
 import colorful.starbucks.common.util.CursorPage;
 
-public interface ProductCategoryListRepositoryCustom {
+public interface ProductReadRepositoryCustom {
 
     CursorPage<ProductCategoryCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto productCategoryListFilterDto,
                                                                         Long id,
