@@ -2,6 +2,7 @@ package colorful.starbucks.coupon.infrastructure;
 
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.coupon.domain.MemberCoupon;
+import colorful.starbucks.coupon.domain.QCoupon;
 import colorful.starbucks.coupon.dto.request.MemberCouponRequestDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -10,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import static colorful.starbucks.coupon.domain.QCoupon.*;
 import static colorful.starbucks.coupon.domain.QMemberCoupon.memberCoupon;
 
 @Repository
@@ -39,9 +42,12 @@ public class MemberCouponRepositoryCustomImpl implements MemberCouponRepositoryC
         }
 
         List<MemberCoupon> content = queryFactory.selectFrom(memberCoupon)
+                .join(coupon).fetchJoin()
+                .on(coupon.couponUuid.eq(memberCoupon.couponUuid))
                 .where(
                         builder,
                         eqMemberUuid(memberCouponRequestDto.getMemberUuid()),
+                        coupon.expiredAt.gt(LocalDateTime.now()),
                         memberCoupon.isUsed.eq(false)
                 )
                 .offset(offset)
