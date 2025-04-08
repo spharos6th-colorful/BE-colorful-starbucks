@@ -55,16 +55,16 @@ public class ApplicationConfig {
     @Configuration
     public class MailConfig {
 
-        @Value("${mail.host}")
+        @Value("${spring.mail.host}")
         private String host;
 
-        @Value("${mail.port}")
+        @Value("${spring.mail.port}")
         private Integer port;
 
-        @Value("${mail.username}")
+        @Value("${spring.mail.username}")
         private String username;
 
-        @Value("${mail.password}")
+        @Value("${spring.mail.password}")
         private String password;
 
         @Bean
