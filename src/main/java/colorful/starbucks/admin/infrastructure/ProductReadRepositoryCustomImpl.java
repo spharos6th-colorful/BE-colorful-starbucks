@@ -1,12 +1,9 @@
 package colorful.starbucks.admin.infrastructure;
 
-import colorful.starbucks.admin.domain.ProductCategoryList;
-import colorful.starbucks.admin.dto.IdAndPriceDto;
+import colorful.starbucks.admin.dto.ProductIdAndPriceDto;
 import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
 import colorful.starbucks.admin.dto.ProductSearchListFilterDto;
 import colorful.starbucks.admin.dto.response.ProductCursorResponseDto;
-import colorful.starbucks.common.exception.BaseException;
-import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.CursorPage;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -14,6 +11,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,16 +21,17 @@ import static colorful.starbucks.product.domain.QProduct.product;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCustom {
 
-    private static final Integer DEFAULT_PAGE_SIZE = 20;
+    private static final int DEFAULT_PAGE_SIZE = 20;
+    private static final int DEFAULT_PAGE_NUMBER = 0;
     private final JPAQueryFactory queryFactory;
-    private final ProductReadRepository productReadRepository;
 
     @Override
     public CursorPage<ProductCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto productCategoryListFilterDto,
-                                                                               Long id,
-                                                                               int price) {
+                                                                       Long id,
+                                                                       int price) {
 
         JPAQuery<ProductCursorResponseDto> query = queryFactory.select(
                         Projections.constructor(ProductCursorResponseDto.class,
@@ -70,53 +69,60 @@ public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCus
                 .build();
     }
 
-    /*
-    상품명, 카테고리명으로 검색
-     */
     @Override
-    public CursorPage<ProductCursorResponseDto> getSearchedProductList(ProductSearchListFilterDto productSearchListFilterDto) {
-        IdAndPriceDto idAndPriceDto = decideIdAndPrice(productSearchListFilterDto.getCursor(), productSearchListFilterDto.getSortBy());
-        Long id = idAndPriceDto.getId();
-        int price = idAndPriceDto.getPrice();
-        //상품테이블과 카테고리 테이블 조인
+    public CursorPage<ProductCursorResponseDto> getSearchedProductList(ProductIdAndPriceDto productIdAndPriceDto) {
+
+        int pageSize = productIdAndPriceDto.getSize() == null ? DEFAULT_PAGE_SIZE : productIdAndPriceDto.getSize();
+        int offset = 0;
+
+        if (productIdAndPriceDto.getCursor() == null) {
+            int currentPage = productIdAndPriceDto.getPage() == null ? DEFAULT_PAGE_NUMBER : productIdAndPriceDto.getPage();
+            offset = currentPage == 0 ? 0 : currentPage * pageSize;
+        }
+
         JPAQuery<ProductCursorResponseDto> query = queryFactory.select(
                         Projections.constructor(ProductCursorResponseDto.class,
-                                productCategoryList.id,
-                                productCategoryList.productCode)
+                                product.id,
+                                product.productCode)
                 ).from(productCategoryList)
                 .join(product)
+                .fetchJoin()
                 .on(product.productCode.eq(productCategoryList.productCode))
-                .where(minPriceGoe(productSearchListFilterDto.getMinPrice()),
-                        maxPriceLoe(productSearchListFilterDto.getMaxPrice()),
+                .where(minPriceGoe(productIdAndPriceDto.getMinPrice()),
+                        maxPriceLoe(productIdAndPriceDto.getMaxPrice()),
                         productCategoryList.isDeleted.isFalse(),
                         product.isDeleted.isFalse(),
-                        product.productName.like("%" + productSearchListFilterDto.getQuery() + "%"));
-        applySorting(query, productSearchListFilterDto.getSortBy(), id, price);
+                        (product.productName.like("%" + productIdAndPriceDto.getQuery() + "%")
+                        .or(productCategoryList.topCategoryName.like("%" + productIdAndPriceDto.getQuery() + "%")
+                        .or(productCategoryList.bottomCategoryName.like("%" + productIdAndPriceDto.getQuery() + "%")))
+                        )
+                )
+                .offset(offset)
+                .limit(pageSize + 1);
+
+        applySorting(query, productIdAndPriceDto.getSortBy(), productIdAndPriceDto.getId(), productIdAndPriceDto.getPrice());
+
+
+        List<ProductCursorResponseDto> content = query.fetch();
 
         Long nextCursor = null;
         boolean hasNext = false;
 
-        return null;
-    }
-
-    private IdAndPriceDto decideIdAndPrice(Long cursor, String sortBy) {
-        Long id;
-        int price;
-
-        if (cursor == null) {
-            id = sortBy.equals("createdAt,asc") ? 0L : Long.MAX_VALUE;
-            price = sortBy.equals("price,asc") ? 0 : Integer.MAX_VALUE;
-        } else {
-            ProductCategoryList productCategoryList = productReadRepository.findById(cursor)
-                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-            id = productCategoryList.getId();
-            price = productCategoryList.getPrice();
+        if (content.size() > pageSize) {
+            nextCursor = content.get(pageSize).getId();
+            content.remove(pageSize);
+            hasNext = true;
         }
-        return IdAndPriceDto.builder()
-                .id(id)
-                .price(price)
+
+        return CursorPage.<ProductCursorResponseDto>builder()
+                .content(content)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
                 .build();
+
+
     }
+
 
     private BooleanExpression minPriceGoe(Integer minPrice) {
         return minPrice != null ? productCategoryList.price.goe(minPrice) : null;

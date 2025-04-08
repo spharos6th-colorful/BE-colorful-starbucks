@@ -2,6 +2,7 @@ package colorful.starbucks.admin.application;
 
 import colorful.starbucks.admin.domain.ProductCategoryList;
 import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
+import colorful.starbucks.admin.dto.ProductIdAndPriceDto;
 import colorful.starbucks.admin.dto.ProductSearchListFilterDto;
 import colorful.starbucks.admin.dto.request.ProductCategoryListCreateRequestDto;
 import colorful.starbucks.admin.dto.response.ProductCursorResponseDto;
@@ -50,6 +51,18 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
 
     @Override
     public CursorPage<ProductCursorResponseDto> getSearchedProductList(ProductSearchListFilterDto productSearchListFilterDto) {
-        return productReadRepository.getSearchedProductList(productSearchListFilterDto);
+        Long id;
+        int price;
+
+        if (productSearchListFilterDto.getCursor() == null) {
+            id = productSearchListFilterDto.getSortBy().equals("createdAt,asc") ? 0L : Long.MAX_VALUE;
+            price = productSearchListFilterDto.getSortBy().equals("price,asc") ? 0 : Integer.MAX_VALUE;
+        }else{
+            id = productSearchListFilterDto.getCursor();
+            ProductCategoryList productCategoryList = productReadRepository.findById(id).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+            price = productCategoryList.getPrice();
+        }
+
+        return productReadRepository.getSearchedProductList(ProductIdAndPriceDto.of(productSearchListFilterDto, id, price));
     }
 }
