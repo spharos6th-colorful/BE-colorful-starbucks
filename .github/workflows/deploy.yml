@@ -66,24 +66,25 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            # ECR 로그인
             aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin 065676097951.dkr.ecr.ap-northeast-2.amazonaws.com
 
-            # 기존 컨테이너 중지 및 제거
-            CONTAINER_ID=$(sudo docker ps -q --filter "publish=8080-8080")
+            CONTAINER_ID=$(sudo docker ps -q --filter "name=colorful-stabucks-backend")
             if [ ! -z "$CONTAINER_ID" ]; then
               sudo docker stop $CONTAINER_ID
               sudo docker rm $CONTAINER_ID
             fi
 
-            # 종료된 컨테이너 정리
             sudo docker container prune -f
 
-            # 24시간 이상 된 사용하지 않는 이미지 제거
             sudo docker image prune -a -f --filter "until=24h"
 
-            # 최신 이미지 가져오기
+            sudo docker network create app-network || true
+
+            sudo docker network connect app-network redis-container || true
+
             sudo docker pull 065676097951.dkr.ecr.ap-northeast-2.amazonaws.com/colorful-stabucks-backend:latest
 
-            # 새 컨테이너 실행
-            sudo docker run --name colorful-stabucks-backend -d -p 8080:8080 -e TZ=Asia/Seoul 065676097951.dkr.ecr.ap-northeast-2.amazonaws.com/colorful-stabucks-backend:latest
+            sudo docker run --name colorful-stabucks-backend -d -p 8080:8080 \
+            --network app-network \
+            -e TZ=Asia/Seoul \
+            065676097951.dkr.ecr.ap-northeast-2.amazonaws.com/colorful-stabucks-backend:latest
