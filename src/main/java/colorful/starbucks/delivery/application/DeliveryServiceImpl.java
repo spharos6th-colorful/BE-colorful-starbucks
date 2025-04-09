@@ -31,7 +31,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         deliveryRepository.save(
                 deliveryAddRequestDto.toEntity(
                         deliveryAddRequestDto.getMemberUuid(),
-                        !deliveryRepository.existsByMemberUuid(deliveryAddRequestDto.getMemberUuid()), // 존재하지 않으면 true
+                        !deliveryRepository.existsByMemberUuid(deliveryAddRequestDto.getMemberUuid()),
                         MemberAddressUuidGenerator.generate()
                 )
         );
