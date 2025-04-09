@@ -42,7 +42,7 @@ public class CartAddRequestDto {
     public static List<CartAddRequestDto> of(List<CartAddRequestVo> cartAddRequestVos, String memberUuid) {
         return cartAddRequestVos.stream()
                 .map(vo -> of(vo, memberUuid))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Cart toEntity(String memberUuid) {

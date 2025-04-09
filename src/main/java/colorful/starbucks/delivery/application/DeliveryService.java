@@ -15,5 +15,5 @@ public interface DeliveryService {
     void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto);
     DeliveryDefaultAddressResponseDto getDefaultAddress(String memberUuid);
     List<DeliveryAddressesResponseDto> getAddressList(String memberUuid);
-    void editDefaultAddress(DeliveryDefaultAddressRequestDto deliveryDefaultAddressRequestDto);
+    void editDefaultAddress(List<DeliveryDefaultAddressRequestDto> deliveryDefaultAddressRequestDtos);
 }

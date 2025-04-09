@@ -27,10 +27,14 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Transactional
     @Override
     public void addAddress(DeliveryAddRequestDto deliveryAddRequestDto) {
-        Optional<DeliveryAddress> deliveryAddress =
-                deliveryRepository.findByMemberUuid((deliveryAddRequestDto.getMemberUuid()));
-        boolean isDefaultAddress = deliveryAddress.isPresent() ? false : true;
-        deliveryRepository.save(deliveryAddRequestDto.toEntity(deliveryAddRequestDto.getMemberUuid(), isDefaultAddress, MemberAddressUuidGenerator.generate()));
+
+        deliveryRepository.save(
+                deliveryAddRequestDto.toEntity(
+                        deliveryAddRequestDto.getMemberUuid(),
+                        !deliveryRepository.existsByMemberUuid(deliveryAddRequestDto.getMemberUuid()), // 존재하지 않으면 true
+                        MemberAddressUuidGenerator.generate()
+                )
+        );
     }
 
 
@@ -47,13 +51,15 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Transactional
     @Override
-    public void editDefaultAddress(DeliveryDefaultAddressRequestDto deliveryDefaultAddressRequestDto) {
+    public void editDefaultAddress(List<DeliveryDefaultAddressRequestDto> deliveryDefaultAddressRequestDtos) {
+        deliveryDefaultAddressRequestDtos.forEach(this::updateDefaultAddress);
+    }
 
-        changeDefaultAddressToFalse(deliveryDefaultAddressRequestDto.getMemberUuid());
+    private void updateDefaultAddress(DeliveryDefaultAddressRequestDto deliveryDefaultAddressRequestDto) {
 
         DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryDefaultAddressRequestDto.getMemberUuid(),
                 deliveryDefaultAddressRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-        deliveryAddress.updateIsDefaultAddress(true);
+        deliveryAddress.updateIsDefaultAddress(deliveryDefaultAddressRequestDto.isDefaultAddress());
     }
 
     public void changeDefaultAddressToFalse(String memberUuid) {
