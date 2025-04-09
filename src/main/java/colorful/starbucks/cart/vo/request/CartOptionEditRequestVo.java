@@ -7,6 +7,6 @@ public class CartOptionEditRequestVo {
 
     private Long productCode;
     private String productDetailCode;
-    private int quantity;
+    private Integer quantity;
 
 }

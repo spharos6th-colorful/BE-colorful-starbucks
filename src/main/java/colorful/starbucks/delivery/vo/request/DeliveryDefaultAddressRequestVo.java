@@ -6,5 +6,5 @@ import lombok.Getter;
 public class DeliveryDefaultAddressRequestVo {
 
     private String memberAddressUuid;
-    private boolean defaultAddress;
+    private Boolean defaultAddress;
 }

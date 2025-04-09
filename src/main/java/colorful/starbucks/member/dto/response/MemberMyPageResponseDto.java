@@ -6,8 +6,10 @@ import colorful.starbucks.member.domain.MemberLevel;
 import colorful.starbucks.member.vo.response.MemberMyPageResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberMyPageResponseDto {
 
     private String memberName;

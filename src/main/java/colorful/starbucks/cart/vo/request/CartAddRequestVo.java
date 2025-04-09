@@ -7,5 +7,5 @@ public class CartAddRequestVo {
     private String productDetailCode;
     private String carvingContent;
     private Long productCode;
-    private int quantity;
+    private Integer quantity;
 }

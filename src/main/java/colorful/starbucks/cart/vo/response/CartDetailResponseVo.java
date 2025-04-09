@@ -2,21 +2,23 @@ package colorful.starbucks.cart.vo.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class CartDetailResponseVo {
 
-    private boolean checked;
+    private Boolean checked;
     private String productDetailCode;
     private Long productCode;
-    private int quantity;
+    private Integer quantity;
     private String carvingContent;
 
     @Builder
-    private CartDetailResponseVo(boolean checked,
+    private CartDetailResponseVo(Boolean checked,
                                  String productDetailCode,
                                  Long productCode,
-                                 int quantity,
+                                 Integer quantity,
                                  String carvingContent) {
         this.checked = checked;
         this.productDetailCode = productDetailCode;

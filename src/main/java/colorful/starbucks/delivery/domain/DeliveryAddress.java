@@ -85,7 +85,7 @@ public class DeliveryAddress extends BaseEntity {
     public void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
         this.addressNickname = deliveryAddressEditRequestDto.getAddressNickname();
         this.receiverName = deliveryAddressEditRequestDto.getReceiverName();
-        this.isDefaultAddress = deliveryAddressEditRequestDto.isDefaultAddress();
+        this.isDefaultAddress = deliveryAddressEditRequestDto.getDefaultAddress();
         this.zoneCode = deliveryAddressEditRequestDto.getZoneCode();
         this.address = deliveryAddressEditRequestDto.getAddress();
         this.detailAddress = deliveryAddressEditRequestDto.getDetailAddress();

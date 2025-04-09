@@ -4,25 +4,27 @@ import colorful.starbucks.cart.domain.Cart;
 import colorful.starbucks.cart.vo.request.CartAddRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@NoArgsConstructor
 public class CartAddRequestDto {
 
     private String memberUuid;
     private String productDetailCode;
     private String carvingContent;
     private Long productCode;
-    private int quantity;
+    private Integer quantity;
 
     @Builder
     private CartAddRequestDto(String memberUuid,
                               String productDetailCode,
                               String carvingContent,
                               Long productCode,
-                              int quantity) {
+                              Integer quantity) {
         this.memberUuid = memberUuid;
         this.productDetailCode = productDetailCode;
         this.carvingContent = carvingContent;

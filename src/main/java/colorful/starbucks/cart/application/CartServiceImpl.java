@@ -57,7 +57,7 @@ public class CartServiceImpl implements CartService {
 
         cartRepository.findByIdAndMemberUuid(cartCheckRequestDto.getId(), cartCheckRequestDto.getMemberUuid())
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
-                .updateProductChecked(cartCheckRequestDto.isChecked());
+                .updateProductChecked(cartCheckRequestDto.getChecked());
 
     }
 

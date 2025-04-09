@@ -42,7 +42,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
 
-        if (deliveryAddressEditRequestDto.isDefaultAddress()) {
+        if (deliveryAddressEditRequestDto.getDefaultAddress()) {
             changeDefaultAddressToFalse(deliveryAddressEditRequestDto.getMemberUuid());
         }
         deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
@@ -101,7 +101,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryDefaultAddressRequestDto.getMemberUuid(),
                 deliveryDefaultAddressRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-        deliveryAddress.updateIsDefaultAddress(deliveryDefaultAddressRequestDto.isDefaultAddress());
+        deliveryAddress.updateIsDefaultAddress(deliveryDefaultAddressRequestDto.getDefaultAddress());
     }
 
     public void changeDefaultAddressToFalse(String memberUuid) {
