@@ -4,24 +4,26 @@ import colorful.starbucks.product.domain.Product;
 import colorful.starbucks.product.vo.request.ProductCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductCreateRequestDto {
 
     private String productName;
     private String productTopCategoryName;
     private String productBottomCategoryName;
     private String description;
-    private boolean markable;
-    private int price;
+    private Boolean markable;
+    private Integer price;
 
     @Builder
     private ProductCreateRequestDto(String productName,
                                     String productTopCategoryName,
                                     String productBottomCategoryName,
                                     String description,
-                                    boolean markable,
-                                    int price) {
+                                    Boolean markable,
+                                    Integer price) {
         this.productName = productName;
         this.productTopCategoryName = productTopCategoryName;
         this.productBottomCategoryName = productBottomCategoryName;
@@ -36,7 +38,7 @@ public class ProductCreateRequestDto {
                 .productTopCategoryName(productCreateRequestVo.getProductTopCategoryName())
                 .productBottomCategoryName(productCreateRequestVo.getProductBottomCategoryName())
                 .description(productCreateRequestVo.getDescription())
-                .markable(productCreateRequestVo.isMarkable())
+                .markable(productCreateRequestVo.getMarkable())
                 .price(productCreateRequestVo.getPrice())
                 .build();
     }

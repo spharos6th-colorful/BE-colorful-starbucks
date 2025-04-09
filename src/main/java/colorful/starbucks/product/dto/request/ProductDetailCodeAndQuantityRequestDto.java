@@ -3,8 +3,10 @@ package colorful.starbucks.product.dto.request;
 import colorful.starbucks.product.vo.request.ProductDetailCodeAndQuantityRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductDetailCodeAndQuantityRequestDto {
 
     private String productCode;

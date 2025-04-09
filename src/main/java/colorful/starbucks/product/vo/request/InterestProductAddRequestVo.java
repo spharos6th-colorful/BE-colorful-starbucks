@@ -7,6 +7,6 @@ public class InterestProductAddRequestVo {
 
     private String productCode;
     private String productName;
-    private int price;
+    private Integer price;
     private String productThumbnailUrl;
 }

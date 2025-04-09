@@ -3,20 +3,22 @@ package colorful.starbucks.product.dto.request;
 import colorful.starbucks.product.domain.InterestProduct;
 import colorful.starbucks.product.vo.request.InterestProductAddRequestVo;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class InterestProductAddRequestDto {
 
     private String memberUuid;
     private String productCode;
     private String productName;
-    private int price;
+    private Integer price;
     private String productThumbnailUrl;
 
     @Builder
     private InterestProductAddRequestDto(String memberUuid,
                                          String productCode,
                                          String productName,
-                                         int price,
+                                         Integer price,
                                          String productThumbnailUrl) {
         this.memberUuid = memberUuid;
         this.productCode = productCode;
