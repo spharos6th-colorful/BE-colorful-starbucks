@@ -81,8 +81,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
 
-        cartDeleteRequestDtos.stream()
-                .forEach(cartProduct -> cartRepository.deleteByIdAndMemberUuid(cartProduct.getId(), cartProduct.getMemberUuid()));
+        cartDeleteRequestDtos.forEach(cartProduct ->
+                cartRepository.deleteByIdAndMemberUuid(cartProduct.getId(), cartProduct.getMemberUuid()));
 
     }
 
