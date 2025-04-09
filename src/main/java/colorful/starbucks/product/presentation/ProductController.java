@@ -32,8 +32,7 @@ public class ProductController {
                 HttpStatus.CREATED,
                 "상품 등록을 완료했습니다.",
                 productService.createProduct(
-                                ProductCreateRequestDto.from(productCreateRequestVo), productThumbnail, productImage)
-                        .toVo()
+                                ProductCreateRequestDto.from(productCreateRequestVo), productThumbnail, productImage).toVo()
         );
     }
 
@@ -41,16 +40,10 @@ public class ProductController {
     public ApiResponse<CursorPage<ProductResponseVo>> getProductsByFilter(@ModelAttribute ProductFilterVo productFilterVo,
                                                                           @PageableDefault(size = 3) Pageable pageable) {
 
-        CursorPage<ProductResponseDto> response = productService.getProductsByFilter(ProductFilterDto.from(productFilterVo), pageable);
         return ApiResponse.ok(
                 "상품 목록 조회를 완료했습니다.",
-                CursorPage.<ProductResponseVo>builder()
-                        .content(response.getContent().stream()
-                                .map(ProductResponseDto::toVo)
-                                .toList())
-                        .hasNext(response.isHasNext())
-                        .nextCursor(response.getNextCursor())
-                        .build()
+                productService.getProductsByFilter(ProductFilterDto.from(productFilterVo), pageable)
+                        .map(ProductResponseDto::toVo)
         );
     }
 

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 public class CursorPage<T> {
-
+    
     private List<T> content;
     private boolean hasNext;
     private Long nextCursor;
