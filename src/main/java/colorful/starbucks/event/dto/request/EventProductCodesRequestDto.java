@@ -3,8 +3,10 @@ package colorful.starbucks.event.dto.request;
 import colorful.starbucks.event.vo.request.EventProductCodesRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class EventProductCodesRequestDto {
 
     private String eventUuid;

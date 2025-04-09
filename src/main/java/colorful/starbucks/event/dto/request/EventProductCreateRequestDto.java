@@ -4,8 +4,10 @@ import colorful.starbucks.event.domain.EventProduct;
 import colorful.starbucks.event.vo.request.EventProductCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class EventProductCreateRequestDto {
 
     private String eventUuid;

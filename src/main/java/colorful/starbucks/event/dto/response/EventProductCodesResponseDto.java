@@ -3,8 +3,10 @@ package colorful.starbucks.event.dto.response;
 import colorful.starbucks.event.vo.response.EventProductCodesResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class EventProductCodesResponseDto {
 
     private Long productCode;
