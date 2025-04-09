@@ -48,7 +48,7 @@ public class OrderController {
                                 .map(OrderCursorResponseDto::toVo)
                                 .toList())
                         .nextCursor(response.getNextCursor())
-                        .hasNext(response.isHasNext())
+                        .hasNext(response.getHasNext())
                         .build()
         );
     }
