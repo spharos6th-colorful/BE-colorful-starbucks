@@ -66,7 +66,7 @@ public class OrderCreateRequestDto {
                 .build();
     }
 
-    public static OrderCreateRequestDto from(OrderCreateRequestVo orderCreateRequestVo, String memberUuid) {
+    public static OrderCreateRequestDto of(OrderCreateRequestVo orderCreateRequestVo, String memberUuid) {
         return OrderCreateRequestDto.builder()
                 .orderCode(orderCreateRequestVo.getOrderCode())
                 .couponUuid(orderCreateRequestVo.getCouponUuid())
@@ -83,9 +83,7 @@ public class OrderCreateRequestDto {
                         .toList())
                 .build();
     }
-    public static OrderCreateRequestDto of(OrderCreateRequestVo orderCreateRequestVo, String memberUuid) {
-        return from(orderCreateRequestVo, memberUuid);
-    }
+
 
 
 }

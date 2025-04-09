@@ -3,13 +3,11 @@ package colorful.starbucks.order.presentation;
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.order.application.OrderDetailService;
-import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.dto.OrderDetailFilterDto;
 import colorful.starbucks.order.dto.response.OrderDetailCursorResponseDto;
 import colorful.starbucks.order.vo.OrderDetailFilterVo;
 import colorful.starbucks.order.vo.response.OrderDetailCursorResponseVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,13 +27,9 @@ public class OrderDetailController {
         OrderDetailFilterDto orderDetailFilterDto = OrderDetailFilterDto.of(orderDetailFilterVo, authentication.getName());
 
         CursorPage<OrderDetailCursorResponseVo> result = orderDetailService.getOrderDetailList(orderDetailFilterDto)
-                .map(OrderDetailCursorResponseDto::from)
                 .map(OrderDetailCursorResponseDto::toVo);
 
-        return ApiResponse.ok("주문 상세 목록 조회 성공", result);
-    }
+        return ApiResponse.ok("주문 상세 목록 조회 성공", null);
 
     }
-
-
-
+}
