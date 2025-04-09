@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberMyPageResponseDto getMyPage(String memberUuid) {
 
-        Member member = memberRepository.findAllByMemberUuid(memberUuid)
+        Member member = memberRepository.findByMemberUuid(memberUuid)
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
         return MemberMyPageResponseDto.from(member);
