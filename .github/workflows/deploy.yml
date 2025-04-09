@@ -64,6 +64,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
           script: |
             # ECR 로그인
             aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin 065676097951.dkr.ecr.ap-northeast-2.amazonaws.com
