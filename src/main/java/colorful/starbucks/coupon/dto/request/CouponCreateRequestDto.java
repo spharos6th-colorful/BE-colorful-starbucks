@@ -6,10 +6,12 @@ import colorful.starbucks.coupon.generator.CouponUuidGenerator;
 import colorful.starbucks.coupon.vo.request.CouponCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class CouponCreateRequestDto {
 
     private String couponUuid;

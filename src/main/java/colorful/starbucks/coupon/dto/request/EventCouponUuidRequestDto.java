@@ -2,9 +2,11 @@ package colorful.starbucks.coupon.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
 @Getter
+@NoArgsConstructor
 public class EventCouponUuidRequestDto {
 
     private String eventUuid;

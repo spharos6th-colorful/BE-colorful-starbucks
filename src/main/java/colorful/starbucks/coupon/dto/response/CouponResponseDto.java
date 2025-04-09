@@ -5,10 +5,12 @@ import colorful.starbucks.coupon.domain.DiscountType;
 import colorful.starbucks.coupon.vo.response.CouponResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class CouponResponseDto {
 
     private String couponName;

@@ -4,10 +4,12 @@ import colorful.starbucks.coupon.domain.MemberCoupon;
 import colorful.starbucks.coupon.vo.request.MemberCouponCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class MemberCouponCreateRequestDto {
 
     private String memberUuid;

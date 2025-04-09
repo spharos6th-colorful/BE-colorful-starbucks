@@ -4,8 +4,10 @@ import colorful.starbucks.coupon.domain.EventCouponMapping;
 import colorful.starbucks.coupon.vo.request.EventCouponMappingCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class EventCouponMappingCreateRequestDto {
 
     private String eventUuid;
