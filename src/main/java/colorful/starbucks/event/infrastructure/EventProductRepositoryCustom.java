@@ -1,8 +1,9 @@
 package colorful.starbucks.event.infrastructure;
 
-import org.springframework.data.domain.Page;
+import colorful.starbucks.common.util.CursorPage;
+import colorful.starbucks.event.dto.request.EventProductCodesRequestDto;
 
 public interface EventProductRepositoryCustom {
 
-    Page<Long> getEventProductCodesByEventUuid(String eventUuid, Integer page, Integer size);
+    CursorPage<Long> getEventProductCodesByEventUuid(EventProductCodesRequestDto eventProductCodesRequestDto);
 }

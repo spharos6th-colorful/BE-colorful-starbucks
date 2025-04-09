@@ -1,5 +1,6 @@
 package colorful.starbucks.event.application;
 
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.event.dto.request.EventProductCreateRequestDto;
 import colorful.starbucks.event.dto.request.EventProductCodesRequestDto;
 import colorful.starbucks.event.dto.response.EventProductCodesResponseDto;
@@ -27,11 +28,8 @@ public class EventProductServiceImpl implements EventProductService {
     }
 
     @Override
-    public Page<EventProductCodesResponseDto> getEventProductCodes(EventProductCodesRequestDto eventProductCodesRequestDto) {
-        return eventProductRepository.getEventProductCodesByEventUuid(
-                        eventProductCodesRequestDto.getEventUuid(),
-                        eventProductCodesRequestDto.getPage(),
-                        eventProductCodesRequestDto.getSize())
+    public CursorPage<EventProductCodesResponseDto> getEventProductCodes(EventProductCodesRequestDto eventProductCodesRequestDto) {
+        return eventProductRepository.getEventProductCodesByEventUuid(eventProductCodesRequestDto)
                 .map(EventProductCodesResponseDto::from);
     }
 }
