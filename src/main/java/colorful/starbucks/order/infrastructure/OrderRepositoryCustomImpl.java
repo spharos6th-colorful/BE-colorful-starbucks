@@ -21,37 +21,52 @@ import static colorful.starbucks.order.domain.QOrder.order;
 @RequiredArgsConstructor
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
-    private static final Integer DEFAULT_PAGE_SIZE = 10;
     private final JPAQueryFactory queryFactory;
+
+    private static final Integer DEFAULT_PAGE_SIZE = 20;
+    private static final Integer DEFAULT_PAGE_NUMBER = 0;
+
 
     @Override
     public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
-        JPAQuery<OrderCursorResponseDto> query = queryFactory.select(
-                Projections.constructor(OrderCursorResponseDto.class,
-                        order.createdAt,
-                        order.orderCode,
-                        order.totalAmount,
-                        order.discountAmount
-                        )
-        )
-                .from(order)
-                .where(createdAtGreaterThanOrEqual(orderListFilterDto.getStartDate()),
-                       createdAtLessThanOrEqual(orderListFilterDto.getEndDate()),
-                       orderCodeLessThanOrEqual(orderListFilterDto.getCursor()),
-                       order.isDeleted.isFalse()
-                 );
-        applySorting(query, orderListFilterDto);
 
         int pageSize = orderListFilterDto.getSize() != null ? orderListFilterDto.getSize() : DEFAULT_PAGE_SIZE;
+        int offset = 0;
+        BooleanBuilder builder = new BooleanBuilder();
+
+        Long cursor = orderListFilterDto.getCursor();
+        if (cursor != null) {
+            builder.and(order.orderCode.loe(cursor));
+        } else {
+            int currentPage = orderListFilterDto.getPage() != null ? orderListFilterDto.getPage() : DEFAULT_PAGE_NUMBER;
+            offset = currentPage == 0 ? 0 : (currentPage) * pageSize;
+        }
+
+        JPAQuery<OrderCursorResponseDto> query = queryFactory.select(
+                        Projections.constructor(OrderCursorResponseDto.class,
+                                order.createdAt,
+                                order.orderCode,
+                                order.totalAmount,
+                                order.discountAmount
+                        )
+                )
+                .from(order)
+                .where(createdAtGreaterThanOrEqual(orderListFilterDto.getStartDate()),
+                        createdAtLessThanOrEqual(orderListFilterDto.getEndDate()),
+                        builder
+                )
+                .offset(offset)
+                .limit(pageSize + 1)
+                .orderBy(order.id.desc());
+
 
         List<OrderCursorResponseDto> content = query
-                .limit(pageSize + 1)
                 .fetch();
 
         Long nextCursor = null;
         boolean hasNext = false;
 
-        if(content.size() > pageSize) {
+        if (content.size() > pageSize) {
             nextCursor = content.get(pageSize).getOrderCode();
             content.remove(pageSize);
             hasNext = true;
@@ -71,40 +86,4 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     private BooleanExpression createdAtLessThanOrEqual(LocalDateTime endDateTime) {
         return endDateTime != null ? order.createdAt.loe(endDateTime) : null;
     }
-
-    private BooleanExpression orderCodeLessThanOrEqual(Long orderCode) {
-        return orderCode != null ? order.orderCode.loe(orderCode) : null;
-    }
-
-    private void applySorting(JPAQuery<OrderCursorResponseDto> query,
-                              OrderListFilterDto orderListFilterDto) {
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        Long cursor = orderListFilterDto.getCursor();
-
-        String sortBy = orderListFilterDto.getSortBy();
-        cursor = (cursor == null) ? ("createdAt,asc".equals(sortBy) ? 0L : Long.MAX_VALUE) : cursor;
-
-        if (orderListFilterDto.getSortBy() != null) {
-            switch (orderListFilterDto.getSortBy()) {
-                case "createdAt,asc":
-                    booleanBuilder.and(order.orderCode.goe(cursor));
-                    query.orderBy(order.createdAt.asc());
-                    break;
-                case "createdAt,desc":
-                    booleanBuilder.and(order.orderCode.loe(cursor));
-                    query.orderBy(order.createdAt.desc());
-                    break;
-                default:
-                    booleanBuilder.and(order.orderCode.loe(cursor));
-                    query.orderBy(order.createdAt.desc());
-                    break;
-            }
-        } else {
-            booleanBuilder.and(order.orderCode.loe(cursor));
-            query.orderBy(order.createdAt.desc());
-        }
-
-        query.where(booleanBuilder);
-    }
-
 }

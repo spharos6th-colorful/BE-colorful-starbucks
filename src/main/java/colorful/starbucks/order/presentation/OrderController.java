@@ -4,17 +4,17 @@ import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.order.application.OrderService;
 import colorful.starbucks.order.dto.OrderListFilterDto;
+import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.vo.OrderListFilterVo;
+import colorful.starbucks.order.vo.request.OrderCancelRequestVo;
 import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
 import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import colorful.starbucks.order.vo.response.OrderCursorResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -52,6 +52,16 @@ public class OrderController {
                         .build()
         );
     }
+
+    @PostMapping("/cancel")
+    public ApiResponse<Void> cancelOrder(Authentication authentication,
+                                         @RequestBody OrderCancelRequestVo orderCancelRequestVo) {
+
+        orderService.cancelOrder(OrderCancelRequestDto.of(orderCancelRequestVo, authentication.getName()));
+
+        return ApiResponse.ok("주문이 성공적으로 취소되었습니다.", null);
+    }
+
 
 
 

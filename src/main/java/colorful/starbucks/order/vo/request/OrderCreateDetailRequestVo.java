@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class OrderDetailRequestVo {
+public class OrderCreateDetailRequestVo {
 
     private Long productCode;
     private String productName;
@@ -15,13 +15,13 @@ public class OrderDetailRequestVo {
     private Boolean carving;
 
     @Builder
-    private OrderDetailRequestVo(Long productCode,
-                                String productName,
-                                String size,
-                                String color,
-                                int quantity,
-                                int price,
-                                Boolean carving) {
+    private OrderCreateDetailRequestVo(Long productCode,
+                                       String productName,
+                                       String size,
+                                       String color,
+                                       int quantity,
+                                       int price,
+                                       Boolean carving) {
         this.productCode = productCode;
         this.productName = productName;
         this.size = size;
