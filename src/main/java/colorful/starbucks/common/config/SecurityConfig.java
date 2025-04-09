@@ -24,6 +24,7 @@ public class SecurityConfig {
 
     private final AuthenticationProvider daoauthenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthenticationProvider oAuthAuthenticationProvider;
 
     @Bean
     public CorsFilter corsFilter() {
@@ -56,6 +57,7 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(daoauthenticationProvider)
+                .authenticationProvider(oAuthAuthenticationProvider)
                 .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

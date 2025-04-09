@@ -1,12 +1,10 @@
-package colorful.starbucks.auth.presentation;
+package colorful.starbucks.member.presentation;
 
-import colorful.starbucks.auth.application.TermsService;
-import colorful.starbucks.auth.dto.request.TermsCreateRequestDto;
-import colorful.starbucks.auth.dto.response.TermsResponseDto;
+import colorful.starbucks.member.application.TermsService;
+import colorful.starbucks.member.dto.request.TermsCreateRequestDto;
+import colorful.starbucks.member.dto.response.TermsResponseDto;
 import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

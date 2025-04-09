@@ -1,4 +1,4 @@
-package colorful.starbucks.auth.dto.response;
+package colorful.starbucks.member.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

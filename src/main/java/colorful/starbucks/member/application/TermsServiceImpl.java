@@ -1,9 +1,9 @@
-package colorful.starbucks.auth.application;
+package colorful.starbucks.member.application;
 
-import colorful.starbucks.auth.domain.Terms;
-import colorful.starbucks.auth.dto.request.TermsCreateRequestDto;
-import colorful.starbucks.auth.dto.response.TermsResponseDto;
-import colorful.starbucks.auth.infrastructure.TermsRepository;
+import colorful.starbucks.member.domain.Terms;
+import colorful.starbucks.member.dto.request.TermsCreateRequestDto;
+import colorful.starbucks.member.dto.response.TermsResponseDto;
+import colorful.starbucks.member.infrastructure.TermsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

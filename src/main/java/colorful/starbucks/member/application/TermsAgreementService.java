@@ -1,6 +1,6 @@
-package colorful.starbucks.auth.application;
+package colorful.starbucks.member.application;
 
-import colorful.starbucks.auth.vo.request.TermsAgreementRequestVo;
+import colorful.starbucks.member.vo.request.TermsAgreementRequestVo;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package colorful.starbucks.auth.application;
+package colorful.starbucks.member.application;
 
-import colorful.starbucks.auth.domain.Terms;
-import colorful.starbucks.auth.domain.TermsAgreement;
-import colorful.starbucks.auth.infrastructure.TermsAgreementRepository;
-import colorful.starbucks.auth.infrastructure.TermsRepository;
-import colorful.starbucks.auth.vo.request.TermsAgreementRequestVo;
+import colorful.starbucks.member.domain.Terms;
+import colorful.starbucks.member.domain.TermsAgreement;
+import colorful.starbucks.member.infrastructure.TermsAgreementRepository;
+import colorful.starbucks.member.infrastructure.TermsRepository;
+import colorful.starbucks.member.vo.request.TermsAgreementRequestVo;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import lombok.RequiredArgsConstructor;

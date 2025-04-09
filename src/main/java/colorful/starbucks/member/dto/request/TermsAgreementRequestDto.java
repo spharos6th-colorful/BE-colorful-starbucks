@@ -1,6 +1,6 @@
-package colorful.starbucks.auth.dto.request;
+package colorful.starbucks.member.dto.request;
 
-import colorful.starbucks.auth.vo.request.TermsAgreementRequestVo;
+import colorful.starbucks.member.vo.request.TermsAgreementRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 

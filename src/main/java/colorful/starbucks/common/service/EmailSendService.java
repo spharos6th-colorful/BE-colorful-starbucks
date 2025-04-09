@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class EmailService {
+public class EmailSendService {
 
     private final JavaMailSender mailSender;
 
