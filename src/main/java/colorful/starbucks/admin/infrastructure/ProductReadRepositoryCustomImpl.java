@@ -2,7 +2,6 @@ package colorful.starbucks.admin.infrastructure;
 
 import colorful.starbucks.admin.dto.ProductIdAndPriceDto;
 import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
-import colorful.starbucks.admin.dto.ProductSearchListFilterDto;
 import colorful.starbucks.admin.dto.response.ProductCursorResponseDto;
 import colorful.starbucks.common.util.CursorPage;
 import com.querydsl.core.BooleanBuilder;
@@ -83,8 +82,7 @@ public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCus
                                 product.id,
                                 product.productCode)
                 ).from(productCategoryList)
-                .join(product)
-                .fetchJoin()
+                .innerJoin(product)
                 .on(product.productCode.eq(productCategoryList.productCode))
                 .where(minPriceGoe(productIdAndPriceDto.getMinPrice()),
                         maxPriceLoe(productIdAndPriceDto.getMaxPrice()),
