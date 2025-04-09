@@ -9,6 +9,7 @@ import colorful.starbucks.product.dto.response.ProductResponseDto;
 import colorful.starbucks.product.vo.ProductFilterVo;
 import colorful.starbucks.product.vo.request.ProductCreateRequestVo;
 import colorful.starbucks.product.vo.response.ProductResponseVo;
+import colorful.starbucks.product.vo.response.ProductSimpleResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -52,6 +53,14 @@ public class ProductController {
         return ApiResponse.ok(
                 "상품 조회를 완료했습니다.",
                 productService.getProduct(productCode).toVo()
+        );
+    }
+
+    @GetMapping("/{productCode}/simple")
+    public ApiResponse<ProductSimpleResponseVo> getProductSimpleInformation(@PathVariable Long productCode) {
+        return ApiResponse.ok(
+                "상품 조회를 완료했습니다.",
+                productService.getProductSimpleInformation(productCode).toVo()
         );
     }
 }
