@@ -4,21 +4,23 @@ import colorful.starbucks.admin.domain.ProductBottomCategory;
 import colorful.starbucks.admin.vo.ProductBottomCategoryVos;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class ProductBottomCategoryDtos {
 
     private List<ProductBottomCategoryDto> content;
-    private long totalElements;
-    private int totalPages;
+    private Long totalElements;
+    private Integer totalPages;
 
     @Builder
     private ProductBottomCategoryDtos(List<ProductBottomCategoryDto> content,
-                                      long totalElements,
-                                      int totalPages) {
+                                      Long totalElements,
+                                      Integer totalPages) {
         this.content = content;
         this.totalElements = totalElements;
         this.totalPages = totalPages;

@@ -3,10 +3,12 @@ package colorful.starbucks.admin.dto;
 import colorful.starbucks.admin.vo.ProductCategoryListFilterVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class ProductCategoryListFilterDto {
 
     private Long cursor;
