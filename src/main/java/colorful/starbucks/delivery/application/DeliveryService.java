@@ -16,4 +16,5 @@ public interface DeliveryService {
     DeliveryDefaultAddressResponseDto getDefaultAddress(String memberUuid);
     List<DeliveryAddressesResponseDto> getAddressList(String memberUuid);
     void editDefaultAddress(List<DeliveryDefaultAddressRequestDto> deliveryDefaultAddressRequestDtos);
+    void deleteAllAddresses(String memberUuid);
 }

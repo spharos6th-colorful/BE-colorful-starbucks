@@ -87,5 +87,12 @@ public class DeliveryController {
                 null);
     }
 
+    @DeleteMapping("/addresses")
+    public ApiResponse<Void> deleteAllAddresses(Authentication authentication) {
+        deliveryService.deleteAllAddresses(authentication.getName());
+        return ApiResponse.ok("모든 배송지 삭제가 완료 되었습니다.",
+                null);
+    }
+
 
 }

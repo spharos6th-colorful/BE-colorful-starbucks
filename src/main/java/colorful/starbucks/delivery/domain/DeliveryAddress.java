@@ -19,7 +19,6 @@ public class DeliveryAddress extends BaseEntity {
     @Column(name = "member_address_id")
     private Long id;
 
-
     @Column(nullable = false)
     @Comment("주소지 별칭")
     private String addressNickname;

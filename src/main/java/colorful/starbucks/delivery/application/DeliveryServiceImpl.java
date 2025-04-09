@@ -55,21 +55,6 @@ public class DeliveryServiceImpl implements DeliveryService {
         deliveryDefaultAddressRequestDtos.forEach(this::updateDefaultAddress);
     }
 
-    private void updateDefaultAddress(DeliveryDefaultAddressRequestDto deliveryDefaultAddressRequestDto) {
-
-        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryDefaultAddressRequestDto.getMemberUuid(),
-                deliveryDefaultAddressRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-        deliveryAddress.updateIsDefaultAddress(deliveryDefaultAddressRequestDto.isDefaultAddress());
-    }
-
-    public void changeDefaultAddressToFalse(String memberUuid) {
-
-        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(memberUuid, true)
-                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-        deliveryAddress.updateIsDefaultAddress(false);
-
-    }
-
 
     @Override
     public DeliveryAddressResponseDto getIndividualAddress(DeliveryAddressRequestDto deliveryAddressRequestDto) {
@@ -105,6 +90,28 @@ public class DeliveryServiceImpl implements DeliveryService {
         deliveryRepository.deleteByMemberUuidAndMemberAddressUuid(deliveryDeleteRequestDto.getMemberUuid(),
                 deliveryDeleteRequestDto.getMemberAddressUuid());
     }
+
+    @Transactional
+    @Override
+    public void deleteAllAddresses(String memberUuid) {
+        deliveryRepository.deleteAllByMemberUuid(memberUuid);
+    }
+
+    private void updateDefaultAddress(DeliveryDefaultAddressRequestDto deliveryDefaultAddressRequestDto) {
+
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryDefaultAddressRequestDto.getMemberUuid(),
+                deliveryDefaultAddressRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        deliveryAddress.updateIsDefaultAddress(deliveryDefaultAddressRequestDto.isDefaultAddress());
+    }
+
+    public void changeDefaultAddressToFalse(String memberUuid) {
+
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(memberUuid, true)
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        deliveryAddress.updateIsDefaultAddress(false);
+
+    }
+
 
 }
 

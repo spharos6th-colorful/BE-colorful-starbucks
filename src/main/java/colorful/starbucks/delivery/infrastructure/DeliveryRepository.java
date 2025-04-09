@@ -19,4 +19,6 @@ public interface DeliveryRepository extends JpaRepository<DeliveryAddress, Long>
     DeliveryAddress findByMemberAddressUuid(String memberAddressUuid);
 
     boolean existsByMemberUuid(String memberUuid);
+
+    void deleteAllByMemberUuid(String memberUuid);
 }
