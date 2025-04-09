@@ -4,13 +4,14 @@ import colorful.starbucks.event.domain.Event;
 import colorful.starbucks.event.domain.EventStatus;
 import colorful.starbucks.event.generator.EventUuidGenerator;
 import colorful.starbucks.event.vo.request.EventCreateRequestVo;
-import colorful.starbucks.product.generator.ProductDetailCodeGenerator;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class EventCreateRequestDto {
 
     private String title;
