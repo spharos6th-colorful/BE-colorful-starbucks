@@ -4,21 +4,23 @@ import colorful.starbucks.product.domain.InterestProduct;
 import colorful.starbucks.product.vo.InterestProductVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class InterestProductDto {
 
     private Long interestProductId;
     private String productCode;
     private String productName;
-    private int price;
+    private Integer price;
     private String productThumbnailUrl;
 
     @Builder
     private InterestProductDto(Long interestProductId,
                                String productCode,
                                String productName,
-                               int price,
+                               Integer price,
                                String productThumbnailUrl) {
         this.interestProductId = interestProductId;
         this.productCode = productCode;

@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MemberCouponResponseVo {
+public class EventCouponUuidResponseVo {
 
     private String couponUuid;
 
     @Builder
-    private MemberCouponResponseVo(String couponUuid) {
+    private EventCouponUuidResponseVo(String couponUuid) {
         this.couponUuid = couponUuid;
     }
 }

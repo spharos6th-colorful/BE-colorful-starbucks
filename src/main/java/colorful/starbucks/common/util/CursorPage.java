@@ -1,10 +1,8 @@
 package colorful.starbucks.common.util;
 
-import colorful.starbucks.common.entity.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.function.Function;
@@ -15,11 +13,11 @@ import java.util.stream.Collectors;
 public class CursorPage<T> {
     
     private List<T> content;
-    private boolean hasNext;
+    private Boolean hasNext;
     private Long nextCursor;
 
     @Builder
-    private CursorPage(List<T> content, boolean hasNext, Long nextCursor) {
+    private CursorPage(List<T> content, Boolean hasNext, Long nextCursor) {
         this.content = content;
         this.hasNext = hasNext;
         this.nextCursor = nextCursor;

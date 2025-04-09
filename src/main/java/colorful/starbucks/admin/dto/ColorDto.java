@@ -2,10 +2,12 @@ package colorful.starbucks.admin.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Getter
+@NoArgsConstructor
 public class ColorDto {
 
     private Long colorId;

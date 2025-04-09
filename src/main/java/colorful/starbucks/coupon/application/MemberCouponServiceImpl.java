@@ -38,6 +38,12 @@ public class MemberCouponServiceImpl implements MemberCouponService {
         memberCouponRepository.save(memberCouponCreateRequestDto.toEntity());
     }
 
+    @Override
+    public CursorPage<MemberCouponResponseDto> getMemberCoupons(MemberCouponRequestDto memberCouponRequestDto) {
+        return memberCouponRepository.getAllCouponsByMemberUuid(memberCouponRequestDto)
+                .map(MemberCouponResponseDto::from);
+    }
+
     private void checkDuplicateCouponIssuance(MemberCouponCreateRequestDto memberCouponCreateRequestDto) {
         memberCouponRepository.findByMemberUuidAndCouponUuid(
                 memberCouponCreateRequestDto.getMemberUuid(),
@@ -45,11 +51,5 @@ public class MemberCouponServiceImpl implements MemberCouponService {
         ).ifPresent(memberCoupon -> {
             throw new BaseException(ResponseStatus.ALREADY_ISSUED_COUPON);
         });
-    }
-
-    @Override
-    public CursorPage<MemberCouponResponseDto> getMemberCoupons(MemberCouponRequestDto memberCouponRequestDto) {
-        return memberCouponRepository.getAllCouponsByMemberUuid(memberCouponRequestDto)
-                .map(MemberCouponResponseDto::from);
     }
 }

@@ -3,10 +3,12 @@ package colorful.starbucks.event.vo.response;
 import colorful.starbucks.event.domain.EventStatus;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class EventDetailResponseVo {
 
     private String title;

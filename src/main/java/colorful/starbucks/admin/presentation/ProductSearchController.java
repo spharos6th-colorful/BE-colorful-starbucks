@@ -31,7 +31,7 @@ public class ProductSearchController {
                         .map(ProductCursorResponseDto::toVo)
                                 .toList())
                         .nextCursor(response.getNextCursor())
-                        .hasNext(response.isHasNext())
+                        .hasNext(response.getHasNext())
                         .build());
     }
 }

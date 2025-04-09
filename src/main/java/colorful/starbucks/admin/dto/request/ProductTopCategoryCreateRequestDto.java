@@ -4,8 +4,10 @@ import colorful.starbucks.admin.domain.ProductTopCategory;
 import colorful.starbucks.admin.vo.request.ProductTopCategoryCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductTopCategoryCreateRequestDto {
 
     private String categoryName;

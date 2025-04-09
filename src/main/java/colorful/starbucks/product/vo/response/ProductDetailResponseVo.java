@@ -2,17 +2,19 @@ package colorful.starbucks.product.vo.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductDetailResponseVo {
 
     private String productDetailCode;
     private String productCode;
     private String sizeName;
     private String colorName;
-    private int inventoryQuantity;
-    private int price;
-    private int discountPrice;
+    private Integer inventoryQuantity;
+    private Integer price;
+    private Integer discountPrice;
     private String productDetailThumbnailUrl;
 
     @Builder
@@ -20,9 +22,9 @@ public class ProductDetailResponseVo {
                                     String productCode,
                                     String sizeName,
                                     String colorName,
-                                    int inventoryQuantity,
-                                    int price,
-                                    int discountPrice,
+                                    Integer inventoryQuantity,
+                                    Integer price,
+                                    Integer discountPrice,
                                     String productDetailThumbnailUrl) {
         this.productDetailCode = productDetailCode;
         this.productCode = productCode;

@@ -5,8 +5,10 @@ import colorful.starbucks.admin.domain.ProductTopCategory;
 import colorful.starbucks.admin.vo.request.ProductBottomCategoryCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductBottomCategoryCreateRequestDto {
 
     private String categoryName;

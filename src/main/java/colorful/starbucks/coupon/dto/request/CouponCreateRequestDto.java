@@ -6,21 +6,23 @@ import colorful.starbucks.coupon.generator.CouponUuidGenerator;
 import colorful.starbucks.coupon.vo.request.CouponCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class CouponCreateRequestDto {
 
     private String couponUuid;
     private String couponName;
     private String couponDescription;
     private DiscountType discountType;
-    private int discountValue;
+    private Integer discountValue;
     private String couponImageUrl;
-    private int maxDiscountAmount;
-    private int minOrderAmount;
-    private int maxIssuanceLimit;
+    private Integer maxDiscountAmount;
+    private Integer minOrderAmount;
+    private Integer maxIssuanceLimit;
     private LocalDateTime startAt;
     private LocalDateTime expiredAt;
 
@@ -29,11 +31,11 @@ public class CouponCreateRequestDto {
                                    String couponName,
                                    String couponDescription,
                                    DiscountType discountType,
-                                   int discountValue,
+                                   Integer discountValue,
                                    String couponImageUrl,
-                                   int maxDiscountAmount,
-                                   int minOrderAmount,
-                                   int maxIssuanceLimit,
+                                   Integer maxDiscountAmount,
+                                   Integer minOrderAmount,
+                                   Integer maxIssuanceLimit,
                                    LocalDateTime startAt,
                                    LocalDateTime expiredAt) {
         this.couponUuid = couponUuid;

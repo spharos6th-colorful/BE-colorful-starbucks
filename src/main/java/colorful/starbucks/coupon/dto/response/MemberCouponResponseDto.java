@@ -4,8 +4,10 @@ import colorful.starbucks.coupon.domain.MemberCoupon;
 import colorful.starbucks.coupon.vo.response.MemberCouponResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberCouponResponseDto {
 
     private String couponUuid;
