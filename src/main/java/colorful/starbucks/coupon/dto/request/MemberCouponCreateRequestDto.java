@@ -14,7 +14,7 @@ public class MemberCouponCreateRequestDto {
 
     private String memberUuid;
     private String couponUuid;
-    private boolean isUsed;
+    private Boolean isUsed;
     private LocalDateTime usedAt;
     private String usedOrderCode;
 

@@ -16,10 +16,10 @@ public class CouponResponseDto {
     private String couponName;
     private String couponDescription;
     private DiscountType discountType;
-    private int discountValue;
+    private Integer discountValue;
     private String couponImageUrl;
-    private int maxDiscountAmount;
-    private int minOrderAmount;
+    private Integer maxDiscountAmount;
+    private Integer minOrderAmount;
     private LocalDateTime startAt;
     private LocalDateTime expiredAt;
 
