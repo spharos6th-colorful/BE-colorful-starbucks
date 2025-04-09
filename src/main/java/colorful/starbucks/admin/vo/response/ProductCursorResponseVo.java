@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ProductCategoryCursorResponseVo {
+public class ProductCursorResponseVo {
 
     private Long id;
     private Long productCode;
 
     @Builder
-    private ProductCategoryCursorResponseVo(Long id, Long productCode) {
+    private ProductCursorResponseVo(Long id, Long productCode) {
         this.id = id;
         this.productCode = productCode;
     }

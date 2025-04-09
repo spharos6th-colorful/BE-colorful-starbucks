@@ -22,7 +22,10 @@ public enum ResponseStatus {
     DISABLED_USER(HttpStatus.FORBIDDEN, false, 404, "비활성화된 계정입니다. 계정을 복구하시겠습니까?"),
     FAILED_TO_RESTORE(HttpStatus.INTERNAL_SERVER_ERROR, false, 405, "계정 복구에 실패했습니다. 관리자에게 문의해주세요."),
     NO_EXIST_OAUTH(HttpStatus.NOT_FOUND, false, 406, "소셜 로그인 정보가 존재하지 않습니다."),
-
+    NO_EXIST_ORDER(HttpStatus.BAD_REQUEST, false, 401, "주문을 찾을 수 없습니다."),
+    CANCELLED_ORDER(HttpStatus.BAD_REQUEST, false, 404, "이미 취소된 주문입니다."),
+    INVALID_ORDER_CANCEL_REASON(HttpStatus.BAD_REQUEST, false, 404, "존재하지 않는 취소 사유입니다."),
+    INVALID_ORDER_STATUS(HttpStatus.BAD_REQUEST, false, 404, "존재하지 않는 주문 상태입니다."),
 
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, false, 404, "리소스가 존재하지 않습니다."),
     CONFLICT_REQUEST(HttpStatus.CONFLICT, false, 409, "데이터 삽입 요청이 충돌했습니다."),

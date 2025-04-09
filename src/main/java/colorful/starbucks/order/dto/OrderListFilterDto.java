@@ -10,30 +10,31 @@ import java.time.LocalDateTime;
 public class OrderListFilterDto {
     private Long cursor;
     private Integer size;
+    private Integer page;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private String sortBy;
+
 
     @Builder
     private OrderListFilterDto(Long cursor,
                                Integer size,
+                               Integer page,
                                LocalDateTime startDate,
-                               LocalDateTime endDate,
-                               String sortBy) {
+                               LocalDateTime endDate) {
         this.cursor = cursor;
         this.size = size;
+        this.page = page;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.sortBy = sortBy;
     }
 
     public static OrderListFilterDto of(OrderListFilterVo orderListFilterVo, String memberUuid) {
         return OrderListFilterDto.builder()
                 .cursor(orderListFilterVo.getCursor())
                 .size(orderListFilterVo.getSize())
+                .page(orderListFilterVo.getPage())
                 .startDate(orderListFilterVo.getStartDate())
                 .endDate(orderListFilterVo.getEndDate())
-                .sortBy(orderListFilterVo.getSortBy())
                 .build();
     }
 

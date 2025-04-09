@@ -1,21 +1,20 @@
 package colorful.starbucks.order.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.common.util.OrderCodeGenerator;
 import colorful.starbucks.order.domain.Order;
-import colorful.starbucks.order.domain.OrderDetail;
+import colorful.starbucks.order.domain.OrderStatus;
 import colorful.starbucks.order.dto.OrderListFilterDto;
+import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
-import colorful.starbucks.order.infrastructure.OrderDetailRepository;
 import colorful.starbucks.order.infrastructure.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderDetailRepository orderDetailRepository;
+    private final OrderDetailService orderDetailService;
     private final OrderCodeGenerator orderCodeGenerator;
 
     @Transactional
@@ -34,20 +33,36 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderCreateRequestDto.toEntity(orderCode);
         orderRepository.save(order);
 
-        List<OrderDetail> orderDetails = orderCreateRequestDto.getOrderDetails().stream()
-                .map(orderDetailRequestDto -> orderDetailRequestDto.toEntity(order))
-                .collect(Collectors.toList());
-
-        orderDetailRepository.saveAll(orderDetails);
-
+        orderDetailService.saveAllDetails(order, orderCreateRequestDto.getOrderDetails());
         return OrderCreateResponseDto.from(orderCode);
     }
 
-    @Transactional
+
     @Override
     public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
         return orderRepository.getOrderList(orderListFilterDto);
     }
+
+    @Transactional
+    @Override
+    public OrderCancelRequestDto cancelOrder(OrderCancelRequestDto orderCancelRequestDto) {
+
+
+        Order order = orderRepository.findByOrderCode(orderCancelRequestDto.getOrderCode())
+                .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_ORDER));
+
+        if (order.getOrderStatus() == OrderStatus.CANCELLED) {
+            throw new BaseException(ResponseStatus.CANCELLED_ORDER);
+        }
+
+        order.cancel(
+                orderCancelRequestDto.getOrderCancelReason(),
+                orderCancelRequestDto.getOrderCancelReasonDetail()
+        );
+
+        return orderCancelRequestDto;
+    }
+
 
 
 
