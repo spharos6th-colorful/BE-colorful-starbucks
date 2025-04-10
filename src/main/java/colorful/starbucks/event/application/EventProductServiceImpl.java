@@ -1,11 +1,11 @@
 package colorful.starbucks.event.application;
 
-import colorful.starbucks.event.dto.request.EventProductCreateRequestDto;
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.event.dto.request.EventProductCodesRequestDto;
+import colorful.starbucks.event.dto.request.EventProductCreateRequestDto;
 import colorful.starbucks.event.dto.response.EventProductCodesResponseDto;
 import colorful.starbucks.event.infrastructure.EventProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,11 +27,8 @@ public class EventProductServiceImpl implements EventProductService {
     }
 
     @Override
-    public Page<EventProductCodesResponseDto> getEventProductCodes(EventProductCodesRequestDto eventProductCodesRequestDto) {
-        return eventProductRepository.getEventProductCodesByEventUuid(
-                        eventProductCodesRequestDto.getEventUuid(),
-                        eventProductCodesRequestDto.getPage(),
-                        eventProductCodesRequestDto.getSize())
+    public CursorPage<EventProductCodesResponseDto> getEventProductCodes(EventProductCodesRequestDto eventProductCodesRequestDto) {
+        return eventProductRepository.getEventProductCodesByEventUuid(eventProductCodesRequestDto)
                 .map(EventProductCodesResponseDto::from);
     }
 }

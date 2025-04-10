@@ -8,6 +8,7 @@ import lombok.Getter;
 public class EventProductCodesRequestVo {
 
     private String eventUuid;
+    private Long cursor;
     private Integer page;
     private Integer size;
 }
