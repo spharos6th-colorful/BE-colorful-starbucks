@@ -2,23 +2,26 @@ package colorful.starbucks.auth.dto.request;
 
 import colorful.starbucks.auth.application.KakaoApiService;
 import colorful.starbucks.auth.dto.response.KakaoUserInfo;
-import colorful.starbucks.auth.vo.request.KakaoSignInRequestVo;
+import colorful.starbucks.auth.vo.request.OAuthSignInRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-public class KakaoSignInRequestDto {
+@NoArgsConstructor
 
-    private final String code;
+public class OAuthSignInRequestDto {
+
+    private String code;
 
     @Builder
-    public KakaoSignInRequestDto(String code) {
+    private OAuthSignInRequestDto(String code) {
         this.code = code;
     }
 
-    public static KakaoSignInRequestDto from(KakaoSignInRequestVo kakaoSignInRequestVo) {
-        return KakaoSignInRequestDto.builder()
-                .code(kakaoSignInRequestVo.getCode())
+    public static OAuthSignInRequestDto from(OAuthSignInRequestVo OAuthSignInRequestVo) {
+        return OAuthSignInRequestDto.builder()
+                .code(OAuthSignInRequestVo.getCode())
                 .build();
     }
 

@@ -7,27 +7,44 @@ import colorful.starbucks.auth.vo.request.MemberSignUpRequestVo;
 import colorful.starbucks.common.util.UuidGenerator;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
-@Builder
+@NoArgsConstructor
 public class MemberSignUpRequestDto {
 
     private String memberName;
-
     private String email;
-
     private String password;
-
     private String phoneNumber;
-
     private String nickName;
-
     private String memberBirth;
-
     private MemberLevel memberLevel = MemberLevel.WHITE;
-
     private Gender gender;
+
+
+    @Builder
+    public MemberSignUpRequestDto(String memberName,
+                                  String email,
+                                  String password,
+                                  String phoneNumber,
+                                  String nickName,
+                                  String memberBirth,
+                                  MemberLevel memberLevel,
+                                  Gender gender) {
+        this.memberName = memberName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.nickName = nickName;
+        this.memberBirth = memberBirth;
+        this.memberLevel = memberLevel;
+        this.gender = gender;
+    }
+
+
+
 
     public Member toEntity(String memberUuid, String encodedPassword) {
         return Member.builder()

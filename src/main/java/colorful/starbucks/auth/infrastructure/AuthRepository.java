@@ -12,6 +12,5 @@ public interface AuthRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByEmail(String email);
 
-    Optional<Member> findBySignTypeAndSocialId(SignType signInType, String socialId);
 
 }

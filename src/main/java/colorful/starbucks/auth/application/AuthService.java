@@ -16,5 +16,4 @@ public interface AuthService {
 
     void signOut(MemberSignOutRequestDto memberSignOutRequestDto);
 
-
 }

@@ -1,6 +1,7 @@
 package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.domain.CustomUserDetails;
+import colorful.starbucks.auth.domain.OAuth;
 import colorful.starbucks.auth.dto.request.MemberSignInRequestDto;
 import colorful.starbucks.auth.dto.request.MemberSignOutRequestDto;
 import colorful.starbucks.auth.dto.request.MemberSignUpRequestDto;
@@ -8,6 +9,7 @@ import colorful.starbucks.auth.dto.request.RefreshTokenRequestDto;
 import colorful.starbucks.auth.dto.response.AccessTokenResponseDto;
 import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
 import colorful.starbucks.auth.infrastructure.AuthRepository;
+import colorful.starbucks.auth.infrastructure.OAuthRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
 import colorful.starbucks.common.response.ResponseStatus;
@@ -30,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private final AuthRepository authRepository;
+    private final OAuthRepository oAuthRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
@@ -40,9 +43,18 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserDetails loadUserByUuid(String uuid) {
-        Member member = authRepository.findByMemberUuid(uuid)
-                .orElseThrow(() -> new UsernameNotFoundException("UUID 사용자 없음: " + uuid));
-        return new CustomUserDetails(member);
+
+        Member member = authRepository.findByMemberUuid(uuid).orElse(null);
+
+        OAuth oAuth = oAuthRepository.findByMemberUuid(uuid).orElse(null);
+
+        if (member != null) {
+            return new CustomUserDetails(member);
+        } else if (oAuth != null) {
+            return new CustomUserDetails(oAuth);
+        } else {
+            throw new UsernameNotFoundException("UUID 사용자 없음: " + uuid);
+        }
     }
 
 

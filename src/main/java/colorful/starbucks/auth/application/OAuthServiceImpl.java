@@ -1,10 +1,13 @@
 package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.domain.CustomUserDetails;
+import colorful.starbucks.auth.domain.OAuth;
 import colorful.starbucks.auth.domain.SignType;
-import colorful.starbucks.auth.dto.request.KakaoSignInRequestDto;
+import colorful.starbucks.auth.dto.request.OAuthSignInRequestDto;
 import colorful.starbucks.auth.dto.response.KakaoUserInfo;
-import colorful.starbucks.auth.dto.response.MemberSignInResponseDto;
+import colorful.starbucks.auth.dto.response.OAutSignInResponseDto;
+import colorful.starbucks.auth.infrastructure.AuthRepository;
+import colorful.starbucks.auth.infrastructure.OAuthRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.TokenGenerator;
@@ -24,37 +27,55 @@ import org.springframework.transaction.annotation.Transactional;
 public class OAuthServiceImpl implements OAuthService {
 
     private final KakaoApiService kakaoApiService;
+    private final TokenGenerator tokenGenerator;
+    private final OAuthRepository oAuthRepository;
+    private final AuthRepository authRepository;
 
 
     @Transactional
     @Override
-    public MemberSignInResponseDto kakaoSignIn(KakaoSignInRequestDto kakaoSignInRequestDto) {
-        KakaoUserInfo userInfo = kakaoSignInRequestDto.fetchUserInfo(kakaoApiService);
+    public OAutSignInResponseDto kakaoSignIn(OAuthSignInRequestDto OAuthSignInRequestDto) {
+        KakaoUserInfo userInfo = OAuthSignInRequestDto.fetchUserInfo(kakaoApiService);
 
         if (userInfo.getEmail() == null || userInfo.getEmail().isBlank()) {
             throw new BaseException(ResponseStatus.INVALID_EMAIL_ADDRESS);
         }
 
-        Member member = findOrCreateKakaoMember(userInfo);
-        UserDetails userDetails = new CustomUserDetails(member);
+        OAuth oAuth = findOrCreateKakaoOAuth(userInfo);
 
+        UserDetails userDetails = new CustomUserDetails(oAuth);
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities()
         );
 
-        return issueTokens (authentication);
+        String accessToken = tokenGenerator.issueTokens(authentication).getAccessToken();
+        String refreshToken = tokenGenerator.issueTokens(authentication).getRefreshToken();
+
+        return OAutSignInResponseDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .signType(oAuth.getSignType().name())
+                .build();
     }
 
-    private Member findOrCreateKakaoMember(KakaoUserInfo kakaoUserInfo) {
-        return authRepository.findBySignTypeAndSocialId(SignType.KAKAO, kakaoUserInfo.getId())
-                .orElseGet(() -> authRepository.save(
-                        Member.builder()
-                                .signType(SignType.KAKAO)
-                                .socialId(kakaoUserInfo.getId())
-                                .email(kakaoUserInfo.getEmail())
-                                .memberUuid(UuidGenerator.generateUuid())
-                                .memberLevel(MemberLevel.WHITE)
-                                .build()
-                ));
+    private OAuth findOrCreateKakaoOAuth(KakaoUserInfo kakaoUserInfo) {
+        return oAuthRepository.findBySignTypeAndProviderId(SignType.KAKAO, kakaoUserInfo.getId())
+                .orElseGet(() -> {
+                    Member newMember = authRepository.save(
+                            Member.builder()
+                                    .email(kakaoUserInfo.getEmail())
+                                    .memberUuid(UuidGenerator.generateUuid())
+                                    .memberLevel(MemberLevel.WHITE)
+                                    .build()
+                    );
+
+                    return oAuthRepository.save(
+                            OAuth.builder()
+                                    .signType(SignType.KAKAO)
+                                    .providerId(kakaoUserInfo.getId())
+                                    .memberUuid(newMember.getMemberUuid())
+                                    .build()
+                    );
+                });
     }
 }

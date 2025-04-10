@@ -20,8 +20,6 @@ public class EmailController {
 
     private final EmailService emailService;
 
-
-
     @PostMapping("/email/send-code")
     public ApiResponse<EmailCodeSendResponseVo> sendEmail(@RequestBody EmailCodeSendRequestVo emailCodeSendRequestVo) {
         return ApiResponse.ok(

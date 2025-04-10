@@ -55,13 +55,6 @@ public class Member extends BaseEntity  {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Comment("로그인 타입")
-    @Enumerated(EnumType.STRING)
-    private SignType signType;
-
-    @Comment("소셜별 사용자 고유 ID")
-    private String socialId;
-
     @Builder
     private Member(Long id,
                    String memberUuid,
@@ -72,9 +65,7 @@ public class Member extends BaseEntity  {
                    String nickName,
                    MemberLevel memberLevel,
                    String memberBirth,
-                   Gender gender,
-                   SignType signType,
-                   String socialId) {
+                   Gender gender) {
         this.id = id;
         this.memberUuid = memberUuid;
         this.memberName = memberName;
@@ -85,8 +76,6 @@ public class Member extends BaseEntity  {
         this.memberLevel = memberLevel;
         this.memberBirth = memberBirth;
         this.gender = gender;
-        this.signType = signType;
-        this.socialId = socialId;
     }
 
     public void updatePassword(String password) {

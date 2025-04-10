@@ -4,14 +4,15 @@ import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.auth.vo.request.MemberEmailFindRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Optional;
 
 @Getter
+@NoArgsConstructor
 public class MemberEmailFindRequestDto {
 
     private String memberName;
-
     private String phoneNumber;
 
     @Builder

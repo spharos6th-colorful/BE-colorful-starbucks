@@ -21,8 +21,6 @@ public class AuthController {
         return ApiResponse.ok("회원가입이 완료되었습니다.", null);
     }
 
-
-
     @PostMapping("/sign-in")
     public ApiResponse<MemberSignInResponseVo> signIn(@RequestBody MemberSignInRequestVo memberSignInRequestVo) {
         return ApiResponse.ok(

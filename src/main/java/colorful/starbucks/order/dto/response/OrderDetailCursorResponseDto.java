@@ -4,10 +4,12 @@ import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.vo.response.OrderDetailCursorResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class OrderDetailCursorResponseDto {
 
     private Long productCode;
