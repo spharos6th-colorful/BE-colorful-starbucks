@@ -8,6 +8,7 @@ import colorful.starbucks.member.vo.request.RecentlyViewProductAddRequestVo;
 import colorful.starbucks.member.vo.response.RecentlyViewProductListVo;
 import colorful.starbucks.member.vo.response.RecentlyViewProductAddResponseVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,8 @@ public class RecentlyViewProductController {
     public ApiResponse<RecentlyViewProductAddResponseVo> addRecentlyViewProduct(Authentication authentication,
                                                                                 @RequestBody RecentlyViewProductAddRequestVo recentlyViewProductAddRequestVo) {
 
-        return ApiResponse.ok("최근 본 상품을 추가했습니다.",
+        return ApiResponse.of(HttpStatus.CREATED,
+                "최근 본 상품을 추가했습니다.",
                 recentlyViewProductService.addRecentlyViewProduct(
                         RecentlyViewProductAddRequestDto.of(authentication.getName(), recentlyViewProductAddRequestVo))
                         .toVo()
