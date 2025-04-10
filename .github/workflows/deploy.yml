@@ -19,8 +19,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::065676097951:role/gitActionsRole
-          aws-region: ap-northeast-2
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
           audience: sts.amazonaws.com
 
       - name: Login to Amazon ECR
@@ -52,7 +52,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: colorful-stabucks-backend
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
@@ -66,9 +66,9 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin 065676097951.dkr.ecr.ap-northeast-2.amazonaws.com
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-            CONTAINER_ID=$(sudo docker ps -q --filter "name=colorful-stabucks-backend")
+            CONTAINER_ID=$(sudo docker ps -q --filter "name=${{ secrets.ECR_REPOSITORY }}")
             if [ ! -z "$CONTAINER_ID" ]; then
               sudo docker stop $CONTAINER_ID
               sudo docker rm $CONTAINER_ID
@@ -82,9 +82,9 @@ jobs:
 
             sudo docker network connect app-network redis || true
 
-            sudo docker pull 065676097951.dkr.ecr.ap-northeast-2.amazonaws.com/colorful-stabucks-backend:latest
+            sudo docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
 
-            sudo docker run --name colorful-stabucks-backend -d -p 8080:8080 \
+            sudo docker run --name ${{ secrets.ECR_REPOSITORY }} -d -p 8080:8080 \
             --network app-network \
             -e TZ=Asia/Seoul \
-            065676097951.dkr.ecr.ap-northeast-2.amazonaws.com/colorful-stabucks-backend:latest
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
