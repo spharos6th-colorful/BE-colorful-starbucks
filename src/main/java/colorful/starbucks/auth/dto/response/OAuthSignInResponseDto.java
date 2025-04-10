@@ -1,5 +1,6 @@
 package colorful.starbucks.auth.dto.response;
 
+import colorful.starbucks.auth.domain.SignType;
 import colorful.starbucks.auth.vo.response.OAutSignInResponseVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,17 +11,17 @@ import lombok.NoArgsConstructor;
 public class OAuthSignInResponseDto {
     private String accessToken;
     private String refreshToken;
-    private String signType;
+    private SignType signType;
 
     @Builder
     private OAuthSignInResponseDto(String accessToken,
                                    String refreshToken,
-                                   String signType) {
+                                   SignType signType) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.signType = signType;
     }
-    public static OAuthSignInResponseDto of(String accessToken, String refreshToken, String signType) {
+    public static OAuthSignInResponseDto of(String accessToken, String refreshToken, SignType signType) {
         return OAuthSignInResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -31,7 +32,7 @@ public class OAuthSignInResponseDto {
         return OAutSignInResponseVo.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .signType(signType)
+                .signType(signType.name())
                 .build();
     }
 }

@@ -5,7 +5,6 @@ import colorful.starbucks.auth.dto.request.EmailVerifyCodeRequestDto;
 import colorful.starbucks.auth.dto.response.EmailCodeSendResponseDto;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
-import colorful.starbucks.common.service.EmailSendService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class EmailServiceImpl implements EmailService {
     public EmailCodeSendResponseDto sendEmail(EmailCodeSendRequestDto emailCodeSendRequestDto) {
         String code = emailCodeSendRequestDto.codeGenerator();
         emailAuthRedisService.saveCode(emailCodeSendRequestDto.getEmail(), code);
-        emailSendService.sendEmailCode(emailCodeSendRequestDto.getEmail(), code);
+        sendEmailCode(emailCodeSendRequestDto.getEmail(), code);
         return EmailCodeSendResponseDto.from(code);
     }
 
@@ -42,6 +41,8 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
+    @Transactional
+    @Override
     public void sendTempPassword(String toEmail, String tempPassword) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -67,6 +68,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
+    @Transactional
+    @Override
     public void sendEmailCode(String toEmail, String code) {
         try {
             MimeMessage message = mailSender.createMimeMessage();

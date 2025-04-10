@@ -14,7 +14,6 @@ public class MemberPaymentsList extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_payments_id")
     private Long id;
 
     private String cardNumber;

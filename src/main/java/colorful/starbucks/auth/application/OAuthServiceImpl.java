@@ -58,11 +58,7 @@ public class OAuthServiceImpl implements OAuthService {
                 jwtTokenProvider.getRefreshTokenExpireTime()
         );
 
-        return OAuthSignInResponseDto.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .signType(oAuth.getSignType().name())
-                .build();
+        return OAuthSignInResponseDto.of(accessToken, refreshToken, SignType.KAKAO);
     }
 
     private OAuth findOrCreateKakaoOAuth(KakaoUserInfo kakaoUserInfo) {

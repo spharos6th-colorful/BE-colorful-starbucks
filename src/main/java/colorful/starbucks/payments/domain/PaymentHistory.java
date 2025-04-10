@@ -15,7 +15,6 @@ public class PaymentHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "payments_list_id")
     private Long id;
 
     @Comment("총 결제 금액")
@@ -31,7 +30,7 @@ public class PaymentHistory extends BaseEntity {
     private String orderCode;
 
     @Comment("회원 UUID")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String memberUuid;
 
     @Comment("결제 수단")

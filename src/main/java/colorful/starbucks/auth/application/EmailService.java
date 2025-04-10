@@ -10,4 +10,8 @@ public interface EmailService {
 
     void verifyEmailCode(EmailVerifyCodeRequestDto emailVerifyCodeRequestDto);
 
+    void sendEmailCode(String toEmail, String code);
+
+    void sendTempPassword(String toEmail, String tempPassword);
+
 }

@@ -6,7 +6,6 @@ import colorful.starbucks.auth.dto.response.MemberEmailFindResponseDto;
 import colorful.starbucks.auth.dto.response.MemberPasswordResetResponseDto;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
-import colorful.starbucks.common.service.EmailSendService;
 import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;

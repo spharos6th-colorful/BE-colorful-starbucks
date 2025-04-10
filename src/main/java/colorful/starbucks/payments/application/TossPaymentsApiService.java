@@ -36,23 +36,29 @@ public class TossPaymentsApiService {
 
         headers.set("Authorization", "Basic " + encodedSecretKey);
 
-       JSONObject body = new JsonObject();
+       JSONObject body = new JSONObject();
 
-        body.add("paymentKey", paymentKey);
-        body.add("orderCode", orderCode);
-        body.add("amount", amount);
+        body.put("paymentKey", paymentKey);
+        body.put("orderCode", orderCode);
+        body.put("amount", amount);
 
-        HttpEntity<MultiValueMap<String, Object>> requstEntity = new HttpEntity<>(body, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(body.toString(), headers);
 
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(confirm,requstEntity, String.class);
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(confirm, requestEntity, String.class);
 
-        if(responseEntity.getStatusCode() == HttpStatus.OK) {
-            return responseEntity.getBody();
-        } else {
-            throw new BaseException(ResponseStatus.PAYMENT_APPROVAL_FAILED,"결제 승인 실패");
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                return responseEntity.getBody();
+            } else {
+                throw new BaseException(ResponseStatus.PAYMENT_APPROVAL_FAILED, "결제 승인 실패");
+            }
+
+        } catch (Exception e) {
+            throw new BaseException(ResponseStatus.PAYMENT_APPROVAL_FAILED, "토스 결제 승인 중 오류: " + e.getMessage());
         }
+    }
 
     }
 
 
-}
+

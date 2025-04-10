@@ -4,6 +4,8 @@ import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum PaymentsType {
     CARD("신용카드"),
@@ -16,15 +18,13 @@ public enum PaymentsType {
 
     private final String description;
 
-    PaymentsType(String description) {this.description = description;}
-
-    public static PaymentsType fromDescription(String description) {
-        for (PaymentsType type : values()) {
-            if (type.getDescription().equals(description)) {
-                return type;
-            }
-        }
-        throw new BaseException(ResponseStatus.INVALID_PAMENT_TYPE, "존재하지 않는 결제 수단입니다: " + description);
+    PaymentsType(String description) {
+        this.description = description;
     }
 
+    public static PaymentsType fromDescription(String description) {
+        return Arrays.stream(values())
+                .filter(type -> type.getDescription().equals(description))
+                .findFirst().orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+    }
 }
