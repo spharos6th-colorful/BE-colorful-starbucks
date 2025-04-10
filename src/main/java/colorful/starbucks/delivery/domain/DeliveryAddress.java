@@ -19,40 +19,40 @@ public class DeliveryAddress extends BaseEntity {
     @Column(name = "member_address_id")
     private Long id;
 
-    @Column(nullable = false)
     @Comment("주소지 별칭")
+    @Column(nullable = false)
     private String addressNickname;
 
-    @Column(nullable = false)
     @Comment("수령인")
+    @Column(nullable = false)
     private String receiverName;
 
-    @Column(nullable = true)
     @Comment("기본 배송지 여부")
+    @Column(nullable = true)
     private boolean isDefaultAddress;
 
-    @Column(nullable = false)
     @Comment("우편 번호")
+    @Column(nullable = false)
     private String zoneCode;
 
-    @Column(nullable = false)
     @Comment("메인 주소")
+    @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
     @Comment("상세 주소")
+    @Column(nullable = false)
     private String detailAddress;
 
-    @Column(nullable = false)
     @Comment("전화 번호")
+    @Column(nullable = false)
     private String phoneNumber;
 
-    @Column(nullable = false)
     @Comment("회원 uuid")
+    @Column(nullable = false)
     private String memberUuid;
 
-    @Column(nullable = false)
     @Comment("회원 주소 uuid")
+    @Column(nullable = false)
     private String memberAddressUuid;
 
     @Builder
