@@ -55,6 +55,9 @@ public class RecentlyViewProductController {
     @DeleteMapping
     public ApiResponse<Void> deleteAllRecentlyViewProduct(Authentication authentication) {
         recentlyViewProductService.deleteAllRecentlyViewProduct(authentication.getName());
-        return ApiResponse.ok("최근 본 상품을 모두 삭제했습니다.", null);
+        return ApiResponse.of(
+                HttpStatus.NO_CONTENT,
+                "최근 본 상품을 모두 삭제했습니다.",
+                null);
     }
 }
