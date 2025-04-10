@@ -80,7 +80,7 @@ jobs:
 
             sudo docker network create app-network || true
 
-            sudo docker network connect app-network redis-container || true
+            sudo docker network connect app-network redis || true
 
             sudo docker pull 065676097951.dkr.ecr.ap-northeast-2.amazonaws.com/colorful-stabucks-backend:latest
 
