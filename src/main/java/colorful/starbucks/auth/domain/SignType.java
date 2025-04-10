@@ -8,6 +8,7 @@ public enum SignType {
     GOOGLE("구글 로그인 회원"),
     APPLE("애플 로그인 회원"),
     NAVER("네이버 로그인 회원");
+    
 
     private final String description;
 

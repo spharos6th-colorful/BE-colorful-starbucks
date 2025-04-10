@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AccountRecoveryServiceImpl implements AccountRecoveryService {
 
-    private final EmailSendService emailSendService;
+    private final EmailService emailService;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -33,7 +33,7 @@ public class AccountRecoveryServiceImpl implements AccountRecoveryService {
                 .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_USER));
         memberPasswordResetRequestDto.generateTempPassword(passwordEncoder);
         member.updatePassword(memberPasswordResetRequestDto.getEncodedPassword());
-        emailSendService.sendTempPassword(member.getEmail(), memberPasswordResetRequestDto.getTempPassword());
+        emailService.sendTempPassword(member.getEmail(), memberPasswordResetRequestDto.getTempPassword());
 
         return MemberPasswordResetResponseDto.from("임시 비밀번호가 이메일로 전송 되었습니다.");
     }

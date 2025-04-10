@@ -1,5 +1,7 @@
 package colorful.starbucks.auth.domain;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.member.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +32,7 @@ public class CustomUserDetails implements UserDetails {
         } else if (oAuth != null) {
             return oAuth.getMemberUuid();
         }
-        throw new IllegalStateException("Neither Member nor OAuth is set");
+        throw new BaseException(ResponseStatus.MEMBER_OR_OAUTH_REQUIRED,"회원 또는 OAuth 정보가 존재하지 않습니다.");
     }
 
     @Override
@@ -72,7 +74,7 @@ public class CustomUserDetails implements UserDetails {
         } else if (oAuth != null) {
             return oAuth.getMemberUuid();
         }
-        throw new IllegalStateException("Neither Member nor OAuth is set");
+        throw new BaseException(ResponseStatus.AUTHENTICATION_TARGET_NOT_FOUND,"사용자를 찾을 수 없습니다.");
     }
 }
 

@@ -25,10 +25,5 @@ public class OAuthSignInRequestDto {
                 .build();
     }
 
-    public KakaoUserInfo fetchUserInfo(KakaoApiService kakaoApiService) {
-        return kakaoApiService.getUserInfo(kakaoApiService.getAccessToken(code));
-    }
-
-
 }
 

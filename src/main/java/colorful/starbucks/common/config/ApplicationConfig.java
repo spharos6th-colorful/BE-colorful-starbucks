@@ -28,7 +28,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return email -> authRepository.findByEmail(email)
+        return email -> authRepository.existsByEmail(email)
                 .map(CustomUserDetails::new)
                 .orElseThrow(() -> new IllegalArgumentException("해당 email을 가진 회원이 없습니다."));
     }

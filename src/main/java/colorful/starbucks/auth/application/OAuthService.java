@@ -1,9 +1,9 @@
 package colorful.starbucks.auth.application;
 
 import colorful.starbucks.auth.dto.request.OAuthSignInRequestDto;
-import colorful.starbucks.auth.dto.response.OAutSignInResponseDto;
+import colorful.starbucks.auth.dto.response.OAuthSignInResponseDto;
 
 public interface OAuthService {
 
-    OAutSignInResponseDto kakaoSignIn(OAuthSignInRequestDto OAuthSignInRequestDto);
+    OAuthSignInResponseDto kakaoSignIn(OAuthSignInRequestDto OAuthSignInRequestDto);
 }

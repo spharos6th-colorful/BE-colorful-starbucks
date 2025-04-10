@@ -7,21 +7,21 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class OAutSignInResponseDto {
+public class OAuthSignInResponseDto {
     private String accessToken;
     private String refreshToken;
     private String signType;
 
     @Builder
-    private OAutSignInResponseDto(String accessToken,
-                                  String refreshToken,
-                                  String signType) {
+    private OAuthSignInResponseDto(String accessToken,
+                                   String refreshToken,
+                                   String signType) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.signType = signType;
     }
-    public static OAutSignInResponseDto from(String accessToken, String refreshToken, String signType) {
-        return OAutSignInResponseDto.builder()
+    public static OAuthSignInResponseDto of(String accessToken, String refreshToken, String signType) {
+        return OAuthSignInResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .signType(signType)

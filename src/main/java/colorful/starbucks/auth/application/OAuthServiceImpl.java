@@ -5,12 +5,12 @@ import colorful.starbucks.auth.domain.OAuth;
 import colorful.starbucks.auth.domain.SignType;
 import colorful.starbucks.auth.dto.request.OAuthSignInRequestDto;
 import colorful.starbucks.auth.dto.response.KakaoUserInfo;
-import colorful.starbucks.auth.dto.response.OAutSignInResponseDto;
+import colorful.starbucks.auth.dto.response.OAuthSignInResponseDto;
 import colorful.starbucks.auth.infrastructure.AuthRepository;
 import colorful.starbucks.auth.infrastructure.OAuthRepository;
 import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.jwt.JwtTokenProvider;
 import colorful.starbucks.common.response.ResponseStatus;
-import colorful.starbucks.common.util.TokenGenerator;
 import colorful.starbucks.common.util.UuidGenerator;
 import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.member.domain.MemberLevel;
@@ -27,15 +27,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class OAuthServiceImpl implements OAuthService {
 
     private final KakaoApiService kakaoApiService;
-    private final TokenGenerator tokenGenerator;
+    private final JwtTokenProvider jwtTokenProvider;
     private final OAuthRepository oAuthRepository;
     private final AuthRepository authRepository;
+    private final RefreshTokenRedisService refreshTokenRedisService;
 
 
     @Transactional
     @Override
-    public OAutSignInResponseDto kakaoSignIn(OAuthSignInRequestDto OAuthSignInRequestDto) {
-        KakaoUserInfo userInfo = OAuthSignInRequestDto.fetchUserInfo(kakaoApiService);
+    public OAuthSignInResponseDto kakaoSignIn(OAuthSignInRequestDto OAuthSignInRequestDto) {
+        KakaoUserInfo userInfo = kakaoApiService.getUserInfo(kakaoApiService.getAccessToken(OAuthSignInRequestDto.getCode()));
 
         if (userInfo.getEmail() == null || userInfo.getEmail().isBlank()) {
             throw new BaseException(ResponseStatus.INVALID_EMAIL_ADDRESS);
@@ -48,10 +49,16 @@ public class OAuthServiceImpl implements OAuthService {
                 userDetails, null, userDetails.getAuthorities()
         );
 
-        String accessToken = tokenGenerator.issueTokens(authentication).getAccessToken();
-        String refreshToken = tokenGenerator.issueTokens(authentication).getRefreshToken();
+        String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
-        return OAutSignInResponseDto.builder()
+        refreshTokenRedisService.saveRefreshToken(
+                ((CustomUserDetails) authentication.getPrincipal()).getMemberUuid(),
+                refreshToken,
+                jwtTokenProvider.getRefreshTokenExpireTime()
+        );
+
+        return OAuthSignInResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .signType(oAuth.getSignType().name())

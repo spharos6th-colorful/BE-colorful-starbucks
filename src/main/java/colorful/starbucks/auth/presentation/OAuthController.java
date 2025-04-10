@@ -20,13 +20,4 @@ public class OAuthController {
                 "로그인에 성공하였습니다.",
                 oAuthService.kakaoSignIn(OAuthSignInRequestDto.from(OAuthSignInRequestVo)).toVo());
     }
-
-
-    //TODO 백엔드 카카오 로그인 인가 코드 api
-    @GetMapping("/kakao")
-    public String kakaoRedirect(@RequestParam String code) {
-
-        System.out.println("카카오 인가코드 = " + code);
-        return "OK";
-    }
 }

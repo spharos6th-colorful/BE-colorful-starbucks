@@ -13,7 +13,6 @@ import colorful.starbucks.auth.infrastructure.OAuthRepository;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.jwt.JwtTokenProvider;
 import colorful.starbucks.common.response.ResponseStatus;
-import colorful.starbucks.common.util.TokenGenerator;
 import colorful.starbucks.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,8 +37,6 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final RefreshTokenRedisService refreshTokenRedisService;
-    private final TokenGenerator tokenGenerator;
-
 
     @Override
     public UserDetails loadUserByUuid(String uuid) {
@@ -64,7 +61,16 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(
                 toAuthenticationToken(memberSignInRequestDto)
         );
-        return tokenGenerator.issueTokens(authentication);
+
+        String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+
+        refreshTokenRedisService.saveRefreshToken(
+                ((CustomUserDetails) authentication.getPrincipal()).getMemberUuid(),
+                refreshToken,
+                jwtTokenProvider.getRefreshTokenExpireTime()
+        );
+        return MemberSignInResponseDto.from(accessToken, refreshToken);
     }
 
 
@@ -76,11 +82,9 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public void signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
-        authRepository.findByEmail(memberSignUpRequestDto.getEmail()).ifPresent(
-                (member) -> {
-                    throw new BaseException(ResponseStatus.DUPLICATED_USER);
+        if (authRepository.existsByEmail(memberSignUpRequestDto.getEmail())) {
+                   throw new BaseException(ResponseStatus.DUPLICATED_USER);
                 }
-        );
         authRepository.save(memberSignUpRequestDto.toEntityWithEncodePassword(passwordEncoder));
     }
 
@@ -92,13 +96,6 @@ public class AuthServiceImpl implements AuthService {
         return AccessTokenResponseDto.from(newAccessToken);
     }
 
-    private Authentication getAuthenticationFromRefreshToken(String refreshToken) {
-        String uuid = jwtTokenProvider.validateAndExtractUuid(refreshToken);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(uuid);
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-    }
-
-
     @Transactional
     @Override
     public void signOut(MemberSignOutRequestDto memberSignOutRequeestDto) {
@@ -107,4 +104,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
 
+    private Authentication getAuthenticationFromRefreshToken(String refreshToken) {
+        String uuid = jwtTokenProvider.validateAndExtractUuid(refreshToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(uuid);
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    }
 }
