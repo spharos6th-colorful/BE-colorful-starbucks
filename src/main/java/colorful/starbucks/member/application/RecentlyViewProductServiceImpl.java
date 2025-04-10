@@ -18,6 +18,8 @@ public class RecentlyViewProductServiceImpl implements RecentlyViewProductServic
     private final ZSetOperations<String, Object> zSetOperations;
 
     private static final String KEY_SUFFIX = "recently-view-product:";
+    private static final Integer ZSET_START_INDEX = 0;
+    private static final Integer ZSET_END_INDEX = -1;
 
     public RecentlyViewProductServiceImpl(RedisTemplate<String, Object> redisTemplate) {
         this.zSetOperations = redisTemplate.opsForZSet();
@@ -43,7 +45,8 @@ public class RecentlyViewProductServiceImpl implements RecentlyViewProductServic
     }
 
     private Map<LocalDate, List<Long>> getRecentlyViewProductCodesOrderByCreatedAtDesc(String memberUuid) {
-        Set<ZSetOperations.TypedTuple<Object>> typedTuples = zSetOperations.reverseRangeWithScores(KEY_SUFFIX + memberUuid, 0, -1);
+        Set<ZSetOperations.TypedTuple<Object>> typedTuples =
+                zSetOperations.reverseRangeWithScores(KEY_SUFFIX + memberUuid, ZSET_START_INDEX, ZSET_END_INDEX);
 
         Map<LocalDate, List<Long>> recentlyViewProductMap = new HashMap<>();
         for (ZSetOperations.TypedTuple<Object> typedTuple : typedTuples) {
