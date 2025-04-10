@@ -6,6 +6,5 @@ import lombok.Getter;
 public class MemberEmailFindRequestVo {
 
     private String memberName;
-
     private String phoneNumber;
 }

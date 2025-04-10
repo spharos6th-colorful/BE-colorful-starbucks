@@ -3,8 +3,10 @@ package colorful.starbucks.auth.dto.response;
 import colorful.starbucks.auth.vo.response.AccessTokenResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class AccessTokenResponseDto {
 
     private String accessToken;

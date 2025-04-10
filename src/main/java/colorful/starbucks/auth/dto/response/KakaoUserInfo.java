@@ -2,13 +2,14 @@ package colorful.starbucks.auth.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class KakaoUserInfo {
 
-    private final String id;
-
-    private final String email;
+    private String id;
+    private String email;
 
     @Builder
     public KakaoUserInfo(String id,

@@ -6,9 +6,7 @@ import lombok.Getter;
 public class MemberPasswordResetRequestVo {
 
     private String memberName;
-
     private String email;
-
     private String phoneNumber;
 
 

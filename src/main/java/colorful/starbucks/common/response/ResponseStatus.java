@@ -29,6 +29,9 @@ public enum ResponseStatus {
 
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, false, 404, "리소스가 존재하지 않습니다."),
     CONFLICT_REQUEST(HttpStatus.CONFLICT, false, 409, "데이터 삽입 요청이 충돌했습니다."),
+    PAYMENT_APPROVAL_FAILED(HttpStatus.BAD_REQUEST, false, 400, "결제 승인에 실패했습니다."),
+    AUTHENTICATION_TARGET_NOT_FOUND(HttpStatus.NOT_FOUND, false, 404, "인증 대상을 찾을 수 없습니다."),
+    MEMBER_OR_OAUTH_REQUIRED(HttpStatus.BAD_REQUEST, false, 400, "회원 또는 소셜 정보가 필요합니다."),
 
 
     REQUEST_CONFLICT(HttpStatus.CONFLICT, false, 409, "POST 요청에 실패했습니다."),

@@ -3,11 +3,13 @@ package colorful.starbucks.order.dto.response;
 import colorful.starbucks.order.vo.response.OrderCursorResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class OrderCursorResponseDto {
     private Long orderCode;
     private LocalDateTime createdAt;

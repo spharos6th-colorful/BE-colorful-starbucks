@@ -3,8 +3,10 @@ package colorful.starbucks.auth.dto.response;
 import colorful.starbucks.auth.vo.response.EmailCodeSendResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class EmailCodeSendResponseDto {
 
     private String code;

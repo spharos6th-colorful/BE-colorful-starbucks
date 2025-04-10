@@ -1,22 +1,23 @@
 package colorful.starbucks.auth.dto.request;
 
 import colorful.starbucks.member.domain.Member;
-import colorful.starbucks.auth.infrastructure.AuthRepository;
 import colorful.starbucks.auth.vo.request.MemberPasswordResetRequestVo;
 import colorful.starbucks.common.util.TempPasswordGenerator;
+import colorful.starbucks.member.infrastructure.MemberRepository;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
 @Getter
+@NoArgsConstructor
 public class MemberPasswordResetRequestDto {
 
-    private final String memberName;
-    private final String email;
-    private final String phoneNumber;
-
+    private String memberName;
+    private String email;
+    private String phoneNumber;
     private String tempPassword;
     private String encodedPassword;
 
@@ -43,14 +44,6 @@ public class MemberPasswordResetRequestDto {
         this.encodedPassword = passwordEncoder.encode(tempPassword);
     }
 
-
-    public Optional<Member> findMatchingMember(AuthRepository repository) {
-        return repository.findByEmailAndMemberNameAndPhoneNumber(
-                email.trim(),
-                memberName.trim(),
-                phoneNumber.trim()
-        );
-    }
 
     public String getEncodedPassword() {
         return this.encodedPassword;

@@ -5,11 +5,13 @@ import colorful.starbucks.order.dto.OrderAddressDto;
 import colorful.starbucks.order.vo.response.OrderResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class OrderResponseDto {
 
     private LocalDateTime createdAt;

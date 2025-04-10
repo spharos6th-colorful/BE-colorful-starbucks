@@ -1,7 +1,7 @@
-package colorful.starbucks.auth.presentation;
+package colorful.starbucks.member.presentation;
 
-import colorful.starbucks.auth.application.TermsAgreementService;
-import colorful.starbucks.auth.dto.request.TermsAgreementRequestDto;
+import colorful.starbucks.member.application.TermsAgreementService;
+import colorful.starbucks.member.dto.request.TermsAgreementRequestDto;
 import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
