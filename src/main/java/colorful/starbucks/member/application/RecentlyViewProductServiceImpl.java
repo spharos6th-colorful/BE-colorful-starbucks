@@ -1,5 +1,6 @@
 package colorful.starbucks.member.application;
 
+import colorful.starbucks.member.dto.request.RecentlyProductDeleteRequestDto;
 import colorful.starbucks.member.dto.response.RecentlyViewProductListDto;
 import colorful.starbucks.member.dto.request.RecentlyViewProductAddRequestDto;
 import colorful.starbucks.member.dto.response.RecentlyViewProductAddResponseDto;
@@ -15,6 +16,7 @@ import java.util.*;
 @Service
 public class RecentlyViewProductServiceImpl implements RecentlyViewProductService {
 
+    private final RedisTemplate<String, Object> redisTemplate;
     private final ZSetOperations<String, Object> zSetOperations;
 
     private static final String KEY_SUFFIX = "recently-view-product:";
@@ -22,6 +24,7 @@ public class RecentlyViewProductServiceImpl implements RecentlyViewProductServic
     private static final Integer ZSET_END_INDEX = -1;
 
     public RecentlyViewProductServiceImpl(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
         this.zSetOperations = redisTemplate.opsForZSet();
     }
 
@@ -42,6 +45,17 @@ public class RecentlyViewProductServiceImpl implements RecentlyViewProductServic
         return recentlyViewProductMap.entrySet().stream()
                 .map(entry -> RecentlyViewProductListDto.of(entry.getKey(), entry.getValue()))
                 .toList();
+    }
+
+    @Override
+    public void deleteRecentlyViewProduct(RecentlyProductDeleteRequestDto recentlyProductDeleteRequestDto) {
+        zSetOperations.remove(KEY_SUFFIX + recentlyProductDeleteRequestDto.getMemberUuid(),
+                recentlyProductDeleteRequestDto.getProductCode());
+    }
+
+    @Override
+    public void deleteAllRecentlyViewProduct(String memberUuid) {
+        redisTemplate.delete(KEY_SUFFIX + memberUuid);
     }
 
     private Map<LocalDate, List<Long>> getRecentlyViewProductCodesOrderByCreatedAtDesc(String memberUuid) {

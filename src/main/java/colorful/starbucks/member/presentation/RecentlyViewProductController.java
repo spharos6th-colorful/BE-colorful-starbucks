@@ -2,6 +2,7 @@ package colorful.starbucks.member.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.member.application.RecentlyViewProductService;
+import colorful.starbucks.member.dto.request.RecentlyProductDeleteRequestDto;
 import colorful.starbucks.member.dto.response.RecentlyViewProductListDto;
 import colorful.starbucks.member.dto.request.RecentlyViewProductAddRequestDto;
 import colorful.starbucks.member.vo.request.RecentlyViewProductAddRequestVo;
@@ -41,5 +42,19 @@ public class RecentlyViewProductController {
                     .map(RecentlyViewProductListDto::toVo)
                     .toList()
         );
+    }
+
+    @DeleteMapping("/{productCode}")
+    public ApiResponse<Void> deleteRecentlyViewProduct(Authentication authentication,
+                                                       @PathVariable Long productCode) {
+        recentlyViewProductService.deleteRecentlyViewProduct(
+                RecentlyProductDeleteRequestDto.of(authentication.getName(), productCode));
+        return ApiResponse.ok("최근 본 상품을 삭제했습니다.", null);
+    }
+
+    @DeleteMapping
+    public ApiResponse<Void> deleteAllRecentlyViewProduct(Authentication authentication) {
+        recentlyViewProductService.deleteAllRecentlyViewProduct(authentication.getName());
+        return ApiResponse.ok("최근 본 상품을 모두 삭제했습니다.", null);
     }
 }
