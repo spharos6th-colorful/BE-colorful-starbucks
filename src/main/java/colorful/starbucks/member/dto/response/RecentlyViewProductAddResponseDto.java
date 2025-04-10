@@ -16,7 +16,7 @@ public class RecentlyViewProductAddResponseDto {
         this.productThumbnailUrl = productThumbnailUrl;
     }
 
-    public static RecentlyViewProductAddResponseDto of(String productThumbnailUrl) {
+    public static RecentlyViewProductAddResponseDto from(String productThumbnailUrl) {
         return RecentlyViewProductAddResponseDto.builder()
                 .productThumbnailUrl(productThumbnailUrl)
                 .build();

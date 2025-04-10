@@ -34,7 +34,7 @@ public class RecentlyViewProductServiceImpl implements RecentlyViewProductServic
                 recentlyViewProductAddRequestDto.getProductCode(),
                 System.currentTimeMillis());
 
-        return RecentlyViewProductAddResponseDto.of(recentlyViewProductAddRequestDto.getProductThumbnailUrl());
+        return RecentlyViewProductAddResponseDto.from(recentlyViewProductAddRequestDto.getProductThumbnailUrl());
     }
 
     @Override

@@ -16,7 +16,7 @@ public class RecentlyViewProductResponseDto {
         this.productCode = productCode;
     }
 
-    public static RecentlyViewProductResponseDto of(Long productCode) {
+    public static RecentlyViewProductResponseDto from(Long productCode) {
         return RecentlyViewProductResponseDto.builder()
                 .productCode(productCode)
                 .build();

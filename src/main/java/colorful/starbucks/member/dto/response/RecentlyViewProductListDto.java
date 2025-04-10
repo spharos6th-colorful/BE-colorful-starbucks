@@ -25,7 +25,7 @@ public class RecentlyViewProductListDto {
         return RecentlyViewProductListDto.builder()
                 .viewedAt(viewedAt)
                 .recentlyViewProducts(productCodes.stream()
-                        .map(RecentlyViewProductResponseDto::of)
+                        .map(RecentlyViewProductResponseDto::from)
                         .toList())
                 .build();
     }

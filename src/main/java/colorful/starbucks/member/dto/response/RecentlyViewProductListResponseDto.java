@@ -18,7 +18,7 @@ public class RecentlyViewProductListResponseDto {
         this.productCodesPerDate = productCodesPerDate;
     }
 
-    public static RecentlyViewProductListResponseDto of(List<RecentlyViewProductListDto> productCodesPerDate) {
+    public static RecentlyViewProductListResponseDto from(List<RecentlyViewProductListDto> productCodesPerDate) {
         return RecentlyViewProductListResponseDto.builder()
                 .productCodesPerDate(productCodesPerDate)
                 .build();
