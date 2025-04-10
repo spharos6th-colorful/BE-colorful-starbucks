@@ -27,10 +27,14 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Transactional
     @Override
     public void addAddress(DeliveryAddRequestDto deliveryAddRequestDto) {
-        Optional<DeliveryAddress> deliveryAddress =
-                deliveryRepository.findByMemberUuid((deliveryAddRequestDto.getMemberUuid()));
-        boolean isDefaultAddress = deliveryAddress.isPresent() ? false : true;
-        deliveryRepository.save(deliveryAddRequestDto.toEntity(deliveryAddRequestDto.getMemberUuid(), isDefaultAddress, MemberAddressUuidGenerator.generate()));
+
+        deliveryRepository.save(
+                deliveryAddRequestDto.toEntity(
+                        deliveryAddRequestDto.getMemberUuid(),
+                        !deliveryRepository.existsByMemberUuid(deliveryAddRequestDto.getMemberUuid()),
+                        MemberAddressUuidGenerator.generate()
+                )
+        );
     }
 
 
@@ -38,7 +42,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
 
-        if (deliveryAddressEditRequestDto.isDefaultAddress()) {
+        if (deliveryAddressEditRequestDto.getDefaultAddress()) {
             changeDefaultAddressToFalse(deliveryAddressEditRequestDto.getMemberUuid());
         }
         deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
@@ -47,21 +51,8 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Transactional
     @Override
-    public void editDefaultAddress(DeliveryDefaultAddressRequestDto deliveryDefaultAddressRequestDto) {
-
-        changeDefaultAddressToFalse(deliveryDefaultAddressRequestDto.getMemberUuid());
-
-        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryDefaultAddressRequestDto.getMemberUuid(),
-                deliveryDefaultAddressRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-        deliveryAddress.updateIsDefaultAddress(true);
-    }
-
-    public void changeDefaultAddressToFalse(String memberUuid) {
-
-        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(memberUuid, true)
-                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-        deliveryAddress.updateIsDefaultAddress(false);
-
+    public void editDefaultAddress(List<DeliveryDefaultAddressRequestDto> deliveryDefaultAddressRequestDtos) {
+        deliveryDefaultAddressRequestDtos.forEach(this::updateDefaultAddress);
     }
 
 
@@ -99,6 +90,28 @@ public class DeliveryServiceImpl implements DeliveryService {
         deliveryRepository.deleteByMemberUuidAndMemberAddressUuid(deliveryDeleteRequestDto.getMemberUuid(),
                 deliveryDeleteRequestDto.getMemberAddressUuid());
     }
+
+    @Transactional
+    @Override
+    public void deleteAllAddresses(String memberUuid) {
+        deliveryRepository.deleteAllByMemberUuid(memberUuid);
+    }
+
+    private void updateDefaultAddress(DeliveryDefaultAddressRequestDto deliveryDefaultAddressRequestDto) {
+
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndMemberAddressUuid(deliveryDefaultAddressRequestDto.getMemberUuid(),
+                deliveryDefaultAddressRequestDto.getMemberAddressUuid()).orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        deliveryAddress.updateIsDefaultAddress(deliveryDefaultAddressRequestDto.getDefaultAddress());
+    }
+
+    public void changeDefaultAddressToFalse(String memberUuid) {
+
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberUuidAndIsDefaultAddress(memberUuid, true)
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        deliveryAddress.updateIsDefaultAddress(false);
+
+    }
+
 
 }
 

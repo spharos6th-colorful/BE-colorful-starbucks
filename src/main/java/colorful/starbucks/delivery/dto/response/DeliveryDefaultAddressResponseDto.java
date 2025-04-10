@@ -10,7 +10,7 @@ public class DeliveryDefaultAddressResponseDto {
 
     private String addressNickname;
     private String receiverName;
-    private boolean isDefaultAddress;
+    private Boolean isDefaultAddress;
     private String zoneCode;
     private String address;
     private String detailAddress;
@@ -19,7 +19,7 @@ public class DeliveryDefaultAddressResponseDto {
     @Builder
     private DeliveryDefaultAddressResponseDto(String addressNickname,
                                               String receiverName,
-                                              boolean isDefaultAddress,
+                                              Boolean isDefaultAddress,
                                               String zoneCode,
                                               String address,
                                               String detailAddress,

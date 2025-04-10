@@ -2,8 +2,10 @@ package colorful.starbucks.delivery.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class DeliveryAddressRequestDto {
     private String memberUuid;
     private String memberAddressUuid;

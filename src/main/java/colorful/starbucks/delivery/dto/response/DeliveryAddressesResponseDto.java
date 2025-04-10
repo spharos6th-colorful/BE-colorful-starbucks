@@ -4,8 +4,10 @@ import colorful.starbucks.delivery.domain.DeliveryAddress;
 import colorful.starbucks.delivery.vo.response.DeliveryAddressesResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class DeliveryAddressesResponseDto {
     private String memberAddressUuid;
     private String addressNickname;
@@ -14,7 +16,7 @@ public class DeliveryAddressesResponseDto {
     private String detailAddress;
     private String phoneNumber;
     private String zoneCode;
-    private boolean isDefaultAddress;
+    private Boolean isDefaultAddress;
 
     @Builder
     private DeliveryAddressesResponseDto(String memberAddressUuid,
@@ -24,7 +26,7 @@ public class DeliveryAddressesResponseDto {
                                          String detailAddress,
                                          String phoneNumber,
                                          String zoneCode,
-                                         boolean isDefaultAddress) {
+                                         Boolean isDefaultAddress) {
         this.memberAddressUuid = memberAddressUuid;
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;
