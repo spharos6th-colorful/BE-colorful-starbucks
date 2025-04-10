@@ -8,6 +8,7 @@ import colorful.starbucks.product.domain.Product;
 import colorful.starbucks.product.dto.ProductFilterDto;
 import colorful.starbucks.product.dto.request.ProductCreateRequestDto;
 import colorful.starbucks.product.dto.response.ProductResponseDto;
+import colorful.starbucks.product.dto.response.ProductSimpleResponseDto;
 import colorful.starbucks.product.generator.ProductCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -71,6 +72,14 @@ public class ProductServiceImpl implements ProductService {
         return ProductResponseDto.from(
                 productRepository.findByProductCodeAndIsDeletedIsFalse(productCode).
                         orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
+        );
+    }
+
+    @Override
+    public ProductSimpleResponseDto getProductSimpleInformation(Long productCode) {
+        return ProductSimpleResponseDto.from(
+                productRepository.findByProductCodeAndIsDeletedIsFalse(productCode)
+                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }
 }
