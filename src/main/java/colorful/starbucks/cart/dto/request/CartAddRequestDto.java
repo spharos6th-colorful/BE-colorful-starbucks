@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 public class CartAddRequestDto {
 
     private String memberUuid;
-    private String productDetailCode;
+    private Long productDetailCode;
     private String carvingContent;
     private Long productCode;
     private Integer quantity;
 
     @Builder
     private CartAddRequestDto(String memberUuid,
-                              String productDetailCode,
+                              Long productDetailCode,
                               String carvingContent,
                               Long productCode,
                               Integer quantity) {

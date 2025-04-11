@@ -7,6 +7,7 @@ import lombok.Getter;
 public class OrderCreateDetailRequestVo {
 
     private Long productCode;
+    private Long productDetailCode;
     private String productName;
     private String size;
     private String color;
@@ -16,6 +17,7 @@ public class OrderCreateDetailRequestVo {
 
     @Builder
     private OrderCreateDetailRequestVo(Long productCode,
+                                       Long productDetailCode,
                                        String productName,
                                        String size,
                                        String color,
@@ -23,6 +25,7 @@ public class OrderCreateDetailRequestVo {
                                        int price,
                                        Boolean carving) {
         this.productCode = productCode;
+        this.productDetailCode = productDetailCode;
         this.productName = productName;
         this.size = size;
         this.color = color;

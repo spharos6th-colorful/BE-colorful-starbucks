@@ -51,7 +51,7 @@ public class ProductDetailCreateRequestDto {
                 .build();
     }
 
-    public ProductDetail toEntity(String productDetailCode,
+    public ProductDetail toEntity(Long productDetailCode,
                                   String productDetailThumbnailUrl) {
         return ProductDetail.builder()
                 .productDetailCode(productDetailCode)

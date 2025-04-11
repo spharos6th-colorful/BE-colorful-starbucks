@@ -6,7 +6,7 @@ import lombok.Getter;
 public class CartOptionEditRequestVo {
 
     private Long productCode;
-    private String productDetailCode;
+    private Long productDetailCode;
     private Integer quantity;
 
 }

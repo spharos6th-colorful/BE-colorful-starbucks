@@ -10,6 +10,7 @@ import lombok.Getter;
 public class OrderDetailCreateRequestDto {
 
     private Long productCode;
+    private Long productDetailCode;
     private String productName;
     private String size;
     private String color;
@@ -19,6 +20,7 @@ public class OrderDetailCreateRequestDto {
 
     @Builder
     private OrderDetailCreateRequestDto(Long productCode,
+                                        Long productDetailCode,
                                         String productName,
                                         String size,
                                         String color,
@@ -26,6 +28,7 @@ public class OrderDetailCreateRequestDto {
                                         int price,
                                         Boolean carving) {
         this.productCode = productCode;
+        this.productDetailCode = productDetailCode;
         this.productName = productName;
         this.size = size;
         this.color = color;
@@ -38,6 +41,7 @@ public class OrderDetailCreateRequestDto {
         return OrderDetail.builder()
                 .order(order)
                 .productCode(productCode)
+                .productDetailCode(productDetailCode)
                 .productName(productName)
                 .size(size)
                 .color(color)
@@ -45,13 +49,13 @@ public class OrderDetailCreateRequestDto {
                 .price(price)
                 .carving(carving)
                 .categoryName("")
-                .productDetailCode("")
                 .build();
     }
 
     public static OrderDetailCreateRequestDto of(OrderCreateDetailRequestVo orderCreateDetailRequestVo) {
         return OrderDetailCreateRequestDto.builder()
                 .productCode(orderCreateDetailRequestVo.getProductCode())
+                .productDetailCode(orderCreateDetailRequestVo.getProductDetailCode())
                 .productName(orderCreateDetailRequestVo.getProductName())
                 .size(orderCreateDetailRequestVo.getSize())
                 .color(orderCreateDetailRequestVo.getColor())

@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDetailCodeAndQuantityResponseVo {
 
-    private String productDetailCode;
+    private Long productDetailCode;
     private Integer inventoryQuantity;
 
     @Builder
-    private ProductDetailCodeAndQuantityResponseVo(String productDetailCode, Integer inventoryQuantity) {
+    private ProductDetailCodeAndQuantityResponseVo(Long productDetailCode, Integer inventoryQuantity) {
         this.productDetailCode = productDetailCode;
         this.inventoryQuantity = inventoryQuantity;
     }

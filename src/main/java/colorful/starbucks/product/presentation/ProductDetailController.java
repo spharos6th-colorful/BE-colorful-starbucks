@@ -32,7 +32,7 @@ public class ProductDetailController {
     }
 
     @GetMapping("/{productDetailCode}")
-    public ApiResponse<ProductDetailResponseVo> getProductDetail(@PathVariable String productDetailCode) {
+    public ApiResponse<ProductDetailResponseVo> getProductDetail(@PathVariable Long productDetailCode) {
         return ApiResponse.ok("상세 상품이 조회되었습니다.",
                 productDetailService.getProductDetail(productDetailCode).toVo()
         );
