@@ -17,7 +17,7 @@ public class RecentlySearchAddRequestDto {
         this.search = search;
     }
 
-    public static RecentlySearchAddRequestDto from(String memberUuid, String search){
+    public static RecentlySearchAddRequestDto of(String memberUuid, String search){
         return RecentlySearchAddRequestDto.builder()
                 .memberUuid(memberUuid)
                 .search(search)
