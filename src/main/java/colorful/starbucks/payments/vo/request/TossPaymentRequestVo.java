@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TossPaymentRequestVo {
     private String paymentKey;
-    private String orderCode;
-    private Integer amount;
+    private String orderId;
+    private int amount;
 
     @Builder
     private TossPaymentRequestVo(String paymentKey,
-                                  String orderCode,
-                                  Integer amount) {
+                                  String orderId,
+                                 int amount) {
         this.paymentKey = paymentKey;
-        this.orderCode = orderCode;
+        this.orderId = orderId;
         this.amount = amount;
     }
 }

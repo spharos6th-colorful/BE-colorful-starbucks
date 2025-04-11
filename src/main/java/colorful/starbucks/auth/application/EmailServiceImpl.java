@@ -63,7 +63,7 @@ public class EmailServiceImpl implements EmailService {
             );
             mailSender.send(message);
         } catch (MessagingException e) {
-            throw new IllegalStateException("메일 전송 실패", e);
+            throw new BaseException(ResponseStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -91,7 +91,7 @@ public class EmailServiceImpl implements EmailService {
 
             mailSender.send(message);
         } catch (MessagingException e) {
-            throw new IllegalStateException("메일 전송 실패", e);
+            throw new BaseException(ResponseStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

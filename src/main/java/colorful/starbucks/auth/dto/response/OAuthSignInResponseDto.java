@@ -32,7 +32,7 @@ public class OAuthSignInResponseDto {
         return OAutSignInResponseVo.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .signType(signType.name())
+                .signType(signType)
                 .build();
     }
 }

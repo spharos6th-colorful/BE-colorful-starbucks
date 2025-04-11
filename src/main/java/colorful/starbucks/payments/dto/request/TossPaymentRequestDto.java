@@ -8,23 +8,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TossPaymentRequestDto {
     private String paymentKey;
-    private String orderCode;
-    private Integer amount;
+    private String orderId;
+    private int amount;
 
     @Builder
     private TossPaymentRequestDto(String paymentKey,
-                                  String orderCode,
-                                  Integer amount) {
+                                  String orderId,
+                                  int amount) {
         this.paymentKey = paymentKey;
-        this.orderCode = orderCode;
+        this.orderId = orderId;
         this.amount = amount;
     }
     public static TossPaymentRequestDto from(String paymentKey,
-                                             String orderCode,
-                                             Integer amount) {
+                                             String orderId,
+                                             int amount) {
         return TossPaymentRequestDto.builder()
                 .paymentKey(paymentKey)
-                .orderCode(orderCode)
+                .orderId(orderId)
                 .amount(amount)
                 .build();
 }
