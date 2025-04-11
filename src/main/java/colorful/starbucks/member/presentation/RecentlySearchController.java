@@ -3,6 +3,7 @@ package colorful.starbucks.member.presentation;
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.member.application.RecentlySearchService;
 import colorful.starbucks.member.dto.request.RecentlySearchAddRequestDto;
+import colorful.starbucks.member.dto.request.RecentlySearchDeleteRequestDto;
 import colorful.starbucks.member.dto.response.RecentlySearchListResponseDto;
 import colorful.starbucks.member.vo.response.RecentlySearchListResponseVo;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,15 @@ public class RecentlySearchController {
                 RecentlySearchListResponseDto.from(
                         recentlySearchService.getRecentlySearch(authentication.getName())
                 ).toVo());
+    }
+
+    @DeleteMapping
+    public ApiResponse<Void> deleteRecentlySearch(Authentication authentication,
+                                                    @RequestParam String keyword){
+        recentlySearchService.deleteRecentlySearch(RecentlySearchDeleteRequestDto.of(authentication.getName(), keyword));
+
+        return ApiResponse.ok("최근 검색어 삭제가 완료 되었습니다.",
+                null);
     }
 
 }

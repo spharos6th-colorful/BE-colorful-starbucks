@@ -1,6 +1,7 @@
 package colorful.starbucks.member.application;
 
 import colorful.starbucks.member.dto.request.RecentlySearchAddRequestDto;
+import colorful.starbucks.member.dto.request.RecentlySearchDeleteRequestDto;
 import colorful.starbucks.member.dto.response.RecentlySearchListDto;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -49,6 +50,13 @@ public class RecentlySearchServiceImpl implements RecentlySearchService {
                     return RecentlySearchListDto.of(searchAt, keyword);
                 })
                 .toList();
+    }
+
+    @Override
+    public void deleteRecentlySearch(RecentlySearchDeleteRequestDto recentlySearchDeleteRequestDto) {
+        zSetOperations.remove(KEY_SUFFIX +recentlySearchDeleteRequestDto.getMemberUuid(),
+                recentlySearchDeleteRequestDto.getKeyword());
+
     }
 
 }
