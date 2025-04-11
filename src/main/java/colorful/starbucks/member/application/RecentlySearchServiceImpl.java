@@ -30,36 +30,27 @@ public class RecentlySearchServiceImpl implements RecentlySearchService {
 
     @Override
     public void addRecentlySearch(RecentlySearchAddRequestDto recentlySearchAddRequestDto) {
-        zSetOperations.add(KEY_SUFFIX+ recentlySearchAddRequestDto.getMemberUuid(),
-                            recentlySearchAddRequestDto.getSearch(),
-                            System.currentTimeMillis());
+        zSetOperations.add(KEY_SUFFIX + recentlySearchAddRequestDto.getMemberUuid(),
+                recentlySearchAddRequestDto.getSearch(),
+                System.currentTimeMillis());
     }
 
     @Override
     public List<RecentlySearchListDto> getRecentlySearch(String memberUuid) {
-        Map<LocalDateTime, String> recentlySearchMap = getRecentlySearchOrderByCreatedAtDesc(memberUuid);
-        return recentlySearchMap.entrySet().stream()
-                .map(entry-> RecentlySearchListDto.of(entry.getKey(), entry.getValue()))
+
+        Set<ZSetOperations.TypedTuple<Object>> typedTuples =
+                zSetOperations.reverseRangeWithScores(KEY_SUFFIX + memberUuid, ZSET_START_INDEX, ZSET_END_INDEX + 10);
+
+        return typedTuples.stream()
+                .map(tuple -> {
+                    String search = tuple.getValue().toString();
+                    long timestamp = tuple.getScore().longValue();
+                    LocalDateTime searchAt = Instant.ofEpochMilli(timestamp)
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDateTime();
+                    return RecentlySearchListDto.of(searchAt, search);
+                })
                 .toList();
     }
 
-    private Map<LocalDateTime, String> getRecentlySearchOrderByCreatedAtDesc(String memberUuid) {
-        Set<ZSetOperations.TypedTuple<Object>> typedTuples =
-                zSetOperations.reverseRangeWithScores(KEY_SUFFIX + memberUuid, ZSET_START_INDEX, ZSET_END_INDEX);
-
-        Map<LocalDateTime, String> recentlySearchMap = new HashMap<>();
-        for (ZSetOperations.TypedTuple<Object> typedTuple : typedTuples) {
-
-            String search = typedTuple.getValue().toString();
-            long timestamp = typedTuple.getScore().longValue();
-
-            LocalDateTime searchAt = Instant.ofEpochMilli(timestamp)
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDateTime();
-
-            recentlySearchMap.put(searchAt, search);
-        }
-
-        return recentlySearchMap;
-    }
 }
