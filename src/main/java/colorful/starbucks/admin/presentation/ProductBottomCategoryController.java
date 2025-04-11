@@ -24,10 +24,9 @@ public class ProductBottomCategoryController {
     }
 
     @GetMapping
-    public ApiResponse<ProductBottomCategoryVos> getBottomCategories(@RequestParam Long topCategoryId,
-                                                                     @PageableDefault(size = 3) Pageable pageable) {
+    public ApiResponse<ProductBottomCategoryVos> getBottomCategories(@RequestParam Long topCategoryId) {
 
         return ApiResponse.ok("하위 카테고리 조회를 완료했습니다.",
-                productBottomCategoryService.getBottomCategories(topCategoryId, pageable).toVo());
+                productBottomCategoryService.getBottomCategories(topCategoryId).toVo());
     }
 }

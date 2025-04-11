@@ -10,16 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductBottomCategoryVos {
 
-    private List<ProductBottomCategoryVo> content;
-    private Long totalElements;
-    private Integer totalPages;
+    private List<ProductBottomCategoryVo> categories;
 
     @Builder
-    private ProductBottomCategoryVos(List<ProductBottomCategoryVo> content,
-                                     Long totalElements,
-                                     Integer totalPages) {
-        this.content = content;
-        this.totalElements = totalElements;
-        this.totalPages = totalPages;
+    private ProductBottomCategoryVos(List<ProductBottomCategoryVo> categories) {
+        this.categories = categories;
     }
 }
