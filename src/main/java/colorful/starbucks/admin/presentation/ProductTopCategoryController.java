@@ -24,11 +24,11 @@ public class ProductTopCategoryController {
     }
 
     @GetMapping
-    public ApiResponse<ProductTopCategoryVos> getTopCategories(@PageableDefault(size = 3) Pageable pageable) {
+    public ApiResponse<ProductTopCategoryVos> getTopCategories() {
 
         return ApiResponse.ok(
                 "최상위 카테고리 조회를 완료했습니다.",
-                productTopCategoryService.getTopCategories(pageable).toVo()
+                productTopCategoryService.getTopCategories().toVo()
         );
     }
 }

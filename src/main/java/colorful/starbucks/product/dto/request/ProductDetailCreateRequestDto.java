@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDetailCreateRequestDto {
 
-    private String productCode;
+    private Long productCode;
     private Long sizeId;
     private String sizeName;
     private Long colorId;
@@ -20,7 +20,7 @@ public class ProductDetailCreateRequestDto {
     private Integer discountPrice;
 
     @Builder
-    private ProductDetailCreateRequestDto(String productCode,
+    private ProductDetailCreateRequestDto(Long productCode,
                                           Long sizeId,
                                           String sizeName,
                                           Long colorId,

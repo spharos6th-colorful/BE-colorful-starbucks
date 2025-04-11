@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 public class InterestProductAddRequestDto {
 
     private String memberUuid;
-    private String productCode;
+    private Long productCode;
     private String productName;
     private Integer price;
     private String productThumbnailUrl;
 
     @Builder
     private InterestProductAddRequestDto(String memberUuid,
-                                         String productCode,
+                                         Long productCode,
                                          String productName,
                                          Integer price,
                                          String productThumbnailUrl) {

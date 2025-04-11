@@ -36,10 +36,9 @@ public class ProductBottomCategoryServiceImpl implements ProductBottomCategorySe
     }
 
     @Override
-    public ProductBottomCategoryDtos getBottomCategories(Long topCategoryId, Pageable pageable) {
+    public ProductBottomCategoryDtos getBottomCategories(Long topCategoryId) {
         return ProductBottomCategoryDtos.from(
-                productBottomCategoryRepository.findAllByProductTopCategoryId(topCategoryId, pageable)
-                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
+                productBottomCategoryRepository.findAllByProductTopCategoryId(topCategoryId)
         );
     }
 }

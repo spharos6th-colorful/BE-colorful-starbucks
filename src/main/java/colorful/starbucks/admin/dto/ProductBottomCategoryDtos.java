@@ -5,7 +5,6 @@ import colorful.starbucks.admin.vo.ProductBottomCategoryVos;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,41 +12,31 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductBottomCategoryDtos {
 
-    private List<ProductBottomCategoryDto> content;
-    private Long totalElements;
-    private Integer totalPages;
+    private List<ProductBottomCategoryDto> categories;
 
     @Builder
-    private ProductBottomCategoryDtos(List<ProductBottomCategoryDto> content,
-                                      Long totalElements,
-                                      Integer totalPages) {
-        this.content = content;
-        this.totalElements = totalElements;
-        this.totalPages = totalPages;
+    private ProductBottomCategoryDtos(List<ProductBottomCategoryDto> categories) {
+        this.categories = categories;
     }
 
-    public static ProductBottomCategoryDtos from(Page<ProductBottomCategory> productBottomCategoryPage) {
+    public static ProductBottomCategoryDtos from(List<ProductBottomCategory> productBottomCategoryPage) {
 
         return ProductBottomCategoryDtos.builder()
-                .content(
+                .categories(
                         productBottomCategoryPage.stream()
                                 .map(ProductBottomCategoryDto::from)
                                 .toList()
                 )
-                .totalElements(productBottomCategoryPage.getTotalElements())
-                .totalPages(productBottomCategoryPage.getTotalPages())
                 .build();
     }
 
     public ProductBottomCategoryVos toVo() {
         return ProductBottomCategoryVos.builder()
-                .content(
-                        content.stream()
+                .categories(
+                        categories.stream()
                                 .map(ProductBottomCategoryDto::toVo)
                                 .toList()
                 )
-                .totalElements(totalElements)
-                .totalPages(totalPages)
                 .build();
     }
 }

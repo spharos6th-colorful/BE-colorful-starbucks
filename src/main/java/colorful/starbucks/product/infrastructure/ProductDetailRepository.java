@@ -8,10 +8,10 @@ import java.util.Optional;
 
 public interface ProductDetailRepository extends JpaRepository<ProductDetail, Long>, ProductDetailRepositoryCustom {
 
-    List<ProductDetail> findAllByProductCodeAndIsDeletedIsFalse(String productCode);
+    List<ProductDetail> findAllByProductCodeAndIsDeletedIsFalse(Long productCode);
 
     boolean existsByProductCodeAndSizeIdAndColorIdAndIsDeletedIsFalse(
-            String productCode, Long sizeId, Long colorId
+            Long productCode, Long sizeId, Long colorId
     );
 
     Optional<ProductDetail> findByProductDetailCodeAndIsDeletedIsFalse(Long productDetailCode);

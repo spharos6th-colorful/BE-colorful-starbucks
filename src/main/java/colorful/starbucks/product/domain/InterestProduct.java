@@ -26,7 +26,7 @@ public class InterestProduct extends BaseEntity {
 
     @Comment("상품 코드")
     @Column(nullable = false)
-    private String productCode;
+    private Long productCode;
 
     @Comment("상품 이름")
     @Column(nullable = false)
@@ -43,7 +43,7 @@ public class InterestProduct extends BaseEntity {
     @Builder
     private InterestProduct(Long id,
                             String memberUuid,
-                            String productCode,
+                            Long productCode,
                             String productName,
                             int price,
                             String productThumbnailUrl) {

@@ -24,6 +24,7 @@ public class ProductOptionListResponseDto {
 
     public static ProductOptionListResponseDto from(List<ProductDetail> productDetails) {
         List<SizeDto> uniqueSizes = productDetails.stream()
+                .filter(p -> p.getSizeId() != null && p.getSizeName() != null)
                 .map(p -> SizeDto.builder()
                         .sizeId(p.getSizeId())
                         .sizeName(p.getSizeName())
@@ -32,6 +33,7 @@ public class ProductOptionListResponseDto {
                 .toList();
 
         List<ColorDto> uniqueColors = productDetails.stream()
+                .filter(p -> p.getColorId() != null && p.getColorName() != null)
                 .map(p -> ColorDto.builder()
                         .colorId(p.getColorId())
                         .colorName(p.getColorName())

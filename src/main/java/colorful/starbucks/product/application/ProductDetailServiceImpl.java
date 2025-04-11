@@ -61,7 +61,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     }
 
     @Override
-    public ProductOptionListResponseDto getProductOptionList(String productCode) {
+    public ProductOptionListResponseDto getProductOptionList(Long productCode) {
         List<ProductDetail> productDetails = productDetailRepository.findAllByProductCodeAndIsDeletedIsFalse(productCode);
         return ProductOptionListResponseDto.from(productDetails);
     }

@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 public class InterestProductVo {
 
     private Long interestProductId;
-    private String productCode;
+    private Long productCode;
     private String productName;
     private Integer price;
     private String productThumbnailUrl;
 
     @Builder
     private InterestProductVo(Long interestProductId,
-                              String productCode,
+                              Long productCode,
                               String productName,
                               Integer price,
                               String productThumbnailUrl) {

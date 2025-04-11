@@ -8,5 +8,5 @@ public interface ProductTopCategoryService {
 
     void createTopCategory(ProductTopCategoryCreateRequestDto productTopCategoryCreateRequestDto);
 
-    ProductTopCategoryDtos getTopCategories(Pageable pageable);
+    ProductTopCategoryDtos getTopCategories();
 }

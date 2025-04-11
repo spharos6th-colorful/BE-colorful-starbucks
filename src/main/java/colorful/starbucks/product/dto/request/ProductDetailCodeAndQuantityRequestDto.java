@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDetailCodeAndQuantityRequestDto {
 
-    private String productCode;
+    private Long productCode;
     private Long sizeId;
     private Long colorId;
 
     @Builder
-    private ProductDetailCodeAndQuantityRequestDto(String productCode, Long sizeId, Long colorId) {
+    private ProductDetailCodeAndQuantityRequestDto(Long productCode, Long sizeId, Long colorId) {
         this.productCode = productCode;
         this.sizeId = sizeId;
         this.colorId = colorId;

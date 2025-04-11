@@ -49,7 +49,7 @@ public class ProductDetailController {
     }
 
     @GetMapping("/options")
-    public ApiResponse<ProductOptionListResponseVo> getProductOptionList(@RequestParam String productCode) {
+    public ApiResponse<ProductOptionListResponseVo> getProductOptionList(@RequestParam Long productCode) {
         return ApiResponse.ok("상세 상품 옵션이 조회되었습니다.",
                 productDetailService.getProductOptionList(productCode).toVo()
         );
