@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class DeliveryAddressesResponseVo {
+public class DeliveryAddressesVo {
 
     private String memberAddressUuid;
     private String addressNickname;
@@ -18,14 +18,14 @@ public class DeliveryAddressesResponseVo {
     private Boolean isDefaultAddress;
 
     @Builder
-    private DeliveryAddressesResponseVo(String memberAddressUuid,
-                                       String addressNickname,
-                                       String receiverName,
-                                       String address,
-                                       String detailAddress,
-                                       String phoneNumber,
-                                       String zoneCode,
-                                       Boolean isDefaultAddress) {
+    private DeliveryAddressesVo(String memberAddressUuid,
+                                String addressNickname,
+                                String receiverName,
+                                String address,
+                                String detailAddress,
+                                String phoneNumber,
+                                String zoneCode,
+                                Boolean isDefaultAddress) {
         this.memberAddressUuid = memberAddressUuid;
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;

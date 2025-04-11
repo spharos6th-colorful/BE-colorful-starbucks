@@ -1,14 +1,14 @@
 package colorful.starbucks.delivery.dto.response;
 
 import colorful.starbucks.delivery.domain.DeliveryAddress;
-import colorful.starbucks.delivery.vo.response.DeliveryAddressesResponseVo;
+import colorful.starbucks.delivery.vo.response.DeliveryAddressesVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class DeliveryAddressesResponseDto {
+public class DeliveryAddressesDto {
     private String memberAddressUuid;
     private String addressNickname;
     private String receiverName;
@@ -19,14 +19,14 @@ public class DeliveryAddressesResponseDto {
     private Boolean isDefaultAddress;
 
     @Builder
-    private DeliveryAddressesResponseDto(String memberAddressUuid,
-                                         String addressNickname,
-                                         String receiverName,
-                                         String address,
-                                         String detailAddress,
-                                         String phoneNumber,
-                                         String zoneCode,
-                                         Boolean isDefaultAddress) {
+    private DeliveryAddressesDto(String memberAddressUuid,
+                                 String addressNickname,
+                                 String receiverName,
+                                 String address,
+                                 String detailAddress,
+                                 String phoneNumber,
+                                 String zoneCode,
+                                 Boolean isDefaultAddress) {
         this.memberAddressUuid = memberAddressUuid;
         this.addressNickname = addressNickname;
         this.receiverName = receiverName;
@@ -37,8 +37,8 @@ public class DeliveryAddressesResponseDto {
         this.isDefaultAddress = isDefaultAddress;
     }
 
-    public DeliveryAddressesResponseVo toVo() {
-        return DeliveryAddressesResponseVo.builder()
+    public DeliveryAddressesVo toVo() {
+        return DeliveryAddressesVo.builder()
                 .memberAddressUuid(memberAddressUuid)
                 .addressNickname(addressNickname)
                 .receiverName(receiverName)
@@ -50,8 +50,8 @@ public class DeliveryAddressesResponseDto {
                 .build();
     }
 
-    public static DeliveryAddressesResponseDto from(DeliveryAddress deliveryAddress) {
-        return DeliveryAddressesResponseDto.builder()
+    public static DeliveryAddressesDto from(DeliveryAddress deliveryAddress) {
+        return DeliveryAddressesDto.builder()
                 .memberAddressUuid(deliveryAddress.getMemberUuid())
                 .addressNickname(deliveryAddress.getAddressNickname())
                 .receiverName(deliveryAddress.getReceiverName())
