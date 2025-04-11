@@ -7,6 +7,7 @@ import colorful.starbucks.member.dto.request.RecentlySearchDeleteRequestDto;
 import colorful.starbucks.member.dto.response.RecentlySearchListResponseDto;
 import colorful.starbucks.member.vo.response.RecentlySearchListResponseVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,12 +35,23 @@ public class RecentlySearchController {
                 ).toVo());
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{keyword}")
     public ApiResponse<Void> deleteRecentlySearch(Authentication authentication,
-                                                    @RequestParam String keyword){
-        recentlySearchService.deleteRecentlySearch(RecentlySearchDeleteRequestDto.of(authentication.getName(), keyword));
+                                                    @PathVariable String keyword){
 
+
+        recentlySearchService.deleteRecentlySearch(RecentlySearchDeleteRequestDto.of(authentication.getName(), keyword));
         return ApiResponse.ok("최근 검색어 삭제가 완료 되었습니다.",
+                null);
+    }
+
+    @DeleteMapping
+    public ApiResponse<Void> deleteAllRecentlySearch(Authentication authentication){
+
+        recentlySearchService.deleteAllRecentlySearch(authentication.getName());
+        return ApiResponse.of(
+                HttpStatus.NO_CONTENT,
+                "최근 검색어 전체 삭제를 완료 했습니다.",
                 null);
     }
 

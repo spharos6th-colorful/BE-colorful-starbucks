@@ -11,4 +11,5 @@ public interface RecentlySearchService {
     void addRecentlySearch(RecentlySearchAddRequestDto recentlySearchAddRequestDto);
     List<RecentlySearchListDto> getRecentlySearch(String memberUuid);
     void deleteRecentlySearch(RecentlySearchDeleteRequestDto recentlySearchDeleteRequestDto);
+    void deleteAllRecentlySearch(String memberUuid);
 }

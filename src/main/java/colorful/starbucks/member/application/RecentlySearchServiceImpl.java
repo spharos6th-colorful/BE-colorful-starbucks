@@ -54,9 +54,14 @@ public class RecentlySearchServiceImpl implements RecentlySearchService {
 
     @Override
     public void deleteRecentlySearch(RecentlySearchDeleteRequestDto recentlySearchDeleteRequestDto) {
-        zSetOperations.remove(KEY_SUFFIX +recentlySearchDeleteRequestDto.getMemberUuid(),
+        zSetOperations.remove(KEY_SUFFIX + recentlySearchDeleteRequestDto.getMemberUuid(),
                 recentlySearchDeleteRequestDto.getKeyword());
 
+    }
+
+    @Override
+    public void deleteAllRecentlySearch(String memberUuid) {
+        redisTemplate.delete(KEY_SUFFIX + memberUuid);
     }
 
 }
