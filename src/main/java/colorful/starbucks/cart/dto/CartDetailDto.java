@@ -10,7 +10,7 @@ public class CartDetailDto {
     private Boolean checked;
     private Long productCode;
     private Integer quantity;
-    private String productDetailCode;
+    private Long productDetailCode;
     private String carvingContent;
 
     @Builder
@@ -18,7 +18,7 @@ public class CartDetailDto {
                          Boolean checked,
                          Long productCode,
                          Integer quantity,
-                         String productDetailCode,
+                         Long productDetailCode,
                          String carvingContent) {
         this.cartId = cartId;
         this.checked = checked;

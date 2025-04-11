@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 public class CartDetailResponseVo {
 
     private Boolean checked;
-    private String productDetailCode;
+    private Long productDetailCode;
     private Long productCode;
     private Integer quantity;
     private String carvingContent;
 
     @Builder
     private CartDetailResponseVo(Boolean checked,
-                                 String productDetailCode,
+                                 Long productDetailCode,
                                  Long productCode,
                                  Integer quantity,
                                  String carvingContent) {

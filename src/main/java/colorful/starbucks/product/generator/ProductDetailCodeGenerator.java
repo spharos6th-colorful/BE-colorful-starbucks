@@ -7,7 +7,7 @@ import java.util.UUID;
 @Component
 public class ProductDetailCodeGenerator {
 
-    public static String generate() {
-        return UUID.randomUUID().toString();
+    public static Long generate() {
+        return UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
     }
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class CartAddRequestVo {
-    private String productDetailCode;
+    private Long productDetailCode;
     private String carvingContent;
     private Long productCode;
     private Integer quantity;

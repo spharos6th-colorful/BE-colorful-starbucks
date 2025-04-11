@@ -35,7 +35,7 @@ public class Cart extends BaseEntity {
 
     @Column(nullable = false)
     @Comment("상품 상세 코드")
-    private String productDetailCode;
+    private Long productDetailCode;
 
     @Column(nullable = true)
     @Comment("각인 내용")
@@ -50,7 +50,7 @@ public class Cart extends BaseEntity {
                  String memberUuid,
                  boolean checked,
                  int quantity,
-                 String productDetailCode,
+                 Long productDetailCode,
                  String carvingContent,
                  Long productCode) {
         this.id = id;
@@ -62,7 +62,7 @@ public class Cart extends BaseEntity {
         this.productCode = productCode;
     }
 
-    public void updateProductOption(String productDetailCode, int quantity) {
+    public void updateProductOption(Long productDetailCode, int quantity) {
         this.productDetailCode = productDetailCode;
         this.quantity = quantity;
     }

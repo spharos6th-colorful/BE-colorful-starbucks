@@ -12,14 +12,14 @@ public class CartOptionEditRequestDto {
     private String memberUuid;
     private Long cartId;
     private Long productCode;
-    private String productDetailCode;
+    private Long productDetailCode;
     private Integer quantity;
 
     @Builder
     private CartOptionEditRequestDto(String memberUuid,
                                      Long cartId,
                                      Long productCode,
-                                     String productDetailCode,
+                                     Long productDetailCode,
                                      Integer quantity) {
         this.memberUuid = memberUuid;
         this.cartId = cartId;

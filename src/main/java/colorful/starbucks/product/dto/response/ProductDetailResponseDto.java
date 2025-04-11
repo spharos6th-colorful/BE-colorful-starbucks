@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDetailResponseDto {
 
-    private String productDetailCode;
+    private Long productDetailCode;
     private String productCode;
     private String sizeName;
     private String colorName;
@@ -20,7 +20,7 @@ public class ProductDetailResponseDto {
     private String productDetailThumbnailUrl;
 
     @Builder
-    private ProductDetailResponseDto(String productDetailCode,
+    private ProductDetailResponseDto(Long productDetailCode,
                                      String productCode,
                                      String sizeName,
                                      String colorName,

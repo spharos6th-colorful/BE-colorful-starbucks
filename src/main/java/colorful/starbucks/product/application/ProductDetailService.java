@@ -18,5 +18,5 @@ public interface ProductDetailService {
             ProductDetailCodeAndQuantityRequestDto productDetailCodeAndQuantityRequestDto
     );
 
-    ProductDetailResponseDto getProductDetail(String productDetailCode);
+    ProductDetailResponseDto getProductDetail(Long productDetailCode);
 }
