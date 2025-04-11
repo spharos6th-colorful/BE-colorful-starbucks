@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,11 +11,11 @@ import java.time.LocalDateTime;
 public class RecentlySearchListVo {
 
     private LocalDateTime searchAt;
-    private String recentlySearch;
+    private String keyword;
 
     @Builder
-    private RecentlySearchListVo(LocalDateTime searchAt, String recentlySearch) {
+    private RecentlySearchListVo(LocalDateTime searchAt, String keyword) {
         this.searchAt = searchAt;
-        this.recentlySearch = recentlySearch;
+        this.keyword = keyword;
     }
 }

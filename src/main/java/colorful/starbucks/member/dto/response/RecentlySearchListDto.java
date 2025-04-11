@@ -5,34 +5,32 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class RecentlySearchListDto {
 
     private LocalDateTime searchAt;
-    private String recentlySearch;
+    private String keyword;
 
     @Builder
-    private RecentlySearchListDto(LocalDateTime searchAt, String recentlySearch) {
+    private RecentlySearchListDto(LocalDateTime searchAt, String keyword) {
         this.searchAt = searchAt;
-        this.recentlySearch = recentlySearch;
+        this.keyword = keyword;
     }
 
-    public static RecentlySearchListDto of(LocalDateTime searchAt, String recentlySearch) {
+    public static RecentlySearchListDto of(LocalDateTime searchAt, String keyword) {
         return RecentlySearchListDto.builder()
                 .searchAt(searchAt)
-                .recentlySearch(recentlySearch)
+                .keyword(keyword)
                 .build();
     }
 
     public RecentlySearchListVo toVo(){
         return RecentlySearchListVo.builder()
                 .searchAt(searchAt)
-                .recentlySearch(recentlySearch)
+                .keyword(keyword)
                 .build();
     }
 }

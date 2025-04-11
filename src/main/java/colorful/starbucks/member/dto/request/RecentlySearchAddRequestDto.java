@@ -9,18 +9,18 @@ import lombok.NoArgsConstructor;
 public class RecentlySearchAddRequestDto {
 
     private String memberUuid;
-    private String search;
+    private String keyword;
 
     @Builder
-    private RecentlySearchAddRequestDto(String memberUuid, String search) {
+    private RecentlySearchAddRequestDto(String memberUuid, String keyword) {
         this.memberUuid = memberUuid;
-        this.search = search;
+        this.keyword = keyword;
     }
 
-    public static RecentlySearchAddRequestDto of(String memberUuid, String search){
+    public static RecentlySearchAddRequestDto of(String memberUuid, String keyword){
         return RecentlySearchAddRequestDto.builder()
                 .memberUuid(memberUuid)
-                .search(search)
+                .keyword(keyword)
                 .build();
     }
 

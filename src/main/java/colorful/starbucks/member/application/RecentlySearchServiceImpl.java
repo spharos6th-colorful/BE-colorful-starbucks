@@ -2,13 +2,11 @@ package colorful.starbucks.member.application;
 
 import colorful.starbucks.member.dto.request.RecentlySearchAddRequestDto;
 import colorful.starbucks.member.dto.response.RecentlySearchListDto;
-import colorful.starbucks.member.dto.response.RecentlySearchListResponseDto;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -31,7 +29,7 @@ public class RecentlySearchServiceImpl implements RecentlySearchService {
     @Override
     public void addRecentlySearch(RecentlySearchAddRequestDto recentlySearchAddRequestDto) {
         zSetOperations.add(KEY_SUFFIX + recentlySearchAddRequestDto.getMemberUuid(),
-                recentlySearchAddRequestDto.getSearch(),
+                recentlySearchAddRequestDto.getKeyword(),
                 System.currentTimeMillis());
     }
 
@@ -43,12 +41,12 @@ public class RecentlySearchServiceImpl implements RecentlySearchService {
 
         return typedTuples.stream()
                 .map(tuple -> {
-                    String search = tuple.getValue().toString();
+                    String keyword = tuple.getValue().toString();
                     long timestamp = tuple.getScore().longValue();
                     LocalDateTime searchAt = Instant.ofEpochMilli(timestamp)
                             .atZone(ZoneId.systemDefault())
                             .toLocalDateTime();
-                    return RecentlySearchListDto.of(searchAt, search);
+                    return RecentlySearchListDto.of(searchAt, keyword);
                 })
                 .toList();
     }
