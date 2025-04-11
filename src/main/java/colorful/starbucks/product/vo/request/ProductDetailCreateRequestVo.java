@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class ProductDetailCreateRequestVo {
 
-    private String productCode;
+    private Long productCode;
     private Long sizeId;
     private String sizeName;
     private Long colorId;

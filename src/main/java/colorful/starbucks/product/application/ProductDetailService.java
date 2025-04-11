@@ -12,7 +12,7 @@ public interface ProductDetailService {
     ProductDetailResponseDto createProductDetail(ProductDetailCreateRequestDto productDetailCreateRequestDto,
                                                  MultipartFile productDetailThumbnail);
 
-    ProductOptionListResponseDto getProductOptionList(String productCode);
+    ProductOptionListResponseDto getProductOptionList(Long productCode);
 
     ProductDetailCodeAndQuantityResponseDto getProductDetailWithOptions(
             ProductDetailCodeAndQuantityRequestDto productDetailCodeAndQuantityRequestDto

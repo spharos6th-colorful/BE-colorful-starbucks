@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class ProductDetailResponseVo {
 
     private Long productDetailCode;
-    private String productCode;
+    private Long productCode;
     private String sizeName;
     private String colorName;
     private Integer inventoryQuantity;
@@ -19,7 +19,7 @@ public class ProductDetailResponseVo {
 
     @Builder
     private ProductDetailResponseVo(Long productDetailCode,
-                                    String productCode,
+                                    Long productCode,
                                     String sizeName,
                                     String colorName,
                                     Integer inventoryQuantity,
