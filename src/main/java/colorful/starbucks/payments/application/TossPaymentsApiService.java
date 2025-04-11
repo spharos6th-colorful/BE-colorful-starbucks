@@ -16,7 +16,6 @@ import java.util.Base64;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Log4j2
 public class TossPaymentsApiService {
 
     @Value("${toss.secret-key}")
@@ -29,7 +28,7 @@ public class TossPaymentsApiService {
     public String approvePayment(String paymentKey, String orderId, int amount) {
 
         String encodedSecretKey = Base64.getEncoder().encodeToString((secretKey + ":").getBytes());
-        System.out.println("🔥 시크릿키 확인: " + secretKey);
+
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -56,7 +55,6 @@ public class TossPaymentsApiService {
             }
 
         } catch (Exception e) {
-            log.error("토스 결제 승인 중 예외 발생", e);
             throw new BaseException(ResponseStatus.PAYMENT_APPROVAL_FAILED, "토스 결제 승인 중 오류: " + e.getMessage());
 
         }
