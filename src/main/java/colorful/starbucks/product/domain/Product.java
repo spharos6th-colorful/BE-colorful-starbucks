@@ -30,15 +30,15 @@ public class Product extends BaseEntity {
     private int price;
 
     @Comment("상품 설명")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String description;
 
     @Lob
     @Comment("상품 이미지 URL")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String productImageUrl;
 
-
+    @Lob
     @Comment("상품 썸네일 URL")
     @Column(nullable = false)
     private String productThumbnailUrl;
