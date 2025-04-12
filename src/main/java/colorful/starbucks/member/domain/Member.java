@@ -82,8 +82,18 @@ public class Member extends BaseEntity  {
         this.password = password;
     }
 
-    public void editMypage(String phoneNumber, String nickName) {
-        this.phoneNumber = phoneNumber;
-        this.nickName = nickName;
+    public Member editMypage(String phoneNumber, String nickName) {
+        return Member.builder()
+                .id(id)
+                .email(email)
+                .memberUuid(memberUuid)
+                .memberName(memberName)
+                .password(password)
+                .memberLevel(memberLevel)
+                .memberBirth(memberBirth)
+                .gender(gender)
+                .phoneNumber(phoneNumber)
+                .nickName(nickName)
+                .build();
     }
 }

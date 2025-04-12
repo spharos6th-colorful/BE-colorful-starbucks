@@ -84,10 +84,10 @@ public class DeliveryAddress extends BaseEntity {
     }
     public DeliveryAddress editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
         return DeliveryAddress.builder()
-                .id(this.id)
+                .id(id)
                 .isDefaultAddress(deliveryAddressEditRequestDto.getDefaultAddress())
-                .memberUuid(deliveryAddressEditRequestDto.getMemberUuid())
-                .memberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
+                .memberUuid(memberUuid)
+                .memberAddressUuid(memberAddressUuid)
                 .addressNickname(deliveryAddressEditRequestDto.getAddressNickname())
                 .receiverName(deliveryAddressEditRequestDto.getReceiverName())
                 .zoneCode(deliveryAddressEditRequestDto.getZoneCode())
