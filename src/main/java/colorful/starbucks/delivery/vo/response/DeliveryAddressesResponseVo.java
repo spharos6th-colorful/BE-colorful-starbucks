@@ -4,35 +4,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 public class DeliveryAddressesResponseVo {
 
-    private String memberAddressUuid;
-    private String addressNickname;
-    private String receiverName;
-    private String address;
-    private String detailAddress;
-    private String phoneNumber;
-    private String zoneCode;
-    private Boolean isDefaultAddress;
+    private List<DeliveryAddressesVo> deliveries;
 
     @Builder
-    private DeliveryAddressesResponseVo(String memberAddressUuid,
-                                       String addressNickname,
-                                       String receiverName,
-                                       String address,
-                                       String detailAddress,
-                                       String phoneNumber,
-                                       String zoneCode,
-                                       Boolean isDefaultAddress) {
-        this.memberAddressUuid = memberAddressUuid;
-        this.addressNickname = addressNickname;
-        this.receiverName = receiverName;
-        this.address = address;
-        this.detailAddress = detailAddress;
-        this.phoneNumber = phoneNumber;
-        this.zoneCode = zoneCode;
-        this.isDefaultAddress = isDefaultAddress;
+    private DeliveryAddressesResponseVo(List<DeliveryAddressesVo> deliveries) {
+        this.deliveries = deliveries;
     }
 }
