@@ -3,8 +3,10 @@ package colorful.starbucks.member.dto.request;
 import colorful.starbucks.member.vo.request.MemberMyPageEditRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberMyPageEditRequestDto {
 
     private String phoneNumber;

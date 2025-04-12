@@ -10,7 +10,7 @@ public class ProductDetailCreateRequestVo {
     private String sizeName;
     private Long colorId;
     private String colorName;
-    private int inventoryQuantity;
-    private int price;
-    private int discountPrice;
+    private Integer inventoryQuantity;
+    private Integer price;
+    private Integer discountPrice;
 }

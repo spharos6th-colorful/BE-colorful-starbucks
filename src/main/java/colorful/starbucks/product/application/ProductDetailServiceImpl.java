@@ -53,7 +53,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     }
 
     @Override
-    public ProductDetailResponseDto getProductDetail(String productDetailCode) {
+    public ProductDetailResponseDto getProductDetail(Long productDetailCode) {
         return ProductDetailResponseDto.from(
                 productDetailRepository.findByProductDetailCodeAndIsDeletedIsFalse(productDetailCode)
                         .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))

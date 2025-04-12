@@ -4,18 +4,20 @@ import colorful.starbucks.cart.domain.Cart;
 import colorful.starbucks.cart.dto.CartDetailDto;
 import colorful.starbucks.cart.vo.response.CartListResponseVo;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+@NoArgsConstructor
 public class CartListResponseDto {
 
-    private int totalPages;
-    private long totalElements;
+    private Integer totalPages;
+    private Long totalElements;
     private List<CartDetailDto> productDetails;
 
     @Builder
-    public CartListResponseDto(int totalPages, long totalElements, List<CartDetailDto> productDetails) {
+    public CartListResponseDto(Integer totalPages, Long totalElements, List<CartDetailDto> productDetails) {
         this.totalPages = totalPages;
         this.totalElements = totalElements;
         this.productDetails = productDetails;

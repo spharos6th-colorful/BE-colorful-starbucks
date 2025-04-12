@@ -7,15 +7,16 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
+@Builder
 public class CartListResponseVo {
 
-    private int totalPages;
-    private long totalElements;
+    private Integer totalPages;
+    private Long totalElements;
     private List<CartDetailDto> productDetails;
 
     @Builder
-    public CartListResponseVo(int totalPages,
-                              long totalElements,
+    public CartListResponseVo(Integer totalPages,
+                              Long totalElements,
                               List<CartDetailDto> productDetails) {
         this.totalPages = totalPages;
         this.totalElements = totalElements;

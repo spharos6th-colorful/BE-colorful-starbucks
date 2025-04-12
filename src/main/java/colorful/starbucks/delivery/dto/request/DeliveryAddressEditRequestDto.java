@@ -3,15 +3,17 @@ package colorful.starbucks.delivery.dto.request;
 import colorful.starbucks.delivery.vo.request.DeliveryAddressEditRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class DeliveryAddressEditRequestDto {
 
     private String memberUuid;
     private String memberAddressUuid;
     private String addressNickname;
     private String receiverName;
-    private boolean defaultAddress;
+    private Boolean defaultAddress;
     private String zoneCode;
     private String address;
     private String detailAddress;
@@ -22,7 +24,7 @@ public class DeliveryAddressEditRequestDto {
                                           String memberAddressUuid,
                                           String addressNickname,
                                           String receiverName,
-                                          boolean defaultAddress,
+                                          Boolean defaultAddress,
                                           String zoneCode,
                                           String address,
                                           String detailAddress,
@@ -47,7 +49,7 @@ public class DeliveryAddressEditRequestDto {
                 .memberAddressUuid(memberAddressUuid)
                 .addressNickname(deliveryAddressEditRequestVo.getAddressNickname())
                 .receiverName(deliveryAddressEditRequestVo.getReceiverName())
-                .defaultAddress(deliveryAddressEditRequestVo.isDefaultAddress())
+                .defaultAddress(deliveryAddressEditRequestVo.getDefaultAddress())
                 .zoneCode(deliveryAddressEditRequestVo.getZoneCode())
                 .address(deliveryAddressEditRequestVo.getAddress())
                 .detailAddress(deliveryAddressEditRequestVo.getDetailAddress())

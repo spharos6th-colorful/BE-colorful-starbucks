@@ -11,11 +11,11 @@ public class CouponCreateRequestVo {
     private String couponName;
     private String couponDescription;
     private DiscountType discountType;
-    private int discountValue;
+    private Integer discountValue;
     private String couponImageUrl;
-    private int maxDiscountAmount;
-    private int minOrderAmount;
-    private int maxIssuanceLimit;
+    private Integer maxDiscountAmount;
+    private Integer minOrderAmount;
+    private Integer maxIssuanceLimit;
     private LocalDateTime startAt;
     private LocalDateTime expiredAt;
 }

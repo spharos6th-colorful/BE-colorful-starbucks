@@ -3,8 +3,10 @@ package colorful.starbucks.coupon.dto.request;
 import colorful.starbucks.coupon.vo.request.MemberCouponRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberCouponRequestDto {
 
     private String memberUuid;

@@ -7,6 +7,7 @@ import colorful.starbucks.delivery.dto.response.DeliveryAddressesResponseDto;
 import colorful.starbucks.delivery.vo.request.DeliveryAddRequestVo;
 
 import colorful.starbucks.delivery.vo.request.DeliveryAddressEditRequestVo;
+import colorful.starbucks.delivery.vo.request.DeliveryDefaultAddressRequestVo;
 import colorful.starbucks.delivery.vo.response.DeliveryAddressResponseVo;
 import colorful.starbucks.delivery.vo.response.DeliveryAddressesResponseVo;
 import colorful.starbucks.delivery.vo.response.DeliveryDefaultAddressResponseVo;
@@ -33,11 +34,11 @@ public class DeliveryController {
                 null);
     }
 
-    @PutMapping("/default-address/{memberAddressUuid}")
-    public ApiResponse<Void> changeDefaultAddressToTrue(Authentication authentication,
-                                                        @PathVariable String memberAddressUuid) {
+    @PutMapping("/default-address")
+    public ApiResponse<Void> changeDefaultAddress(Authentication authentication,
+                                                        @RequestBody List<DeliveryDefaultAddressRequestVo> deliveryDefaultAddressRequestVos) {
 
-        deliveryService.editDefaultAddress(DeliveryDefaultAddressRequestDto.of(memberAddressUuid, authentication.getName()));
+        deliveryService.editDefaultAddress(DeliveryDefaultAddressRequestDto.of(deliveryDefaultAddressRequestVos, authentication.getName()));
         return ApiResponse.ok("기본 배송지로 변경 완료 했습니다.", null);
 
     }
@@ -83,6 +84,13 @@ public class DeliveryController {
                                            @PathVariable String memberAddressUuid) {
         deliveryService.deleteAddress(DeliveryDeleteRequestDto.of(authentication.getName(), memberAddressUuid));
         return ApiResponse.ok("배송지 삭제가 완료 되었습니다.",
+                null);
+    }
+
+    @DeleteMapping("/addresses")
+    public ApiResponse<Void> deleteAllAddresses(Authentication authentication) {
+        deliveryService.deleteAllAddresses(authentication.getName());
+        return ApiResponse.ok("모든 배송지 삭제가 완료 되었습니다.",
                 null);
     }
 

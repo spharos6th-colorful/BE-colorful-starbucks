@@ -32,8 +32,8 @@ public class CartServiceImpl implements CartService {
     private void addCartProduct(CartAddRequestDto cartAddRequestDto) {
 
         Cart cart = cartRepository.findByMemberUuidAndProductDetailCodeAndIsDeletedIsFalse(
-                cartAddRequestDto.getMemberUuid(), cartAddRequestDto.getProductDetailCode()).orElseGet(() ->
-                cartRepository.save(cartAddRequestDto.toEntity(cartAddRequestDto.getMemberUuid())
+                                    cartAddRequestDto.getMemberUuid(), cartAddRequestDto.getProductDetailCode())
+                                    .orElseGet(() -> cartRepository.save(cartAddRequestDto.toEntity(cartAddRequestDto.getMemberUuid())
                 ));
         cart.addQuantity(cartAddRequestDto.getQuantity());
 
@@ -57,7 +57,7 @@ public class CartServiceImpl implements CartService {
 
         cartRepository.findByIdAndMemberUuid(cartCheckRequestDto.getId(), cartCheckRequestDto.getMemberUuid())
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
-                .updateProductChecked(cartCheckRequestDto.isChecked());
+                .updateProductChecked(cartCheckRequestDto.getChecked());
 
     }
 
@@ -81,8 +81,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
 
-        cartDeleteRequestDtos.stream()
-                .forEach(cartProduct -> cartRepository.deleteByIdAndMemberUuid(cartProduct.getId(), cartProduct.getMemberUuid()));
+        cartDeleteRequestDtos.forEach(cartProduct ->
+                cartRepository.deleteByIdAndMemberUuid(cartProduct.getId(), cartProduct.getMemberUuid()));
 
     }
 

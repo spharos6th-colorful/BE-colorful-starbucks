@@ -1,10 +1,7 @@
 package colorful.starbucks.admin.domain;
 
 import colorful.starbucks.common.entity.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +18,7 @@ public class Size extends BaseEntity {
     private Long id;
 
     @Comment("사이즈 이름")
+    @Column(nullable = false, unique = true)
     private String sizeName;
 
     @Builder

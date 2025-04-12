@@ -4,8 +4,10 @@ import colorful.starbucks.admin.domain.ProductTopCategory;
 import colorful.starbucks.admin.vo.ProductTopCategoryVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductTopCategoryDto {
 
     private Long topCategoryId;

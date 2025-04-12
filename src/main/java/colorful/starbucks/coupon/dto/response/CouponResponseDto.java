@@ -5,19 +5,21 @@ import colorful.starbucks.coupon.domain.DiscountType;
 import colorful.starbucks.coupon.vo.response.CouponResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class CouponResponseDto {
 
     private String couponName;
     private String couponDescription;
     private DiscountType discountType;
-    private int discountValue;
+    private Integer discountValue;
     private String couponImageUrl;
-    private int maxDiscountAmount;
-    private int minOrderAmount;
+    private Integer maxDiscountAmount;
+    private Integer minOrderAmount;
     private LocalDateTime startAt;
     private LocalDateTime expiredAt;
 

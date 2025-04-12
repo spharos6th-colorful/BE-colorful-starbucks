@@ -9,6 +9,6 @@ public class ProductCreateRequestVo {
     private String productTopCategoryName;
     private String productBottomCategoryName;
     private String description;
-    private boolean markable;
-    private int price;
+    private Boolean markable;
+    private Integer price;
 }

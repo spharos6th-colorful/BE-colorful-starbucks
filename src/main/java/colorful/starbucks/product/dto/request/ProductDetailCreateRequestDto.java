@@ -4,8 +4,10 @@ import colorful.starbucks.product.domain.ProductDetail;
 import colorful.starbucks.product.vo.request.ProductDetailCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductDetailCreateRequestDto {
 
     private String productCode;
@@ -13,9 +15,9 @@ public class ProductDetailCreateRequestDto {
     private String sizeName;
     private Long colorId;
     private String colorName;
-    private int inventoryQuantity;
-    private int price;
-    private int discountPrice;
+    private Integer inventoryQuantity;
+    private Integer price;
+    private Integer discountPrice;
 
     @Builder
     private ProductDetailCreateRequestDto(String productCode,
@@ -23,9 +25,9 @@ public class ProductDetailCreateRequestDto {
                                           String sizeName,
                                           Long colorId,
                                           String colorName,
-                                          int inventoryQuantity,
-                                          int price,
-                                          int discountPrice) {
+                                          Integer inventoryQuantity,
+                                          Integer price,
+                                          Integer discountPrice) {
         this.productCode = productCode;
         this.sizeId = sizeId;
         this.sizeName = sizeName;
@@ -49,7 +51,7 @@ public class ProductDetailCreateRequestDto {
                 .build();
     }
 
-    public ProductDetail toEntity(String productDetailCode,
+    public ProductDetail toEntity(Long productDetailCode,
                                   String productDetailThumbnailUrl) {
         return ProductDetail.builder()
                 .productDetailCode(productDetailCode)

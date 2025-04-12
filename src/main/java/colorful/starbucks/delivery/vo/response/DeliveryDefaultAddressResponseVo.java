@@ -2,13 +2,15 @@ package colorful.starbucks.delivery.vo.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class DeliveryDefaultAddressResponseVo {
 
     private String addressNickname;
     private String receiverName;
-    private boolean isDefaultAddress;
+    private Boolean isDefaultAddress;
     private String zoneCode;
     private String address;
     private String detailAddress;
@@ -17,7 +19,7 @@ public class DeliveryDefaultAddressResponseVo {
     @Builder
     private DeliveryDefaultAddressResponseVo(String addressNickname,
                                              String receiverName,
-                                             boolean isDefaultAddress,
+                                             Boolean isDefaultAddress,
                                              String zoneCode, String address,
                                              String detailAddress,
                                              String phoneNumber) {

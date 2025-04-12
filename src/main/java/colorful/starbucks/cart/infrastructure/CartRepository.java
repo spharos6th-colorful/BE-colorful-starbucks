@@ -13,7 +13,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     Page<Cart> findAllByMemberUuidAndIsDeletedIsFalse(String memberUuid, Pageable pageable);
 
-    Optional<Cart> findByMemberUuidAndProductDetailCodeAndIsDeletedIsFalse(String memberUuid, String productDetailCode);
+    Optional<Cart> findByMemberUuidAndProductDetailCodeAndIsDeletedIsFalse(String memberUuid, Long productDetailCode);
 
     Optional<Cart> findByIdAndMemberUuid(Long id, String memberUuid);
 

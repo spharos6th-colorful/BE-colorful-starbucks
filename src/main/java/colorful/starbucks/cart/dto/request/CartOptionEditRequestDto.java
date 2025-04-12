@@ -3,18 +3,24 @@ package colorful.starbucks.cart.dto.request;
 import colorful.starbucks.cart.vo.request.CartOptionEditRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class CartOptionEditRequestDto {
 
     private String memberUuid;
     private Long cartId;
     private Long productCode;
-    private String productDetailCode;
-    private int quantity;
+    private Long productDetailCode;
+    private Integer quantity;
 
     @Builder
-    private CartOptionEditRequestDto(String memberUuid, Long cartId, Long productCode, String productDetailCode, int quantity) {
+    private CartOptionEditRequestDto(String memberUuid,
+                                     Long cartId,
+                                     Long productCode,
+                                     Long productDetailCode,
+                                     Integer quantity) {
         this.memberUuid = memberUuid;
         this.cartId = cartId;
         this.productCode = productCode;

@@ -4,15 +4,17 @@ import colorful.starbucks.product.domain.ProductDetail;
 import colorful.starbucks.product.vo.response.ProductDetailCodeAndQuantityResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductDetailCodeAndQuantityResponseDto {
 
-    private String productDetailCode;
-    private int inventoryQuantity;
+    private Long productDetailCode;
+    private Integer inventoryQuantity;
 
     @Builder
-    private ProductDetailCodeAndQuantityResponseDto(String productDetailCode, int inventoryQuantity) {
+    private ProductDetailCodeAndQuantityResponseDto(Long productDetailCode, Integer inventoryQuantity) {
         this.productDetailCode = productDetailCode;
         this.inventoryQuantity = inventoryQuantity;
     }

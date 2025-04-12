@@ -15,31 +15,30 @@ public class ProductDetail extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_detail_id")
     private Long id;
 
     @Comment("상품 상세 코드")
     @Column(nullable = false, unique = true)
-    private String productDetailCode;
+    private Long productDetailCode;
 
     @Comment("상품 코드")
     @Column(nullable = false)
     private String productCode;
 
     @Comment("색상 ID")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long sizeId;
 
     @Comment("사이즈 이름")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String sizeName;
 
     @Comment("색상 ID")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long colorId;
 
     @Comment("색상 이름")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String colorName;
 
     @Comment("재고 수량")
@@ -50,6 +49,7 @@ public class ProductDetail extends BaseEntity {
     @Column(nullable = false)
     private int price;
 
+    @Lob
     @Comment("상품 상세 썸네일 URL")
     @Column(nullable = false)
     private String productDetailThumbnailUrl;
@@ -60,7 +60,7 @@ public class ProductDetail extends BaseEntity {
 
     @Builder
     private ProductDetail(Long id,
-                          String productDetailCode,
+                          Long productDetailCode,
                           String productCode,
                           Long sizeId,
                           String sizeName,

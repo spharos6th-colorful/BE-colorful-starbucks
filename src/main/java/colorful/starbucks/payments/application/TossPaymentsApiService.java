@@ -22,6 +22,8 @@ public class TossPaymentsApiService {
     private String secretKey;
     @Value("${toss.confirm}")
     private String confirm;
+    @Value("${toss.cancel}")
+    private String cancel;
 
     private final RestTemplate restTemplate;
 

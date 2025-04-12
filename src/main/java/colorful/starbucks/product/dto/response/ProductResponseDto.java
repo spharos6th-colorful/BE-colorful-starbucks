@@ -4,26 +4,28 @@ import colorful.starbucks.product.domain.Product;
 import colorful.starbucks.product.vo.response.ProductResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductResponseDto {
 
     private String productName;
     private Long productCode;
     private String description;
-    private int price;
+    private Integer price;
     private String productImageUrl;
     private String productThumbnailUrl;
-    private boolean markable;
+    private Boolean markable;
 
     @Builder
     public ProductResponseDto(String productName,
                               Long productCode,
                               String description,
-                              int price,
+                              Integer price,
                               String productImageUrl,
                               String productThumbnailUrl,
-                              boolean markable) {
+                              Boolean markable) {
         this.productName = productName;
         this.productCode = productCode;
         this.description = description;

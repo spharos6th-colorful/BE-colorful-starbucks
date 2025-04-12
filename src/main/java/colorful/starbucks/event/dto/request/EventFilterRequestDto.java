@@ -4,8 +4,10 @@ import colorful.starbucks.event.domain.EventStatus;
 import colorful.starbucks.event.vo.request.EventFilterRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class EventFilterRequestDto {
 
     private EventStatus status;

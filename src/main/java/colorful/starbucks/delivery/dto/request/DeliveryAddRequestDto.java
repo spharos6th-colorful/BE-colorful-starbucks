@@ -5,8 +5,10 @@ import colorful.starbucks.delivery.domain.DeliveryAddress;
 import colorful.starbucks.delivery.vo.request.DeliveryAddRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class DeliveryAddRequestDto {
     private String memberUuid;
     private String addressNickname;
