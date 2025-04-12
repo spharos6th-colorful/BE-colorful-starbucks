@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
@@ -83,6 +84,10 @@ public class DeliveryAddress extends BaseEntity {
     }
     public DeliveryAddress editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
         return DeliveryAddress.builder()
+                .id(this.id)
+                .isDefaultAddress(deliveryAddressEditRequestDto.getDefaultAddress())
+                .memberUuid(deliveryAddressEditRequestDto.getMemberUuid())
+                .memberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
                 .addressNickname(deliveryAddressEditRequestDto.getAddressNickname())
                 .receiverName(deliveryAddressEditRequestDto.getReceiverName())
                 .zoneCode(deliveryAddressEditRequestDto.getZoneCode())

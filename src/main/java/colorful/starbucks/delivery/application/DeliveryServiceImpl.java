@@ -44,10 +44,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         if (deliveryAddressEditRequestDto.getDefaultAddress()) {
             changeDefaultAddressToFalse(deliveryAddressEditRequestDto.getMemberUuid());
         }
-//        deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
-//                .editAddress(deliveryAddressEditRequestDto);
-
-        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberUuid())
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
                 .editAddress(deliveryAddressEditRequestDto);
         deliveryRepository.save(deliveryAddress);
 
