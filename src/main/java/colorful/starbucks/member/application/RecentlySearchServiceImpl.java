@@ -28,14 +28,14 @@ public class RecentlySearchServiceImpl implements RecentlySearchService {
     }
 
     @Override
-    public void addRecentlySearch(RecentlySearchAddRequestDto recentlySearchAddRequestDto) {
+    public void addRecentlySearchKeyword(RecentlySearchAddRequestDto recentlySearchAddRequestDto) {
         zSetOperations.add(KEY_SUFFIX + recentlySearchAddRequestDto.getMemberUuid(),
                 recentlySearchAddRequestDto.getKeyword(),
                 System.currentTimeMillis());
     }
 
     @Override
-    public List<RecentlySearchListDto> getRecentlySearch(String memberUuid) {
+    public List<RecentlySearchListDto> getRecentlySearchKeywords(String memberUuid) {
 
         Set<ZSetOperations.TypedTuple<Object>> typedTuples =
                 zSetOperations.reverseRangeWithScores(KEY_SUFFIX + memberUuid, ZSET_START_INDEX, ZSET_END_INDEX + 10);
@@ -53,14 +53,14 @@ public class RecentlySearchServiceImpl implements RecentlySearchService {
     }
 
     @Override
-    public void deleteRecentlySearch(RecentlySearchDeleteRequestDto recentlySearchDeleteRequestDto) {
+    public void deleteRecentlySearchKeyword(RecentlySearchDeleteRequestDto recentlySearchDeleteRequestDto) {
         zSetOperations.remove(KEY_SUFFIX + recentlySearchDeleteRequestDto.getMemberUuid(),
                 recentlySearchDeleteRequestDto.getKeyword());
 
     }
 
     @Override
-    public void deleteAllRecentlySearch(String memberUuid) {
+    public void deleteAllRecentlySearchKeywords(String memberUuid) {
         redisTemplate.delete(KEY_SUFFIX + memberUuid);
     }
 

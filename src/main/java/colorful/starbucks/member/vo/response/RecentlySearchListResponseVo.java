@@ -10,10 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 public class RecentlySearchListResponseVo {
 
-    private List<RecentlySearchListVo> recentlySearch;
+    private List<RecentlySearchListVo> recentlySearchKeywords;
 
     @Builder
-    private RecentlySearchListResponseVo(List<RecentlySearchListVo> recentlySearch) {
-        this.recentlySearch = recentlySearch;
+    private RecentlySearchListResponseVo(List<RecentlySearchListVo> recentlySearchKeywords) {
+        this.recentlySearchKeywords = recentlySearchKeywords;
     }
 }

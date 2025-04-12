@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface RecentlySearchService {
 
-    void addRecentlySearch(RecentlySearchAddRequestDto recentlySearchAddRequestDto);
-    List<RecentlySearchListDto> getRecentlySearch(String memberUuid);
-    void deleteRecentlySearch(RecentlySearchDeleteRequestDto recentlySearchDeleteRequestDto);
-    void deleteAllRecentlySearch(String memberUuid);
+    void addRecentlySearchKeyword(RecentlySearchAddRequestDto recentlySearchAddRequestDto);
+    List<RecentlySearchListDto> getRecentlySearchKeywords(String memberUuid);
+    void deleteRecentlySearchKeyword(RecentlySearchDeleteRequestDto recentlySearchDeleteRequestDto);
+    void deleteAllRecentlySearchKeywords(String memberUuid);
 }

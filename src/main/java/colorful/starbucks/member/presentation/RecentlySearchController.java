@@ -19,36 +19,36 @@ public class RecentlySearchController {
     private final RecentlySearchService recentlySearchService;
 
     @PostMapping
-    public ApiResponse<Void> addRecentlySearch(Authentication authentication,
-                                                  @RequestParam String search){
-        recentlySearchService.addRecentlySearch(RecentlySearchAddRequestDto.of(authentication.getName(), search));
+    public ApiResponse<Void> addRecentlySearchKeyword(Authentication authentication,
+                                                  @RequestParam String keyword){
+        recentlySearchService.addRecentlySearchKeyword(RecentlySearchAddRequestDto.of(authentication.getName(), keyword));
         return ApiResponse.ok("최근 검색어 등록이 완료 되었습니다.",
                 null);
     }
 
     @GetMapping
-    public ApiResponse<RecentlySearchListResponseVo> getRecentlySearchList(Authentication authentication){
+    public ApiResponse<RecentlySearchListResponseVo> getRecentlySearchKeywordList(Authentication authentication){
 
         return ApiResponse.ok("최근 검색어 조회가 완료 되었습니다.",
                 RecentlySearchListResponseDto.from(
-                        recentlySearchService.getRecentlySearch(authentication.getName())
+                        recentlySearchService.getRecentlySearchKeywords(authentication.getName())
                 ).toVo());
     }
 
     @DeleteMapping("/{keyword}")
-    public ApiResponse<Void> deleteRecentlySearch(Authentication authentication,
+    public ApiResponse<Void> deleteRecentlySearchKeyword(Authentication authentication,
                                                     @PathVariable String keyword){
 
 
-        recentlySearchService.deleteRecentlySearch(RecentlySearchDeleteRequestDto.of(authentication.getName(), keyword));
+        recentlySearchService.deleteRecentlySearchKeyword(RecentlySearchDeleteRequestDto.of(authentication.getName(), keyword));
         return ApiResponse.ok("최근 검색어 삭제가 완료 되었습니다.",
                 null);
     }
 
     @DeleteMapping
-    public ApiResponse<Void> deleteAllRecentlySearch(Authentication authentication){
+    public ApiResponse<Void> deleteAllRecentlySearchKeywords(Authentication authentication){
 
-        recentlySearchService.deleteAllRecentlySearch(authentication.getName());
+        recentlySearchService.deleteAllRecentlySearchKeywords(authentication.getName());
         return ApiResponse.of(
                 HttpStatus.NO_CONTENT,
                 "최근 검색어 전체 삭제를 완료 했습니다.",
