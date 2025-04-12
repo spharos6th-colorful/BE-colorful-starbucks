@@ -5,8 +5,10 @@ import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.vo.request.OrderCreateDetailRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class OrderDetailCreateRequestDto {
 
     private Long productCode;

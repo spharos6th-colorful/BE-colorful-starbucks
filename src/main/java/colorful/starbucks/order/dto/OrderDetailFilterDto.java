@@ -3,8 +3,10 @@ package colorful.starbucks.order.dto;
 import colorful.starbucks.order.vo.OrderDetailFilterVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class OrderDetailFilterDto {
     private Long cursor;
     private Integer size;

@@ -4,8 +4,10 @@ import colorful.starbucks.auth.vo.request.EmailCodeSendRequestVo;
 import colorful.starbucks.common.util.EmailAuthCodeGenerator;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class EmailCodeSendRequestDto {
 
     private String email;

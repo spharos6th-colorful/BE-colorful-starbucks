@@ -5,10 +5,12 @@ import colorful.starbucks.order.domain.OrderStatus;
 import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class OrderCreateRequestDto {
 
     private Long orderCode;

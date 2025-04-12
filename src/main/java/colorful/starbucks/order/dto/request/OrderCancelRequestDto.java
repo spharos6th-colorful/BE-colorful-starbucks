@@ -4,8 +4,10 @@ import colorful.starbucks.order.domain.OrderCancelReason;
 import colorful.starbucks.order.vo.request.OrderCancelRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class OrderCancelRequestDto {
     private Long orderCode;
     private OrderCancelReason orderCancelReason;
