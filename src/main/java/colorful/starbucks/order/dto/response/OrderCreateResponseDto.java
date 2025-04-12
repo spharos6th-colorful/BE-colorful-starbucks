@@ -3,8 +3,10 @@ package colorful.starbucks.order.dto.response;
 import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class OrderCreateResponseDto {
 
     private String orderCode;

@@ -3,8 +3,10 @@ package colorful.starbucks.order.dto;
 import colorful.starbucks.order.vo.OrderAddressVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class OrderAddressDto {
     private String zoneCode;
     private String address;

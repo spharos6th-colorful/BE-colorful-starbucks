@@ -6,7 +6,6 @@ import lombok.Getter;
 public class MemberSignInRequestVo {
 
     private String email;
-
     private String password;
 
 }

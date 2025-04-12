@@ -28,15 +28,9 @@ public class ProductCategoryListController {
 
     @GetMapping
     public ApiResponse<CursorPage<ProductCursorResponseVo>> getProductCategoryList(@ModelAttribute ProductCategoryListFilterVo productCategoryListFilterVo) {
-        CursorPage<ProductCursorResponseDto> response = productCategoryListService.getFilteredProductList(ProductCategoryListFilterDto.from(productCategoryListFilterVo));
         return ApiResponse.ok("상품 카테고리 목록 조회를 완료했습니다.",
-                CursorPage.<ProductCursorResponseVo>builder()
-                        .content(response.getContent().stream()
-                                .map(ProductCursorResponseDto::toVo)
-                                .toList())
-                        .nextCursor(response.getNextCursor())
-                        .hasNext(response.getHasNext())
-                        .build()
+                productCategoryListService.getFilteredProductList(ProductCategoryListFilterDto.from(productCategoryListFilterVo))
+                        .map(ProductCursorResponseDto::toVo)
         );
     }
 }

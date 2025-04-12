@@ -3,10 +3,12 @@ package colorful.starbucks.order.dto;
 import colorful.starbucks.order.vo.OrderListFilterVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class OrderListFilterDto {
     private Long cursor;
     private Integer size;
