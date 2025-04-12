@@ -34,10 +34,11 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public void editPassword(PasswordEditRequestDto passwordEditRequestDto) {
-        Member member = memberRepository.findAllByMemberUuid(passwordEditRequestDto.getMemberUuid())
-                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
-        member.updatePassword(passwordEncoder.encode(passwordEditRequestDto.getNewPassword()));
+        Member member = memberRepository.findByMemberUuid(passwordEditRequestDto.getMemberUuid())
+                .editPassword(passwordEncoder.encode(passwordEditRequestDto.getNewPassword()));
+
+        memberRepository.save(member);
     }
 
     @Override
