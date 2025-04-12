@@ -20,7 +20,7 @@ public class BestProduct extends BaseEntity {
 
     @Column(nullable = false)
     @Comment(value = "상품 코드")
-    private String productCode;
+    private Long productCode;
 
     @Column(nullable = false)
     private Long categoryId;
@@ -36,7 +36,7 @@ public class BestProduct extends BaseEntity {
 
     @Builder
     private BestProduct(Long id,
-                        String productCode,
+                        Long productCode,
                         Long categoryId,
                         String categoryName,
                         int totalQuantity,

@@ -8,5 +8,5 @@ public interface ProductBottomCategoryService {
 
     void createBottomCategory(ProductBottomCategoryCreateRequestDto productBottomCategoryCreateRequestDto);
 
-    ProductBottomCategoryDtos getBottomCategories(Long topCategoryId, Pageable pageable);
+    ProductBottomCategoryDtos getBottomCategories(Long topCategoryId);
 }
