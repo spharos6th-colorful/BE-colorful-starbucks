@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,8 +45,13 @@ public class DeliveryServiceImpl implements DeliveryService {
         if (deliveryAddressEditRequestDto.getDefaultAddress()) {
             changeDefaultAddressToFalse(deliveryAddressEditRequestDto.getMemberUuid());
         }
-        deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
+//        deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
+//                .editAddress(deliveryAddressEditRequestDto);
+
+        DeliveryAddress deliveryAddress = deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberUuid())
                 .editAddress(deliveryAddressEditRequestDto);
+        deliveryRepository.save(deliveryAddress);
+
     }
 
     @Transactional
