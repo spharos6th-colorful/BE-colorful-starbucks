@@ -4,36 +4,31 @@ import colorful.starbucks.common.aop.DistributedLock;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.CursorPage;
-import colorful.starbucks.coupon.domain.Coupon;
 import colorful.starbucks.coupon.dto.request.MemberCouponCreateRequestDto;
 import colorful.starbucks.coupon.dto.request.MemberCouponRequestDto;
 import colorful.starbucks.coupon.dto.response.MemberCouponResponseDto;
-import colorful.starbucks.coupon.infrastructure.CouponRepository;
 import colorful.starbucks.coupon.infrastructure.MemberCouponRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberCouponServiceImpl implements MemberCouponService {
 
     private final MemberCouponRepository memberCouponRepository;
-    private final CouponRepository couponRepository;
+    private final CouponService couponService;
 
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @DistributedLock(key = "#memberCouponCreateRequestDto.getCouponUuid()")
+    @Transactional
     @Override
     public void createMemberCoupon(MemberCouponCreateRequestDto memberCouponCreateRequestDto) {
 
-        Coupon coupon = couponRepository.findByCouponUuid(memberCouponCreateRequestDto.getCouponUuid())
-                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-
-        checkDuplicateCouponIssuance(memberCouponCreateRequestDto);
-
-        coupon.issue();
+        checkDuplicatedIssuance(memberCouponCreateRequestDto);
+        couponService.issueCoupon(memberCouponCreateRequestDto.getCouponUuid());
 
         memberCouponRepository.save(memberCouponCreateRequestDto.toEntity());
     }
@@ -44,12 +39,14 @@ public class MemberCouponServiceImpl implements MemberCouponService {
                 .map(MemberCouponResponseDto::from);
     }
 
-    private void checkDuplicateCouponIssuance(MemberCouponCreateRequestDto memberCouponCreateRequestDto) {
-        memberCouponRepository.findByMemberUuidAndCouponUuid(
+    private void checkDuplicatedIssuance(MemberCouponCreateRequestDto memberCouponCreateRequestDto) {
+        boolean isDuplicatedIssuance = memberCouponRepository.existsByMemberUuidAndCouponUuid(
                 memberCouponCreateRequestDto.getMemberUuid(),
                 memberCouponCreateRequestDto.getCouponUuid()
-        ).ifPresent(memberCoupon -> {
+        );
+
+        if (isDuplicatedIssuance) {
             throw new BaseException(ResponseStatus.ALREADY_ISSUED_COUPON);
-        });
+        }
     }
 }

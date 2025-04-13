@@ -27,8 +27,6 @@ public class EventCouponMappingServiceImpl implements EventCouponMappingService 
             eventCouponMappingRepository.save(eventCouponMappingCreateRequestDto.toEntity());
         } catch (DataIntegrityViolationException e) {
             throw new BaseException(ResponseStatus.CONFLICT_REQUEST);
-        } catch (Exception e) {
-            throw new BaseException(ResponseStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -1,8 +1,6 @@
 package colorful.starbucks.coupon.domain;
 
 import colorful.starbucks.common.entity.BaseEntity;
-import colorful.starbucks.common.exception.BaseException;
-import colorful.starbucks.common.response.ResponseStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -98,17 +96,5 @@ public class Coupon extends BaseEntity {
         this.currentIssuanceCount = currentIssuanceCount;
         this.startAt = startAt;
         this.expiredAt = expiredAt;
-    }
-
-    public void issue() {
-        if (canIssue()) {
-            currentIssuanceCount++;
-        } else {
-            throw new BaseException(ResponseStatus.EXCEED_MAX_COUPON_COUNT);
-        }
-    }
-
-    private boolean canIssue() {
-        return currentIssuanceCount < maxIssuanceLimit;
     }
 }

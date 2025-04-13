@@ -8,5 +8,7 @@ public interface CouponService {
 
     Coupon createCoupon(CouponCreateRequestDto couponCreateRequestDto);
 
+    void issueCoupon(String couponUuid);
+
     CouponResponseDto getCoupon(String couponUuid);
 }
