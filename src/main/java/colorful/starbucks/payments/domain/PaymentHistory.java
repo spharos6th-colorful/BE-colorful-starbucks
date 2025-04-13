@@ -61,6 +61,10 @@ public class PaymentHistory extends BaseEntity {
     @LastModifiedDate
     private String canceledAt;
 
+    @Comment("외부 결제 키")
+    @Column(nullable = false, unique = true)
+    private String paymentKey;
+
 
     @Builder
     private PaymentHistory(Long id,
@@ -72,7 +76,8 @@ public class PaymentHistory extends BaseEntity {
                            PaymentsStatus paymentsStatus,
                            String cancelReason,
                            String approvedAt,
-                           String canceledAt) {
+                           String canceledAt,
+                           String paymentKey) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.paymentsNumber = paymentsNumber;
@@ -83,5 +88,6 @@ public class PaymentHistory extends BaseEntity {
         this.cancelReason = cancelReason;
         this.approvedAt = approvedAt;
         this.canceledAt = canceledAt;
+        this.paymentKey = paymentKey;
     }
 }

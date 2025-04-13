@@ -4,6 +4,7 @@ import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.payments.dto.request.TossPaymentCancelRequestDto;
 import colorful.starbucks.payments.dto.request.TossPaymentRequestDto;
+import colorful.starbucks.payments.dto.response.PaymentHistoryResponseDto;
 import colorful.starbucks.payments.dto.response.TossPaymentCancelResponseDto;
 import colorful.starbucks.payments.dto.response.TossPaymentResponseDto;
 import colorful.starbucks.payments.infrastructure.PaymentHistoryRepository;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +82,37 @@ public class PaymentsServiceImpl implements PaymentsService {
 
         return TossPaymentCancelResponseDto.of(json, tossPaymentCancelResponseVo);
     }
+
+    @Override
+    public List<PaymentHistoryResponseDto> getPaymentHistory(String memberUuid) {
+        List<PaymentHistoryResponseDto> paymentHistoryResponseDtos = paymentHistoryRepository.findByMemberUuidOrderByCreatedAtDesc(memberUuid)
+                .stream()
+                .map(PaymentHistoryResponseDto::fromEntity)
+                .toList();
+
+        if (paymentHistoryResponseDtos.isEmpty()) {
+            throw new BaseException(ResponseStatus.INVALID_PAYMENTS_STATUS,
+                    "결제 내역이 존재하지 않습니다.");
+        }
+
+        return paymentHistoryResponseDtos;
+    }
+
+    @Override
+    public List<PaymentHistoryResponseDto> getPaymentHistoryByOrderCode(String orderCode, String memberUuid) {
+        List<PaymentHistoryResponseDto> paymentHistoryResponseDtos = paymentHistoryRepository.findByOrderCodeAndMemberUuid(orderCode, memberUuid)
+                .stream()
+                .map(PaymentHistoryResponseDto::fromEntity)
+                .toList();
+
+        if (paymentHistoryResponseDtos.isEmpty()) {
+            throw new BaseException(ResponseStatus.INVALID_PAYMENTS_STATUS,
+                    "결제 내역이 존재하지 않습니다.");
+        }
+
+        return paymentHistoryResponseDtos;
+    }
+
 
     private void cancelUpdatePaymentHistory(String cancelReason, String paymentKey, String canceledAt) {
         paymentHistoryRepository.findByPaymentsNumber(paymentKey)

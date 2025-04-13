@@ -13,6 +13,8 @@ public interface PaymentHistoryRepository extends JpaRepository<PaymentHistory, 
 
     List<PaymentHistory> findByMemberUuidOrderByCreatedAtDesc(String memberUuid);
 
+    List<PaymentHistory> findByOrderCodeAndMemberUuid(String orderCode, String memberUuid);
+
     @Modifying
     @Query("UPDATE PaymentHistory p " +
             "SET p.paymentsStatus = 'CANCELED', " +
