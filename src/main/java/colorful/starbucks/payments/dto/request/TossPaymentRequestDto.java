@@ -1,5 +1,8 @@
 package colorful.starbucks.payments.dto.request;
 
+import colorful.starbucks.payments.domain.PaymentHistory;
+import colorful.starbucks.payments.domain.PaymentsStatus;
+import colorful.starbucks.payments.domain.PaymentsType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,4 +31,15 @@ public class TossPaymentRequestDto {
                 .amount(amount)
                 .build();
 }
+    public PaymentHistory toEntity(String memberUuid, String approvedAt, String method) {
+        return PaymentHistory.builder()
+                .totalPrice(amount)
+                .paymentsNumber(paymentKey)
+                .orderCode(orderId)
+                .memberUuid(memberUuid)
+                .paymentsType(PaymentsType.valueOf(method.toUpperCase()))
+                .paymentsStatus(PaymentsStatus.APPROVED)
+                .approvedAt(approvedAt)
+                .build();
+    }
 }

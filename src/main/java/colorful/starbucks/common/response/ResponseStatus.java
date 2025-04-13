@@ -27,6 +27,8 @@ public enum ResponseStatus {
     INVALID_ORDER_CANCEL_REASON(HttpStatus.BAD_REQUEST, false, 404, "존재하지 않는 취소 사유입니다."),
     INVALID_ORDER_STATUS(HttpStatus.BAD_REQUEST, false, 404, "존재하지 않는 주문 상태입니다."),
     PAYMENT_CANCEL_FAILED(HttpStatus.BAD_REQUEST, false, 400, "결제 취소에 실패했습니다."),
+    INVALID_PAYMENTS_STATUS(HttpStatus.BAD_REQUEST, false, 400, "존재하지 않는 결제 상태입니다."),
+
 
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, false, 404, "리소스가 존재하지 않습니다."),
     CONFLICT_REQUEST(HttpStatus.CONFLICT, false, 409, "데이터 삽입 요청이 충돌했습니다."),

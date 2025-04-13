@@ -1,9 +1,12 @@
 package colorful.starbucks.payments.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.payments.dto.request.TossPaymentCancelRequestDto;
 import colorful.starbucks.payments.dto.request.TossPaymentRequestDto;
 import colorful.starbucks.payments.dto.response.TossPaymentCancelResponseDto;
 import colorful.starbucks.payments.dto.response.TossPaymentResponseDto;
+import colorful.starbucks.payments.infrastructure.PaymentHistoryRepository;
 import colorful.starbucks.payments.vo.response.TossPaymentCancelResponseVo;
 import colorful.starbucks.payments.vo.response.TossPaymentResponseVo;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentsServiceImpl implements PaymentsService {
 
     private final TossPaymentsApiService tossPaymentsApiService;
+    private final PaymentHistoryRepository paymentHistoryRepository;
 
     @Transactional
     @Override
-    public TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto) {
+    public TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto, String memberUuid) {
         JSONObject json = new JSONObject(tossPaymentsApiService.approvePayment(
                 tossPaymentRequestDto.getPaymentKey(),
                 tossPaymentRequestDto.getOrderId(),
@@ -36,12 +40,22 @@ public class PaymentsServiceImpl implements PaymentsService {
                 .build();
 
 
+
+        paymentHistoryRepository.save(
+                tossPaymentRequestDto.toEntity(
+                        memberUuid,
+                        json.optString("approvedAt"),
+                        json.optString("method")
+                )
+        );
+
+
         return TossPaymentResponseDto.of(json, tossPaymentResponseVo);
     }
 
     @Transactional
     @Override
-    public TossPaymentCancelResponseDto cancelTossPayment(TossPaymentCancelRequestDto tossPaymentCancelRequestDto) {
+    public TossPaymentCancelResponseDto cancelTossPayment(TossPaymentCancelRequestDto tossPaymentCancelRequestDto, String memberUuid) {
         JSONObject json = new JSONObject(tossPaymentsApiService.cancelPayment(
                 tossPaymentCancelRequestDto.getPaymentKey(),
                 tossPaymentCancelRequestDto.getAmount(),
@@ -57,7 +71,24 @@ public class PaymentsServiceImpl implements PaymentsService {
                 .totalAmount(json.optInt("totalAmount"))
                 .build();
 
+        cancelUpdatePaymentHistory(
+                tossPaymentCancelRequestDto.getCancelReason(),
+                tossPaymentCancelRequestDto.getPaymentKey(),
+                json.optString("canceledAt")
+        );
+
         return TossPaymentCancelResponseDto.of(json, tossPaymentCancelResponseVo);
+    }
+
+    private void cancelUpdatePaymentHistory(String cancelReason, String paymentKey, String canceledAt) {
+        paymentHistoryRepository.findByPaymentsNumber(paymentKey)
+                .orElseThrow(() -> new BaseException(ResponseStatus.INVALID_PAYMENTS_STATUS,
+                        "결제 내역이 존재하지 않습니다."));
+        paymentHistoryRepository.updatePaymentHistory(
+                paymentKey,
+                canceledAt,
+                cancelReason
+        );
     }
 
 

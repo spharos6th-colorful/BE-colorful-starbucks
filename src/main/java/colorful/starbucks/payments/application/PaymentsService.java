@@ -7,8 +7,10 @@ import colorful.starbucks.payments.dto.response.TossPaymentResponseDto;
 
 public interface PaymentsService {
 
-    TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto);
+    TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto, String memberUuid);
 
-    TossPaymentCancelResponseDto cancelTossPayment(TossPaymentCancelRequestDto tossPaymentCancelRequestDto);
+    TossPaymentCancelResponseDto cancelTossPayment(TossPaymentCancelRequestDto tossPaymentCancelRequestDto, String memberUuid);
+
+
 
 }
