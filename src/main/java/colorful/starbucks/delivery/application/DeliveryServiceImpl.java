@@ -5,7 +5,6 @@ import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.delivery.domain.DeliveryAddress;
 import colorful.starbucks.delivery.dto.request.*;
 import colorful.starbucks.delivery.dto.response.DeliveryAddressResponseDto;
-import colorful.starbucks.delivery.dto.response.DeliveryAddressesDto;
 import colorful.starbucks.delivery.dto.response.DeliveryDefaultAddressResponseDto;
 import colorful.starbucks.delivery.generator.MemberAddressUuidGenerator;
 import colorful.starbucks.delivery.infrastructure.DeliveryRepository;
@@ -44,8 +43,12 @@ public class DeliveryServiceImpl implements DeliveryService {
         if (deliveryAddressEditRequestDto.getDefaultAddress()) {
             changeDefaultAddressToFalse(deliveryAddressEditRequestDto.getMemberUuid());
         }
-        deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
-                .editAddress(deliveryAddressEditRequestDto);
+        deliveryRepository.save(
+                buildUpdatedAddress(
+                        deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid()).getId(),
+                        deliveryAddressEditRequestDto
+                )
+        );
     }
 
     @Transactional
@@ -75,11 +78,11 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public List<DeliveryAddressesDto> getAddressList(String memberUuid) {
+    public List<DeliveryAddressResponseDto> getAddressList(String memberUuid) {
 
         return deliveryRepository.findAllByMemberUuid(memberUuid)
                 .stream()
-                .map(DeliveryAddressesDto::from)
+                .map(DeliveryAddressResponseDto::from)
                 .collect(Collectors.toList());
     }
 
@@ -109,6 +112,23 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
         deliveryAddress.updateIsDefaultAddress(false);
 
+    }
+
+
+    private DeliveryAddress buildUpdatedAddress(Long id, DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
+
+        return DeliveryAddress.builder()
+                .id(id)
+                .memberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid())
+                .memberUuid(deliveryAddressEditRequestDto.getMemberUuid())
+                .isDefaultAddress(deliveryAddressEditRequestDto.getDefaultAddress())
+                .addressNickname(deliveryAddressEditRequestDto.getAddressNickname())
+                .receiverName(deliveryAddressEditRequestDto.getReceiverName())
+                .zoneCode(deliveryAddressEditRequestDto.getZoneCode())
+                .address(deliveryAddressEditRequestDto.getAddress())
+                .detailAddress(deliveryAddressEditRequestDto.getDetailAddress())
+                .phoneNumber(deliveryAddressEditRequestDto.getPhoneNumber())
+                .build();
     }
 
 

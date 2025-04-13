@@ -1,14 +1,11 @@
 package colorful.starbucks.member.application;
 
-import colorful.starbucks.common.exception.BaseException;
-import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.member.dto.request.MemberMyPageEditRequestDto;
 import colorful.starbucks.member.dto.request.PasswordEditRequestDto;
 import colorful.starbucks.member.dto.response.MemberMyPageResponseDto;
 import colorful.starbucks.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,29 +22,59 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void editMyPage(MemberMyPageEditRequestDto memberMyPageEditRequestDto) {
 
-        Member member = memberRepository.findAllByMemberUuid(memberMyPageEditRequestDto.getMemberUuid())
-                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        Member updatedMyPage = buildUpdatedMyPage(memberRepository.findByMemberUuid(memberMyPageEditRequestDto.getMemberUuid()),
+                                                    memberMyPageEditRequestDto);
 
-        member.editMypage(memberMyPageEditRequestDto.getPhoneNumber(), memberMyPageEditRequestDto.getNickName());
+        memberRepository.save(updatedMyPage);
     }
 
     @Transactional
     @Override
     public void editPassword(PasswordEditRequestDto passwordEditRequestDto) {
-        Member member = memberRepository.findAllByMemberUuid(passwordEditRequestDto.getMemberUuid())
-                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
-        member.updatePassword(passwordEncoder.encode(passwordEditRequestDto.getNewPassword()));
+        Member updatedPassword = buildUpdatedPassword(memberRepository.findByMemberUuid(passwordEditRequestDto.getMemberUuid()),
+                                                        passwordEncoder.encode(passwordEditRequestDto.getNewPassword()));
+
+        memberRepository.save(updatedPassword);
     }
 
     @Override
     public MemberMyPageResponseDto getMyPage(String memberUuid) {
 
-        Member member = memberRepository.findByMemberUuid(memberUuid)
-                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+        Member member = memberRepository.findByMemberUuid(memberUuid);
 
         return MemberMyPageResponseDto.from(member);
     }
 
+
+    private Member buildUpdatedPassword(Member member, String password){
+        return Member.builder()
+                .id(member.getId())
+                .memberUuid(member.getMemberUuid())
+                .memberName(member.getMemberName())
+                .email(member.getEmail())
+                .password(password)
+                .phoneNumber(member.getPhoneNumber())
+                .nickName(member.getNickName())
+                .memberLevel(member.getMemberLevel())
+                .memberBirth(member.getMemberBirth())
+                .gender(member.getGender())
+                .build();
+    }
+
+    private Member buildUpdatedMyPage(Member member, MemberMyPageEditRequestDto memberMyPageEditRequestDto) {
+        return Member.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .memberUuid(member.getMemberUuid())
+                .memberName(member.getMemberName())
+                .password(member.getPassword())
+                .memberLevel(member.getMemberLevel())
+                .memberBirth(member.getMemberBirth())
+                .gender(member.getGender())
+                .phoneNumber(memberMyPageEditRequestDto.getPhoneNumber())
+                .nickName(memberMyPageEditRequestDto.getNickName())
+                .build();
+    }
 
 }
