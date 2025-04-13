@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ProductDetailServiceImpl implements ProductDetailService {
 
     private final ProductDetailRepository productDetailRepository;
