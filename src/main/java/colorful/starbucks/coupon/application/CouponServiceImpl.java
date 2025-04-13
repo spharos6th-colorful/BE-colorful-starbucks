@@ -23,10 +23,28 @@ public class CouponServiceImpl implements CouponService{
         return couponRepository.save(couponCreateRequestDto.toEntity());
     }
 
+    @Transactional
+    @Override
+    public void issueCoupon(String couponUuid) {
+
+        Coupon coupon = couponRepository.findByCouponUuid(couponUuid)
+                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
+
+        if (isCouponIssuanceLimitExceeded(coupon)) {
+            throw new BaseException(ResponseStatus.EXCEED_MAX_COUPON_COUNT);
+        }
+
+        couponRepository.updateCouponIssuanceCount(coupon.getCouponUuid(), coupon.getCurrentIssuanceCount() + 1);
+    }
+
     @Override
     public CouponResponseDto getCoupon(String couponUuid) {
         return CouponResponseDto.from(couponRepository.findByCouponUuid(couponUuid)
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
+    }
+
+    private boolean isCouponIssuanceLimitExceeded(Coupon coupon) {
+        return coupon.getCurrentIssuanceCount() >= coupon.getMaxIssuanceLimit();
     }
 }
