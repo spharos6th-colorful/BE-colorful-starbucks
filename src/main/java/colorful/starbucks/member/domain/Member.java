@@ -82,33 +82,4 @@ public class Member extends BaseEntity  {
         this.password = password;
     }
 
-    public Member editPassword(String password){
-        return Member.builder()
-                .id(id)
-                .memberUuid(memberUuid)
-                .memberName(memberName)
-                .email(email)
-                .password(password)
-                .phoneNumber(phoneNumber)
-                .nickName(nickName)
-                .memberLevel(memberLevel)
-                .memberBirth(memberBirth)
-                .gender(gender)
-                .build();
-    }
-
-    public Member editMypage(String phoneNumber, String nickName) {
-        return Member.builder()
-                .id(id)
-                .email(email)
-                .memberUuid(memberUuid)
-                .memberName(memberName)
-                .password(password)
-                .memberLevel(memberLevel)
-                .memberBirth(memberBirth)
-                .gender(gender)
-                .phoneNumber(phoneNumber)
-                .nickName(nickName)
-                .build();
-    }
 }

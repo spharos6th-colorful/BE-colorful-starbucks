@@ -25,20 +25,20 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void editMyPage(MemberMyPageEditRequestDto memberMyPageEditRequestDto) {
 
-        Member member = memberRepository.findByMemberUuid(memberMyPageEditRequestDto.getMemberUuid())
-                .editMypage(memberMyPageEditRequestDto.getPhoneNumber(), memberMyPageEditRequestDto.getNickName());
+        Member member = memberRepository.findByMemberUuid(memberMyPageEditRequestDto.getMemberUuid());
+        Member m = buildUpdatedMyPage(member, memberMyPageEditRequestDto);
 
-        memberRepository.save(member);
+        memberRepository.save(m);
     }
 
     @Transactional
     @Override
     public void editPassword(PasswordEditRequestDto passwordEditRequestDto) {
 
-        Member member = memberRepository.findByMemberUuid(passwordEditRequestDto.getMemberUuid())
-                .editPassword(passwordEncoder.encode(passwordEditRequestDto.getNewPassword()));
+        Member member = memberRepository.findByMemberUuid(passwordEditRequestDto.getMemberUuid());
+        Member m = buildUpdatedPassword(member, passwordEncoder.encode(passwordEditRequestDto.getNewPassword()));
 
-        memberRepository.save(member);
+        memberRepository.save(m);
     }
 
     @Override
@@ -49,5 +49,35 @@ public class MemberServiceImpl implements MemberService {
         return MemberMyPageResponseDto.from(member);
     }
 
+
+    private Member buildUpdatedPassword(Member member, String password){
+        return Member.builder()
+                .id(member.getId())
+                .memberUuid(member.getMemberUuid())
+                .memberName(member.getMemberName())
+                .email(member.getEmail())
+                .password(password)
+                .phoneNumber(member.getPhoneNumber())
+                .nickName(member.getNickName())
+                .memberLevel(member.getMemberLevel())
+                .memberBirth(member.getMemberBirth())
+                .gender(member.getGender())
+                .build();
+    }
+
+    private Member buildUpdatedMyPage(Member member, MemberMyPageEditRequestDto memberMyPageEditRequestDto) {
+        return Member.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .memberUuid(member.getMemberUuid())
+                .memberName(member.getMemberName())
+                .password(member.getPassword())
+                .memberLevel(member.getMemberLevel())
+                .memberBirth(member.getMemberBirth())
+                .gender(member.getGender())
+                .phoneNumber(memberMyPageEditRequestDto.getPhoneNumber())
+                .nickName(memberMyPageEditRequestDto.getNickName())
+                .build();
+    }
 
 }
