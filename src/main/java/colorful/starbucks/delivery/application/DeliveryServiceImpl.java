@@ -44,7 +44,7 @@ public class DeliveryServiceImpl implements DeliveryService {
             changeDefaultAddressToFalse(deliveryAddressEditRequestDto.getMemberUuid());
         }
         deliveryRepository.save(
-                eAddress(
+                buildUpdatedAddress(
                         deliveryRepository.findByMemberAddressUuid(deliveryAddressEditRequestDto.getMemberAddressUuid()).getId(),
                         deliveryAddressEditRequestDto
                 )
@@ -115,7 +115,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
 
-    private DeliveryAddress eAddress(Long id, DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
+    private DeliveryAddress buildUpdatedAddress(Long id, DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
 
         return DeliveryAddress.builder()
                 .id(id)
