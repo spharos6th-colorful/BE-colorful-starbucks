@@ -1,14 +1,11 @@
 package colorful.starbucks.member.application;
 
-import colorful.starbucks.common.exception.BaseException;
-import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.member.dto.request.MemberMyPageEditRequestDto;
 import colorful.starbucks.member.dto.request.PasswordEditRequestDto;
 import colorful.starbucks.member.dto.response.MemberMyPageResponseDto;
 import colorful.starbucks.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
