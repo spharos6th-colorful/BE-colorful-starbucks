@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -29,6 +31,12 @@ public class MemberCouponServiceImpl implements MemberCouponService {
         couponService.issueCoupon(memberCouponCreateRequestDto.getCouponUuid());
 
         memberCouponRepository.save(memberCouponCreateRequestDto.toEntity());
+    }
+
+    @Transactional
+    @Override
+    public void useCoupon(String couponUuid, String memberUuid, LocalDateTime usedAt) {
+        memberCouponRepository.updateMemberStateToUsed(couponUuid, memberUuid, usedAt);
     }
 
     @Override
