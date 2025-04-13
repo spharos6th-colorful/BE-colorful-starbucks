@@ -82,19 +82,5 @@ public class DeliveryAddress extends BaseEntity {
     public void updateIsDefaultAddress(boolean newAddressDefault) {
         this.isDefaultAddress = newAddressDefault;
     }
-    public DeliveryAddress editAddress(DeliveryAddressEditRequestDto deliveryAddressEditRequestDto) {
-        return DeliveryAddress.builder()
-                .id(id)
-                .isDefaultAddress(deliveryAddressEditRequestDto.getDefaultAddress())
-                .memberUuid(memberUuid)
-                .memberAddressUuid(memberAddressUuid)
-                .addressNickname(deliveryAddressEditRequestDto.getAddressNickname())
-                .receiverName(deliveryAddressEditRequestDto.getReceiverName())
-                .zoneCode(deliveryAddressEditRequestDto.getZoneCode())
-                .address(deliveryAddressEditRequestDto.getAddress())
-                .detailAddress(deliveryAddressEditRequestDto.getDetailAddress())
-                .phoneNumber(deliveryAddressEditRequestDto.getPhoneNumber())
-                .build();
-    }
 
 }
