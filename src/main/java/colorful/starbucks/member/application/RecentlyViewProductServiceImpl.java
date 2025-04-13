@@ -1,9 +1,9 @@
 package colorful.starbucks.member.application;
 
 import colorful.starbucks.member.dto.request.RecentlyProductDeleteRequestDto;
-import colorful.starbucks.member.dto.response.RecentlyViewProductListDto;
 import colorful.starbucks.member.dto.request.RecentlyViewProductAddRequestDto;
 import colorful.starbucks.member.dto.response.RecentlyViewProductAddResponseDto;
+import colorful.starbucks.member.dto.response.RecentlyViewProductListDto;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,11 @@ import java.util.*;
 @Service
 public class RecentlyViewProductServiceImpl implements RecentlyViewProductService {
 
-    private final RedisTemplate<String, Object> redisTemplate;
-    private final ZSetOperations<String, Object> zSetOperations;
-
     private static final String KEY_SUFFIX = "recently-view-product:";
     private static final Integer ZSET_START_INDEX = 0;
     private static final Integer ZSET_END_INDEX = -1;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final ZSetOperations<String, Object> zSetOperations;
 
     public RecentlyViewProductServiceImpl(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
@@ -63,17 +62,17 @@ public class RecentlyViewProductServiceImpl implements RecentlyViewProductServic
                 zSetOperations.reverseRangeWithScores(KEY_SUFFIX + memberUuid, ZSET_START_INDEX, ZSET_END_INDEX);
 
         Map<LocalDate, List<Long>> recentlyViewProductMap = new HashMap<>();
-        for (ZSetOperations.TypedTuple<Object> typedTuple : typedTuples) {
+        typedTuples.stream()
+                .forEach(typedTuple -> {
+                    Long productCode = Long.parseLong(typedTuple.getValue().toString());
+                    long timestamp = typedTuple.getScore().longValue();
 
-            Long productCode = Long.parseLong(typedTuple.getValue().toString());
-            long timestamp = typedTuple.getScore().longValue();
+                    LocalDate viewedAt = Instant.ofEpochMilli(timestamp)
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate();
 
-            LocalDate viewedAt = Instant.ofEpochMilli(timestamp)
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
-
-            recentlyViewProductMap.computeIfAbsent(viewedAt, k -> new ArrayList<>()).add(productCode);
-        }
+                    recentlyViewProductMap.computeIfAbsent(viewedAt, k -> new ArrayList<>()).add(productCode);
+                });
 
         return recentlyViewProductMap;
     }
