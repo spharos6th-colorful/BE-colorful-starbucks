@@ -22,8 +22,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void editMyPage(MemberMyPageEditRequestDto memberMyPageEditRequestDto) {
 
-        Member member = memberRepository.findByMemberUuid(memberMyPageEditRequestDto.getMemberUuid());
-        Member updatedMyPage = buildUpdatedMyPage(member, memberMyPageEditRequestDto);
+        Member updatedMyPage = buildUpdatedMyPage(memberRepository.findByMemberUuid(memberMyPageEditRequestDto.getMemberUuid()),
+                                                    memberMyPageEditRequestDto);
 
         memberRepository.save(updatedMyPage);
     }
@@ -32,8 +32,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void editPassword(PasswordEditRequestDto passwordEditRequestDto) {
 
-        Member member = memberRepository.findByMemberUuid(passwordEditRequestDto.getMemberUuid());
-        Member updatedPassword = buildUpdatedPassword(member, passwordEncoder.encode(passwordEditRequestDto.getNewPassword()));
+        Member updatedPassword = buildUpdatedPassword(memberRepository.findByMemberUuid(passwordEditRequestDto.getMemberUuid()),
+                                                        passwordEncoder.encode(passwordEditRequestDto.getNewPassword()));
 
         memberRepository.save(updatedPassword);
     }
