@@ -22,10 +22,10 @@ public class BestProduct extends BaseEntity {
     @Comment(value = "상품 코드")
     private Long productCode;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long categoryId;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String categoryName;
 
     @Column(nullable = false)
