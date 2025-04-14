@@ -48,7 +48,7 @@ public class CartController {
 
     @PutMapping("/checked")
     public ApiResponse<Void> updateCartProductCheck(Authentication authentication,
-                                                                  @RequestBody CartCheckRequestVo cartCheckRequestVo) {
+                                                    @RequestBody CartCheckRequestVo cartCheckRequestVo) {
 
         cartService.updateCartChecked(CartCheckRequestDto.of(cartCheckRequestVo, authentication.getName()));
         return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
@@ -85,9 +85,9 @@ public class CartController {
 
     @DeleteMapping
     public ApiResponse<Void> removeCart(Authentication authentication,
-                                        @RequestBody List<CartDeleteRequestVo> cartDeleteRequestVos) {
+                                        @RequestBody CartDeleteListRequestVo cartDeleteListRequestVo) {
 
-        cartService.removeCartList(CartDeleteRequestDto.of(cartDeleteRequestVos, authentication.getName()));
+        cartService.removeCartList(CartDeleteRequestDto.of(cartDeleteListRequestVo, authentication.getName()));
         return ApiResponse.of(
                 HttpStatus.NO_CONTENT,
                 "장바구니 상품 삭제를 완료했습니다",
