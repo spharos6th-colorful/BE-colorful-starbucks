@@ -24,12 +24,10 @@ public class PaymentController {
     @PostMapping("/toss")
     public ApiResponse<TossPaymentResponseDto> approveToss(Authentication authentication,
                                                            @RequestBody TossPaymentRequestDto tossPaymentRequestDto) {
-        String memberUuid = authentication.getName();
-
         return ApiResponse.ok(
                 "결제 요청이 성공적으로 처리되었습니다.",
                 paymentsService.approveTossPayment(
-                        TossPaymentRequestDto.of(tossPaymentRequestDto, memberUuid)
+                        TossPaymentRequestDto.of(tossPaymentRequestDto, authentication.getName())
                 )
         );
     }
@@ -38,12 +36,11 @@ public class PaymentController {
     public ApiResponse<TossPaymentCancelResponseDto> cancelTossPayment(Authentication authentication,
                                                                        @RequestBody TossPaymentCancelRequestDto tossPaymentCancelRequestDto
     ) {
-        String memberUuid = authentication.getName();
 
         return ApiResponse.ok(
                 "결제 취소 요청이 성공적으로 처리되었습니다.",
                 paymentsService.cancelTossPayment(
-                        TossPaymentCancelRequestDto.of(tossPaymentCancelRequestDto, memberUuid)
+                        TossPaymentCancelRequestDto.of(tossPaymentCancelRequestDto, authentication.getName())
                 )
         );
     }

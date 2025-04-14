@@ -52,7 +52,7 @@ public class TossPaymentRequestDto {
                 .orderCode(Long.valueOf(orderId))
                 .memberUuid(memberUuid)
                 .paymentsType(PaymentsType.valueOf(method.toUpperCase()))
-                .paymentStatus(PaymentStatus.APPROVED) // 오타 수정
+                .paymentStatus(PaymentStatus.APPROVED)
                 .approvedAt(approvedAt)
                 .paymentKey(paymentKey)
                 .build();
