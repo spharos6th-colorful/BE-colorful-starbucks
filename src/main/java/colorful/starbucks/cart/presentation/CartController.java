@@ -24,9 +24,9 @@ public class CartController {
 
     @PostMapping
     public ApiResponse<Void> createCart(Authentication authentication,
-                                        @RequestBody List<CartAddRequestVo> cartAddRequestVos) {
+                                        @RequestBody CartAddListRequestVo cartAddListRequestVo) {
 
-        cartService.addCart(CartAddRequestDto.of(cartAddRequestVos, authentication.getName()));
+        cartService.addCart(CartAddRequestDto.of(cartAddListRequestVo, authentication.getName()));
 
         return ApiResponse.ok(
                 "장바구니 담기를 성공적으로 완료했습니다",

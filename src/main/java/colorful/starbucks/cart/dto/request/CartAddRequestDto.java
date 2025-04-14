@@ -41,8 +41,8 @@ public class CartAddRequestDto {
                 .quantity(cartAddRequestVo.getQuantity())
                 .build();
     }
-    public static List<CartAddRequestDto> of(List<CartAddRequestVo> cartAddRequestVos, String memberUuid) {
-        return cartAddRequestVos.stream()
+    public static List<CartAddRequestDto> of(CartAddListRequestVo cartAddListRequestVo, String memberUuid) {
+        return cartAddListRequestVo.stream()
                 .map(vo -> of(vo, memberUuid))
                 .toList();
     }
