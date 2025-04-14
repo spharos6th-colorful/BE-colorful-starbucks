@@ -14,7 +14,7 @@ public class TossPaymentResponseDto {
     private String orderName;
     private String status;
     private String approvedAt;
-    private int totalAmount;
+    private Integer totalAmount;
     private String method;
     private String cardCompany;
     private String cardNumber;
@@ -27,7 +27,7 @@ public class TossPaymentResponseDto {
                                     String orderName,
                                     String status,
                                     String approvedAt,
-                                    int totalAmount,
+                                    Integer totalAmount,
                                     String method,
                                     String cardCompany,
                                     String cardNumber,

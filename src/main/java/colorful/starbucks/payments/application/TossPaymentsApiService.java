@@ -3,7 +3,6 @@ package colorful.starbucks.payments.application;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -32,14 +31,13 @@ public class TossPaymentsApiService {
         String encodedSecretKey = Base64.getEncoder().encodeToString((secretKey + ":").getBytes());
 
 
-
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         headers.set("Authorization", "Basic " + encodedSecretKey);
 
-       JSONObject body = new JSONObject();
+        JSONObject body = new JSONObject();
 
         body.put("paymentKey", paymentKey);
         body.put("orderId", orderId);
@@ -62,7 +60,35 @@ public class TossPaymentsApiService {
         }
     }
 
+
+    public String cancelPayment(String paymentKey, int cancelAmount, String cancelReason) {
+        String encodedSecretKey = Base64.getEncoder().encodeToString((secretKey + ":").getBytes());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Basic " + encodedSecretKey);
+
+        JSONObject body = new JSONObject();
+        body.put("cancelReason", cancelReason);
+        body.put("cancelAmount", cancelAmount);
+
+        String cancelUrl = cancel + "/" + paymentKey + "/cancel";
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(body.toString(), headers);
+
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(cancelUrl, requestEntity, String.class);
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                return responseEntity.getBody();
+            } else {
+                throw new BaseException(ResponseStatus.PAYMENT_CANCEL_FAILED, "결제 취소 실패");
+            }
+        } catch (Exception e) {
+            throw new BaseException(ResponseStatus.PAYMENT_CANCEL_FAILED, "토스 결제 취소 중 오류: " + e.getMessage());
+        }
     }
+
+}
 
 
 

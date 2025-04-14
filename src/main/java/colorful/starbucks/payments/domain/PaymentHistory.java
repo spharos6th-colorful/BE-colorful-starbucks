@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Getter
@@ -27,7 +29,7 @@ public class PaymentHistory extends BaseEntity {
 
     @Comment("주문 번호")
     @Column(nullable = false, unique = true)
-    private String orderCode;
+    private Long orderCode;
 
     @Comment("회원 UUID")
     @Column(nullable = false)
@@ -38,18 +40,52 @@ public class PaymentHistory extends BaseEntity {
     @Column(nullable = false)
     private PaymentsType paymentsType;
 
+    @Comment("결제 상태")
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PaymentStatus paymentStatus;
+
+    @Comment("결제 취소 사유")
+    @Column(nullable = true)
+    private String cancelReason;
+
+    @Comment("결제 승인 일시")
+    @Column(nullable = false)
+    @CreatedDate
+    private String approvedAt;
+
+    @Comment("결제 취소 일시")
+    @Column(nullable = true)
+    @LastModifiedDate
+    private String canceledAt;
+
+    @Comment("외부 결제 키")
+    @Column(nullable = false, unique = true)
+    private String paymentKey;
+
+
     @Builder
     private PaymentHistory(Long id,
                            int totalPrice,
                            String paymentsNumber,
-                           String orderCode,
+                           Long orderCode,
                            String memberUuid,
-                           PaymentsType paymentsType) {
+                           PaymentsType paymentsType,
+                           PaymentStatus paymentStatus,
+                           String cancelReason,
+                           String approvedAt,
+                           String canceledAt,
+                           String paymentKey) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.paymentsNumber = paymentsNumber;
         this.orderCode = orderCode;
         this.memberUuid = memberUuid;
         this.paymentsType = paymentsType;
+        this.paymentStatus = paymentStatus;
+        this.cancelReason = cancelReason;
+        this.approvedAt = approvedAt;
+        this.canceledAt = canceledAt;
+        this.paymentKey = paymentKey;
     }
 }
