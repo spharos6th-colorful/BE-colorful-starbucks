@@ -1,4 +1,4 @@
-package colorful.starbucks.search.setup;
+package colorful.starbucks.search.application;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import jakarta.annotation.PostConstruct;

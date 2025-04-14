@@ -2,9 +2,10 @@ package colorful.starbucks.search.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
 @AllArgsConstructor
+@Getter
 public class ProductSearchDto {
     private Long productCode;
     private String productName;
