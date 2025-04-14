@@ -1,5 +1,6 @@
 package colorful.starbucks.search.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,19 +11,13 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @NoArgsConstructor
 @Getter
 @AllArgsConstructor
-@Document(indexName = "product_search")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductDocument {
 
     @Id
-    @JsonProperty("productCode")
     private Long productCode;
 
-    @JsonProperty("productName")
     private String productName;
-
-    @JsonProperty("topCategoryName")
     private String topCategoryName;
-
-    @JsonProperty("bottomCategoryName")
     private String bottomCategoryName;
 }
