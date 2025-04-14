@@ -11,45 +11,46 @@ import org.json.JSONObject;
 public class TossPaymentCancelResponseDto {
     private String paymentKey;
     private String orderId;
-    private String orderName;
     private String status;
+    private Integer totalAmount;
     private String canceledAt;
     private int canceledAmount;
-    private int totalAmount;
-    private String method;
-    private String receiptUrl;
 
     @Builder
     private TossPaymentCancelResponseDto(String paymentKey,
-                                        String orderId,
-                                        String orderName,
-                                        String status,
-                                        String canceledAt,
-                                        int canceledAmount,
-                                        int totalAmount,
-                                        String method,
-                                        String receiptUrl) {
+                                         String orderId,
+                                         String status,
+                                         Integer totalAmount,
+                                         String canceledAt,
+                                         int canceledAmount) {
         this.paymentKey = paymentKey;
         this.orderId = orderId;
-        this.orderName = orderName;
         this.status = status;
+        this.totalAmount = totalAmount;
         this.canceledAt = canceledAt;
         this.canceledAmount = canceledAmount;
-        this.totalAmount = totalAmount;
-        this.method = method;
-        this.receiptUrl = receiptUrl;
     }
-    public static TossPaymentCancelResponseDto of(JSONObject json, TossPaymentCancelResponseVo vo) {
+
+    public static TossPaymentCancelResponseDto fromJson(String json) {
+        JSONObject jsonObject = new JSONObject(json);
         return TossPaymentCancelResponseDto.builder()
-                .paymentKey(vo.getPaymentKey())
-                .orderId(vo.getOrderId())
-                .orderName(json.optString("orderName"))
-                .status(vo.getStatus())
-                .canceledAt(vo.getCanceledAt())
-                .canceledAmount(vo.getCanceledAmount())
-                .totalAmount(vo.getTotalAmount())
-                .method(json.optString("method"))
-                .receiptUrl(json.optString("receiptUrl"))
+                .paymentKey(jsonObject.getString("paymentKey"))
+                .orderId(jsonObject.getString("orderId"))
+                .status(jsonObject.getString("status"))
+                .totalAmount(jsonObject.getInt("totalAmount"))
+                .canceledAt(jsonObject.getString("canceledAt"))
+                .canceledAmount(jsonObject.getInt("canceledAmount"))
+                .build();
+    }
+
+    public TossPaymentCancelResponseVo toVo() {
+        return TossPaymentCancelResponseVo.builder()
+                .paymentKey(this.paymentKey)
+                .orderId(this.orderId)
+                .status(this.status)
+                .totalAmount(this.totalAmount)
+                .canceledAt(this.canceledAt)
+                .canceledAmount(this.canceledAmount)
                 .build();
     }
 }

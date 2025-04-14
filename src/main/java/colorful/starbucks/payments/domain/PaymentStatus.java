@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.Arrays;
 
 @Getter
-public enum PaymentsStatus {
+public enum PaymentStatus {
     PENDING("결제전"),
     APPROVED("결제완료"),
     CANCELLED("주문취소"),
@@ -15,11 +15,11 @@ public enum PaymentsStatus {
 
     private final String description;
 
-    PaymentsStatus(String description) {
+    PaymentStatus(String description) {
         this.description = description;
     }
 
-    public static PaymentsStatus fromDescription(String description) {
+    public static PaymentStatus fromDescription(String description) {
        return Arrays.stream(values())
                 .filter(paymentsStatus -> paymentsStatus.getDescription().equals(description))
                 .findFirst()

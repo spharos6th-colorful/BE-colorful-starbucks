@@ -1,7 +1,9 @@
 package colorful.starbucks.payments.application;
 
+import colorful.starbucks.payments.domain.PaymentStatus;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
+import colorful.starbucks.payments.domain.PaymentHistory;
 import colorful.starbucks.payments.dto.request.TossPaymentCancelRequestDto;
 import colorful.starbucks.payments.dto.request.TossPaymentRequestDto;
 import colorful.starbucks.payments.dto.response.PaymentHistoryResponseDto;
@@ -27,7 +29,7 @@ public class PaymentsServiceImpl implements PaymentsService {
 
     @Transactional
     @Override
-    public TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto, String memberUuid) {
+    public TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto) {
         JSONObject json = new JSONObject(tossPaymentsApiService.approvePayment(
                 tossPaymentRequestDto.getPaymentKey(),
                 tossPaymentRequestDto.getOrderId(),
@@ -46,7 +48,6 @@ public class PaymentsServiceImpl implements PaymentsService {
 
         paymentHistoryRepository.save(
                 tossPaymentRequestDto.toEntity(
-                        memberUuid,
                         json.optString("approvedAt"),
                         json.optString("method")
                 )
@@ -58,71 +59,62 @@ public class PaymentsServiceImpl implements PaymentsService {
 
     @Transactional
     @Override
-    public TossPaymentCancelResponseDto cancelTossPayment(TossPaymentCancelRequestDto tossPaymentCancelRequestDto, String memberUuid) {
+    public TossPaymentCancelResponseDto cancelTossPayment(TossPaymentCancelRequestDto tossPaymentCancelRequestDto) {
         JSONObject json = new JSONObject(tossPaymentsApiService.cancelPayment(
                 tossPaymentCancelRequestDto.getPaymentKey(),
                 tossPaymentCancelRequestDto.getAmount(),
                 tossPaymentCancelRequestDto.getCancelReason()
         ));
 
-        TossPaymentCancelResponseVo tossPaymentCancelResponseVo = TossPaymentCancelResponseVo.builder()
-                .paymentKey(json.optString("paymentKey"))
-                .orderId(json.optString("orderId"))
-                .status(json.optString("status"))
-                .canceledAt(json.optString("canceledAt"))
-                .canceledAmount(json.optInt("canceledAmount"))
-                .totalAmount(json.optInt("totalAmount"))
-                .build();
 
-        cancelUpdatePaymentHistory(
-                tossPaymentCancelRequestDto.getCancelReason(),
-                tossPaymentCancelRequestDto.getPaymentKey(),
-                json.optString("canceledAt")
-        );
+        TossPaymentCancelResponseDto tossPaymentCancelResponseDto = TossPaymentCancelResponseDto.fromJson(json.toString());
+        TossPaymentCancelResponseVo tossPaymentCancelResponseVo = tossPaymentCancelResponseDto.toVo();
 
-        return TossPaymentCancelResponseDto.of(json, tossPaymentCancelResponseVo);
+        createCanceledPaymentHistory(tossPaymentCancelRequestDto, tossPaymentCancelResponseVo, tossPaymentCancelRequestDto.getMemberUuid());
+
+        return tossPaymentCancelResponseDto;
     }
 
     @Override
     public List<PaymentHistoryResponseDto> getPaymentHistory(String memberUuid) {
-        List<PaymentHistoryResponseDto> paymentHistoryResponseDtos = paymentHistoryRepository.findByMemberUuidOrderByCreatedAtDesc(memberUuid)
+        return paymentHistoryRepository.findByMemberUuidOrderByCreatedAtDesc(memberUuid)
                 .stream()
-                .map(PaymentHistoryResponseDto::fromEntity)
+                .map(PaymentHistoryResponseDto::from)
                 .toList();
-
-        if (paymentHistoryResponseDtos.isEmpty()) {
-            throw new BaseException(ResponseStatus.INVALID_PAYMENTS_STATUS,
-                    "결제 내역이 존재하지 않습니다.");
-        }
-
-        return paymentHistoryResponseDtos;
     }
 
     @Override
-    public List<PaymentHistoryResponseDto> getPaymentHistoryByOrderCode(String orderCode, String memberUuid) {
-        List<PaymentHistoryResponseDto> paymentHistoryResponseDtos = paymentHistoryRepository.findByOrderCodeAndMemberUuid(orderCode, memberUuid)
+    public  List<PaymentHistoryResponseDto> getPaymentHistoryByOrderCode(Long orderCode, String memberUuid) {
+        return paymentHistoryRepository.findByOrderCodeAndMemberUuid(orderCode, memberUuid)
                 .stream()
-                .map(PaymentHistoryResponseDto::fromEntity)
+                .map(PaymentHistoryResponseDto::from)
                 .toList();
-
-        if (paymentHistoryResponseDtos.isEmpty()) {
-            throw new BaseException(ResponseStatus.INVALID_PAYMENTS_STATUS,
-                    "결제 내역이 존재하지 않습니다.");
-        }
-
-        return paymentHistoryResponseDtos;
     }
 
 
-    private void cancelUpdatePaymentHistory(String cancelReason, String paymentKey, String canceledAt) {
-        paymentHistoryRepository.findByPaymentsNumber(paymentKey)
-                .orElseThrow(() -> new BaseException(ResponseStatus.INVALID_PAYMENTS_STATUS,
-                        "결제 내역이 존재하지 않습니다."));
-        paymentHistoryRepository.updatePaymentHistory(
-                paymentKey,
-                canceledAt,
-                cancelReason
-        );
+    private void createCanceledPaymentHistory(
+            TossPaymentCancelRequestDto cancelDto,
+            TossPaymentCancelResponseVo responseVo,
+            String memberUuid
+    ) {
+
+        PaymentHistory original = paymentHistoryRepository.findByPaymentsNumber(cancelDto.getPaymentKey())
+                .orElseThrow(() -> new BaseException(ResponseStatus.INVALID_PAYMENTS_STATUS, "결제 내역이 존재하지 않습니다."));
+
+        PaymentHistory canceledHistory = PaymentHistory.builder()
+                .paymentKey(cancelDto.getPaymentKey())
+                .paymentsNumber(original.getPaymentsNumber())
+                .orderCode(original.getOrderCode())
+                .memberUuid(memberUuid)
+                .paymentsType(original.getPaymentsType())
+                .paymentStatus(PaymentStatus.CANCELLED)
+                .cancelReason(cancelDto.getCancelReason())
+                .approvedAt(original.getApprovedAt())
+                .canceledAt(responseVo.getCanceledAt())
+                .totalPrice(original.getTotalPrice())
+                .build();
+
+        paymentHistoryRepository.save(canceledHistory);
     }
 
 

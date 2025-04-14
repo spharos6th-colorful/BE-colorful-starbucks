@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface PaymentsService {
 
-    TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto, String memberUuid);
+    TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto);
 
-    TossPaymentCancelResponseDto cancelTossPayment(TossPaymentCancelRequestDto tossPaymentCancelRequestDto, String memberUuid);
+    TossPaymentCancelResponseDto cancelTossPayment(TossPaymentCancelRequestDto tossPaymentCancelRequestDto);
 
     List<PaymentHistoryResponseDto> getPaymentHistory(String memberUuid);
 
-    List<PaymentHistoryResponseDto> getPaymentHistoryByOrderCode(String orderCode, String memberUuid);
+    List<PaymentHistoryResponseDto> getPaymentHistoryByOrderCode(Long orderCode, String memberUuid);
 
 
 

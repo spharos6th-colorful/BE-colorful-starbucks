@@ -1,6 +1,6 @@
 package colorful.starbucks.payments.vo.response;
 
-import colorful.starbucks.payments.domain.PaymentsStatus;
+import colorful.starbucks.payments.domain.PaymentStatus;
 import colorful.starbucks.payments.domain.PaymentsType;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +13,7 @@ public class PaymentHistoryResponseVo {
     private String paymentsNumber;
     private String orderCode;
     private PaymentsType paymentsType;
-    private PaymentsStatus paymentsStatus;
+    private PaymentStatus paymentStatus;
     private Integer totalPrice;
     private String approvedAt;
     private String cancelReason;
@@ -24,7 +24,7 @@ public class PaymentHistoryResponseVo {
                                       String paymentsNumber,
                                       String orderCode,
                                       PaymentsType paymentsType,
-                                      PaymentsStatus paymentsStatus,
+                                      PaymentStatus paymentStatus,
                                       Integer totalPrice,
                                       String approvedAt,
                                       String cancelReason,
@@ -33,7 +33,7 @@ public class PaymentHistoryResponseVo {
         this.paymentsNumber = paymentsNumber;
         this.orderCode = orderCode;
         this.paymentsType = paymentsType;
-        this.paymentsStatus = paymentsStatus;
+        this.paymentStatus = paymentStatus;
         this.totalPrice = totalPrice;
         this.approvedAt = approvedAt;
         this.cancelReason = cancelReason;

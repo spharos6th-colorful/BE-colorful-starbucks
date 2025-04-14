@@ -10,17 +10,17 @@ public class TossPaymentCancelResponseVo {
     private String paymentKey;
     private String orderId;
     private String status;
-    private int totalAmount;
+    private Integer totalAmount;
     private String canceledAt;
-    private int canceledAmount;
+    private Integer canceledAmount;
 
     @Builder
     private TossPaymentCancelResponseVo(String paymentKey,
                                         String orderId,
                                         String status,
-                                        int totalAmount,
+                                        Integer totalAmount,
                                         String canceledAt,
-                                        int canceledAmount) {
+                                        Integer canceledAmount) {
         this.paymentKey = paymentKey;
         this.orderId = orderId;
         this.status = status;

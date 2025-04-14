@@ -10,8 +10,6 @@ import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,7 +29,7 @@ public class PaymentHistory extends BaseEntity {
 
     @Comment("주문 번호")
     @Column(nullable = false, unique = true)
-    private String orderCode;
+    private Long orderCode;
 
     @Comment("회원 UUID")
     @Column(nullable = false)
@@ -45,7 +43,7 @@ public class PaymentHistory extends BaseEntity {
     @Comment("결제 상태")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentsStatus paymentsStatus;
+    private PaymentStatus paymentStatus;
 
     @Comment("결제 취소 사유")
     @Column(nullable = true)
@@ -70,10 +68,10 @@ public class PaymentHistory extends BaseEntity {
     private PaymentHistory(Long id,
                            int totalPrice,
                            String paymentsNumber,
-                           String orderCode,
+                           Long orderCode,
                            String memberUuid,
                            PaymentsType paymentsType,
-                           PaymentsStatus paymentsStatus,
+                           PaymentStatus paymentStatus,
                            String cancelReason,
                            String approvedAt,
                            String canceledAt,
@@ -84,7 +82,7 @@ public class PaymentHistory extends BaseEntity {
         this.orderCode = orderCode;
         this.memberUuid = memberUuid;
         this.paymentsType = paymentsType;
-        this.paymentsStatus = paymentsStatus;
+        this.paymentStatus = paymentStatus;
         this.cancelReason = cancelReason;
         this.approvedAt = approvedAt;
         this.canceledAt = canceledAt;

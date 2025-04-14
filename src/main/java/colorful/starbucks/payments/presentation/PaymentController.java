@@ -2,6 +2,7 @@ package colorful.starbucks.payments.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.payments.application.PaymentsService;
+import colorful.starbucks.payments.domain.PaymentHistory;
 import colorful.starbucks.payments.dto.request.TossPaymentCancelRequestDto;
 import colorful.starbucks.payments.dto.request.TossPaymentRequestDto;
 import colorful.starbucks.payments.dto.response.PaymentHistoryResponseDto;
@@ -21,13 +22,15 @@ public class PaymentController {
     private final PaymentsService paymentsService;
 
     @PostMapping("/toss")
-    public ApiResponse<TossPaymentResponseDto> approveTossPayment(Authentication authentication,
-                                                                  @RequestBody TossPaymentRequestDto tossPaymentRequestDto
-    ) {
+    public ApiResponse<TossPaymentResponseDto> approveToss(Authentication authentication,
+                                                           @RequestBody TossPaymentRequestDto tossPaymentRequestDto) {
         String memberUuid = authentication.getName();
+
         return ApiResponse.ok(
                 "결제 요청이 성공적으로 처리되었습니다.",
-                paymentsService.approveTossPayment(tossPaymentRequestDto, memberUuid)
+                paymentsService.approveTossPayment(
+                        TossPaymentRequestDto.of(tossPaymentRequestDto, memberUuid)
+                )
         );
     }
 
@@ -39,29 +42,28 @@ public class PaymentController {
 
         return ApiResponse.ok(
                 "결제 취소 요청이 성공적으로 처리되었습니다.",
-                paymentsService.cancelTossPayment(tossPaymentCancelRequestDto, memberUuid)
+                paymentsService.cancelTossPayment(
+                        TossPaymentCancelRequestDto.of(tossPaymentCancelRequestDto, memberUuid)
+                )
         );
     }
 
     @GetMapping("/history")
     public ApiResponse<List<PaymentHistoryResponseDto>> getPaymentHistory(Authentication authentication) {
-
-        String memberUuid = authentication.getName();
-
-        List<PaymentHistoryResponseDto> paymentHistory = paymentsService.getPaymentHistory(memberUuid);
-
-        return ApiResponse.ok("결제 내역 조회를 완료하였습니다.", paymentHistory);
+        return ApiResponse.ok(
+                "결제 내역 조회를 완료하였습니다.",
+                paymentsService.getPaymentHistory(authentication.getName())
+        );
     }
 
     @GetMapping("/history/{orderCode}")
-    public ApiResponse<List<PaymentHistoryResponseDto>> getPaymentHistoryByOrderCode(Authentication authentication,
-                                                                                     @PathVariable String orderCode
-
+    public ApiResponse<List<PaymentHistoryResponseDto>> getPaymentHistoryByOrderCode(
+            @PathVariable Long orderCode,
+            Authentication authentication
     ) {
-        String memberUuid = authentication.getName();
-
-        List<PaymentHistoryResponseDto> paymentHistory = paymentsService.getPaymentHistoryByOrderCode(orderCode, memberUuid);
-
-        return ApiResponse.ok("결제 내역 조회를 완료하였습니다.", paymentHistory);
+        return ApiResponse.ok(
+                "결제 내역 조회를 완료하였습니다.",
+                paymentsService.getPaymentHistoryByOrderCode(orderCode, authentication.getName())
+        );
     }
 }

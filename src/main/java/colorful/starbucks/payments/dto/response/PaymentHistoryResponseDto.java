@@ -1,7 +1,7 @@
 package colorful.starbucks.payments.dto.response;
 
 import colorful.starbucks.payments.domain.PaymentHistory;
-import colorful.starbucks.payments.domain.PaymentsStatus;
+import colorful.starbucks.payments.domain.PaymentStatus;
 import colorful.starbucks.payments.domain.PaymentsType;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 public class PaymentHistoryResponseDto {
     private String paymentKey;
     private String paymentsNumber;
-    private String orderCode;
+    private Long orderCode;
     private PaymentsType paymentsType;
-    private PaymentsStatus paymentsStatus;
+    private PaymentStatus paymentStatus;
     private Integer totalPrice;
     private String approvedAt;
     private String cancelReason;
@@ -23,9 +23,9 @@ public class PaymentHistoryResponseDto {
     @Builder
     private PaymentHistoryResponseDto(String paymentKey,
                                       String paymentsNumber,
-                                      String orderCode,
+                                      Long orderCode,
                                       PaymentsType paymentsType,
-                                      PaymentsStatus paymentsStatus,
+                                      PaymentStatus paymentStatus,
                                       Integer totalPrice,
                                       String approvedAt,
                                       String cancelReason,
@@ -34,19 +34,32 @@ public class PaymentHistoryResponseDto {
         this.paymentsNumber = paymentsNumber;
         this.orderCode = orderCode;
         this.paymentsType = paymentsType;
-        this.paymentsStatus = paymentsStatus;
+        this.paymentStatus = paymentStatus;
         this.totalPrice = totalPrice;
         this.approvedAt = approvedAt;
         this.cancelReason = cancelReason;
         this.canceledAt = canceledAt;
     }
-    public static PaymentHistoryResponseDto fromEntity(PaymentHistory paymentHistory) {
+    public static PaymentHistoryResponseDto from(PaymentHistory paymentHistory) {
         return PaymentHistoryResponseDto.builder()
                 .paymentKey(paymentHistory.getPaymentKey())
                 .paymentsNumber(paymentHistory.getPaymentsNumber())
                 .orderCode(paymentHistory.getOrderCode())
                 .paymentsType(paymentHistory.getPaymentsType())
-                .paymentsStatus(paymentHistory.getPaymentsStatus())
+                .paymentStatus(paymentHistory.getPaymentStatus())
+                .totalPrice(paymentHistory.getTotalPrice())
+                .approvedAt(paymentHistory.getApprovedAt())
+                .cancelReason(paymentHistory.getCancelReason())
+                .canceledAt(paymentHistory.getCanceledAt())
+                .build();
+    }
+    public static PaymentHistoryResponseDto of(PaymentHistory paymentHistory,Long orderCode, String memberUuid) {
+        return PaymentHistoryResponseDto.builder()
+                .paymentKey(paymentHistory.getPaymentKey())
+                .paymentsNumber(paymentHistory.getPaymentsNumber())
+                .orderCode(paymentHistory.getOrderCode())
+                .paymentsType(paymentHistory.getPaymentsType())
+                .paymentStatus(paymentHistory.getPaymentStatus())
                 .totalPrice(paymentHistory.getTotalPrice())
                 .approvedAt(paymentHistory.getApprovedAt())
                 .cancelReason(paymentHistory.getCancelReason())
