@@ -22,12 +22,12 @@ public class BestProductScheduler {
     private final JobLauncher jobLauncher;
     private final JobRegistry jobRegistry;
 
-    @Scheduled(cron = "0/15 * * * * *") // 1분마다 실행
+    @Scheduled(cron = "0 0 0 1 * *")
     public void runJob() {
 
         String time = LocalDateTime.now().toString();
         try {
-            Job job = jobRegistry.getJob("bestProductJob"); // job 이름
+            Job job = jobRegistry.getJob("bestProductJob");
             JobParametersBuilder jobParam = new JobParametersBuilder().addString("time", time);
             jobLauncher.run(job, jobParam.toJobParameters());
         } catch (NoSuchJobException | JobInstanceAlreadyCompleteException | JobExecutionAlreadyRunningException |
