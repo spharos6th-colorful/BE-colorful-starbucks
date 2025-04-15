@@ -17,7 +17,7 @@ public class CartDeleteRequestDto {
     private String memberUuid;
 
     @Builder
-    public CartDeleteRequestDto(Long cartId, String memberUuid) {
+    private CartDeleteRequestDto(Long cartId, String memberUuid) {
         this.cartId = cartId;
         this.memberUuid = memberUuid;
     }
@@ -31,7 +31,7 @@ public class CartDeleteRequestDto {
 
 
     public static List<CartDeleteRequestDto> of(CartDeleteListRequestVo cartDeleteListRequestVo, String memberUuid) {
-        return cartDeleteListRequestVo.getCartIds().stream() // 여기 수정
+        return cartDeleteListRequestVo.getCartIds().stream()
                 .map(vo -> of(vo, memberUuid))
                 .collect(Collectors.toList());
     }
