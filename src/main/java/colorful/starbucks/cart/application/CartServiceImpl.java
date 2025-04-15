@@ -82,7 +82,7 @@ public class CartServiceImpl implements CartService {
     public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
 
         cartDeleteRequestDtos.forEach(cartProduct ->
-                cartRepository.deleteByIdAndMemberUuid(cartProduct.getId(), cartProduct.getMemberUuid()));
+                cartRepository.deleteByIdAndMemberUuid(cartProduct.getCartId(), cartProduct.getMemberUuid()));
 
     }
 
