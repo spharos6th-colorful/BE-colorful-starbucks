@@ -19,4 +19,6 @@ public interface ProductDetailService {
     );
 
     ProductDetailResponseDto getProductDetail(Long productDetailCode);
+
+
 }

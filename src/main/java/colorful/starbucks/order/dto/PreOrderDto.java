@@ -12,8 +12,8 @@ public class PreOrderDto {
 
     private String memberUuid;
     private String couponUuid;
-    private int totalAmount;
-    private int discountAmount;
+    private Integer totalAmount;
+    private Integer discountAmount;
     private String zoneCode;
     private String address;
     private String detailAddress;

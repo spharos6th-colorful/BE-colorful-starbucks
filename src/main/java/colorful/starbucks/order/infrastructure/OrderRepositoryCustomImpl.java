@@ -36,7 +36,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
         Long cursor = orderListFilterDto.getCursor();
         if (cursor != null) {
-            builder.and(order.orderCode.loe(cursor));
+            builder.and(order.id.loe(cursor));
         } else {
             int currentPage = orderListFilterDto.getPage() != null ? orderListFilterDto.getPage() : DEFAULT_PAGE_NUMBER;
             offset = currentPage == 0 ? 0 : (currentPage) * pageSize;
@@ -44,8 +44,8 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
         JPAQuery<OrderCursorResponseDto> query = queryFactory.select(
                         Projections.constructor(OrderCursorResponseDto.class,
+                                order.id,
                                 order.createdAt,
-                                order.orderCode,
                                 order.totalAmount,
                                 order.discountAmount
                         )
@@ -67,7 +67,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         boolean hasNext = false;
 
         if (content.size() > pageSize) {
-            nextCursor = content.get(pageSize).getOrderCode();
+            nextCursor = content.get(pageSize).getId();
             content.remove(pageSize);
             hasNext = true;
         }

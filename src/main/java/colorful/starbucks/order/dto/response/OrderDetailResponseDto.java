@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderDetailResponseDto {
 
+    private Long id;
     private Long productCode;
     private String productName;
-    private String size;
-    private String color;
+    private Long sizeId;
+    private Long colorId;
     private int quantity;
     private int price;
     private Boolean carving;
@@ -20,19 +21,21 @@ public class OrderDetailResponseDto {
     private String productDetailThumbnailUrl;
 
     @Builder
-    private OrderDetailResponseDto(Long productCode,
-                                    String productName,
-                                    String size,
-                                    String color,
-                                    int quantity,
-                                    int price,
-                                    Boolean carving,
-                                    String carvingContent,
-                                    String productDetailThumbnailUrl) {
+    private OrderDetailResponseDto(Long id,
+                                   Long productCode,
+                                   String productName,
+                                   Long sizeId,
+                                   Long colorId,
+                                   int quantity,
+                                   int price,
+                                   Boolean carving,
+                                   String carvingContent,
+                                   String productDetailThumbnailUrl) {
+        this.id = id;
         this.productCode = productCode;
         this.productName = productName;
-        this.size = size;
-        this.color = color;
+        this.sizeId = sizeId;
+        this.colorId = colorId;
         this.quantity = quantity;
         this.price = price;
         this.carving = carving;
@@ -40,12 +43,13 @@ public class OrderDetailResponseDto {
         this.productDetailThumbnailUrl = productDetailThumbnailUrl;
     }
 
-    public OrderDetailResponseVo toVo(){
+    public OrderDetailResponseVo toVo() {
         return OrderDetailResponseVo.builder()
+                .id(this.id)
                 .productCode(this.productCode)
                 .productName(this.productName)
-                .size(this.size)
-                .color(this.color)
+                .sizeId(this.sizeId)
+                .colorId(this.colorId)
                 .quantity(this.quantity)
                 .price(this.price)
                 .carving(this.carving)

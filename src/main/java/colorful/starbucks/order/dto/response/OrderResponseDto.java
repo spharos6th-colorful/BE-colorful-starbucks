@@ -14,20 +14,23 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderResponseDto {
 
+    private Long id;
     private LocalDateTime createdAt;
     private Long orderCode;
-    private int totalAmount;
-    private int discountAmount;
+    private Integer totalAmount;
+    private Integer discountAmount;
     private List<OrderDetailResponseDto> orderDetails;
     private OrderAddressDto orderAddress;
 
     @Builder
-    private OrderResponseDto(LocalDateTime createdAt,
+    private OrderResponseDto(Long id,
+                             LocalDateTime createdAt,
                              Long orderCode,
-                             int totalAmount,
-                             int discountAmount,
+                             Integer totalAmount,
+                             Integer discountAmount,
                              List<OrderDetailResponseDto> orderDetails,
                              OrderAddressDto orderAddress) {
+        this.id = id;
         this.createdAt = createdAt;
         this.orderCode = orderCode;
         this.totalAmount = totalAmount;
@@ -36,8 +39,10 @@ public class OrderResponseDto {
         this.orderAddress = orderAddress;
     }
 
-    public OrderResponseVo toVo(){
+
+    public OrderResponseVo toVo() {
         return OrderResponseVo.builder()
+                .id(id)
                 .createdAt(createdAt)
                 .orderCode(orderCode)
                 .totalAmount(totalAmount)
@@ -47,13 +52,15 @@ public class OrderResponseDto {
                 .build();
     }
 
-    public static OrderResponseDto of(LocalDateTime createdAt,
+    public static OrderResponseDto of(Long id,
+                                      LocalDateTime createdAt,
                                       Long orderCode,
                                       int totalAmount,
                                       int discountAmount,
                                       List<OrderDetailResponseDto> orderDetails,
                                       OrderAddressDto orderAddress) {
         return OrderResponseDto.builder()
+                .id(id)
                 .createdAt(createdAt)
                 .orderCode(orderCode)
                 .totalAmount(totalAmount)
@@ -62,6 +69,7 @@ public class OrderResponseDto {
                 .orderAddress(orderAddress)
                 .build();
     }
-
-
 }
+
+
+

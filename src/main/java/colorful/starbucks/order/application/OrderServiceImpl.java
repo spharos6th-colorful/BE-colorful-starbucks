@@ -12,6 +12,7 @@ import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.infrastructure.OrderRepository;
+import colorful.starbucks.order.vo.request.OrderCancelRequestVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,15 +56,37 @@ public class OrderServiceImpl implements OrderService {
             throw new BaseException(ResponseStatus.CANCELLED_ORDER);
         }
 
-        order.cancel(
-                orderCancelRequestDto.getOrderCancelReason(),
-                orderCancelRequestDto.getOrderCancelReasonDetail()
-        );
+        cancelOrderUpdate(orderCancelRequestDto, order.getMemberUuid());
 
         return orderCancelRequestDto;
     }
 
+    private void cancelOrderUpdate(OrderCancelRequestDto orderCancelRequestDto, String memberUuid) {
+        Order existingOrder = orderRepository.findByOrderCode(orderCancelRequestDto.getOrderCode())
+                .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_ORDER));
 
+        Order updatedOrder = Order.builder()
+                .orderCode(orderCancelRequestDto.getOrderCode())
+                .couponUuid(existingOrder.getCouponUuid())
+                .couponName(existingOrder.getCouponName())
+                .zoneCode(existingOrder.getZoneCode())
+                .address(existingOrder.getAddress())
+                .detailAddress(existingOrder.getDetailAddress())
+                .isGift(existingOrder.getIsGift())
+                .totalAmount(existingOrder.getTotalAmount())
+                .discountAmount(existingOrder.getDiscountAmount())
+                .buyer(existingOrder.getBuyer())
+                .orderCancelReason(orderCancelRequestDto.getOrderCancelReason())
+                .orderCancelReasonDetail(orderCancelRequestDto.getOrderCancelReasonDetail())
+                .memberUuid(memberUuid)
+                .orderStatus(OrderStatus.CANCELLED)
+                .build();
+
+        orderRepository.save(updatedOrder);
+    }
 
 
 }
+
+
+

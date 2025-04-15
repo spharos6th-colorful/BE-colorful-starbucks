@@ -7,6 +7,7 @@ import colorful.starbucks.order.dto.OrderDetailFilterDto;
 import colorful.starbucks.order.dto.request.OrderDetailCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderDetailCursorResponseDto;
 import colorful.starbucks.order.infrastructure.OrderDetailRepository;
+import colorful.starbucks.product.application.ProductDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class OrderDetailServiceImpl implements OrderDetailService {
     private final OrderDetailRepository orderDetailRepository;
+    private final ProductDetailService productDetailService;
+
 
     @Transactional
     @Override
@@ -32,6 +35,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
         return orderDetails;
     }
+
 
 
     @Override

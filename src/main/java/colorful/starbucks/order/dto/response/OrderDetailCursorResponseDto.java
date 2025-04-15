@@ -12,30 +12,33 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderDetailCursorResponseDto {
 
+    private Long id;
     private Long productCode;
     private String productName;
-    private String size;
-    private String color;
-    private int quantity;
-    private int price;
+    private Long sizeId;
+    private Long colorId;
+    private Integer quantity;
+    private Integer price;
     private Boolean carving;
     private String carvingContent;
     private String productDetailThumbnailUrl;
 
     @Builder
-    public OrderDetailCursorResponseDto(Long productCode,
-                                          String productName,
-                                          String size,
-                                          String color,
-                                          int quantity,
-                                          int price,
-                                          Boolean carving,
-                                          String carvingContent,
-                                          String productDetailThumbnailUrl) {
+    public OrderDetailCursorResponseDto(Long id,
+                                        Long productCode,
+                                        String productName,
+                                        Long sizeId,
+                                        Long colorId,
+                                        Integer quantity,
+                                        Integer price,
+                                        Boolean carving,
+                                        String carvingContent,
+                                        String productDetailThumbnailUrl) {
+        this.id = id;
         this.productCode = productCode;
         this.productName = productName;
-        this.size = size;
-        this.color = color;
+        this.sizeId = sizeId;
+        this.colorId = colorId;
         this.quantity = quantity;
         this.price = price;
         this.carving = carving;
@@ -45,10 +48,11 @@ public class OrderDetailCursorResponseDto {
 
     public static OrderDetailCursorResponseDto from(OrderDetail orderDetail) {
         return OrderDetailCursorResponseDto.builder()
+                .id(orderDetail.getId())
                 .productCode(orderDetail.getProductCode())
                 .productName(orderDetail.getProductName())
-                .size(orderDetail.getSize())
-                .color(orderDetail.getColor())
+                .sizeId(orderDetail.getSizeId())
+                .colorId(orderDetail.getColorId())
                 .quantity(orderDetail.getQuantity())
                 .price(orderDetail.getPrice())
                 .carving(orderDetail.getCarving())
@@ -56,12 +60,14 @@ public class OrderDetailCursorResponseDto {
                 .productDetailThumbnailUrl(orderDetail.getProductDetailThumbnailUrl())
                 .build();
     }
-    public OrderDetailCursorResponseVo toVo(){
+
+    public OrderDetailCursorResponseVo toVo() {
         return OrderDetailCursorResponseVo.builder()
+                .id(this.id)
                 .productCode(this.productCode)
                 .productName(this.productName)
-                .size(this.size)
-                .color(this.color)
+                .sizeId(this.sizeId)
+                .colorId(this.colorId)
                 .quantity(this.quantity)
                 .price(this.price)
                 .carving(this.carving)

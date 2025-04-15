@@ -11,19 +11,14 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class OrderCursorResponseDto {
-    private Long orderCode;
+    private Long id;
     private LocalDateTime createdAt;
-    private int totalAmount;
-    private int discountAmount;
+    private Integer totalAmount;
+    private Integer discountAmount;
 
-
-    @Builder
-    public OrderCursorResponseDto(LocalDateTime createdAt,
-                                  Long orderCode,
-                                  int totalAmount,
-                                  int discountAmount) {
+    public OrderCursorResponseDto(Long id, LocalDateTime createdAt, Integer totalAmount, Integer discountAmount) {
+        this.id = id;
         this.createdAt = createdAt;
-        this.orderCode = orderCode;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
     }
@@ -32,8 +27,8 @@ public class OrderCursorResponseDto {
     public static List<OrderCursorResponseDto> from(List<OrderResponseDto> orderResponseDtos) {
         return orderResponseDtos.stream()
                 .map(orderResponseDto -> new OrderCursorResponseDto(
+                        orderResponseDto.getId(),
                         orderResponseDto.getCreatedAt(),
-                        orderResponseDto.getOrderCode(),
                         orderResponseDto.getTotalAmount(),
                         orderResponseDto.getDiscountAmount()))
                 .toList();
@@ -42,7 +37,7 @@ public class OrderCursorResponseDto {
 
     public OrderCursorResponseVo toVo() {
         return OrderCursorResponseVo.builder()
-                .orderCode(orderCode)
+                .id(id)
                 .createdAt(createdAt)
                 .totalAmount(totalAmount)
                 .discountAmount(discountAmount)

@@ -29,7 +29,7 @@ public class OrderDetailController {
         CursorPage<OrderDetailCursorResponseVo> result = orderDetailService.getOrderDetailList(orderDetailFilterDto)
                 .map(OrderDetailCursorResponseDto::toVo);
 
-        return ApiResponse.ok("주문 상세 목록 조회 성공", null);
+        return ApiResponse.ok("주문 상세 목록 조회 성공", result);
 
     }
 }

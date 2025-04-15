@@ -19,7 +19,7 @@ public class Order extends BaseEntity {
     private Long id;
 
     @Comment("주문 코드")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long orderCode;
 
     @Comment("회원 UUID")
@@ -44,7 +44,7 @@ public class Order extends BaseEntity {
 
     @Comment("우편 번호")
     @Column(nullable = false)
-    private String ZoneCode;
+    private String zoneCode;
 
     @Comment("주소")
     @Column(nullable = false)
@@ -99,7 +99,7 @@ public class Order extends BaseEntity {
         this.couponName = couponName;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
-        ZoneCode = zoneCode;
+        this.zoneCode = zoneCode;
         this.address = address;
         this.detailAddress = detailAddress;
         this.orderStatus = orderStatus;
@@ -109,9 +109,4 @@ public class Order extends BaseEntity {
         this.buyer = buyer;
     }
 
-    public void cancel(OrderCancelReason orderCancelReason, String orderCancelReasonDetail) {
-        this.orderStatus = OrderStatus.CANCELLED;
-        this.orderCancelReason = orderCancelReason;
-        this.orderCancelReasonDetail = orderCancelReasonDetail;
-    }
 }

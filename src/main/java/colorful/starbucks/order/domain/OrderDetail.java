@@ -33,13 +33,13 @@ public class OrderDetail extends BaseEntity {
     @Column(nullable = false)
     private String productName;
 
-    @Comment("사이즈")
-    @Column(nullable = false)
-    private String size;
+    @Comment("색상 ID")
+    @Column(nullable = true)
+    private Long sizeId;
 
-    @Comment("색상")
-    @Column(nullable = false)
-    private String color;
+    @Comment("색상 ID")
+    @Column(nullable = true)
+    private Long colorId;
 
     @Comment("수량")
     @Column(nullable = false)
@@ -71,8 +71,8 @@ public class OrderDetail extends BaseEntity {
                         Long productCode,
                        Long productDetailCode,
                        String productName,
-                       String size,
-                       String color,
+                       Long sizeId,
+                       Long colorId,
                        int quantity,
                        int price,
                        String carvingContent,
@@ -84,8 +84,8 @@ public class OrderDetail extends BaseEntity {
         this.productCode = productCode;
         this.productDetailCode = productDetailCode;
         this.productName = productName;
-        this.size = size;
-        this.color = color;
+        this.sizeId = sizeId;
+        this.colorId = colorId;
         this.quantity = quantity;
         this.price = price;
         this.carvingContent = carvingContent;
