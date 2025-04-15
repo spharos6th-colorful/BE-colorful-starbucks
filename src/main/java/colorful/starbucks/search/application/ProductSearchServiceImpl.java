@@ -45,12 +45,14 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                 .multiMatch(mm->mm
                 .fields("productName","topCategoryName","bottomCategoryName")
                         .query(keyword)
+
                 )
         );
 
         SearchRequest searchRequest = SearchRequest.of(
                 s->s
                         .index("product_search")
+                        .size(100)
                         .query(query)
         );
 
