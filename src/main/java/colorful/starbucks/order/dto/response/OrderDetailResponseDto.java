@@ -1,5 +1,6 @@
 package colorful.starbucks.order.dto.response;
 
+import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.vo.response.OrderDetailResponseVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,23 +15,23 @@ public class OrderDetailResponseDto {
     private String productName;
     private String sizeName;
     private String colorName;
-    private int quantity;
-    private int price;
+    private Integer quantity;
+    private Integer price;
     private Boolean carving;
     private String carvingContent;
     private String productDetailThumbnailUrl;
 
     @Builder
-    private OrderDetailResponseDto(Long id,
-                                   Long productCode,
-                                   String productName,
-                                   String sizeName,
-                                   String colorName,
-                                   int quantity,
-                                   int price,
-                                   Boolean carving,
-                                   String carvingContent,
-                                   String productDetailThumbnailUrl) {
+    public OrderDetailResponseDto(Long id,
+                                  Long productCode,
+                                  String productName,
+                                  String sizeName,
+                                  String colorName,
+                                  Integer quantity,
+                                  Integer price,
+                                  Boolean carving,
+                                  String carvingContent,
+                                  String productDetailThumbnailUrl) {
         this.id = id;
         this.productCode = productCode;
         this.productName = productName;
@@ -41,6 +42,21 @@ public class OrderDetailResponseDto {
         this.carving = carving;
         this.carvingContent = carvingContent;
         this.productDetailThumbnailUrl = productDetailThumbnailUrl;
+    }
+
+    public static OrderDetailResponseDto from(OrderDetail orderDetail) {
+        return OrderDetailResponseDto.builder()
+                .id(orderDetail.getId())
+                .productCode(orderDetail.getProductCode())
+                .productName(orderDetail.getProductName())
+                .sizeName(orderDetail.getSizeName())
+                .colorName(orderDetail.getColorName())
+                .quantity(orderDetail.getQuantity())
+                .price(orderDetail.getPrice())
+                .carving(orderDetail.getCarving())
+                .carvingContent(orderDetail.getCarvingContent())
+                .productDetailThumbnailUrl(orderDetail.getProductDetailThumbnailUrl())
+                .build();
     }
 
     public OrderDetailResponseVo toVo() {

@@ -7,9 +7,8 @@ import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.dto.OrderDetailFilterDto;
 import colorful.starbucks.order.dto.request.OrderDetailCreateRequestDto;
-import colorful.starbucks.order.dto.response.OrderDetailCursorResponseDto;
+import colorful.starbucks.order.dto.response.OrderDetailResponseDto;
 import colorful.starbucks.order.infrastructure.OrderDetailRepository;
-import colorful.starbucks.product.application.ProductDetailService;
 import colorful.starbucks.product.domain.ProductDetail;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +33,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         List<OrderDetail> orderDetails = orderDetailCreateRequestDto.stream()
                 .map(orderDetailRequestDto -> {
                     ProductDetail productDetail = productDetailRepository.findByProductDetailCodeAndIsDeletedIsFalse(orderDetailRequestDto.getProductDetailCode())
-                            .orElseThrow( () -> new BaseException(ResponseStatus.NO_EXIST_ORDER, "존재하지 않는 상품입니다."));
+                            .orElseThrow( () -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND, "상품을 찾을 수 없습니다."));
                    return orderDetailRequestDto.toEntity(order, productDetail);
                 })
                 .collect(Collectors.toList());
@@ -48,9 +46,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
 
     @Override
-    public CursorPage<OrderDetailCursorResponseDto> getOrderDetailList(OrderDetailFilterDto orderDetailFilterDto) {
+    public CursorPage<OrderDetailResponseDto> getOrderDetailList(OrderDetailFilterDto orderDetailFilterDto) {
         return orderDetailRepository.getOrderDetailList(orderDetailFilterDto)
-                .map(OrderDetailCursorResponseDto::from);
+                .map(OrderDetailResponseDto::from);
     }
 
 }

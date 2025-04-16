@@ -2,6 +2,7 @@ package colorful.starbucks.order.dto.response;
 
 import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.vo.response.OrderCursorResponseVo;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +17,11 @@ public class OrderCursorResponseDto {
     private Integer totalAmount;
     private Integer discountAmount;
 
-    public OrderCursorResponseDto(Long orderCode, LocalDateTime createdAt, Integer totalAmount, Integer discountAmount) {
+    @Builder
+    private OrderCursorResponseDto(Long orderCode,
+                                   LocalDateTime createdAt,
+                                   Integer totalAmount,
+                                   Integer discountAmount) {
         this.orderCode = orderCode;
         this.createdAt = createdAt;
         this.totalAmount = totalAmount;
@@ -25,13 +30,12 @@ public class OrderCursorResponseDto {
 
 
     public static OrderCursorResponseDto from(Order order) {
-        return new OrderCursorResponseDto(
-                order.getOrderCode(),
-                order.getCreatedAt(),
-                order.getTotalAmount(),
-                order.getDiscountAmount()
-        );
-
+        return OrderCursorResponseDto.builder()
+                .orderCode(order.getOrderCode())
+                .createdAt(order.getCreatedAt())
+                .totalAmount(order.getTotalAmount())
+                .discountAmount(order.getDiscountAmount())
+                .build();
     }
 
 
