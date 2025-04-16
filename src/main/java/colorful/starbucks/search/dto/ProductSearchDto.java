@@ -11,4 +11,5 @@ public class ProductSearchDto {
     private String productName;
     private String topCategoryName;
     private String bottomCategoryName;
+    private Integer price;
 }

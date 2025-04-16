@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
     Optional<Product> findByProductCodeAndIsDeletedIsFalse(Long productCode);
 
-    @Query("SELECT new colorful.starbucks.search.dto.ProductSearchDto(p.productCode, p.productName, pc.topCategoryName, pc.bottomCategoryName) " +
+    @Query("SELECT new colorful.starbucks.search.dto.ProductSearchDto(p.productCode, p.productName, pc.topCategoryName, pc.bottomCategoryName, p.price) " +
             "FROM Product p JOIN ProductCategoryList pc ON p.productCode = pc.productCode")
     List<ProductSearchDto> findAllForSearch();
 }

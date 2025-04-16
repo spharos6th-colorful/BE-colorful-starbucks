@@ -38,7 +38,8 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                         dto.getProductCode(),
                         dto.getProductName(),
                         dto.getTopCategoryName(),
-                        dto.getBottomCategoryName()
+                        dto.getBottomCategoryName(),
+                        dto.getPrice()
                 ))
                 .toList();
         productDocumentRepository.saveAll(documents);
