@@ -8,6 +8,7 @@ import colorful.starbucks.coupon.dto.request.EventCouponUuidRequestDto;
 import colorful.starbucks.coupon.dto.response.EventCouponUuidResponseDto;
 import colorful.starbucks.coupon.vo.request.EventCouponMappingCreateRequestVo;
 import colorful.starbucks.coupon.vo.response.EventCouponUuidResponseVo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -20,6 +21,11 @@ public class EventCouponMappingController {
 
     private final EventCouponMappingService eventCouponMappingService;
 
+    @Operation(
+            summary = "이벤트 쿠폰 매핑 생성 API",
+            description = "이벤트와 쿠폰을 매핑하는 API 입니다.",
+            tags = {"COUPON-SERVICE"}
+    )
     @PostMapping
     public ApiResponse<Void> createEventCouponMapping(@RequestBody EventCouponMappingCreateRequestVo eventCouponMappingCreateRequestVo) {
         eventCouponMappingService.createEventCouponMapping(EventCouponMappingCreateRequestDto.from(eventCouponMappingCreateRequestVo));
@@ -29,6 +35,11 @@ public class EventCouponMappingController {
         );
     }
 
+    @Operation(
+            summary = "이벤트 쿠폰 매핑 목록 조회 API",
+            description = "이벤트 uuid로 해당 이벤트가 가진 쿠폰 목록을 조회하는 API 입니다.",
+            tags = {"COUPON-SERVICE"}
+    )
     @GetMapping("/{eventUuid}")
     public ApiResponse<PageResponse<EventCouponUuidResponseVo>> getEventCouponList(@PathVariable String eventUuid,
                                                                                    @PageableDefault(page = 0, size = 10) Pageable pageable) {
