@@ -57,8 +57,8 @@ public class AuthController {
             tags = {"AUTH-SERVICE"}
     )
     @DeleteMapping("/sign-out")
-    public ApiResponse<Void> signOut(@RequestBody MemberSignOutRequestDto dto) {
-        authService.signOut(dto);
+    public ApiResponse<Void> signOut(@RequestBody MemberSignOutRequestDto memberSignOutRequestDto) {
+        authService.signOut(memberSignOutRequestDto);
         return ApiResponse.ok("로그아웃을 완료했습니다",null);
     }
 
