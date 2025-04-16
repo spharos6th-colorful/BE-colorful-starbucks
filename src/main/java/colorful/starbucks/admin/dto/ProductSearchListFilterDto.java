@@ -1,6 +1,5 @@
 package colorful.starbucks.admin.dto;
 
-import colorful.starbucks.admin.vo.ProductCategoryListFilterVo;
 import colorful.starbucks.admin.vo.ProductSearchListFilterVo;
 import lombok.Builder;
 import lombok.Getter;

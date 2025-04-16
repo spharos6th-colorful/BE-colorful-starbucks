@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findByProductCodeAndIsDeletedIsFalse(Long productCode);
 

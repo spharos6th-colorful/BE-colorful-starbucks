@@ -1,18 +1,17 @@
 package colorful.starbucks.product.presentation;
 
+import colorful.starbucks.product.dto.ProductFilterDto;
+import colorful.starbucks.product.dto.response.ProductCursorResponseDto;
+import colorful.starbucks.product.vo.ProductFilterVo;
+import colorful.starbucks.product.vo.response.ProductCursorResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.product.application.ProductService;
-import colorful.starbucks.product.dto.ProductFilterDto;
 import colorful.starbucks.product.dto.request.ProductCreateRequestDto;
-import colorful.starbucks.product.dto.response.ProductResponseDto;
-import colorful.starbucks.product.vo.ProductFilterVo;
 import colorful.starbucks.product.vo.request.ProductCreateRequestVo;
 import colorful.starbucks.product.vo.response.ProductResponseVo;
 import colorful.starbucks.product.vo.response.ProductSimpleResponseVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,13 +37,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public ApiResponse<CursorPage<ProductResponseVo>> getProductsByFilter(@ModelAttribute ProductFilterVo productFilterVo,
-                                                                          @PageableDefault(size = 3) Pageable pageable) {
-
-        return ApiResponse.ok(
-                "상품 목록 조회를 완료했습니다.",
-                productService.getProductsByFilter(ProductFilterDto.from(productFilterVo), pageable)
-                        .map(ProductResponseDto::toVo)
+    public ApiResponse<CursorPage<ProductCursorResponseVo>> getProductsByFilter(@ModelAttribute ProductFilterVo productFilterVo) {
+        return ApiResponse.ok("상품 목록 조회를 완료했습니다.",
+                productService.getProductsByFilter(ProductFilterDto.from(productFilterVo))
+                        .map(ProductCursorResponseDto::toVo)
         );
     }
 
