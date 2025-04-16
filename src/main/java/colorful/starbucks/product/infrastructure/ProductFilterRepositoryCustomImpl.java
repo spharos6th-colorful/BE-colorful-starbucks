@@ -1,9 +1,9 @@
 package colorful.starbucks.product.infrastructure;
 
 import colorful.starbucks.admin.dto.ProductIdAndPriceDto;
+import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.product.dto.ProductFilterDto;
 import colorful.starbucks.product.dto.response.ProductCursorResponseDto;
-import colorful.starbucks.common.util.CursorPage;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static colorful.starbucks.product.domain.QProductFilter.productFilter;
 import static colorful.starbucks.product.domain.QProduct.product;
+import static colorful.starbucks.product.domain.QProductFilter.productFilter;
 
 @Repository
 @RequiredArgsConstructor

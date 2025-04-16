@@ -6,8 +6,6 @@ import colorful.starbucks.admin.vo.ProductBottomCategoryVos;
 import colorful.starbucks.admin.vo.request.ProductBottomCategoryCreateRequestVo;
 import colorful.starbucks.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
