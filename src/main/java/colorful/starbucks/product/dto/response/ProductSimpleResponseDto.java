@@ -33,7 +33,7 @@ public class ProductSimpleResponseDto {
 
     public static ProductSimpleResponseDto from(Product product) {
 
-        Boolean isNew = product.getCreatedAt().isAfter(LocalDateTime.now().minusDays(3));
+        Boolean isNew = product.getCreatedAt().isAfter(LocalDateTime.now().minusDays(14));
         return ProductSimpleResponseDto.builder()
                 .productName(product.getProductName())
                 .productCode(product.getProductCode())
