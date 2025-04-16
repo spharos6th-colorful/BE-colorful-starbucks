@@ -102,6 +102,7 @@ public class PaymentsServiceImpl implements PaymentsService {
                 .orElseThrow(() -> new BaseException(ResponseStatus.INVALID_PAYMENTS_STATUS, "결제 내역이 존재하지 않습니다."));
 
         PaymentHistory canceledHistory = PaymentHistory.builder()
+                .id(original.getId())
                 .paymentKey(tossPaymentCancelRequestDto.getPaymentKey())
                 .paymentsNumber(original.getPaymentsNumber())
                 .orderCode(original.getOrderCode())

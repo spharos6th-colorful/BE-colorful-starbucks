@@ -15,8 +15,6 @@ public class OrderDetailCreateRequestDto {
     private Long productCode;
     private Long productDetailCode;
     private String productName;
-    private Long sizeId;
-    private Long colorId;
     private Integer quantity;
     private Integer price;
     private Boolean carving;
@@ -25,16 +23,13 @@ public class OrderDetailCreateRequestDto {
     private OrderDetailCreateRequestDto(Long productCode,
                                         Long productDetailCode,
                                         String productName,
-                                        Long sizeId,
-                                        Long colorId,
+
                                         Integer quantity,
                                         Integer price,
                                         Boolean carving) {
         this.productCode = productCode;
         this.productDetailCode = productDetailCode;
         this.productName = productName;
-        this.sizeId = sizeId;
-        this.colorId = colorId;
         this.quantity = quantity;
         this.price = price;
         this.carving = carving;
@@ -46,8 +41,6 @@ public class OrderDetailCreateRequestDto {
                 .productCode(productCode)
                 .productDetailCode(productDetailCode)
                 .productName(productName)
-                .sizeId(sizeId)
-                .colorId(colorId)
                 .quantity(quantity)
                 .price(price)
                 .carving(carving)
@@ -60,24 +53,10 @@ public class OrderDetailCreateRequestDto {
                 .productCode(orderCreateDetailRequestVo.getProductCode())
                 .productDetailCode(orderCreateDetailRequestVo.getProductDetailCode())
                 .productName(orderCreateDetailRequestVo.getProductName())
-                .sizeId(orderCreateDetailRequestVo.getSizeId())
-                .colorId(orderCreateDetailRequestVo.getColorId())
                 .quantity(orderCreateDetailRequestVo.getQuantity())
                 .price(orderCreateDetailRequestVo.getPrice())
                 .carving(orderCreateDetailRequestVo.getCarving())
                 .build();
     }
-    public ProductDetailCodeAndQuantityRequestDto toInventoryRequestDto() {
-        return ProductDetailCodeAndQuantityRequestDto.builder()
-                .productCode(this.productCode)
-                .sizeId(this.sizeId)
-                .colorId(this.colorId)
-                .quantity(this.quantity)
-                .build();
-    }
-
-
-
-
 
 }

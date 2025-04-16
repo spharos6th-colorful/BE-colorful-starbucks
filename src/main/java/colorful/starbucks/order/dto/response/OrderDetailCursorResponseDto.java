@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 public class OrderDetailCursorResponseDto {
@@ -15,8 +13,8 @@ public class OrderDetailCursorResponseDto {
     private Long id;
     private Long productCode;
     private String productName;
-    private Long sizeId;
-    private Long colorId;
+    private String sizeName;
+    private String colorName;
     private Integer quantity;
     private Integer price;
     private Boolean carving;
@@ -27,8 +25,8 @@ public class OrderDetailCursorResponseDto {
     public OrderDetailCursorResponseDto(Long id,
                                         Long productCode,
                                         String productName,
-                                        Long sizeId,
-                                        Long colorId,
+                                        String sizeName,
+                                        String colorName,
                                         Integer quantity,
                                         Integer price,
                                         Boolean carving,
@@ -37,8 +35,8 @@ public class OrderDetailCursorResponseDto {
         this.id = id;
         this.productCode = productCode;
         this.productName = productName;
-        this.sizeId = sizeId;
-        this.colorId = colorId;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
         this.quantity = quantity;
         this.price = price;
         this.carving = carving;
@@ -51,8 +49,8 @@ public class OrderDetailCursorResponseDto {
                 .id(orderDetail.getId())
                 .productCode(orderDetail.getProductCode())
                 .productName(orderDetail.getProductName())
-                .sizeId(orderDetail.getSizeId())
-                .colorId(orderDetail.getColorId())
+                .sizeName(orderDetail.getSizeName())
+                .colorName(orderDetail.getColorName())
                 .quantity(orderDetail.getQuantity())
                 .price(orderDetail.getPrice())
                 .carving(orderDetail.getCarving())
@@ -66,8 +64,8 @@ public class OrderDetailCursorResponseDto {
                 .id(this.id)
                 .productCode(this.productCode)
                 .productName(this.productName)
-                .sizeId(this.sizeId)
-                .colorId(this.colorId)
+                .sizeName(this.sizeName)
+                .colorName(this.colorName)
                 .quantity(this.quantity)
                 .price(this.price)
                 .carving(this.carving)

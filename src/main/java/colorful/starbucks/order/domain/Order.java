@@ -19,7 +19,7 @@ public class Order extends BaseEntity {
     private Long id;
 
     @Comment("주문 코드")
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private Long orderCode;
 
     @Comment("회원 UUID")

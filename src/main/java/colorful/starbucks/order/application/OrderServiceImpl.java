@@ -12,7 +12,6 @@ import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.infrastructure.OrderRepository;
-import colorful.starbucks.order.vo.request.OrderCancelRequestVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,20 +61,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void cancelOrderUpdate(OrderCancelRequestDto orderCancelRequestDto, String memberUuid) {
-        Order existingOrder = orderRepository.findByOrderCode(orderCancelRequestDto.getOrderCode())
+        Order order = orderRepository.findByOrderCode(orderCancelRequestDto.getOrderCode())
                 .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_ORDER));
 
         Order updatedOrder = Order.builder()
+                .id(order.getId())
                 .orderCode(orderCancelRequestDto.getOrderCode())
-                .couponUuid(existingOrder.getCouponUuid())
-                .couponName(existingOrder.getCouponName())
-                .zoneCode(existingOrder.getZoneCode())
-                .address(existingOrder.getAddress())
-                .detailAddress(existingOrder.getDetailAddress())
-                .isGift(existingOrder.getIsGift())
-                .totalAmount(existingOrder.getTotalAmount())
-                .discountAmount(existingOrder.getDiscountAmount())
-                .buyer(existingOrder.getBuyer())
+                .couponUuid(order.getCouponUuid())
+                .couponName(order.getCouponName())
+                .zoneCode(order.getZoneCode())
+                .address(order.getAddress())
+                .detailAddress(order.getDetailAddress())
+                .isGift(order.getIsGift())
+                .totalAmount(order.getTotalAmount())
+                .discountAmount(order.getDiscountAmount())
+                .buyer(order.getBuyer())
                 .orderCancelReason(orderCancelRequestDto.getOrderCancelReason())
                 .orderCancelReasonDetail(orderCancelRequestDto.getOrderCancelReasonDetail())
                 .memberUuid(memberUuid)

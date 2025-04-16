@@ -17,7 +17,7 @@ public class OrderCreateResponseDto {
     }
 
     public static OrderCreateResponseDto from(Long orderCode) {
-        return new OrderCreateResponseDto(Long.valueOf(orderCode));
+        return new OrderCreateResponseDto(orderCode);
     }
 
     public OrderCreateResponseVo toVo() {
