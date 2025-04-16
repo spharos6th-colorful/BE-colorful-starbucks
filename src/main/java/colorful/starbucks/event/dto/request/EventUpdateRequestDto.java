@@ -59,8 +59,9 @@ public class EventUpdateRequestDto {
                 .build();
     }
 
-    public Event toEntity() {
+    public Event toEntity(Long eventId) {
         return Event.builder()
+                .id(eventId)
                 .eventUuid(eventUuid)
                 .title(title)
                 .description(description)
