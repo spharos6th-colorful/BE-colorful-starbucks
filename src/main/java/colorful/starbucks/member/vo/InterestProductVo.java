@@ -1,4 +1,4 @@
-package colorful.starbucks.product.vo;
+package colorful.starbucks.member.vo;
 
 import lombok.Builder;
 import lombok.Getter;

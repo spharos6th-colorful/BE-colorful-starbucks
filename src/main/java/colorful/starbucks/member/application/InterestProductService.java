@@ -1,7 +1,7 @@
-package colorful.starbucks.product.application;
+package colorful.starbucks.member.application;
 
-import colorful.starbucks.product.dto.InterestProductDto;
-import colorful.starbucks.product.dto.request.InterestProductAddRequestDto;
+import colorful.starbucks.member.dto.InterestProductDto;
+import colorful.starbucks.member.dto.request.InterestProductAddRequestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

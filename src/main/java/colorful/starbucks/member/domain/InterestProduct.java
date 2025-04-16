@@ -1,4 +1,4 @@
-package colorful.starbucks.product.domain;
+package colorful.starbucks.member.domain;
 
 import colorful.starbucks.common.entity.BaseEntity;
 import jakarta.persistence.*;
