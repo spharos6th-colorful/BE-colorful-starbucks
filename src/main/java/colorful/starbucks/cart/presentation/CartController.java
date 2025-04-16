@@ -56,6 +56,14 @@ public class CartController {
                 null);
     }
 
+    @PutMapping("/checked")
+    public ApiResponse<Void> updateCartAllChecked(Authentication authentication,
+                                                  @RequestBody CartAllCheckRequestVo cartAllCheckRequestVo) {
+        cartService.updateCartAllChecked(CartAllCheckRequestDto.of(cartAllCheckRequestVo, authentication.getName()));
+        return ApiResponse.ok("장바구니 전체 체크 변경이 완료 되었습니다.",
+                null);
+    }
+
 
     @GetMapping
     public ApiResponse<CartListResponseVo> getCartList(Authentication authentication,
