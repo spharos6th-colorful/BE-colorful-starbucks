@@ -8,6 +8,7 @@ import colorful.starbucks.product.domain.Product;
 import colorful.starbucks.product.dto.ProductFilterDto;
 import colorful.starbucks.product.dto.request.ProductCreateRequestDto;
 import colorful.starbucks.product.dto.response.ProductCursorResponseDto;
+import colorful.starbucks.product.dto.response.ProductOptionListResponseDto;
 import colorful.starbucks.product.dto.response.ProductResponseDto;
 import colorful.starbucks.product.dto.response.ProductSimpleResponseDto;
 import colorful.starbucks.product.generator.ProductCodeGenerator;
@@ -24,8 +25,9 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final S3UploadService s3UploadService;
-    private final ProductFilterService productFilterService;
     private final ProductCodeGenerator productCodeGenerator;
+    private final ProductFilterService productFilterService;
+    private final ProductDetailService productDetailService;
 
     @Transactional
     @Override
@@ -61,6 +63,11 @@ public class ProductServiceImpl implements ProductService {
                 productRepository.findByProductCodeAndIsDeletedIsFalse(productCode).
                         orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
+    }
+
+    @Override
+    public ProductOptionListResponseDto getProductOptionList(Long productCode) {
+        return productDetailService.getProductOptionList(productCode);
     }
 
     @Override

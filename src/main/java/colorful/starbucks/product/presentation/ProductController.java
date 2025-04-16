@@ -9,6 +9,7 @@ import colorful.starbucks.product.dto.response.ProductCursorResponseDto;
 import colorful.starbucks.product.vo.ProductFilterVo;
 import colorful.starbucks.product.vo.request.ProductCreateRequestVo;
 import colorful.starbucks.product.vo.response.ProductCursorResponseVo;
+import colorful.starbucks.product.vo.response.ProductOptionListResponseVo;
 import colorful.starbucks.product.vo.response.ProductResponseVo;
 import colorful.starbucks.product.vo.response.ProductSimpleResponseVo;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,13 @@ public class ProductController {
         return ApiResponse.ok(
                 "상품 조회를 완료했습니다.",
                 productService.getProduct(productCode).toVo()
+        );
+    }
+
+    @GetMapping("/{productCode}/options")
+    public ApiResponse<ProductOptionListResponseVo> getProductOptionList(@PathVariable Long productCode) {
+        return ApiResponse.ok("상세 상품 옵션이 조회되었습니다.",
+                productService.getProductOptionList(productCode).toVo()
         );
     }
 
