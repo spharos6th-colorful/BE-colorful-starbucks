@@ -74,16 +74,21 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     public AutoSearchListResponseDto getAutoSearchList(String keyword) throws IOException {
 
         Query query = Query.of(q -> q
-                .multiMatch(mm -> mm
-                        .fields("productName")
-                        .query(keyword)
+                .bool(b -> b
+                        .should(
+                                Query.of(q1 -> q1.prefix(p -> p
+                                        .field("productName")
+                                        .value(keyword)
+                                        .boost(2.0f)
+                                ))
+                        )
                 )
         );
 
         SearchRequest searchRequest = SearchRequest.of(
                 s -> s
                         .index("product_search")
-                        .size(100)
+                        .size(5)
                         .query(query)
         );
 
