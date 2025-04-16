@@ -71,6 +71,7 @@ public class IndexInitializer {
                     ))
             );
 
+
             System.out.println("✅ product_search 인덱스 생성 완료");
 
     }
