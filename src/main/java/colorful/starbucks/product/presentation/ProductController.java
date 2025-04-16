@@ -26,9 +26,11 @@ public class ProductController {
     private final ProductService productService;
 
     // todo: 프론트에서 s3 업로드 구현 완료되면 file이 아닌 image url을 받는 것으로 수정할 것
-    @Operation(summary = "상품 등록 API",
+    @Operation(
+            summary = "상품 등록 API",
             description = "상품 등록 API 입니다.",
-            tags = {"PRODUCT-SERVICE"})
+            tags = {"PRODUCT-SERVICE"}
+    )
     @PostMapping
     public ApiResponse<ProductResponseVo> createProduct(@RequestPart ProductCreateRequestVo productCreateRequestVo,
                                                         @RequestPart(required = false) MultipartFile productThumbnail,
@@ -41,9 +43,11 @@ public class ProductController {
         );
     }
 
-    @Operation(summary = "상품 목록 조회 API",
+    @Operation(
+            summary = "상품 목록 조회 API",
             description = "필터링, 정렬 조건을 포함한 상품 조회 API 입니다.",
-            tags = {"PRODUCT-SERVICE"})
+            tags = {"PRODUCT-SERVICE"}
+    )
     @GetMapping
     public ApiResponse<CursorPage<ProductCursorResponseVo>> getProductsByFilter(@ModelAttribute ProductFilterVo productFilterVo) {
         return ApiResponse.ok("상품 목록 조회를 완료했습니다.",
@@ -52,9 +56,11 @@ public class ProductController {
         );
     }
 
-    @Operation(summary = "상품 조회 API",
+    @Operation(
+            summary = "상품 조회 API",
             description = "상품 코드로 상품에 대한 정보를 조회하는 API 입니다.",
-            tags = {"PRODUCT-SERVICE"})
+            tags = {"PRODUCT-SERVICE"}
+    )
     @GetMapping("/{productCode}")
     public ApiResponse<ProductResponseVo> getProduct(@PathVariable Long productCode) {
         return ApiResponse.ok(
@@ -63,9 +69,11 @@ public class ProductController {
         );
     }
 
-    @Operation(summary = "상품 옵션 조회 API",
+    @Operation(
+            summary = "상품 옵션 조회 API",
             description = "상품 코드로 상품 옵션을 조회하는 API 입니다.",
-            tags = {"PRODUCT-SERVICE"})
+            tags = {"PRODUCT-SERVICE"}
+    )
     @GetMapping("/{productCode}/options")
     public ApiResponse<ProductOptionListResponseVo> getProductOptionList(@PathVariable Long productCode) {
         return ApiResponse.ok("상세 상품 옵션이 조회되었습니다.",
@@ -73,9 +81,11 @@ public class ProductController {
         );
     }
 
-    @Operation(summary = "상품 간단 조회 API",
+    @Operation(
+            summary = "상품 간단 조회 API",
             description = "상품 코드로 상품 간단 정보를 조회하는 API 입니다.",
-            tags = {"PRODUCT-SERVICE"})
+            tags = {"PRODUCT-SERVICE"}
+    )
     @GetMapping("/{productCode}/simple")
     public ApiResponse<ProductSimpleResponseVo> getProductSimpleInformation(@PathVariable Long productCode) {
         return ApiResponse.ok(
