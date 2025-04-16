@@ -3,8 +3,7 @@ package colorful.starbucks.cart.vo.request;
 import lombok.Getter;
 
 @Getter
-public class CartDeleteRequestVo {
+public class CartAllCheckRequestVo {
 
-    private Long cartId;
-
+    private Boolean checked;
 }

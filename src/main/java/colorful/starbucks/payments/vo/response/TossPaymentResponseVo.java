@@ -11,15 +11,15 @@ public class TossPaymentResponseVo {
     private String paymentKey;
     private String orderId;
     private String status;
-    private int totalAmount;
+    private Integer totalAmount;
     private String approvedAt;
 
     @Builder
     private TossPaymentResponseVo(String paymentKey,
-                                   String orderId,
-                                   String status,
-                                   int totalAmount,
-                                   String approvedAt) {
+                                  String orderId,
+                                  String status,
+                                  Integer totalAmount,
+                                  String approvedAt) {
         this.paymentKey = paymentKey;
         this.orderId = orderId;
         this.status = status;
