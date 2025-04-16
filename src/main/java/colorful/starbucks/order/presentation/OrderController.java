@@ -12,6 +12,7 @@ import colorful.starbucks.order.vo.request.OrderCancelRequestVo;
 import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
 import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import colorful.starbucks.order.vo.response.OrderCursorResponseVo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,11 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
     private final OrderService orderService;
 
+    @Operation(
+            summary = "주문 생성 API",
+            description = "주문을 생성하는 API 입니다.",
+            tags = {"ORDER-SERVICE"}
+    )
     @PostMapping
     public ApiResponse<OrderCreateResponseVo> createOrder(Authentication authentication,
                                                           @RequestBody OrderCreateRequestVo orderCreateRequestVo) {
@@ -33,6 +39,11 @@ public class OrderController {
         );
     }
 
+    @Operation(
+            summary = "주문 목록 조회 API",
+            description = "주문 목록을 조회하는 API 입니다.",
+            tags = {"ORDER-SERVICE"}
+    )
     @GetMapping
     public ApiResponse<CursorPage<OrderCursorResponseVo>> getOrderList(Authentication authentication,
                                                                        @ModelAttribute OrderListFilterVo orderListFilterVo) {
@@ -53,6 +64,11 @@ public class OrderController {
         );
     }
 
+    @Operation(
+            summary = "주문 취소 API",
+            description = "주문을 취소하는 API 입니다.",
+            tags = {"ORDER-SERVICE"}
+    )
     @PostMapping("/cancel")
     public ApiResponse<Void> cancelOrder(Authentication authentication,
                                          @RequestBody OrderCancelRequestVo orderCancelRequestVo) {
@@ -61,9 +77,5 @@ public class OrderController {
 
         return ApiResponse.ok("주문이 성공적으로 취소되었습니다.", null);
     }
-
-
-
-
 }
 

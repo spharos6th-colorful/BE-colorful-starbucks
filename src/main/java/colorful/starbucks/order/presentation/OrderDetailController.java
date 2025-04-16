@@ -7,6 +7,7 @@ import colorful.starbucks.order.dto.OrderDetailFilterDto;
 import colorful.starbucks.order.dto.response.OrderDetailCursorResponseDto;
 import colorful.starbucks.order.vo.OrderDetailFilterVo;
 import colorful.starbucks.order.vo.response.OrderDetailCursorResponseVo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderDetailController {
     private final OrderDetailService orderDetailService;
 
+    @Operation(
+            summary = "주문 상세 목록 조회 API",
+            description = "주문 상세 목록을 조회하는 API 입니다.",
+            tags = {"ORDER-SERVICE"}
+    )
     @GetMapping
     public ApiResponse<CursorPage<OrderDetailCursorResponseVo>> getOrderDetailList(Authentication authentication,
                                                                                    @ModelAttribute OrderDetailFilterVo orderDetailFilterVo) {
