@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface InterestProductRepository extends JpaRepository<InterestProduct, Long> {
 
     Page<InterestProduct> findAllByMemberUuidAndIsDeletedIsFalse(String memberUuid, Pageable pageable);
-    Optional<InterestProduct> findByIdAndMemberUuid(Long interestProductId, String memberUuid);
+
+    void deleteByMemberUuidAndProductCode(String memberUuid, Long productCode);
 }

@@ -2,6 +2,7 @@ package colorful.starbucks.member.application;
 
 import colorful.starbucks.member.dto.InterestProductDto;
 import colorful.starbucks.member.dto.request.InterestProductAddRequestDto;
+import colorful.starbucks.member.dto.request.InterestProductRemoveDto;
 import colorful.starbucks.member.infrastructure.InterestProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,9 +33,10 @@ public class InterestProductServiceImpl implements InterestProductService {
 
     @Transactional
     @Override
-    public void removeInterestProduct(Long interestProductId, String memberUuid) {
-        interestProductRepository.findById(interestProductId).ifPresent(interestProduct -> {
-            interestProductRepository.deleteById(interestProductId);
-        });
+    public void removeInterestProduct(InterestProductRemoveDto interestProductRemoveDto) {
+        interestProductRepository.deleteByMemberUuidAndProductCode(
+                interestProductRemoveDto.getMemberUuid(),
+                interestProductRemoveDto.getProductCode()
+        );
     }
 }

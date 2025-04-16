@@ -6,7 +6,4 @@ import lombok.Getter;
 public class InterestProductAddRequestVo {
 
     private Long productCode;
-    private String productName;
-    private Integer price;
-    private String productThumbnailUrl;
 }

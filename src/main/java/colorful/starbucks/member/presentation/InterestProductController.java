@@ -5,6 +5,7 @@ import colorful.starbucks.common.util.PageResponse;
 import colorful.starbucks.member.application.InterestProductService;
 import colorful.starbucks.member.dto.InterestProductDto;
 import colorful.starbucks.member.dto.request.InterestProductAddRequestDto;
+import colorful.starbucks.member.dto.request.InterestProductRemoveDto;
 import colorful.starbucks.member.vo.InterestProductVo;
 import colorful.starbucks.member.vo.request.InterestProductAddRequestVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,11 +65,11 @@ public class InterestProductController {
             description = "관심 상품을 삭제하는 API 입니다.",
             tags = {"MEMBER-SERVICE"}
     )
-    @DeleteMapping("/{interestProductId}")
+    @DeleteMapping("/{productCode}")
     public ApiResponse<Void> removeInterestProduct(Authentication authentication,
-                                                   @PathVariable Long interestProductId) {
+                                                   @PathVariable Long productCode) {
 
-        interestProductService.removeInterestProduct(interestProductId, authentication.getName());
+        interestProductService.removeInterestProduct(InterestProductRemoveDto.of(authentication.getName(), productCode));
         return ApiResponse.of(HttpStatus.NO_CONTENT,
                 "관심 상품 삭제를 완료했습니다.",
                 null);

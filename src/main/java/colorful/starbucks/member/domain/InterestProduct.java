@@ -28,30 +28,12 @@ public class InterestProduct extends BaseEntity {
     @Column(nullable = false)
     private Long productCode;
 
-    @Comment("상품 이름")
-    @Column(nullable = false)
-    private String productName;
-
-    @Comment("상품 가격")
-    @Column(nullable = false)
-    private int price;
-
-    @Comment("상품 썸네일 URL")
-    @Column(nullable = false)
-    private String productThumbnailUrl;
-
     @Builder
     private InterestProduct(Long id,
                             String memberUuid,
-                            Long productCode,
-                            String productName,
-                            int price,
-                            String productThumbnailUrl) {
+                            Long productCode) {
         this.id = id;
         this.memberUuid = memberUuid;
         this.productCode = productCode;
-        this.productName = productName;
-        this.price = price;
-        this.productThumbnailUrl = productThumbnailUrl;
     }
 }
