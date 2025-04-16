@@ -55,7 +55,7 @@ public class EventController {
 
     @Operation(
             summary = "이벤트 목록 조회 API",
-            description = "이벤트 목록을 조회하는 API 입니다.",
+            description = "이벤트 목록을 조회하는 API 입니다. status에는 'ONGOING' (진행중), 'UPCOMING' (예정), 'ENDED'(종료)를 입력해주세요.",
             tags = {"EVENT-SERVICE"}
     )
     @GetMapping

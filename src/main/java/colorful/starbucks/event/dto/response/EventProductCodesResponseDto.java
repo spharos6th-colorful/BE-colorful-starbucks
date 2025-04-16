@@ -1,5 +1,6 @@
 package colorful.starbucks.event.dto.response;
 
+import colorful.starbucks.event.domain.EventProduct;
 import colorful.starbucks.event.vo.response.EventProductCodesResponseVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,9 +17,9 @@ public class EventProductCodesResponseDto {
         this.productCode = productCode;
     }
 
-    public static EventProductCodesResponseDto from(Long productCode) {
+    public static EventProductCodesResponseDto from(EventProduct eventProduct) {
         return EventProductCodesResponseDto.builder()
-                .productCode(productCode)
+                .productCode(eventProduct.getProductCode())
                 .build();
     }
 
