@@ -12,8 +12,8 @@ public class OrderCreateDetailRequestVo {
     private Long productCode;
     private Long productDetailCode;
     private String productName;
-    private Long sizeId;
-    private Long colorId;
+    private String sizeName;
+    private String colorName;
     private Integer quantity;
     private Integer price;
     private Boolean carving;
@@ -23,8 +23,8 @@ public class OrderCreateDetailRequestVo {
                                        Long productCode,
                                        Long productDetailCode,
                                        String productName,
-                                       Long sizeId,
-                                       Long colorId,
+                                       String sizeName,
+                                       String colorName,
                                        Integer quantity,
                                        Integer price,
                                        Boolean carving) {
@@ -32,8 +32,8 @@ public class OrderCreateDetailRequestVo {
         this.productCode = productCode;
         this.productDetailCode = productDetailCode;
         this.productName = productName;
-        this.sizeId = sizeId;
-        this.colorId = colorId;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
         this.quantity = quantity;
         this.price = price;
         this.carving = carving;
