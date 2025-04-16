@@ -16,4 +16,5 @@ public interface CartService {
     CartDetailResponseDto getCartDetail(Long cartId);
     void updateCartChecked(CartCheckRequestDto cartCheckRequestDto);
     void removeAllCart(String memberUuid);
+    void updateCartAllChecked(CartAllCheckRequestDto cartAllCheckRequestDto);
 }

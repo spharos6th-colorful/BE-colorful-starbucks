@@ -46,12 +46,21 @@ public class CartController {
         );
     }
 
-    @PutMapping("/checked")
+    @PutMapping("/{cartId}/checked")
     public ApiResponse<Void> updateCartProductCheck(Authentication authentication,
+                                                    @PathVariable Long cartId,
                                                     @RequestBody CartCheckRequestVo cartCheckRequestVo) {
 
-        cartService.updateCartChecked(CartCheckRequestDto.of(cartCheckRequestVo, authentication.getName()));
-        return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
+        cartService.updateCartChecked(CartCheckRequestDto.of(cartCheckRequestVo, authentication.getName(), cartId));
+        return ApiResponse.ok("장바구니 체크 변경이 완료 되었습니다.",
+                null);
+    }
+
+    @PutMapping("/checked")
+    public ApiResponse<Void> updateCartAllChecked(Authentication authentication,
+                                                  @RequestBody CartAllCheckRequestVo cartAllCheckRequestVo) {
+        cartService.updateCartAllChecked(CartAllCheckRequestDto.of(cartAllCheckRequestVo, authentication.getName()));
+        return ApiResponse.ok("장바구니 전체 체크 변경이 완료 되었습니다.",
                 null);
     }
 
