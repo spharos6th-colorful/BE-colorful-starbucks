@@ -1,6 +1,6 @@
-package colorful.starbucks.admin.dto.response;
+package colorful.starbucks.product.dto.response;
 
-import colorful.starbucks.admin.vo.response.ProductCursorResponseVo;
+import colorful.starbucks.product.vo.response.ProductCursorResponseVo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,7 +13,6 @@ public class ProductCursorResponseDto {
 
     public ProductCursorResponseVo toVo(){
         return ProductCursorResponseVo.builder()
-                .id(id)
                 .productCode(productCode)
                 .build();
     }

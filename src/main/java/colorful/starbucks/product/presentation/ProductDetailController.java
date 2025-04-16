@@ -8,7 +8,6 @@ import colorful.starbucks.product.vo.request.ProductDetailCodeAndQuantityRequest
 import colorful.starbucks.product.vo.request.ProductDetailCreateRequestVo;
 import colorful.starbucks.product.vo.response.ProductDetailCodeAndQuantityResponseVo;
 import colorful.starbucks.product.vo.response.ProductDetailResponseVo;
-import colorful.starbucks.product.vo.response.ProductOptionListResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,12 +45,5 @@ public class ProductDetailController {
                 productDetailService.getProductDetailWithOptions(
                         ProductDetailCodeAndQuantityRequestDto.from(productDetailCodeAndQuantityRequestVo)
                 ).toVo());
-    }
-
-    @GetMapping("/options")
-    public ApiResponse<ProductOptionListResponseVo> getProductOptionList(@RequestParam Long productCode) {
-        return ApiResponse.ok("상세 상품 옵션이 조회되었습니다.",
-                productDetailService.getProductOptionList(productCode).toVo()
-        );
     }
 }
