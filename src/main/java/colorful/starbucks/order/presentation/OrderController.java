@@ -36,20 +36,10 @@ public class OrderController {
     @GetMapping
     public ApiResponse<CursorPage<OrderCursorResponseVo>> getOrderList(Authentication authentication,
                                                                        @ModelAttribute OrderListFilterVo orderListFilterVo) {
-        String memberUuid = authentication.getName();
-
-        OrderListFilterDto orderListFilterDto = OrderListFilterDto.of(orderListFilterVo, memberUuid);
-
-        CursorPage<OrderCursorResponseDto> response = orderService.getOrderList(orderListFilterDto);
 
         return ApiResponse.ok("주문 목록 조회 성공",
-                CursorPage.<OrderCursorResponseVo>builder()
-                        .content(response.getContent().stream()
-                                .map(OrderCursorResponseDto::toVo)
-                                .toList())
-                        .nextCursor(response.getNextCursor())
-                        .hasNext(response.getHasNext())
-                        .build()
+                orderService.getOrderList(OrderListFilterDto.of(orderListFilterVo, authentication.getName()))
+                        .map(OrderCursorResponseDto::toVo)
         );
     }
 
@@ -61,8 +51,6 @@ public class OrderController {
 
         return ApiResponse.ok("주문이 성공적으로 취소되었습니다.", null);
     }
-
-
 
 
 }

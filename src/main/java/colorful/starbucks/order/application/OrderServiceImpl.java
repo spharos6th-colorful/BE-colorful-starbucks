@@ -40,7 +40,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
-        return orderRepository.getOrderList(orderListFilterDto);
+        return orderRepository.getOrderList(orderListFilterDto)
+                .map(OrderCursorResponseDto::from);
     }
 
     @Transactional

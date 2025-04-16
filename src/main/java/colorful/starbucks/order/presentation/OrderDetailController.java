@@ -24,12 +24,9 @@ public class OrderDetailController {
     public ApiResponse<CursorPage<OrderDetailCursorResponseVo>> getOrderDetailList(Authentication authentication,
                                                                                    @ModelAttribute OrderDetailFilterVo orderDetailFilterVo) {
 
-        OrderDetailFilterDto orderDetailFilterDto = OrderDetailFilterDto.of(orderDetailFilterVo, authentication.getName());
-
-        CursorPage<OrderDetailCursorResponseVo> result = orderDetailService.getOrderDetailList(orderDetailFilterDto)
-                .map(OrderDetailCursorResponseDto::toVo);
-
-        return ApiResponse.ok("주문 상세 목록 조회 성공", result);
+        return ApiResponse.ok("주문 상세 목록 조회 성공",
+                orderDetailService.getOrderDetailList(OrderDetailFilterDto.of(orderDetailFilterVo, authentication.getName()))
+                .map(OrderDetailCursorResponseDto::toVo));
 
     }
 }

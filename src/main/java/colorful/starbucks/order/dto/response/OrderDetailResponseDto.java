@@ -12,8 +12,8 @@ public class OrderDetailResponseDto {
     private Long id;
     private Long productCode;
     private String productName;
-    private Long sizeId;
-    private Long colorId;
+    private String sizeName;
+    private String colorName;
     private int quantity;
     private int price;
     private Boolean carving;
@@ -24,8 +24,8 @@ public class OrderDetailResponseDto {
     private OrderDetailResponseDto(Long id,
                                    Long productCode,
                                    String productName,
-                                   Long sizeId,
-                                   Long colorId,
+                                   String sizeName,
+                                   String colorName,
                                    int quantity,
                                    int price,
                                    Boolean carving,
@@ -34,8 +34,8 @@ public class OrderDetailResponseDto {
         this.id = id;
         this.productCode = productCode;
         this.productName = productName;
-        this.sizeId = sizeId;
-        this.colorId = colorId;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
         this.quantity = quantity;
         this.price = price;
         this.carving = carving;
@@ -48,8 +48,8 @@ public class OrderDetailResponseDto {
                 .id(this.id)
                 .productCode(this.productCode)
                 .productName(this.productName)
-                .sizeId(this.sizeId)
-                .colorId(this.colorId)
+                .sizeName(this.sizeName)
+                .colorName(this.colorName)
                 .quantity(this.quantity)
                 .price(this.price)
                 .carving(this.carving)

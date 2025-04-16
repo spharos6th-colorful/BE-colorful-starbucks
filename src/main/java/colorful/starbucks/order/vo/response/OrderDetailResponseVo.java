@@ -11,8 +11,8 @@ public class OrderDetailResponseVo {
     private Long id;
     private Long productCode;
     private String productName;
-    private Long sizeId;
-    private Long colorId;
+    private String sizeName;
+    private String colorName;
     private Integer quantity;
     private Integer price;
     private Boolean carving;
@@ -23,8 +23,8 @@ public class OrderDetailResponseVo {
     private OrderDetailResponseVo(Long id,
                                   Long productCode,
                                   String productName,
-                                  Long sizeId,
-                                  Long colorId,
+                                  String sizeName,
+                                  String colorName,
                                   Integer quantity,
                                   Integer price,
                                   Boolean carving,
@@ -33,8 +33,8 @@ public class OrderDetailResponseVo {
         this.id = id;
         this.productCode = productCode;
         this.productName = productName;
-        this.sizeId = sizeId;
-        this.colorId = colorId;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
         this.quantity = quantity;
         this.price = price;
         this.carving = carving;

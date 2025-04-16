@@ -10,17 +10,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OrderCursorResponseVo {
 
-    private Long id;
+    private Long orderCode;
     private LocalDateTime createdAt;
     private Integer totalAmount;
     private Integer discountAmount;
 
     @Builder
-    private OrderCursorResponseVo(Long id,
+    private OrderCursorResponseVo(Long orderCode,
                                   LocalDateTime createdAt,
                                   Integer totalAmount,
                                   Integer discountAmount)  {
-        this.id = id;
+        this.orderCode = orderCode;
         this.createdAt = createdAt;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
