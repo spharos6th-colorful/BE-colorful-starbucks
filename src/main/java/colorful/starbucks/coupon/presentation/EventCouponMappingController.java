@@ -38,8 +38,9 @@ public class EventCouponMappingController {
     }
 
     @Operation(
-            summary = "이벤트 쿠폰 매핑 목록 조회 API",
-            description = "이벤트 uuid로 해당 이벤트가 가진 쿠폰 목록을 조회하는 API 입니다.",
+            summary = "이벤트 쿠폰 목록 조회 API",
+            description = "이벤트 uuid로 해당 이벤트가 가진 쿠폰 목록을 조회하는 API 입니다. 페이징 처리가 되어있습니다." +
+                    "page, size 파라미터를 통해 페이지 번호와 페이지 사이즈를 조정할 수 있습니다. ",
             tags = {"COUPON-SERVICE"}
     )
     @GetMapping("/{eventUuid}")

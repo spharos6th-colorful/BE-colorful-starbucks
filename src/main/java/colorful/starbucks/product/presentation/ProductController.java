@@ -45,7 +45,10 @@ public class ProductController {
 
     @Operation(
             summary = "상품 목록 조회 API",
-            description = "필터링, 정렬 조건을 포함한 상품 조회 API 입니다.",
+            description = "필터링, 정렬 조건을 포함한 상품 조회 API 입니다. 무한스크롤로 구현되어 있습니다. " +
+                    "size를 결정하고 이전 목록 조회는 page 값을 할당하고 cursor는 빼주세요, 다음 목록 조회는 cursor로 요청해주세요. " +
+                    "sortBy는 정렬 기준입니다. 'price,asc', 'price,desc', 'createdAt,asc', 'createdAt,desc' 를 입력해주세요. " +
+                    "bottomCategoryIds는 하위 카테고리를 여러 개 넣을 수 있습니다 '1,3,5' 와 같은 형식으로 넣어주세요.",
             tags = {"PRODUCT-SERVICE"}
     )
     @GetMapping

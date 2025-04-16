@@ -87,7 +87,8 @@ public class CartController {
 
     @Operation(
             summary = "장바구니 목록 조회 API",
-            description = "사용자의 장바구니 목록을 조회하는 API 입니다.",
+            description = "사용자의 장바구니 목록을 조회하는 API 입니다. 페이징 처리가 되어 있습니다. " +
+                    "page, size 파라미터를 통해 페이지 번호와 페이지 사이즈를 조정할 수 있습니다.",
             tags = {"CART-SERVICE"}
     )
     @GetMapping
