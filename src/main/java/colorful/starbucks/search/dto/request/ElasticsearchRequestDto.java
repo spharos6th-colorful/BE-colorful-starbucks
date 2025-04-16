@@ -3,8 +3,10 @@ package colorful.starbucks.search.dto.request;
 import colorful.starbucks.search.vo.request.ElasticsearchRequestVo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ElasticsearchRequestDto {
 
     private String query;
