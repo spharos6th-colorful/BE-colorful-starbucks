@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,15 +23,16 @@ public class EventCouponMappingController {
     private final EventCouponMappingService eventCouponMappingService;
 
     @Operation(
-            summary = "이벤트 쿠폰 매핑 생성 API",
-            description = "이벤트와 쿠폰을 매핑하는 API 입니다.",
+            summary = "이벤트 쿠폰 생성 API",
+            description = "이벤트와 쿠폰을 생성하는 API 입니다.",
             tags = {"COUPON-SERVICE"}
     )
     @PostMapping
     public ApiResponse<Void> createEventCouponMapping(@RequestBody EventCouponMappingCreateRequestVo eventCouponMappingCreateRequestVo) {
         eventCouponMappingService.createEventCouponMapping(EventCouponMappingCreateRequestDto.from(eventCouponMappingCreateRequestVo));
-        return ApiResponse.ok(
-                "이벤트 쿠폰 매핑을 완료했습니다.",
+        return ApiResponse.of(
+                HttpStatus.CREATED,
+                "이벤트 쿠폰을 생성했습니다.",
                 null
         );
     }
