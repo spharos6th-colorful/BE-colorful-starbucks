@@ -55,7 +55,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void updateCartChecked(CartCheckRequestDto cartCheckRequestDto) {
 
-        cartRepository.findByIdAndMemberUuid(cartCheckRequestDto.getId(), cartCheckRequestDto.getMemberUuid())
+        cartRepository.findByIdAndMemberUuid(cartCheckRequestDto.getCartId(), cartCheckRequestDto.getMemberUuid())
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
                 .updateProductChecked(cartCheckRequestDto.getChecked());
 

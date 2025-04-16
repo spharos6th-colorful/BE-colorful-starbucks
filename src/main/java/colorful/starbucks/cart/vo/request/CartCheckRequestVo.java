@@ -5,6 +5,5 @@ import lombok.Getter;
 @Getter
 public class CartCheckRequestVo {
 
-    private Long id;
     private Boolean checked;
 }
