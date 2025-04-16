@@ -8,6 +8,7 @@ import colorful.starbucks.member.dto.request.RecentlyViewProductAddRequestDto;
 import colorful.starbucks.member.vo.request.RecentlyViewProductAddRequestVo;
 import colorful.starbucks.member.vo.response.RecentlyViewProductListVo;
 import colorful.starbucks.member.vo.response.RecentlyViewProductAddResponseVo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,11 @@ public class RecentlyViewProductController {
 
     private final RecentlyViewProductService recentlyViewProductService;
 
+    @Operation(
+            summary = "최근 본 상품 추가 API",
+            description = "최근 본 상품을 추가하는 API 입니다.",
+            tags = {"MEMBER-SERVICE"}
+    )
     @PostMapping
     public ApiResponse<RecentlyViewProductAddResponseVo> addRecentlyViewProduct(Authentication authentication,
                                                                                 @RequestBody RecentlyViewProductAddRequestVo recentlyViewProductAddRequestVo) {
@@ -34,6 +40,11 @@ public class RecentlyViewProductController {
         );
     }
 
+    @Operation(
+            summary = "최근 본 상품 리스트 조회 API",
+            description = "최근 본 상품 리스트를 조회하는 API 입니다.",
+            tags = {"MEMBER-SERVICE"}
+    )
     @GetMapping
     public ApiResponse<List<RecentlyViewProductListVo>> getRecentlyViewProductList(Authentication authentication) {
 
@@ -44,6 +55,11 @@ public class RecentlyViewProductController {
         );
     }
 
+    @Operation(
+            summary = "최근 본 상품 삭제 API",
+            description = "최근 본 상품을 삭제하는 API 입니다.",
+            tags = {"MEMBER-SERVICE"}
+    )
     @DeleteMapping("/{productCode}")
     public ApiResponse<Void> deleteRecentlyViewProduct(Authentication authentication,
                                                        @PathVariable Long productCode) {
@@ -52,6 +68,11 @@ public class RecentlyViewProductController {
         return ApiResponse.ok("최근 본 상품을 삭제했습니다.", null);
     }
 
+    @Operation(
+            summary = "최근 본 상품 전체 삭제 API",
+            description = "최근 본 상품을 모두 삭제하는 API 입니다.",
+            tags = {"MEMBER-SERVICE"}
+    )
     @DeleteMapping
     public ApiResponse<Void> deleteAllRecentlyViewProduct(Authentication authentication) {
         recentlyViewProductService.deleteAllRecentlyViewProduct(authentication.getName());
