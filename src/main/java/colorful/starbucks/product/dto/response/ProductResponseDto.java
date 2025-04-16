@@ -17,7 +17,6 @@ public class ProductResponseDto {
     private String productImageUrl;
     private String productThumbnailUrl;
     private Boolean markable;
-    private Boolean isNew;
 
     @Builder
     public ProductResponseDto(String productName,
@@ -26,8 +25,7 @@ public class ProductResponseDto {
                               Integer price,
                               String productImageUrl,
                               String productThumbnailUrl,
-                              Boolean markable,
-                              Boolean isNew) {
+                              Boolean markable) {
         this.productName = productName;
         this.productCode = productCode;
         this.description = description;
@@ -35,11 +33,9 @@ public class ProductResponseDto {
         this.productImageUrl = productImageUrl;
         this.productThumbnailUrl = productThumbnailUrl;
         this.markable = markable;
-        this.isNew = isNew;
     }
 
     public static ProductResponseDto from(Product product) {
-        boolean isNew = product.getCreatedAt().isAfter(product.getCreatedAt().minusDays(14));
         return ProductResponseDto.builder()
                 .productName(product.getProductName())
                 .productCode(product.getProductCode())
@@ -48,7 +44,6 @@ public class ProductResponseDto {
                 .productImageUrl(product.getProductImageUrl())
                 .productThumbnailUrl(product.getProductThumbnailUrl())
                 .markable(product.isMarkable())
-                .isNew(isNew)
                 .build();
     }
 
@@ -61,7 +56,6 @@ public class ProductResponseDto {
                 .productImageUrl(productImageUrl)
                 .productThumbnailUrl(productThumbnailUrl)
                 .markable(markable)
-                .isNew(isNew)
                 .build();
     }
 }

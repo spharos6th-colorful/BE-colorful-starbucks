@@ -15,7 +15,6 @@ public class ProductResponseVo {
     private String productImageUrl;
     private String productThumbnailUrl;
     private Boolean markable;
-    private Boolean isNew;
 
     @Builder
     private ProductResponseVo(String productName,
@@ -24,8 +23,7 @@ public class ProductResponseVo {
                               Integer price,
                               String productImageUrl,
                               String productThumbnailUrl,
-                              Boolean markable,
-                              Boolean isNew) {
+                              Boolean markable) {
         this.productName = productName;
         this.productCode = productCode;
         this.description = description;
@@ -33,6 +31,5 @@ public class ProductResponseVo {
         this.productImageUrl = productImageUrl;
         this.productThumbnailUrl = productThumbnailUrl;
         this.markable = markable;
-        this.isNew = isNew;
     }
 }
