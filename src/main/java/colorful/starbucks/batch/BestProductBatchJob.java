@@ -56,7 +56,7 @@ public class BestProductBatchJob {
                 .entityManagerFactory(emf)
                 .pageSize(300000)
                 .queryString(
-                        "SELECT new colorful.starbucks.batch.dto.OrderDetailAndCategoryList(" +
+                        "SELECT new colorful.starbucks.batch.dto.ProductInfoForBestProductBatch(" +
                         "od.productCode, od.quantity, pl.topCategoryId, pl.topCategoryName) " +
                         "FROM OrderDetail od " +
                         "INNER JOIN ProductCategoryList pl ON od.productCode = pl.productCode " +
