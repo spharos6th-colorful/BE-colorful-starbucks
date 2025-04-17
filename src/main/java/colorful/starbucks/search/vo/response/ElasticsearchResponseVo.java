@@ -9,9 +9,15 @@ import lombok.NoArgsConstructor;
 public class ElasticsearchResponseVo {
 
     private Long productCode;
+    private Long id;
+    private Integer price;
+    private String createdAt;
 
     @Builder
-    private ElasticsearchResponseVo(Long productCode) {
+    private ElasticsearchResponseVo(Long productCode, Long id, Integer price, String createdAt) {
         this.productCode = productCode;
+        this.id = id;
+        this.price = price;
+        this.createdAt = createdAt;
     }
 }

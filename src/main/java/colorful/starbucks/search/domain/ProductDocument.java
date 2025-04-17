@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @Getter
 @AllArgsConstructor
@@ -16,10 +18,12 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class ProductDocument {
 
     @Id
-    private Long productCode;
+    private Long id;
 
+    private Long productCode;
     private String productName;
     private String topCategoryName;
     private String bottomCategoryName;
     private Integer price;
+    private String createdAt;
 }

@@ -99,7 +99,8 @@ public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCus
         applySorting(query, productIdAndPriceDto.getSortBy(), productIdAndPriceDto.getId(), productIdAndPriceDto.getPrice());
 
 
-        List<ProductCursorResponseDto> content = query.fetch();
+        List<ProductCursorResponseDto
+                > content = query.fetch();
 
         Long nextCursor = null;
         boolean hasNext = false;
