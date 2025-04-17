@@ -19,6 +19,7 @@ import colorful.starbucks.search.dto.response.AutoSearchListResponseDto;
 import colorful.starbucks.search.dto.response.AutoSearchResponseDto;
 import colorful.starbucks.search.dto.response.ElasticsearchResponseDto;
 import colorful.starbucks.search.infrastructure.ProductDocumentRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     private final int DEFAULT_PAGE_NUMBER = 0;
     private final int PAGE_DEFAULT_SIZE = 10;
 
+    @PostConstruct
     @Override
     public void syncAllToElasticsearch() {
         List<ProductSearchDto> searchDtoList = productRepository.findAllForSearch();
