@@ -12,6 +12,5 @@ public class ElasticsearchRequestVo {
     private Integer minPrice;
     private Integer maxPrice;
     private Integer size;
-    private String sortBy;
     private Integer page;
 }

@@ -28,23 +28,18 @@ public class SearchController {
         return "동기화 완료!";
     }
 
-    //자동 완성
-    @GetMapping("/autocomplete")
+    @GetMapping("/auto-complete")
     public ApiResponse<AutoSearchListResponseVo> autoCompleteProductSearch(@RequestParam String keyword) throws IOException{
 
         return ApiResponse.ok("자동완성 찾기가 완료 되었습니다.",
                 productSearchService.getAutoSearchList(keyword).toVo());
     }
 
-
-
-    //검색 결과
     @GetMapping
     public ApiResponse<CursorPage<ElasticsearchResponseVo>> searchWithElasticsearch(@ModelAttribute ElasticsearchRequestVo elasticsearchRequestVo) throws IOException {
 
-
         return ApiResponse.ok("엘라스틱 서치를 활용한 검색이 완료 되었습니다.",
-                productSearchService.search2(ElasticsearchRequestDto.from(elasticsearchRequestVo))
+                productSearchService.search(ElasticsearchRequestDto.from(elasticsearchRequestVo))
                         .map(ElasticsearchResponseDto::toVo));
     }
 }

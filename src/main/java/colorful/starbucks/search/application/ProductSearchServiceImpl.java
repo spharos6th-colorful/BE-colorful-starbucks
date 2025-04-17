@@ -10,8 +10,8 @@ import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
-import colorful.starbucks.admin.dto.response.ProductCursorResponseDto;
 import colorful.starbucks.common.util.CursorPage;
+import colorful.starbucks.product.infrastructure.ProductRepository;
 import colorful.starbucks.search.domain.ProductDocument;
 import colorful.starbucks.search.dto.ProductSearchDto;
 import colorful.starbucks.search.dto.request.ElasticsearchRequestDto;
@@ -19,34 +19,30 @@ import colorful.starbucks.search.dto.response.AutoSearchListResponseDto;
 import colorful.starbucks.search.dto.response.AutoSearchResponseDto;
 import colorful.starbucks.search.dto.response.ElasticsearchResponseDto;
 import colorful.starbucks.search.infrastructure.ProductDocumentRepository;
-import colorful.starbucks.product.infrastructure.ProductRepository;
 import lombok.RequiredArgsConstructor;
-
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ProductSearchServiceImpl implements ProductSearchService {
 
     private final ProductRepository productRepository;
     private final ProductDocumentRepository productDocumentRepository;
     private final ElasticsearchClient elasticsearchClient;
 
+    private final int DEFAULT_PAGE_NUMBER = 0;
+    private final int PAGE_DEFAULT_SIZE = 10;
+
     @Override
     public void syncAllToElasticsearch() {
         List<ProductSearchDto> searchDtoList = productRepository.findAllForSearch();
 
         List<ProductDocument> documents = searchDtoList.stream()
-                .map(dto-> new ProductDocument(
+                .map(dto -> new ProductDocument(
                         dto.getId(),
                         dto.getProductCode(),
                         dto.getProductName(),
@@ -59,33 +55,6 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         productDocumentRepository.saveAll(documents);
     }
 
-    //검색 기능
-    @Override
-    public List<ProductDocument> search(String keyword) throws IOException {
-        Query query = Query.of(q->q
-                .multiMatch(mm->mm
-                .fields("productName","topCategoryName","bottomCategoryName")
-                        .query(keyword)
-
-                )
-        );
-
-
-        SearchRequest searchRequest = SearchRequest.of(
-                s->s
-                        .index("product_search")
-                        .size(100)
-                        .query(query)
-        );
-
-        SearchResponse<ProductDocument> response = elasticsearchClient.search(searchRequest, ProductDocument.class);
-
-        return response.hits().hits().stream()
-                .map(Hit::source)
-                .toList();
-    }
-
-    //자동 검색
     @Override
     public AutoSearchListResponseDto getAutoSearchList(String keyword) throws IOException {
 
@@ -125,51 +94,28 @@ public class ProductSearchServiceImpl implements ProductSearchService {
 
     }
 
-    //검색 기능 with es
-//    @Override
-//    public CursorPage<ElasticsearchResponseDto> search2(ElasticsearchRequestDto elasticsearchRequestDto) throws IOException {
-//        Query query = Query.of(q->q
-//                .multiMatch(mm->mm
-//                        .fields("productName","topCategoryName","bottomCategoryName")
-//                        .query(elasticsearchRequestDto.getQuery())
-//
-//                )
-//        );
-//
-//
-//        SearchRequest searchRequest = SearchRequest.of(
-//                s->s
-//                        .index("product_search")
-//                        .size(100)
-//                        .query(query)
-//        );
-//        SearchResponse<ProductDocument> response = elasticsearchClient.search(searchRequest, ProductDocument.class);
-//
-//        return null;
-//    }
-
     @Override
-    public CursorPage<ElasticsearchResponseDto> search2(ElasticsearchRequestDto requestDto) throws IOException {
-        log.info("들어온 size: {}", requestDto.getSize());
+    public CursorPage<ElasticsearchResponseDto> search(ElasticsearchRequestDto elasticsearchRequestDto) throws IOException {
+
         Query query = Query.of(q -> q
                 .bool(b -> {
                     BoolQuery.Builder boolBuilder = new BoolQuery.Builder();
 
-                    // 검색어 필터
-                    if (requestDto.getQuery() != null && !requestDto.getQuery().isEmpty()) {
+                    if (elasticsearchRequestDto.getQuery() != null && !elasticsearchRequestDto.getQuery().isEmpty()) {
                         boolBuilder.must(m -> m
                                 .multiMatch(mm -> mm
                                         .fields("productName", "topCategoryName", "bottomCategoryName")
-                                        .query(requestDto.getQuery())
+                                        .query(elasticsearchRequestDto.getQuery())
                                 )
                         );
                     }
 
-                    // 가격 필터
-                    if (requestDto.getMinPrice() != null || requestDto.getMaxPrice() != null) {
+                    if (elasticsearchRequestDto.getMinPrice() != null || elasticsearchRequestDto.getMaxPrice() != null) {
                         RangeQuery.Builder priceRange = new RangeQuery.Builder().field("price");
-                        if (requestDto.getMinPrice() != null) priceRange.gte(JsonData.of(requestDto.getMinPrice()));
-                        if (requestDto.getMaxPrice() != null) priceRange.lte(JsonData.of(requestDto.getMaxPrice()));
+                        if (elasticsearchRequestDto.getMinPrice() != null)
+                            priceRange.gte(JsonData.of(elasticsearchRequestDto.getMinPrice()));
+                        if (elasticsearchRequestDto.getMaxPrice() != null)
+                            priceRange.lte(JsonData.of(elasticsearchRequestDto.getMaxPrice()));
                         boolBuilder.filter(f -> f.range(priceRange.build()));
                     }
 
@@ -177,49 +123,48 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                 })
         );
 
-        int pageSize = requestDto.getSize() != null ? requestDto.getSize() : 20;
+        int pageSize = elasticsearchRequestDto.getSize() != null ? elasticsearchRequestDto.getSize() : PAGE_DEFAULT_SIZE;
 
         SearchRequest.Builder searchRequestBuilder = new SearchRequest.Builder()
                 .index("product_search")
                 .query(query)
-                .size(pageSize + 1) // 다음 페이지가 있는지 확인용으로 1개 더 요청
+                .size(pageSize + 1)
                 .sort(s -> s.field(f -> f.field("id").order(SortOrder.Desc)));
 
-        if (requestDto.getCursor() != null) {
-            searchRequestBuilder.searchAfter(List.of(FieldValue.of(requestDto.getCursor())));
+        if (elasticsearchRequestDto.getCursor() != null) {
+            searchRequestBuilder.searchAfter(List.of(FieldValue.of(elasticsearchRequestDto.getCursor())));
+        } else {
+            int page = elasticsearchRequestDto.getPage() != null ? elasticsearchRequestDto.getPage() : DEFAULT_PAGE_NUMBER;
+            int offset = page * pageSize;
+            searchRequestBuilder.from(offset);
         }
 
-        SearchResponse<ProductDocument> response = elasticsearchClient.search(
+        List<Hit<ProductDocument>> hits = elasticsearchClient.search(
                 searchRequestBuilder.build(),
                 ProductDocument.class
-        );
+        ).hits().hits();
 
-        List<Hit<ProductDocument>> hits = response.hits().hits();
         boolean hasNext = hits.size() > pageSize;
+
+        Long nextCursor = null;
+        if (hasNext) {
+            Hit<ProductDocument> lastHit = hits.get(pageSize - 1);
+            nextCursor = Long.valueOf(lastHit.id());
+        }
 
         List<ElasticsearchResponseDto> content = hits.stream()
                 .limit(pageSize)
                 .map(hit -> {
                     ProductDocument doc = hit.source();
                     return ElasticsearchResponseDto.builder()
-                            .productCode(doc.getProductCode())
                             .id(doc.getId())
+                            .productCode(doc.getProductCode())
                             .createdAt(doc.getCreatedAt())
                             .price(doc.getPrice())
                             .build();
                 })
                 .collect(Collectors.toList());
 
-        Long nextCursor = null;
-        if (hasNext) {
-            Hit<ProductDocument> lastHit = hits.get(pageSize - 1);
-            Object cursorValue = lastHit.sort().get(0)._get();
-            if (cursorValue instanceof Number) {
-                nextCursor = ((Number) cursorValue).longValue();
-            }
-        }
-
-//        return new CursorPage<>(content, hasNext, nextCursor);
         return CursorPage.<ElasticsearchResponseDto>builder()
                 .content(content)
                 .hasNext(hasNext)

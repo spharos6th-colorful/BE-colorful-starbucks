@@ -26,7 +26,6 @@ public class IndexInitializer {
         boolean exists = elasticsearchClient.indices().exists(e -> e.index(indexName)).value();
         if (exists) {
             elasticsearchClient.indices().delete(d -> d.index(indexName));
-            System.out.println("🗑 기존 인덱스 삭제");
         }
 
         JsonObject analysisJson = Json.createObjectBuilder()
@@ -71,112 +70,45 @@ public class IndexInitializer {
                     ))
             );
 
-
-            System.out.println("✅ product_search 인덱스 생성 완료");
-
     }
 
     @PostConstruct
     public void createSimpleSearchIndex() throws IOException {
-//        String indexName = "product_search";
-//
-//        boolean exists = elasticsearchClient.indices().exists(e -> e.index(indexName)).value();
-//        if (exists) {
-//            elasticsearchClient.indices().delete(d -> d.index(indexName));
-//            System.out.println("🗑 기존 인덱스 삭제");
-//        }
-//
-//        JsonObject analysisJson = Json.createObjectBuilder()
-//                .add("analyzer", Json.createObjectBuilder()
-//                        .add("ngram_analyzer", Json.createObjectBuilder()
-//                                .add("type", "custom")
-//                                .add("tokenizer", "ngram_tokenizer")
-//                                .add("filter", Json.createArrayBuilder()
-//                                        .add("lowercase")
-//                                )
-//                        )
-//                )
-//                .add("tokenizer", Json.createObjectBuilder()
-//                        .add("ngram_tokenizer", Json.createObjectBuilder()
-//                                .add("type", "ngram")
-//                                .add("min_gram", 2)
-//                                .add("max_gram", 3)
-//                                .add("token_chars", Json.createArrayBuilder()
-//                                        .add("letter")
-//                                        .add("digit")
-//                                )
-//                        )
-//                )
-//                .build();
-//
-//        String jsonString = Json.createObjectBuilder()
-//                .add("analysis", analysisJson)
-//                .build()
-//                .toString();
-//
-//        InputStream jsonStream = new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8));
-//
-//        elasticsearchClient.indices().create(c -> c
-//                .index(indexName)
-//                .settings(s -> s.withJson(jsonStream))
-//                .mappings(TypeMapping.of(m -> m
-//                        .properties("productName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
-//                        .properties("topCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
-//                        .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
-//                ))
-//        );
-//
-//        System.out.println("✅ product_search 인덱스(ngram 기반) 생성 완료");
-
         String indexName = "product_search";
 
         boolean exists = elasticsearchClient.indices().exists(e -> e.index(indexName)).value();
         if (exists) {
             elasticsearchClient.indices().delete(d -> d.index(indexName));
-            System.out.println("🗑 기존 인덱스 삭제");
         }
 
-        // JSON 기반 인덱스 설정
-        String jsonString = """
-    {
-      "settings": {
-        "analysis": {
-          "analyzer": {
-            "korean_analyzer": {
-              "type": "custom",
-              "tokenizer": "nori_tokenizer",
-              "filter": ["lowercase"]
-            }
-          }
-        }
-      },
-      "mappings": {
-        "properties": {
-          "productName": {
-            "type": "text",
-            "analyzer": "korean_analyzer"
-          },
-          "topCategoryName": {
-            "type": "text",
-            "analyzer": "korean_analyzer"
-          },
-          "bottomCategoryName": {
-            "type": "text",
-            "analyzer": "korean_analyzer"
-          }
-        }
-      }
-    }
-    """;
+        JsonObject analysisJson = Json.createObjectBuilder()
+                .add("analyzer", Json.createObjectBuilder()
+                        .add("ngram_analyzer", Json.createObjectBuilder()
+                                .add("type", "custom")
+                                .add("tokenizer", "nori_tokenizer")
+                                .add("filter", Json.createArrayBuilder()
+                                        .add("lowercase")
+                                )
+                        )
+                )
+                .build();
+
+        String jsonString = Json.createObjectBuilder()
+                .add("analysis", analysisJson)
+                .build()
+                .toString();
 
         InputStream jsonStream = new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8));
 
         elasticsearchClient.indices().create(c -> c
                 .index(indexName)
-                .withJson(jsonStream)
+                .settings(s -> s.withJson(jsonStream))
+                .mappings(TypeMapping.of(m -> m
+                        .properties("productName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
+                        .properties("topCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
+                        .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
+                ))
         );
-
-        System.out.println("✅ product_search 인덱스(nori 기반) 생성 완료");
     }
 
 }

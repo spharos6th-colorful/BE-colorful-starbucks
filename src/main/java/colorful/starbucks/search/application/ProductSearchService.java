@@ -12,7 +12,6 @@ import java.util.List;
 public interface ProductSearchService {
 
     void syncAllToElasticsearch();
-    List<ProductDocument> search(String keyword) throws IOException;
     AutoSearchListResponseDto getAutoSearchList(String keyword) throws IOException;
-    CursorPage<ElasticsearchResponseDto> search2(ElasticsearchRequestDto elasticsearchRequestDto) throws IOException;
+    CursorPage<ElasticsearchResponseDto> search(ElasticsearchRequestDto elasticsearchRequestDto) throws IOException;
 }

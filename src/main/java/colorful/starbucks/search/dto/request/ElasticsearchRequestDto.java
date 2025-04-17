@@ -14,7 +14,6 @@ public class ElasticsearchRequestDto {
     private Integer minPrice;
     private Integer maxPrice;
     private Integer size;
-    private String sortBy;
     private Integer page;
 
     @Builder
@@ -23,14 +22,12 @@ public class ElasticsearchRequestDto {
                                    Integer minPrice,
                                    Integer maxPrice,
                                    Integer size,
-                                   String sortBy,
                                    Integer page) {
         this.query = query;
         this.cursor = cursor;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.size = size;
-        this.sortBy = sortBy;
         this.page = page;
     }
 
@@ -41,7 +38,7 @@ public class ElasticsearchRequestDto {
                 .cursor(elasticsearchRequestVo.getCursor())
                 .maxPrice(elasticsearchRequestVo.getMaxPrice())
                 .minPrice(elasticsearchRequestVo.getMinPrice())
-                .sortBy(elasticsearchRequestVo.getSortBy())
+                .page(elasticsearchRequestVo.getPage())
                 .build();
     }
 
