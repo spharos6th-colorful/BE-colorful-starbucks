@@ -24,32 +24,29 @@ public class IndexInitializer {
         String indexName = "autocomplete_search_keyword";
 
         boolean exists = elasticsearchClient.indices().exists(e -> e.index(indexName)).value();
-        if (exists) {
-            elasticsearchClient.indices().delete(d -> d.index(indexName));
-        }
-
-        JsonObject analysisJson = Json.createObjectBuilder()
-                .add("analyzer", Json.createObjectBuilder()
-                        .add("edge_ngram_analyzer", Json.createObjectBuilder()
-                                .add("type", "custom")
-                                .add("tokenizer", "custom_edge_ngram_tokenizer")
-                                .add("filter", Json.createArrayBuilder()
-                                        .add("lowercase")
-                                )
-                        )
-                )
-                .add("tokenizer", Json.createObjectBuilder()
-                        .add("custom_edge_ngram_tokenizer", Json.createObjectBuilder()
-                                .add("type", "edge_ngram")
-                                .add("min_gram", 1)
-                                .add("max_gram", 20)
-                                .add("token_chars", Json.createArrayBuilder()
-                                        .add("letter")
-                                        .add("digit")
-                                )
-                        )
-                )
-                .build();
+        if (!exists) {
+            JsonObject analysisJson = Json.createObjectBuilder()
+                    .add("analyzer", Json.createObjectBuilder()
+                            .add("edge_ngram_analyzer", Json.createObjectBuilder()
+                                    .add("type", "custom")
+                                    .add("tokenizer", "custom_edge_ngram_tokenizer")
+                                    .add("filter", Json.createArrayBuilder()
+                                            .add("lowercase")
+                                    )
+                            )
+                    )
+                    .add("tokenizer", Json.createObjectBuilder()
+                            .add("custom_edge_ngram_tokenizer", Json.createObjectBuilder()
+                                    .add("type", "edge_ngram")
+                                    .add("min_gram", 1)
+                                    .add("max_gram", 20)
+                                    .add("token_chars", Json.createArrayBuilder()
+                                            .add("letter")
+                                            .add("digit")
+                                    )
+                            )
+                    )
+                    .build();
 
             String jsonString = Json.createObjectBuilder()
                     .add("analysis", analysisJson)
@@ -62,14 +59,15 @@ public class IndexInitializer {
                     .index(indexName)
                     .settings(s -> s.withJson(jsonStream))
                     .mappings(TypeMapping.of(m -> m
-                                    .properties("productName", p -> p.text(t -> t
-                                            .analyzer("edge_ngram_analyzer")
-                                    ))
+                            .properties("productName", p -> p.text(t -> t
+                                    .analyzer("edge_ngram_analyzer")
+                            ))
                             .properties("topCategoryName", p -> p.text(t -> t.analyzer("edge_ngram_analyzer")))
                             .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("edge_ngram_analyzer")))
                     ))
             );
 
+        }
     }
 
     @PostConstruct
@@ -77,38 +75,35 @@ public class IndexInitializer {
         String indexName = "product_search";
 
         boolean exists = elasticsearchClient.indices().exists(e -> e.index(indexName)).value();
-        if (exists) {
-            elasticsearchClient.indices().delete(d -> d.index(indexName));
+        if (!exists) {
+            JsonObject analysisJson = Json.createObjectBuilder()
+                    .add("analyzer", Json.createObjectBuilder()
+                            .add("ngram_analyzer", Json.createObjectBuilder()
+                                    .add("type", "custom")
+                                    .add("tokenizer", "nori_tokenizer")
+                                    .add("filter", Json.createArrayBuilder()
+                                            .add("lowercase")
+                                    )
+                            )
+                    )
+                    .build();
+
+            String jsonString = Json.createObjectBuilder()
+                    .add("analysis", analysisJson)
+                    .build()
+                    .toString();
+
+            InputStream jsonStream = new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8));
+
+            elasticsearchClient.indices().create(c -> c
+                    .index(indexName)
+                    .settings(s -> s.withJson(jsonStream))
+                    .mappings(TypeMapping.of(m -> m
+                            .properties("productName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
+                            .properties("topCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
+                            .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
+                    ))
+            );
         }
-
-        JsonObject analysisJson = Json.createObjectBuilder()
-                .add("analyzer", Json.createObjectBuilder()
-                        .add("ngram_analyzer", Json.createObjectBuilder()
-                                .add("type", "custom")
-                                .add("tokenizer", "nori_tokenizer")
-                                .add("filter", Json.createArrayBuilder()
-                                        .add("lowercase")
-                                )
-                        )
-                )
-                .build();
-
-        String jsonString = Json.createObjectBuilder()
-                .add("analysis", analysisJson)
-                .build()
-                .toString();
-
-        InputStream jsonStream = new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8));
-
-        elasticsearchClient.indices().create(c -> c
-                .index(indexName)
-                .settings(s -> s.withJson(jsonStream))
-                .mappings(TypeMapping.of(m -> m
-                        .properties("productName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
-                        .properties("topCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
-                        .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
-                ))
-        );
     }
-
 }
