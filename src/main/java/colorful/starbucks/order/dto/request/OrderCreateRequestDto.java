@@ -50,7 +50,7 @@ public class OrderCreateRequestDto {
         this.orderDetails = orderDetails;
     }
 
-    public Order toEntity(Long orderCode) {
+    public Order toEntity(Long orderCode, String memberUuid) {
         return Order.builder()
                 .orderCode(orderCode)
                 .couponUuid(couponUuid)

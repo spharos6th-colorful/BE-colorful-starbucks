@@ -1,6 +1,7 @@
 package colorful.starbucks.order.application;
 
 import colorful.starbucks.common.util.CursorPage;
+import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.order.dto.OrderListFilterDto;
 import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 
 public interface OrderService {
 
-    OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto);
+    OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto, Member member);
 
     CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto);
 
