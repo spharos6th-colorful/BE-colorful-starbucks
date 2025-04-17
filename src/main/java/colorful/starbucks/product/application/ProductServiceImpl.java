@@ -7,12 +7,13 @@ import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.product.domain.Product;
 import colorful.starbucks.product.dto.ProductFilterDto;
 import colorful.starbucks.product.dto.request.ProductCreateRequestDto;
+import colorful.starbucks.product.dto.response.ProductCursorResponseDto;
+import colorful.starbucks.product.dto.response.ProductOptionListResponseDto;
 import colorful.starbucks.product.dto.response.ProductResponseDto;
 import colorful.starbucks.product.dto.response.ProductSimpleResponseDto;
 import colorful.starbucks.product.generator.ProductCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +26,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final S3UploadService s3UploadService;
     private final ProductCodeGenerator productCodeGenerator;
+    private final ProductFilterService productFilterService;
+    private final ProductDetailService productDetailService;
 
     @Transactional
     @Override
@@ -50,21 +53,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public CursorPage<ProductResponseDto> getProductsByFilter(ProductFilterDto productFilterDto, Pageable pageable) {
-
-        Long productId;
-        int price;
-
-        if (productFilterDto.getNextCursor() == null) {
-            productId = productFilterDto.getSortBy().equals("createdAt,asc") ? 0L : Long.MAX_VALUE;
-            price = productFilterDto.getSortBy().equals("price,asc") ? 0 : Integer.MAX_VALUE;
-        } else {
-            Product product = productRepository.findByProductCodeAndIsDeletedIsFalse(productFilterDto.getNextCursor())
-                    .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-            productId = product.getId();
-            price = product.getPrice();
-        }
-        return productRepository.getProductsByFilter(productFilterDto, productId, price, pageable);
+    public CursorPage<ProductCursorResponseDto> getProductsByFilter(ProductFilterDto productFilterDto) {
+        return productFilterService.getFilteredProductList(productFilterDto);
     }
 
     @Override
@@ -73,6 +63,11 @@ public class ProductServiceImpl implements ProductService {
                 productRepository.findByProductCodeAndIsDeletedIsFalse(productCode).
                         orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
+    }
+
+    @Override
+    public ProductOptionListResponseDto getProductOptionList(Long productCode) {
+        return productDetailService.getProductOptionList(productCode);
     }
 
     @Override

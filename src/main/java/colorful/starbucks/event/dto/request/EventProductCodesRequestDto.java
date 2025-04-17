@@ -25,9 +25,9 @@ public class EventProductCodesRequestDto {
         this.size = size;
     }
 
-    public static EventProductCodesRequestDto from(EventProductCodesRequestVo eventProductCodesRequestVo) {
+    public static EventProductCodesRequestDto from(String eventUuid, EventProductCodesRequestVo eventProductCodesRequestVo) {
         return EventProductCodesRequestDto.builder()
-                .eventUuid(eventProductCodesRequestVo.getEventUuid())
+                .eventUuid(eventUuid)
                 .cursor(eventProductCodesRequestVo.getCursor())
                 .page(eventProductCodesRequestVo.getPage())
                 .size(eventProductCodesRequestVo.getSize())

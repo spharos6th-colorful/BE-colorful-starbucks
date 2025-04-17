@@ -1,12 +1,14 @@
-package colorful.starbucks.product.presentation;
+package colorful.starbucks.member.presentation;
 
 import colorful.starbucks.common.response.ApiResponse;
 import colorful.starbucks.common.util.PageResponse;
-import colorful.starbucks.product.application.InterestProductService;
-import colorful.starbucks.product.dto.InterestProductDto;
-import colorful.starbucks.product.dto.request.InterestProductAddRequestDto;
-import colorful.starbucks.product.vo.InterestProductVo;
-import colorful.starbucks.product.vo.request.InterestProductAddRequestVo;
+import colorful.starbucks.member.application.InterestProductService;
+import colorful.starbucks.member.dto.InterestProductDto;
+import colorful.starbucks.member.dto.request.InterestProductAddRequestDto;
+import colorful.starbucks.member.dto.request.InterestProductRemoveDto;
+import colorful.starbucks.member.vo.InterestProductVo;
+import colorful.starbucks.member.vo.request.InterestProductAddRequestVo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,6 +23,13 @@ public class InterestProductController {
 
     private final InterestProductService interestProductService;
 
+    private static final int DEFAULT_PAGE_SIZE = 10;
+
+    @Operation(
+            summary = "관심 상품 등록 API",
+            description = "관심 상품을 등록하는 API 입니다.",
+            tags = {"MEMBER-SERVICE"}
+    )
     @PostMapping
     public ApiResponse<Void> addInterestProduct(Authentication authentication,
                                                 @RequestBody InterestProductAddRequestVo interestProductAddRequestVo) {
@@ -35,9 +44,14 @@ public class InterestProductController {
         );
     }
 
+    @Operation(
+            summary = "관심 상품 리스트 조회 API",
+            description = "관심 상품 리스트를 조회하는 API 입니다.",
+            tags = {"MEMBER-SERVICE"}
+    )
     @GetMapping
     public ApiResponse<PageResponse<InterestProductVo>> getInterestProducts(Authentication authentication,
-                                                                            @PageableDefault(size = 3) Pageable pageable) {
+                                                                            @PageableDefault(size = DEFAULT_PAGE_SIZE) Pageable pageable) {
         return ApiResponse.of(HttpStatus.OK,
                 "관심 상품 조회를 완료했습니다.",
                 PageResponse.from(interestProductService.getInterestProductList(authentication.getName(), pageable)
@@ -46,11 +60,16 @@ public class InterestProductController {
         );
     }
 
-    @DeleteMapping("/{interestProductId}")
+    @Operation(
+            summary = "관심 상품 삭제 API",
+            description = "관심 상품을 삭제하는 API 입니다.",
+            tags = {"MEMBER-SERVICE"}
+    )
+    @DeleteMapping("/{productCode}")
     public ApiResponse<Void> removeInterestProduct(Authentication authentication,
-                                                   @PathVariable Long interestProductId) {
+                                                   @PathVariable Long productCode) {
 
-        interestProductService.removeInterestProduct(interestProductId, authentication.getName());
+        interestProductService.removeInterestProduct(InterestProductRemoveDto.of(authentication.getName(), productCode));
         return ApiResponse.of(HttpStatus.NO_CONTENT,
                 "관심 상품 삭제를 완료했습니다.",
                 null);

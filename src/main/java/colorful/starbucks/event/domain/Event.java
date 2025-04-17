@@ -80,15 +80,4 @@ public class Event extends BaseEntity {
         this.policy = policy;
         this.status = status;
     }
-
-    public void update(Event entity) {
-        this.title = entity.getTitle();
-        this.description = entity.getDescription();
-        this.imageUrl = entity.getImageUrl();
-        this.thumbnailUrl = entity.getThumbnailUrl();
-        this.startDate = entity.getStartDate();
-        this.endDate = entity.getEndDate();
-        this.policy = entity.getPolicy();
-        this.status = entity.getStatus();
-    }
 }

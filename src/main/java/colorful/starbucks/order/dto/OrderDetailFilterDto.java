@@ -8,22 +8,26 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class OrderDetailFilterDto {
+    private Long orderId;
     private Long cursor;
     private Integer size;
     private Integer page;
 
     @Builder
-    private OrderDetailFilterDto(Long cursor,
+    private OrderDetailFilterDto(Long orderId,
+                                 Long cursor,
                                  Integer size,
                                  Integer page) {
+        this.orderId = orderId;
         this.cursor = cursor;
         this.size = size;
         this.page = page;
     }
 
     public static OrderDetailFilterDto of(OrderDetailFilterVo orderDetailFilterVo,
-                                          String memberUuid)  {
+                                          Long orderId) {
         return OrderDetailFilterDto.builder()
+                .orderId(orderId)
                 .cursor(orderDetailFilterVo.getCursor())
                 .size(orderDetailFilterVo.getSize())
                 .page(orderDetailFilterVo.getPage())

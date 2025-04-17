@@ -20,9 +20,9 @@ public class EventProductCreateRequestDto {
         this.productCode = productCode;
     }
 
-    public static EventProductCreateRequestDto from(EventProductCreateRequestVo eventProductCreateRequestVo) {
+    public static EventProductCreateRequestDto from(String eventUuid, EventProductCreateRequestVo eventProductCreateRequestVo) {
         return EventProductCreateRequestDto.builder()
-                .eventUuid(eventProductCreateRequestVo.getEventUuid())
+                .eventUuid(eventUuid)
                 .productCode(eventProductCreateRequestVo.getProductCode())
                 .build();
     }

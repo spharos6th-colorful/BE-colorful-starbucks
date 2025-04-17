@@ -37,9 +37,11 @@ public class OrderDetailRepositoryCustomImpl implements OrderDetailRepositoryCus
             offset = currentPage == 0 ? 0 : (currentPage) * pageSize;
         }
 
+        builder.and(orderDetail.order.id.eq(orderDetailFilterDto.getOrderId()));
         List<OrderDetail> content = queryFactory.selectFrom(orderDetail)
                 .where(
                         builder
+
 
                 )
                 .offset(offset)

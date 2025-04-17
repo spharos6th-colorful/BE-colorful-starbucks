@@ -1,4 +1,4 @@
-package colorful.starbucks.batch;
+package colorful.starbucks.batch.bestproduct;
 
 import colorful.starbucks.batch.dto.ProductInfoForBestProductBatch;
 import colorful.starbucks.product.infrastructure.BestProductRepository;

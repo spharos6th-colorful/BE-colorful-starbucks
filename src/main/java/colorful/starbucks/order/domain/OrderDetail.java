@@ -33,13 +33,13 @@ public class OrderDetail extends BaseEntity {
     @Column(nullable = false)
     private String productName;
 
-    @Comment("사이즈")
-    @Column(nullable = false)
-    private String size;
+    @Comment("사이즈 이름")
+    @Column(nullable = true)
+    private String sizeName;
 
-    @Comment("색상")
-    @Column(nullable = false)
-    private String color;
+    @Comment("색상 이름")
+    @Column(nullable = true)
+    private String colorName;
 
     @Comment("수량")
     @Column(nullable = false)
@@ -67,25 +67,25 @@ public class OrderDetail extends BaseEntity {
 
     @Builder
     private OrderDetail(Long id,
-                       Order order,
+                        Order order,
                         Long productCode,
-                       Long productDetailCode,
-                       String productName,
-                       String size,
-                       String color,
-                       int quantity,
-                       int price,
-                       String carvingContent,
-                       String categoryName,
-                       Boolean carving,
-                       String productDetailThumbnailUrl) {
+                        Long productDetailCode,
+                        String productName,
+                        String sizeName,
+                        String colorName,
+                        int quantity,
+                        int price,
+                        String carvingContent,
+                        String categoryName,
+                        Boolean carving,
+                        String productDetailThumbnailUrl) {
         this.id = id;
         this.order = order;
         this.productCode = productCode;
         this.productDetailCode = productDetailCode;
         this.productName = productName;
-        this.size = size;
-        this.color = color;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
         this.quantity = quantity;
         this.price = price;
         this.carvingContent = carvingContent;

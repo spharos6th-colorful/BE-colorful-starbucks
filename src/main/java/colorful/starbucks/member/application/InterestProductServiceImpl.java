@@ -1,10 +1,9 @@
-package colorful.starbucks.product.application;
+package colorful.starbucks.member.application;
 
-import colorful.starbucks.common.exception.BaseException;
-import colorful.starbucks.common.response.ResponseStatus;
-import colorful.starbucks.product.dto.InterestProductDto;
-import colorful.starbucks.product.dto.request.InterestProductAddRequestDto;
-import colorful.starbucks.product.infrastructure.InterestProductRepository;
+import colorful.starbucks.member.dto.InterestProductDto;
+import colorful.starbucks.member.dto.request.InterestProductAddRequestDto;
+import colorful.starbucks.member.dto.request.InterestProductRemoveDto;
+import colorful.starbucks.member.infrastructure.InterestProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,10 +33,10 @@ public class InterestProductServiceImpl implements InterestProductService {
 
     @Transactional
     @Override
-    public void removeInterestProduct(Long interestProductId, String memberUuid) {
-        interestProductRepository.findByIdAndMemberUuid(interestProductId, memberUuid)
-                .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
-
-        interestProductRepository.deleteById(interestProductId);
+    public void removeInterestProduct(InterestProductRemoveDto interestProductRemoveDto) {
+        interestProductRepository.deleteByMemberUuidAndProductCode(
+                interestProductRemoveDto.getMemberUuid(),
+                interestProductRemoveDto.getProductCode()
+        );
     }
 }

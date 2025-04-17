@@ -40,7 +40,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
-        return orderRepository.getOrderList(orderListFilterDto);
+        return orderRepository.getOrderList(orderListFilterDto)
+                .map(OrderCursorResponseDto::from);
     }
 
     @Transactional
@@ -55,15 +56,38 @@ public class OrderServiceImpl implements OrderService {
             throw new BaseException(ResponseStatus.CANCELLED_ORDER);
         }
 
-        order.cancel(
-                orderCancelRequestDto.getOrderCancelReason(),
-                orderCancelRequestDto.getOrderCancelReasonDetail()
-        );
+        cancelOrderUpdate(orderCancelRequestDto, order.getMemberUuid());
 
         return orderCancelRequestDto;
     }
 
+    private void cancelOrderUpdate(OrderCancelRequestDto orderCancelRequestDto, String memberUuid) {
+        Order order = orderRepository.findByOrderCode(orderCancelRequestDto.getOrderCode())
+                .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_ORDER));
 
+        Order updatedOrder = Order.builder()
+                .id(order.getId())
+                .orderCode(orderCancelRequestDto.getOrderCode())
+                .couponUuid(order.getCouponUuid())
+                .couponName(order.getCouponName())
+                .zoneCode(order.getZoneCode())
+                .address(order.getAddress())
+                .detailAddress(order.getDetailAddress())
+                .isGift(order.getIsGift())
+                .totalAmount(order.getTotalAmount())
+                .discountAmount(order.getDiscountAmount())
+                .buyer(order.getBuyer())
+                .orderCancelReason(orderCancelRequestDto.getOrderCancelReason())
+                .orderCancelReasonDetail(orderCancelRequestDto.getOrderCancelReasonDetail())
+                .memberUuid(memberUuid)
+                .orderStatus(OrderStatus.CANCELLED)
+                .build();
+
+        orderRepository.save(updatedOrder);
+    }
 
 
 }
+
+
+

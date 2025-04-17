@@ -2,8 +2,10 @@ package colorful.starbucks.order.vo;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class OrderAddressVo {
 
     private String zoneCode;
