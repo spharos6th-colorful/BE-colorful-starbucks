@@ -38,7 +38,7 @@ public class BestProductBatchJob {
     @Bean
     public Step chunkStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("chunkStep", jobRepository)
-                .<ProductInfoForBestProductBatch, ProductInfoForBestProductBatch>chunk(300000, transactionManager)
+                .<ProductInfoForBestProductBatch, ProductInfoForBestProductBatch>chunk(100000, transactionManager)
                 .reader(orderDetailReader(null))
                 .processor(orderDetailProcessor())
                 .writer(productAggregatorWriter())
@@ -54,12 +54,12 @@ public class BestProductBatchJob {
         return new JpaPagingItemReaderBuilder<ProductInfoForBestProductBatch>()
                 .name("orderDetailReader")
                 .entityManagerFactory(emf)
-                .pageSize(300000)
+                .pageSize(100000)
                 .queryString(
                         "SELECT new colorful.starbucks.batch.dto.ProductInfoForBestProductBatch(" +
                         "od.productCode, od.quantity, pl.topCategoryId, pl.topCategoryName) " +
                         "FROM OrderDetail od " +
-                        "INNER JOIN ProductCategoryList pl ON od.productCode = pl.productCode " +
+                        "INNER JOIN ProductFilter pf ON od.productCode = pf.productCode " +
                         "WHERE od.createdAt >= :startDate AND od.createdAt <= :endDate " +
                         "ORDER BY od.id ASC")
                 .parameterValues(Map.of(
