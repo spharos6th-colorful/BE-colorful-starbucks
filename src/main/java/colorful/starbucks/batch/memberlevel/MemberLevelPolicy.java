@@ -1,4 +1,4 @@
-package colorful.starbucks.batch;
+package colorful.starbucks.batch.memberlevel;
 
 import colorful.starbucks.member.domain.MemberLevel;
 
