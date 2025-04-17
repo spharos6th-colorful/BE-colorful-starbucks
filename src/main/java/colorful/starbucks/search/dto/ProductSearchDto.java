@@ -1,7 +1,5 @@
 package colorful.starbucks.search.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
