@@ -112,8 +112,7 @@ public class ProductFilterRepositoryCustomImpl implements ProductFilterRepositor
         applySorting(query, productIdAndPriceDto.getSortBy(), productIdAndPriceDto.getId(), productIdAndPriceDto.getPrice());
 
 
-        List<ProductCursorResponseDto
-                > content = query.fetch();
+        List<ProductCursorResponseDto> content = query.fetch();
 
         Long nextCursor = null;
         boolean hasNext = false;
