@@ -9,23 +9,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDetailCodeAndQuantityRequestDto {
 
+    private Long productDetailCode;
     private Long productCode;
     private Long sizeId;
     private Long colorId;
+    private Integer quantity;
 
     @Builder
-    private ProductDetailCodeAndQuantityRequestDto(Long productCode, Long sizeId, Long colorId) {
+    private ProductDetailCodeAndQuantityRequestDto(Long productDetailCode,
+                                                   Long productCode,
+                                                   Long sizeId,
+                                                   Long colorId,
+                                                   Integer quantity) {
+        this.productDetailCode = productDetailCode;
         this.productCode = productCode;
         this.sizeId = sizeId;
         this.colorId = colorId;
+        this.quantity = quantity;
     }
 
     public static ProductDetailCodeAndQuantityRequestDto from(
             ProductDetailCodeAndQuantityRequestVo productDetailCodeAndQuantityRequestVo) {
         return ProductDetailCodeAndQuantityRequestDto.builder()
+                .productDetailCode(productDetailCodeAndQuantityRequestVo.getProductDetailCode())
                 .productCode(productDetailCodeAndQuantityRequestVo.getProductCode())
                 .sizeId(productDetailCodeAndQuantityRequestVo.getSizeId())
                 .colorId(productDetailCodeAndQuantityRequestVo.getColorId())
+                .quantity(productDetailCodeAndQuantityRequestVo.getQuantity())
                 .build();
     }
+
 }

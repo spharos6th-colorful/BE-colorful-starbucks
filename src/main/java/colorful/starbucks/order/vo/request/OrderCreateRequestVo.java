@@ -3,16 +3,18 @@ package colorful.starbucks.order.vo.request;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class OrderCreateRequestVo {
 
     private Long orderCode;
     private String couponUuid;
-    private int totalAmount;
-    private int discountAmount;
+    private Integer totalAmount;
+    private Integer discountAmount;
     private String zoneCode;
     private String address;
     private String detailAddress;
@@ -24,8 +26,8 @@ public class OrderCreateRequestVo {
     @Builder
     private OrderCreateRequestVo(Long orderCode,
                                  String couponUuid,
-                                 int totalAmount,
-                                 int discountAmount,
+                                 Integer totalAmount,
+                                 Integer discountAmount,
                                  String zoneCode,
                                  String address,
                                  String detailAddress,

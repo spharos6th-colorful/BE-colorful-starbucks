@@ -55,13 +55,8 @@ public class OrderController {
         CursorPage<OrderCursorResponseDto> response = orderService.getOrderList(orderListFilterDto);
 
         return ApiResponse.ok("주문 목록 조회 성공",
-                CursorPage.<OrderCursorResponseVo>builder()
-                        .content(response.getContent().stream()
-                                .map(OrderCursorResponseDto::toVo)
-                                .toList())
-                        .nextCursor(response.getNextCursor())
-                        .hasNext(response.getHasNext())
-                        .build()
+                orderService.getOrderList(OrderListFilterDto.of(orderListFilterVo, authentication.getName()))
+                        .map(OrderCursorResponseDto::toVo)
         );
     }
 
@@ -78,5 +73,9 @@ public class OrderController {
 
         return ApiResponse.ok("주문이 성공적으로 취소되었습니다.", null);
     }
+
+
+
+
 }
 

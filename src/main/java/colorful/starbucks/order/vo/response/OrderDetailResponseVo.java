@@ -2,34 +2,39 @@ package colorful.starbucks.order.vo.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class OrderDetailResponseVo {
 
+    private Long id;
     private Long productCode;
     private String productName;
-    private String size;
-    private String color;
-    private int quantity;
-    private int price;
+    private String sizeName;
+    private String colorName;
+    private Integer quantity;
+    private Integer price;
     private Boolean carving;
     private String carvingContent;
     private String productDetailThumbnailUrl;
 
     @Builder
-    private OrderDetailResponseVo(Long productCode,
-                                   String productName,
-                                   String size,
-                                   String color,
-                                   int quantity,
-                                   int price,
-                                   Boolean carving,
-                                   String carvingContent,
-                                   String productDetailThumbnailUrl) {
+    private OrderDetailResponseVo(Long id,
+                                  Long productCode,
+                                  String productName,
+                                  String sizeName,
+                                  String colorName,
+                                  Integer quantity,
+                                  Integer price,
+                                  Boolean carving,
+                                  String carvingContent,
+                                  String productDetailThumbnailUrl) {
+        this.id = id;
         this.productCode = productCode;
         this.productName = productName;
-        this.size = size;
-        this.color = color;
+        this.sizeName = sizeName;
+        this.colorName = colorName;
         this.quantity = quantity;
         this.price = price;
         this.carving = carving;
