@@ -12,7 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findByProductCodeAndIsDeletedIsFalse(Long productCode);
 
-    @Query("SELECT new colorful.starbucks.search.dto.ProductSearchDto(p.id, p.productCode, p.productName, pc.topCategoryName, pc.bottomCategoryName, p.price, p.createdAt) " +
-            "FROM Product p JOIN ProductCategoryList pc ON p.productCode = pc.productCode")
+    @Query("SELECT new colorful.starbucks.search.dto.ProductSearchDto(p.id, p.productCode, p.productName, pf.topCategoryName, pf.bottomCategoryName, p.price, p.createdAt) " +
+            "FROM Product p JOIN ProductFilter pf ON p.productCode = pf.productCode")
     List<ProductSearchDto> findAllForSearch();
 }
