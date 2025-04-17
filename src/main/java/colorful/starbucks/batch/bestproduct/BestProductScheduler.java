@@ -1,4 +1,4 @@
-package colorful.starbucks.batch;
+package colorful.starbucks.batch.bestproduct;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;

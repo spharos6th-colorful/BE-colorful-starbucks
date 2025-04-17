@@ -1,5 +1,6 @@
 package colorful.starbucks.product.application;
 
+import colorful.starbucks.common.aop.DistributedLock;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.s3.S3UploadService;
@@ -11,6 +12,7 @@ import colorful.starbucks.product.dto.response.ProductDetailResponseDto;
 import colorful.starbucks.product.dto.response.ProductOptionListResponseDto;
 import colorful.starbucks.product.generator.ProductDetailCodeGenerator;
 import colorful.starbucks.product.infrastructure.ProductDetailRepository;
+import colorful.starbucks.product.vo.response.ProductDetailCodeAndQuantityResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,7 +74,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
         return ProductDetailCodeAndQuantityResponseDto.from(
                 productDetailRepository.findByProductCodeAndOptions(productDetailCodeAndQuantityRequestDto)
-                        .orElseThrow(() ->  new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
+                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
         );
     }
 

@@ -15,8 +15,8 @@ public class OrderCreateRequestDto {
 
     private Long orderCode;
     private String couponUuid;
-    private int totalAmount;
-    private int discountAmount;
+    private Integer totalAmount;
+    private Integer discountAmount;
     private String zoneCode;
     private String address;
     private String detailAddress;
@@ -28,8 +28,8 @@ public class OrderCreateRequestDto {
     @Builder
     private OrderCreateRequestDto(Long orderCode,
                                   String couponUuid,
-                                  int totalAmount,
-                                  int discountAmount,
+                                  Integer totalAmount,
+                                  Integer discountAmount,
                                   String zoneCode,
                                   String address,
                                   String detailAddress,
@@ -50,7 +50,7 @@ public class OrderCreateRequestDto {
         this.orderDetails = orderDetails;
     }
 
-    public Order toEntity(Long orderCode, String memberUuid) {
+    public Order toEntity(Long orderCode) {
         return Order.builder()
                 .orderCode(orderCode)
                 .couponUuid(couponUuid)
@@ -85,6 +85,9 @@ public class OrderCreateRequestDto {
                         .toList())
                 .build();
     }
+
+
+
 
 
 

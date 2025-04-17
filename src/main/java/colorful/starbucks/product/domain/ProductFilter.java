@@ -1,4 +1,4 @@
-package colorful.starbucks.admin.domain;
+package colorful.starbucks.product.domain;
 
 import colorful.starbucks.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -11,11 +11,10 @@ import org.hibernate.annotations.Comment;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductCategoryList extends BaseEntity {
+public class ProductFilter extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_category_list_id")
     private Long id;
 
     @Comment("상품 코드")
@@ -43,13 +42,13 @@ public class ProductCategoryList extends BaseEntity {
     private int price;
 
     @Builder
-    private ProductCategoryList(Long id,
-                                Long productCode,
-                                Long topCategoryId,
-                                String topCategoryName,
-                                Long bottomCategoryId,
-                                String bottomCategoryName,
-                                int price) {
+    private ProductFilter(Long id,
+                          Long productCode,
+                          Long topCategoryId,
+                          String topCategoryName,
+                          Long bottomCategoryId,
+                          String bottomCategoryName,
+                          int price) {
         this.id = id;
         this.productCode = productCode;
         this.topCategoryId = topCategoryId;

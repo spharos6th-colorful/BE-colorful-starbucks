@@ -93,24 +93,25 @@ public class PaymentsServiceImpl implements PaymentsService {
 
 
     private void createCanceledPaymentHistory(
-            TossPaymentCancelRequestDto cancelDto,
-            TossPaymentCancelResponseVo responseVo,
+            TossPaymentCancelRequestDto tossPaymentCancelRequestDto,
+            TossPaymentCancelResponseVo tossPaymentCancelResponseVo,
             String memberUuid
     ) {
 
-        PaymentHistory original = paymentHistoryRepository.findByPaymentsNumber(cancelDto.getPaymentKey())
+        PaymentHistory original = paymentHistoryRepository.findByPaymentsNumber(tossPaymentCancelRequestDto.getPaymentKey())
                 .orElseThrow(() -> new BaseException(ResponseStatus.INVALID_PAYMENTS_STATUS, "결제 내역이 존재하지 않습니다."));
 
         PaymentHistory canceledHistory = PaymentHistory.builder()
-                .paymentKey(cancelDto.getPaymentKey())
+                .id(original.getId())
+                .paymentKey(tossPaymentCancelRequestDto.getPaymentKey())
                 .paymentsNumber(original.getPaymentsNumber())
                 .orderCode(original.getOrderCode())
                 .memberUuid(memberUuid)
                 .paymentsType(original.getPaymentsType())
                 .paymentStatus(PaymentStatus.CANCELLED)
-                .cancelReason(cancelDto.getCancelReason())
+                .cancelReason(tossPaymentCancelRequestDto.getCancelReason())
                 .approvedAt(original.getApprovedAt())
-                .canceledAt(responseVo.getCanceledAt())
+                .canceledAt(tossPaymentCancelResponseVo.getCanceledAt())
                 .totalPrice(original.getTotalPrice())
                 .build();
 

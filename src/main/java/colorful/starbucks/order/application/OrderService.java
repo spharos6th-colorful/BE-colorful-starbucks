@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 public interface OrderService {
 
-    OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto, Member member);
+    OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto);
 
     CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto);
 

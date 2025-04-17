@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderCreateResponseDto {
 
-    private String orderCode;
+    private Long orderCode;
 
     @Builder
-    private OrderCreateResponseDto(String orderCode) {
+    private OrderCreateResponseDto(Long orderCode) {
         this.orderCode = orderCode;
     }
 
     public static OrderCreateResponseDto from(Long orderCode) {
-        return new OrderCreateResponseDto(String.valueOf(orderCode));
+        return new OrderCreateResponseDto(orderCode);
     }
 
     public OrderCreateResponseVo toVo() {

@@ -10,20 +10,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CartCheckRequestDto {
 
-    private Long id;
+    private Long cartId;
     private Boolean checked;
     private String memberUuid;
 
     @Builder
-    public CartCheckRequestDto(Long id, Boolean checked, String memberUuid) {
-        this.id = id;
+    public CartCheckRequestDto(Boolean checked, String memberUuid, Long cartId) {
+        this.cartId = cartId;
         this.checked = checked;
         this.memberUuid = memberUuid;
     }
 
-    public static CartCheckRequestDto of(CartCheckRequestVo cartCheckRequestVo, String memberUuid) {
+    public static CartCheckRequestDto of(CartCheckRequestVo cartCheckRequestVo, String memberUuid, Long cartId) {
         return CartCheckRequestDto.builder()
-                .id(cartCheckRequestVo.getId())
+                .cartId(cartId)
                 .checked(cartCheckRequestVo.getChecked())
                 .memberUuid(memberUuid)
                 .build();

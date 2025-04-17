@@ -6,6 +6,7 @@ import colorful.starbucks.cart.vo.request.*;
 import colorful.starbucks.cart.vo.response.CartListResponseVo;
 import colorful.starbucks.cart.vo.response.CartDetailResponseVo;
 import colorful.starbucks.common.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,6 +23,11 @@ public class CartController {
 
     private final CartService cartService;
 
+    @Operation(
+            summary = "장바구니 상품 담기 API",
+            description = "장바구니에 상품을 추가하는 API 입니다.",
+            tags = {"CART-SERVICE"}
+    )
     @PostMapping
     public ApiResponse<Void> createCart(Authentication authentication,
                                         @RequestBody CartAddListRequestVo cartAddListRequestVo) {
@@ -34,6 +40,11 @@ public class CartController {
         );
     }
 
+    @Operation(
+            summary = "장바구니 옵션 변경 API",
+            description = "장바구니에 있는 상품 옵션을 변경하는 API 입니다.",
+            tags = {"CART-SERVICE"}
+    )
     @PutMapping("/{cartId}")
     public ApiResponse<Void> editCartProductOptions(Authentication authentication,
                                                     @PathVariable Long cartId,
@@ -46,16 +57,40 @@ public class CartController {
         );
     }
 
-    @PutMapping("/checked")
+    @Operation(
+            summary = "장바구니 단건 상품 선택 여부 변경 API",
+            description = "장바구니에 담긴 1개의 상품 선택 여부를 변경하는 API 입니다.",
+            tags = {"CART-SERVICE"}
+    )
+    @PutMapping("/{cartId}/checked")
     public ApiResponse<Void> updateCartProductCheck(Authentication authentication,
+                                                    @PathVariable Long cartId,
                                                     @RequestBody CartCheckRequestVo cartCheckRequestVo) {
 
-        cartService.updateCartChecked(CartCheckRequestDto.of(cartCheckRequestVo, authentication.getName()));
-        return ApiResponse.ok("장바구니 상품의 체크 여부를 변경했습니다.",
+        cartService.updateCartChecked(CartCheckRequestDto.of(cartCheckRequestVo, authentication.getName(), cartId));
+        return ApiResponse.ok("장바구니 체크 변경이 완료 되었습니다.",
                 null);
     }
 
+    @Operation(
+            summary = "장바구니 모든 상품 선택 여부 변경 API",
+            description = "장바구니에 담긴 모든 상품 선택 여부를 변경하는 API 입니다.",
+            tags = {"CART-SERVICE"}
+    )
+    @PutMapping("/checked")
+    public ApiResponse<Void> updateCartAllChecked(Authentication authentication,
+                                                  @RequestBody CartAllCheckRequestVo cartAllCheckRequestVo) {
+        cartService.updateCartAllChecked(CartAllCheckRequestDto.of(cartAllCheckRequestVo, authentication.getName()));
+        return ApiResponse.ok("장바구니 전체 체크 변경이 완료 되었습니다.",
+                null);
+    }
 
+    @Operation(
+            summary = "장바구니 목록 조회 API",
+            description = "사용자의 장바구니 목록을 조회하는 API 입니다. 페이징 처리가 되어 있습니다. " +
+                    "page, size 파라미터를 통해 페이지 번호와 페이지 사이즈를 조정할 수 있습니다.",
+            tags = {"CART-SERVICE"}
+    )
     @GetMapping
     public ApiResponse<CartListResponseVo> getCartList(Authentication authentication,
                                                        @PageableDefault(size = 3) Pageable pageable) {
@@ -66,7 +101,11 @@ public class CartController {
         );
     }
 
-
+    @Operation(
+            summary = "장바구니 상세 조회 API",
+            description = "사용자의 장바구니 상세 정보를 조회하는 API 입니다.",
+            tags = {"CART-SERVICE"}
+    )
     @GetMapping("/{cartId}")
     public ApiResponse<CartDetailResponseVo> getCartProductDetails(@PathVariable Long cartId) {
 
@@ -75,7 +114,11 @@ public class CartController {
         );
     }
 
-
+    @Operation(
+            summary = "장바구니 전체 삭제 API",
+            description = "사용자의 장바구니 목록을 모두 삭제하는 API 입니다.",
+            tags = {"CART-SERVICE"}
+    )
     @DeleteMapping("/all")
     public ApiResponse<Void> removeAllCart(Authentication authentication) {
         cartService.removeAllCart(authentication.getName());
@@ -83,6 +126,11 @@ public class CartController {
                 null);
     }
 
+    @Operation(
+            summary = "장바구니 삭제 API",
+            description = "사용자가 선택한 장바구니 목록을 삭제하는 API 입니다.",
+            tags = {"CART-SERVICE"}
+    )
     @DeleteMapping
     public ApiResponse<Void> removeCart(Authentication authentication,
                                         @RequestBody CartDeleteListRequestVo cartDeleteListRequestVo) {

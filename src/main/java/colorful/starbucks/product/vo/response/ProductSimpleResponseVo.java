@@ -12,15 +12,18 @@ public class ProductSimpleResponseVo {
     private Long productCode;
     private String productThumbnailUrl;
     private Integer price;
+    private Boolean isNew;
 
     @Builder
     private ProductSimpleResponseVo(String productName,
                                     Long productCode,
                                     String productThumbnailUrl,
-                                    Integer price) {
+                                    Integer price,
+                                    Boolean isNew) {
         this.productName = productName;
         this.productCode = productCode;
         this.productThumbnailUrl = productThumbnailUrl;
         this.price = price;
+        this.isNew = isNew;
     }
 }

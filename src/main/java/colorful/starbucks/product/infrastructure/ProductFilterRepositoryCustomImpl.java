@@ -1,9 +1,9 @@
-package colorful.starbucks.admin.infrastructure;
+package colorful.starbucks.product.infrastructure;
 
 import colorful.starbucks.admin.dto.ProductIdAndPriceDto;
-import colorful.starbucks.admin.dto.ProductCategoryListFilterDto;
-import colorful.starbucks.admin.dto.response.ProductCursorResponseDto;
 import colorful.starbucks.common.util.CursorPage;
+import colorful.starbucks.product.dto.ProductFilterDto;
+import colorful.starbucks.product.dto.response.ProductCursorResponseDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -14,41 +14,54 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static colorful.starbucks.admin.domain.QProductCategoryList.productCategoryList;
 import static colorful.starbucks.product.domain.QProduct.product;
+import static colorful.starbucks.product.domain.QProductFilter.productFilter;
 
 @Repository
 @RequiredArgsConstructor
-public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCustom {
+public class ProductFilterRepositoryCustomImpl implements ProductFilterRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
     private static final int DEFAULT_PAGE_SIZE = 20;
     private static final int DEFAULT_PAGE_NUMBER = 0;
 
     @Override
-    public CursorPage<ProductCursorResponseDto> getFilteredProductList(ProductCategoryListFilterDto productCategoryListFilterDto,
+    public CursorPage<ProductCursorResponseDto> getFilteredProductList(ProductFilterDto productFilterDto,
                                                                        Long id,
                                                                        int price) {
 
+        int pageSize = productFilterDto.getSize() != null ? productFilterDto.getSize() : DEFAULT_PAGE_SIZE;
+        int offset = 0;
+        BooleanBuilder builder = new BooleanBuilder();
+
+        Long cursor = productFilterDto.getCursor();
+        if (cursor != null) {
+            builder.and(productFilter.id.loe(cursor));
+        } else {
+            int currentPage = productFilterDto.getPage() != null ? productFilterDto.getPage() : DEFAULT_PAGE_NUMBER;
+            offset = currentPage == 0 ? 0 : (currentPage) * pageSize;
+        }
+
         JPAQuery<ProductCursorResponseDto> query = queryFactory.select(
                         Projections.constructor(ProductCursorResponseDto.class,
-                                productCategoryList.id,
-                                productCategoryList.productCode
+                                productFilter.id,
+                                productFilter.productCode
                         )
                 )
-                .from(productCategoryList)
+                .from(productFilter)
                 .where(
-                        minPriceGoe(productCategoryListFilterDto.getMinPrice()),
-                        maxPriceLoe(productCategoryListFilterDto.getMaxPrice()),
-                        topCategoryEq(productCategoryListFilterDto.getTopCategoryId()),
-                        bottomCategoryEq(productCategoryListFilterDto.getBottomCategoryIds()),
-                        productCategoryList.isDeleted.isFalse()
-                );
+                        minPriceGoe(productFilterDto.getMinPrice()),
+                        maxPriceLoe(productFilterDto.getMaxPrice()),
+                        topCategoryEq(productFilterDto.getTopCategoryId()),
+                        bottomCategoryEq(productFilterDto.getBottomCategoryIds()),
+                        productFilter.isDeleted.isFalse()
+                )
+                .offset(offset)
+                .limit(pageSize + 1);
 
-        applySorting(query, productCategoryListFilterDto.getSortBy(), id, price);
+        applySorting(query, productFilterDto.getSortBy(), id, price);
 
-        int pageSize = productCategoryListFilterDto.getSize() == null ? DEFAULT_PAGE_SIZE : productCategoryListFilterDto.getSize();
-        List<ProductCursorResponseDto> content = query.limit(pageSize + 1).fetch();
+        List<ProductCursorResponseDto> content = query.fetch();
 
         Long nextCursor = null;
         boolean hasNext = false;
@@ -81,16 +94,16 @@ public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCus
                         Projections.constructor(ProductCursorResponseDto.class,
                                 product.id,
                                 product.productCode)
-                ).from(productCategoryList)
+                ).from(productFilter)
                 .innerJoin(product)
-                .on(product.productCode.eq(productCategoryList.productCode))
+                .on(product.productCode.eq(productFilter.productCode))
                 .where(minPriceGoe(productIdAndPriceDto.getMinPrice()),
                         maxPriceLoe(productIdAndPriceDto.getMaxPrice()),
-                        productCategoryList.isDeleted.isFalse(),
+                        productFilter.isDeleted.isFalse(),
                         product.isDeleted.isFalse(),
                         (product.productName.like("%" + productIdAndPriceDto.getQuery() + "%")
-                        .or(productCategoryList.topCategoryName.like("%" + productIdAndPriceDto.getQuery() + "%")
-                        .or(productCategoryList.bottomCategoryName.like("%" + productIdAndPriceDto.getQuery() + "%")))
+                        .or(productFilter.topCategoryName.like("%" + productIdAndPriceDto.getQuery() + "%")
+                        .or(productFilter.bottomCategoryName.like("%" + productIdAndPriceDto.getQuery() + "%")))
                         )
                 )
                 .offset(offset)
@@ -121,19 +134,19 @@ public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCus
 
 
     private BooleanExpression minPriceGoe(Integer minPrice) {
-        return minPrice != null ? productCategoryList.price.goe(minPrice) : null;
+        return minPrice != null ? productFilter.price.goe(minPrice) : null;
     }
 
     private BooleanExpression maxPriceLoe(Integer maxPrice) {
-        return maxPrice != null ? productCategoryList.price.loe(maxPrice) : null;
+        return maxPrice != null ? productFilter.price.loe(maxPrice) : null;
     }
 
     private BooleanExpression topCategoryEq(Long topCategoryId) {
-        return topCategoryId != null ? productCategoryList.topCategoryId.eq(topCategoryId) : null;
+        return topCategoryId != null ? productFilter.topCategoryId.eq(topCategoryId) : null;
     }
 
     private BooleanExpression bottomCategoryEq(List<Long> bottomCategoryIds) {
-        return bottomCategoryIds != null ? productCategoryList.bottomCategoryId.in(bottomCategoryIds) : null;
+        return bottomCategoryIds != null ? productFilter.bottomCategoryId.in(bottomCategoryIds) : null;
     }
 
     private void applySorting(JPAQuery<ProductCursorResponseDto> query,
@@ -145,31 +158,31 @@ public class ProductReadRepositoryCustomImpl implements ProductReadRepositoryCus
         if (sortBy != null) {
             switch (sortBy) {
                 case "price,asc":
-                    builder.and(productCategoryList.price.gt(price))
-                            .or(productCategoryList.price.eq(price).and(productCategoryList.id.loe(productListId)));
-                    query.orderBy(productCategoryList.price.asc(), productCategoryList.id.desc());
+                    builder.and(productFilter.price.gt(price))
+                            .or(productFilter.price.eq(price).and(productFilter.id.loe(productListId)));
+                    query.orderBy(productFilter.price.asc(), productFilter.id.desc());
                     break;
                 case "price,desc":
-                    builder.and(productCategoryList.price.lt(price))
-                            .or(productCategoryList.price.eq(price).and(productCategoryList.id.loe(productListId)));
-                    query.orderBy(productCategoryList.price.desc(), productCategoryList.id.desc());
+                    builder.and(productFilter.price.lt(price))
+                            .or(productFilter.price.eq(price).and(productFilter.id.loe(productListId)));
+                    query.orderBy(productFilter.price.desc(), productFilter.id.desc());
                     break;
                 case "createdAt,asc":
-                    builder.and(productCategoryList.id.goe(productListId));
-                    query.orderBy(productCategoryList.id.asc());
+                    builder.and(productFilter.id.goe(productListId));
+                    query.orderBy(productFilter.id.asc());
                     break;
                 case "createdAt,desc":
-                    builder.and(productCategoryList.id.loe(productListId));
-                    query.orderBy(productCategoryList.id.desc());
+                    builder.and(productFilter.id.loe(productListId));
+                    query.orderBy(productFilter.id.desc());
                     break;
                 default:
-                    builder.and(productCategoryList.id.loe(productListId));
-                    query.orderBy(productCategoryList.id.desc());
+                    builder.and(productFilter.id.loe(productListId));
+                    query.orderBy(productFilter.id.desc());
                     break;
             }
         } else {
-            builder.and(productCategoryList.id.loe(productListId));
-            query.orderBy(productCategoryList.id.desc());
+            builder.and(productFilter.id.loe(productListId));
+            query.orderBy(productFilter.id.desc());
         }
 
         query.where(builder);
