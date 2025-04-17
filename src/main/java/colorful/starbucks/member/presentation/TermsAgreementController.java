@@ -3,6 +3,7 @@ package colorful.starbucks.member.presentation;
 import colorful.starbucks.member.application.TermsAgreementService;
 import colorful.starbucks.member.dto.request.TermsAgreementRequestDto;
 import colorful.starbucks.common.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,11 @@ public class TermsAgreementController {
 
     private final TermsAgreementService termsAgreementService;
 
+    @Operation(
+            summary = "이용약관 동의 API",
+            description = "이용약관 동의 API 입니다.",
+            tags = {"MEMBER-SERVICE"}
+    )
     @PostMapping("/terms-agreement")
     public ApiResponse<Void> termsAgreement(@RequestBody TermsAgreementRequestDto termsAgreementRequestDto) {
         termsAgreementService.saveTermsAgreement(termsAgreementRequestDto.getAgreements(),

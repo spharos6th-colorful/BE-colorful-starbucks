@@ -11,6 +11,7 @@ import colorful.starbucks.event.vo.request.EventCreateRequestVo;
 import colorful.starbucks.event.vo.request.EventFilterRequestVo;
 import colorful.starbucks.event.vo.response.EventDetailResponseVo;
 import colorful.starbucks.event.vo.response.EventResponseVo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,11 @@ public class EventController {
 
     private final EventService eventService;
 
+    @Operation(
+            summary = "이벤트 등록 API",
+            description = "이벤트 등록을 위한 API 입니다.",
+            tags = {"EVENT-SERVICE"}
+    )
     @PostMapping
     public ApiResponse<Void> createEvent(@RequestBody EventCreateRequestVo eventCreateRequestVo) {
 
@@ -32,6 +38,11 @@ public class EventController {
         );
     }
 
+    @Operation(
+            summary = "이벤트 수정 API",
+            description = "이벤트 수정을 위한 API 입니다.",
+            tags = {"EVENT-SERVICE"}
+    )
     @PutMapping("/{eventUuid}")
     public ApiResponse<Void> updateEvent(@PathVariable String eventUuid,
                                          @RequestBody EventCreateRequestVo eventCreateRequestVo) {
@@ -42,6 +53,11 @@ public class EventController {
         );
     }
 
+    @Operation(
+            summary = "이벤트 목록 조회 API",
+            description = "이벤트 목록을 조회하는 API 입니다. status에는 'ONGOING' (진행중), 'UPCOMING' (예정), 'ENDED'(종료)를 입력해주세요.",
+            tags = {"EVENT-SERVICE"}
+    )
     @GetMapping
     public ApiResponse<PageResponse<EventResponseVo>> getEvents(@ModelAttribute EventFilterRequestVo eventFilterRequestVo) {
 
@@ -53,6 +69,11 @@ public class EventController {
         );
     }
 
+    @Operation(
+            summary = "이벤트 상세 조회 API",
+            description = "이벤트 uuid로 이벤트를 조회하는 API 입니다.",
+            tags = {"EVENT-SERVICE"}
+    )
     @GetMapping("/{eventUuid}")
     public ApiResponse<EventDetailResponseVo> getEventDetail(@PathVariable String eventUuid) {
         return ApiResponse.ok(
@@ -61,6 +82,11 @@ public class EventController {
         );
     }
 
+    @Operation(
+            summary = "이벤트 삭제 API",
+            description = "이벤트 uuid로 이벤트를 삭제하는 API 입니다.",
+            tags = {"EVENT-SERVICE"}
+    )
     @DeleteMapping("/{eventUuid}")
     public ApiResponse<Void> deleteEvent(@PathVariable String eventUuid) {
         eventService.deleteEvent(eventUuid);

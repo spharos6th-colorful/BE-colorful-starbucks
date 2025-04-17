@@ -33,7 +33,7 @@ public class EventServiceImpl implements EventService {
         Event event = eventRepository.findByEventUuid(eventUpdateRequestDto.getEventUuid())
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND));
 
-        event.update(eventUpdateRequestDto.toEntity());
+        eventRepository.save(eventUpdateRequestDto.toEntity(event.getId()));
     }
 
     @Override
