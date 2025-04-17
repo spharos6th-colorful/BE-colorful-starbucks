@@ -10,12 +10,12 @@ public class MemberLevelTargetDto {
 
     private String memberUuid;
     private MemberLevel memberLevel;
-    private Integer totalAmount;
+    private Long totalAmount;
 
 
     public MemberLevelTargetDto(String memberUuid,
                                 MemberLevel memberLevel,
-                                Integer totalAmount
+                                Long totalAmount
     ) {
         this.memberUuid = memberUuid;
         this.memberLevel = memberLevel;

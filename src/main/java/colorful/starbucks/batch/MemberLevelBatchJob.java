@@ -1,7 +1,9 @@
 package colorful.starbucks.batch;
 
 import colorful.starbucks.batch.dto.MemberLevelTargetDto;
+import colorful.starbucks.batch.dto.MemberLevelUpdateDto;
 import colorful.starbucks.member.infrastructure.MemberRepository;
+import colorful.starbucks.summary.infrastructure.MemberOrderSummaryRepository;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -26,30 +28,27 @@ import java.util.Map;
 public class MemberLevelBatchJob {
 
     private final MemberRepository memberRepository;
+    private final MemberOrderSummaryRepository memberOrderSummaryRepository;
 
-    @Bean
-    public Job memberLevelBatchJob(JobRepository jobRepository,
-                                   PlatformTransactionManager transactionManager,
-                                   EntityManagerFactory entityManagerFactory,
-                                   ItemWriter<MemberLevelTargetDto> memberLevelWriter) {
-
-        return new JobBuilder("memberLevelBatchJob", jobRepository)
-                .start(chunkStep(jobRepository, transactionManager, entityManagerFactory, memberLevelWriter))
-                .build();
+    @Override
+    protected void finalize() throws Throwable {
+        finalize();
     }
 
     @Bean
-    public Step chunkStep(JobRepository jobRepository,
-                          PlatformTransactionManager transactionManager,
-                          EntityManagerFactory entityManagerFactory,
-                          ItemWriter<MemberLevelTargetDto> memberLevelWriter) {
+    public Job memberLevelJob(JobRepository jobRepository,
+                                   PlatformTransactionManager transactionManager,
+                                   EntityManagerFactory entityManagerFactory) {
 
-        return new StepBuilder("memberLevelBatchStep", jobRepository)
-                .<MemberLevelTargetDto, MemberLevelTargetDto>chunk(5000, transactionManager)
+        Step memberLevelStep = new StepBuilder("memberLevelReader", jobRepository)
+                .<MemberLevelTargetDto, MemberLevelUpdateDto>chunk(5000, transactionManager)
                 .reader(memberLevelReader(entityManagerFactory))
                 .processor(memberLevelProcessor())
-                .writer(memberLevelWriter)
-                .listener(memberLevelWriter)
+                .writer(memberLevelWriter())
+                .build();
+
+        return new JobBuilder("memberLevelJob", jobRepository)
+                .start(memberLevelStep)
                 .build();
     }
 
@@ -66,7 +65,8 @@ public class MemberLevelBatchJob {
                         "SELECT new colorful.starbucks.batch.dto.MemberLevelTargetDto(" +
                                 "m.memberUuid, m.memberLevel, SUM(o.totalAmount)) " +
                                 "FROM Order o " +
-                                "JOIN o.member m " +
+                                "JOIN Member m " +
+                                "ON o.memberUuid = m.memberUuid " +
                                 "WHERE o.orderStatus = 'PAID' " +
                                 "AND o.createdAt >= :threeMonthsAgo " +
                                 "GROUP BY m.memberUuid, m.memberLevel"
@@ -77,12 +77,16 @@ public class MemberLevelBatchJob {
 
     @Bean
     @StepScope
-    public ItemProcessor<MemberLevelTargetDto, MemberLevelTargetDto> memberLevelProcessor() {
-        return memberLevelTargetDto -> memberLevelTargetDto;
+    public ItemProcessor<MemberLevelTargetDto, MemberLevelUpdateDto> memberLevelProcessor() {
+        return item -> new MemberLevelUpdateDto(
+                item.getMemberUuid(),
+                item.getMemberLevel(),
+                item.getTotalAmount()
+        );
     }
 
     @Bean
-    public ItemWriter<MemberLevelTargetDto> memberLevelWriter(MemberRepository memberRepository) {
-        return  MemberLevelWriter(memberRepository);
+    public ItemWriter<MemberLevelUpdateDto> memberLevelWriter() {
+        return new MemberLevelWriter(memberRepository,memberOrderSummaryRepository);
     }
 }

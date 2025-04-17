@@ -76,7 +76,6 @@ public class OrderServiceImpl implements OrderService {
                 .zoneCode(order.getZoneCode())
                 .address(order.getAddress())
                 .detailAddress(order.getDetailAddress())
-                .isGift(order.getIsGift())
                 .totalAmount(order.getTotalAmount())
                 .discountAmount(order.getDiscountAmount())
                 .buyer(order.getBuyer())
