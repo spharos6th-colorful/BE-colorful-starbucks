@@ -1,16 +1,11 @@
 package colorful.starbucks.event.infrastructure;
 
 import colorful.starbucks.common.util.CursorPage;
-import colorful.starbucks.coupon.domain.MemberCoupon;
 import colorful.starbucks.event.domain.EventProduct;
 import colorful.starbucks.event.dto.request.EventProductCodesRequestDto;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,13 +16,12 @@ import static colorful.starbucks.event.domain.QEventProduct.eventProduct;
 @RequiredArgsConstructor
 public class EventProductRepositoryCustomImpl implements EventProductRepositoryCustom {
 
-    private final JPAQueryFactory queryFactory;
-
     private static final int DEFAULT_PAGE_SIZE = 20;
     private static final int DEFAULT_PAGE_NUMBER = 0;
+    private final JPAQueryFactory queryFactory;
 
     @Override
-    public CursorPage<Long> getEventProductCodesByEventUuid(EventProductCodesRequestDto eventProductCodesRequestDto) {
+    public CursorPage<EventProduct> getEventProductCodesByEventUuid(EventProductCodesRequestDto eventProductCodesRequestDto) {
 
         int pageSize = eventProductCodesRequestDto.getSize() == null ? DEFAULT_PAGE_SIZE : eventProductCodesRequestDto.getSize();
         int offset = 0;
@@ -39,6 +33,7 @@ public class EventProductRepositoryCustomImpl implements EventProductRepositoryC
         } else {
             builder.and(eventProduct.id.loe(eventProductCodesRequestDto.getCursor()));
         }
+
         List<EventProduct> content = queryFactory
                 .selectFrom(eventProduct)
                 .where(
@@ -59,12 +54,8 @@ public class EventProductRepositoryCustomImpl implements EventProductRepositoryC
             content.remove(pageSize);
         }
 
-        return CursorPage.<Long>builder()
-                .content(
-                        content.stream()
-                                .map(EventProduct::getProductCode)
-                                .toList()
-                )
+        return CursorPage.<EventProduct>builder()
+                .content(content)
                 .hasNext(hasNext)
                 .nextCursor(nextCursor)
                 .build();

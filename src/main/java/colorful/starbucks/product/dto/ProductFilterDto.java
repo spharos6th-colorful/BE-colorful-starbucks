@@ -5,39 +5,49 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 public class ProductFilterDto {
 
-    private Long nextCursor;
+    private Long cursor;
     private Integer minPrice;
     private Integer maxPrice;
-    private String topCategory;
-    private String bottomCategory;
+    private Long topCategoryId;
+    private List<Long> bottomCategoryIds;
+    private Integer page;
+    private Integer size;
     private String sortBy;
 
     @Builder
-    private ProductFilterDto(Long nextCursor,
+    private ProductFilterDto(Long cursor,
                              Integer minPrice,
                              Integer maxPrice,
-                             String topCategory,
-                             String bottomCategory,
+                             Long topCategoryId,
+                             List<Long> bottomCategoryIds,
+                             Integer page,
+                             Integer size,
                              String sortBy) {
-        this.nextCursor = nextCursor;
+        this.cursor = cursor;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
-        this.topCategory = topCategory;
-        this.bottomCategory = bottomCategory;
+        this.topCategoryId = topCategoryId;
+        this.bottomCategoryIds = bottomCategoryIds;
+        this.page = page;
+        this.size = size;
         this.sortBy = sortBy;
     }
 
     public static ProductFilterDto from(ProductFilterVo productFilterVo) {
         return ProductFilterDto.builder()
-                .nextCursor(productFilterVo.getNextCursor())
+                .cursor(productFilterVo.getCursor())
                 .minPrice(productFilterVo.getMinPrice())
                 .maxPrice(productFilterVo.getMaxPrice())
-                .topCategory(productFilterVo.getTopCategory())
-                .bottomCategory(productFilterVo.getBottomCategory())
+                .topCategoryId(productFilterVo.getTopCategoryId())
+                .bottomCategoryIds(productFilterVo.getBottomCategoryIds())
+                .page(productFilterVo.getPage())
+                .size(productFilterVo.getSize())
                 .sortBy(productFilterVo.getSortBy())
                 .build();
     }

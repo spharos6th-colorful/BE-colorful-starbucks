@@ -12,6 +12,7 @@ import colorful.starbucks.order.vo.request.OrderCancelRequestVo;
 import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
 import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import colorful.starbucks.order.vo.response.OrderCursorResponseVo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,11 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
     private final OrderService orderService;
 
+    @Operation(
+            summary = "주문 생성 API",
+            description = "주문을 생성하는 API 입니다.",
+            tags = {"ORDER-SERVICE"}
+    )
     @PostMapping
     public ApiResponse<OrderCreateResponseVo> createOrder(Authentication authentication,
                                                           @RequestBody OrderCreateRequestVo orderCreateRequestVo) {
@@ -33,9 +39,20 @@ public class OrderController {
         );
     }
 
+    @Operation(
+            summary = "주문 목록 조회 API",
+            description = "주문 목록을 조회하는 API 입니다. 무한스크롤로 구현되어 있습니다. " +
+                    "size를 결정하고 이전 목록 조회는 page 값을 할당하고 cursor는 빼주세요, 다음 목록 조회는 cursor로 요청해주세요.",
+            tags = {"ORDER-SERVICE"}
+    )
     @GetMapping
     public ApiResponse<CursorPage<OrderCursorResponseVo>> getOrderList(Authentication authentication,
                                                                        @ModelAttribute OrderListFilterVo orderListFilterVo) {
+        String memberUuid = authentication.getName();
+
+        OrderListFilterDto orderListFilterDto = OrderListFilterDto.of(orderListFilterVo, memberUuid);
+
+        CursorPage<OrderCursorResponseDto> response = orderService.getOrderList(orderListFilterDto);
 
         return ApiResponse.ok("주문 목록 조회 성공",
                 orderService.getOrderList(OrderListFilterDto.of(orderListFilterVo, authentication.getName()))
@@ -43,6 +60,11 @@ public class OrderController {
         );
     }
 
+    @Operation(
+            summary = "주문 취소 API",
+            description = "주문을 취소하는 API 입니다.",
+            tags = {"ORDER-SERVICE"}
+    )
     @PostMapping("/cancel")
     public ApiResponse<Void> cancelOrder(Authentication authentication,
                                          @RequestBody OrderCancelRequestVo orderCancelRequestVo) {
@@ -51,6 +73,8 @@ public class OrderController {
 
         return ApiResponse.ok("주문이 성공적으로 취소되었습니다.", null);
     }
+
+
 
 
 }

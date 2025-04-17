@@ -1,9 +1,9 @@
-package colorful.starbucks.admin.vo.request;
+package colorful.starbucks.product.vo.request;
 
 import lombok.Getter;
 
 @Getter
-public class ProductCategoryListCreateRequestVo {
+public class ProductFilterCreateRequestVo {
 
     private Long productCode;
     private Long topCategoryId;

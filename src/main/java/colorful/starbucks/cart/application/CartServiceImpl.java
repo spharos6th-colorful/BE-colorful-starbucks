@@ -55,10 +55,17 @@ public class CartServiceImpl implements CartService {
     @Override
     public void updateCartChecked(CartCheckRequestDto cartCheckRequestDto) {
 
-        cartRepository.findByIdAndMemberUuid(cartCheckRequestDto.getId(), cartCheckRequestDto.getMemberUuid())
+        cartRepository.findByIdAndMemberUuid(cartCheckRequestDto.getCartId(), cartCheckRequestDto.getMemberUuid())
                 .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
                 .updateProductChecked(cartCheckRequestDto.getChecked());
 
+    }
+
+    @Transactional
+    @Override
+    public void updateCartAllChecked(CartAllCheckRequestDto cartAllCheckRequestDto) {
+        cartRepository.updateCheckedByMemberUuid(cartAllCheckRequestDto.getMemberUuid(),
+                cartAllCheckRequestDto.getChecked());
     }
 
     @Override
@@ -82,7 +89,7 @@ public class CartServiceImpl implements CartService {
     public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
 
         cartDeleteRequestDtos.forEach(cartProduct ->
-                cartRepository.deleteByIdAndMemberUuid(cartProduct.getId(), cartProduct.getMemberUuid()));
+                cartRepository.deleteByIdAndMemberUuid(cartProduct.getCartId(), cartProduct.getMemberUuid()));
 
     }
 
@@ -92,6 +99,8 @@ public class CartServiceImpl implements CartService {
     public void removeAllCart(String memberUuid) {
         cartRepository.deleteAllByMemberUuid(memberUuid);
     }
+
+
 
 }
 

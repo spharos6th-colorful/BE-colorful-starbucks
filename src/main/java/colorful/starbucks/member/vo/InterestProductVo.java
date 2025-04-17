@@ -1,4 +1,4 @@
-package colorful.starbucks.admin.vo.response;
+package colorful.starbucks.member.vo;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,14 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ProductCursorResponseVo {
+public class InterestProductVo {
 
-    private Long id;
     private Long productCode;
 
     @Builder
-    private ProductCursorResponseVo(Long id, Long productCode) {
-        this.id = id;
+    private InterestProductVo(Long productCode) {
         this.productCode = productCode;
     }
 }
