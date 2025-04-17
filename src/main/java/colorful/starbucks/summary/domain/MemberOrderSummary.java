@@ -22,28 +22,28 @@ public class MemberOrderSummary {
     @Comment("회원 주문 집계 ID")
     private Long id;
 
-    @Column( nullable = false, unique = true)
+    @Column(nullable = false)
     @Comment("회원 UUID")
     private String memberUuid;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     @Comment("회원 이름")
     private String memberName;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     @Comment("주문완료된 총 금액")
     private Integer totalPaidAmount;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     @Comment("주문완료된 총 수량")
     private Integer totalOrderCount;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     @Comment("마지막 주문일자")
     private LocalDateTime lastOrderDate;
 
     @LastModifiedDate
-    @Column( nullable = false)
+    @Column(nullable = false)
     @Comment("마지막 집계 일자")
     private LocalDateTime lastUpdateDate;
 
@@ -58,17 +58,12 @@ public class MemberOrderSummary {
             String memberName,
             Integer totalPaidAmount,
             Integer totalOrderCount,
-            LocalDateTime lastOrderDate,
-            LocalDateTime lastUpdateDate,
-            LocalDateTime createdAt
+            LocalDateTime lastOrderDate
     ) {
         this.memberUuid = memberUuid;
         this.memberName = memberName;
         this.totalPaidAmount = totalPaidAmount;
         this.totalOrderCount = totalOrderCount;
         this.lastOrderDate = lastOrderDate;
-        this.lastUpdateDate = lastUpdateDate;
-        this.createdAt = createdAt;
     }
-
 }

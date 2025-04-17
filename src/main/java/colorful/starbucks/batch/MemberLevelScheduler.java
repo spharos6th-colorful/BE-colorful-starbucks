@@ -22,17 +22,18 @@ public class MemberLevelScheduler {
     private final JobLauncher jobLauncher;
     private final JobRegistry jobRegistry;
 
-    @Scheduled(cron = "0 0 10 * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void runJob() {
         String time = LocalDateTime.now().toString();
         try {
-            Job job = jobRegistry.getJob("memberLevelJob", jobRegistry);
-            JobParametersBuilder jobParam = new JobParametersBuilder().addString("time", time);
+            Job job = jobRegistry.getJob("memberLevelBatchJob");
+            JobParametersBuilder jobParam = new JobParametersBuilder()
+                    .addString("time", time);
             jobLauncher.run(job, jobParam.toJobParameters());
-        } catch (NoSuchJobException | JobInstanceAlreadyCompleteException | JobExecutionAlreadyRunningException |
-                 JobParametersInvalidException | JobRestartException e) {
+        } catch (NoSuchJobException | JobInstanceAlreadyCompleteException |
+                 JobExecutionAlreadyRunningException | JobParametersInvalidException |
+                 JobRestartException e) {
             throw new RuntimeException(e);
         }
     }
-
 }

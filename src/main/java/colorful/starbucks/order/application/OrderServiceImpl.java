@@ -13,9 +13,6 @@ import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.infrastructure.OrderRepository;
-import colorful.starbucks.summary.application.MemberOrderSummaryService;
-import colorful.starbucks.summary.domain.MemberOrderSummary;
-import colorful.starbucks.summary.infrastructure.MemberOrderSummaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailService orderDetailService;
     private final OrderCodeGenerator orderCodeGenerator;
-    private final MemberOrderSummaryService memberOrderSummaryService;
+
 
     @Transactional
     @Override
