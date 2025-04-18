@@ -1,5 +1,6 @@
 package colorful.starbucks.order.application;
 
+import colorful.starbucks.cart.application.CartService;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.CursorPage;
@@ -10,12 +11,15 @@ import colorful.starbucks.order.dto.OrderListFilterDto;
 import colorful.starbucks.order.dto.PreOrderDto;
 import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
+import colorful.starbucks.order.dto.request.OrderDetailCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.infrastructure.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDetailService orderDetailService;
     private final OrderCodeGenerator orderCodeGenerator;
     private final OrderRedisService orderRedisService;
+    private final CartService cartService;
 
 
     @Transactional
@@ -36,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
         PreOrderDto preOrderDto = PreOrderDto.from(orderCreateRequestDto, orderCode);
 
         orderRedisService.saveOrder(orderCode, preOrderDto, 3600);
+
 
         return preOrderDto;
     }
@@ -49,6 +55,15 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
 
         orderDetailService.saveAllDetails(order, orderCreateRequestDto.getOrderDetails());
+
+        List<Long> cartIds = orderCreateRequestDto.getOrderDetails().stream()
+                .map(OrderDetailCreateRequestDto::getProductDetailCode)
+                .toList();
+
+        cartService.removeCartByMemberAndProductDetailCodes(
+                orderCreateRequestDto.getMemberUuid(),
+                cartIds
+        );
 
         return OrderCreateResponseDto.from(orderCode);
     }

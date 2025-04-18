@@ -27,6 +27,8 @@ public class MemberLevelWriter implements ItemWriter<MemberLevelUpdateDto> {
             List<MemberOrderSummary> summaries = memberOrderSummaryRepository.findByMemberUuid(update.getMemberUuid());
             String memberName = memberRepository.findByMemberUuid(update.getMemberUuid()).getMemberName();
 
+            LocalDateTime now = LocalDateTime.now();
+
             if (!summaries.isEmpty()) {
 
                 MemberOrderSummary existing = summaries.get(0);
@@ -37,8 +39,8 @@ public class MemberLevelWriter implements ItemWriter<MemberLevelUpdateDto> {
                         .memberName(memberName)
                         .totalPaidAmount(update.getTotalAmount())
                         .totalOrderCount(existing.getTotalOrderCount() + 1)
-                        .lastOrderDate(LocalDateTime.now())
-                        .lastUpdateDate(LocalDateTime.now())
+                        .lastOrderDate(now)
+                        .lastUpdateDate(now)
                         .createdAt(existing.getCreatedAt())
                         .build();
 
@@ -49,9 +51,9 @@ public class MemberLevelWriter implements ItemWriter<MemberLevelUpdateDto> {
                         .memberName(memberName)
                         .totalPaidAmount(update.getTotalAmount())
                         .totalOrderCount(1)
-                        .lastOrderDate(LocalDateTime.now())
-                        .lastUpdateDate(LocalDateTime.now())
-                        .createdAt(LocalDateTime.now())
+                        .lastOrderDate(now)
+                        .lastUpdateDate(now)
+                        .createdAt(now)
                         .build();
 
                 memberOrderSummaryRepository.save(created);
