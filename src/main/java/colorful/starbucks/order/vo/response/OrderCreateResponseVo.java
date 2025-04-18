@@ -9,9 +9,12 @@ import lombok.NoArgsConstructor;
 public class OrderCreateResponseVo {
 
     private Long orderCode;
+    private Integer totalAmount;
 
     @Builder
-    private OrderCreateResponseVo(Long orderCode) {
+    private OrderCreateResponseVo(Long orderCode,
+                                  Integer totalAmount) {
+        this.totalAmount = totalAmount;
         this.orderCode = orderCode;
     }
 

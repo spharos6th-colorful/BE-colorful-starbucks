@@ -4,7 +4,6 @@ import colorful.starbucks.auth.vo.request.MemberSignInRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @Getter
 @NoArgsConstructor

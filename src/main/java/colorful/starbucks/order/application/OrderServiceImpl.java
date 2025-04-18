@@ -1,5 +1,6 @@
 package colorful.starbucks.order.application;
 
+import colorful.starbucks.cart.application.CartService;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.CursorPage;
@@ -7,14 +8,18 @@ import colorful.starbucks.common.util.OrderCodeGenerator;
 import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderStatus;
 import colorful.starbucks.order.dto.OrderListFilterDto;
+import colorful.starbucks.order.dto.PreOrderDto;
 import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
+import colorful.starbucks.order.dto.request.OrderDetailCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.infrastructure.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,16 +29,42 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailService orderDetailService;
     private final OrderCodeGenerator orderCodeGenerator;
+    private final OrderRedisService orderRedisService;
+    private final CartService cartService;
+
+
+    @Transactional
+    @Override
+    public PreOrderDto createPreOrder(OrderCreateRequestDto orderCreateRequestDto) {
+        Long orderCode = orderCodeGenerator.generate();
+
+        PreOrderDto preOrderDto = PreOrderDto.from(orderCreateRequestDto, orderCode);
+
+        orderRedisService.saveOrder(orderCode, preOrderDto, 3600);
+
+
+        return preOrderDto;
+    }
 
     @Transactional
     @Override
     public OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto) {
-        Long orderCode = orderCodeGenerator.generate();
+        Long orderCode = orderCreateRequestDto.getOrderCode();
 
         Order order = orderCreateRequestDto.toEntity(orderCode);
         orderRepository.save(order);
 
         orderDetailService.saveAllDetails(order, orderCreateRequestDto.getOrderDetails());
+
+        List<Long> cartIds = orderCreateRequestDto.getOrderDetails().stream()
+                .map(OrderDetailCreateRequestDto::getProductDetailCode)
+                .toList();
+
+        cartService.removeCartByMemberAndProductDetailCodes(
+                orderCreateRequestDto.getMemberUuid(),
+                cartIds
+        );
+
         return OrderCreateResponseDto.from(orderCode);
     }
 
@@ -73,7 +104,6 @@ public class OrderServiceImpl implements OrderService {
                 .zoneCode(order.getZoneCode())
                 .address(order.getAddress())
                 .detailAddress(order.getDetailAddress())
-                .isGift(order.getIsGift())
                 .totalAmount(order.getTotalAmount())
                 .discountAmount(order.getDiscountAmount())
                 .buyer(order.getBuyer())

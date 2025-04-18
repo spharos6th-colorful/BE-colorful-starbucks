@@ -1,9 +1,12 @@
 package colorful.starbucks.payments.application;
 
-import colorful.starbucks.payments.domain.PaymentStatus;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
+import colorful.starbucks.order.application.OrderRedisService;
+import colorful.starbucks.order.dto.PreOrderDto;
+import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.payments.domain.PaymentHistory;
+import colorful.starbucks.payments.domain.PaymentStatus;
 import colorful.starbucks.payments.dto.request.TossPaymentCancelRequestDto;
 import colorful.starbucks.payments.dto.request.TossPaymentRequestDto;
 import colorful.starbucks.payments.dto.response.PaymentHistoryResponseDto;
@@ -26,23 +29,31 @@ public class PaymentsServiceImpl implements PaymentsService {
 
     private final TossPaymentsApiService tossPaymentsApiService;
     private final PaymentHistoryRepository paymentHistoryRepository;
+    private final OrderRedisService orderRedisService;
 
     @Transactional
     @Override
-    public TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto) {
+    public TossPaymentResponseDto approveTossPayment(
+            TossPaymentRequestDto tossPaymentRequestDto,
+            OrderCreateRequestDto orderCreateRequestDto
+    ) {
+        Long orderCode = Long.parseLong(tossPaymentRequestDto.getOrderId());
+        Integer paidAmount = tossPaymentRequestDto.getAmount();
+
+
+        orderRedisService.validateOrderForPayment(orderCode, paidAmount);
+
+
         JSONObject json = new JSONObject(tossPaymentsApiService.approvePayment(
                 tossPaymentRequestDto.getPaymentKey(),
                 tossPaymentRequestDto.getOrderId(),
                 tossPaymentRequestDto.getAmount()
         ));
 
-        TossPaymentResponseVo tossPaymentResponseVo = TossPaymentResponseVo.builder()
-                .paymentKey(json.optString("paymentKey"))
-                .orderId(json.optString("orderId"))
-                .status(json.optString("status"))
-                .totalAmount(json.optInt("totalAmount"))
-                .approvedAt(json.optString("approvedAt"))
-                .build();
+        PreOrderDto preOrderDto = orderRedisService.getOrder(orderCode);
+        if (preOrderDto == null) {
+            throw new BaseException(ResponseStatus.NO_EXIST_ORDER);
+        }
 
 
 
@@ -54,8 +65,20 @@ public class PaymentsServiceImpl implements PaymentsService {
         );
 
 
+        orderRedisService.deleteOrder(orderCode);
+
+
+        TossPaymentResponseVo tossPaymentResponseVo = TossPaymentResponseVo.builder()
+                .paymentKey(json.optString("paymentKey"))
+                .orderId(json.optString("orderId"))
+                .status(json.optString("status"))
+                .totalAmount(json.optInt("totalAmount"))
+                .approvedAt(json.optString("approvedAt"))
+                .build();
+
         return TossPaymentResponseDto.of(json, tossPaymentResponseVo);
     }
+
 
     @Transactional
     @Override
@@ -84,7 +107,7 @@ public class PaymentsServiceImpl implements PaymentsService {
     }
 
     @Override
-    public  List<PaymentHistoryResponseDto> getPaymentHistoryByOrderCode(Long orderCode, String memberUuid) {
+    public List<PaymentHistoryResponseDto> getPaymentHistoryByOrderCode(Long orderCode, String memberUuid) {
         return paymentHistoryRepository.findByOrderCodeAndMemberUuid(orderCode, memberUuid)
                 .stream()
                 .map(PaymentHistoryResponseDto::from)
@@ -117,7 +140,6 @@ public class PaymentsServiceImpl implements PaymentsService {
 
         paymentHistoryRepository.save(canceledHistory);
     }
-
 
 
 }

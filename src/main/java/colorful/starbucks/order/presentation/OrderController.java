@@ -24,6 +24,22 @@ public class OrderController {
     private final OrderService orderService;
 
     @Operation(
+            summary = "주문 생성 전 API",
+            description = "주문 생성을 위한 사전 작업을 수행하는 API 입니다.",
+            tags = {"ORDER-SERVICE"}
+    )
+    @PostMapping("/pre")
+    public ApiResponse<OrderCreateResponseVo> createPreOrder(Authentication authentication,
+                                                              @RequestBody OrderCreateRequestVo orderCreateRequestVo) {
+        return ApiResponse.ok(
+                "주문 생성 전 작업이 완료되었습니다.",
+                orderService
+                        .createPreOrder(OrderCreateRequestDto.of(orderCreateRequestVo, authentication.getName()))
+                        .toVo()
+        );
+    }
+
+    @Operation(
             summary = "주문 생성 API",
             description = "주문을 생성하는 API 입니다.",
             tags = {"ORDER-SERVICE"}

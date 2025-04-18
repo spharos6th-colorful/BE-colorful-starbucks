@@ -1,12 +1,9 @@
 package colorful.starbucks.auth.dto.request;
 
-import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.auth.vo.request.MemberEmailFindRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Optional;
 
 @Getter
 @NoArgsConstructor

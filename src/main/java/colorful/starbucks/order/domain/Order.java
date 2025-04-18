@@ -59,10 +59,6 @@ public class Order extends BaseEntity {
     @Column(nullable = false)
     private OrderStatus orderStatus;
 
-    @Comment("선물 여부")
-    @Column(nullable = true)
-    private Boolean isGift;
-
     @Comment("구매자")
     @Column(nullable = true)
     private String buyer;
@@ -88,7 +84,6 @@ public class Order extends BaseEntity {
                   String address,
                   String detailAddress,
                   OrderStatus orderStatus,
-                  Boolean isGift,
                   OrderCancelReason orderCancelReason,
                   String orderCancelReasonDetail,
                   String buyer) {
@@ -103,7 +98,6 @@ public class Order extends BaseEntity {
         this.address = address;
         this.detailAddress = detailAddress;
         this.orderStatus = orderStatus;
-        this.isGift = isGift;
         this.orderCancelReason = orderCancelReason;
         this.orderCancelReasonDetail = orderCancelReasonDetail;
         this.buyer = buyer;

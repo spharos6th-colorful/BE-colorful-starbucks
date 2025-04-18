@@ -29,10 +29,13 @@ public class PaymentController {
     @PostMapping("/toss")
     public ApiResponse<TossPaymentResponseDto> approveToss(Authentication authentication,
                                                            @RequestBody TossPaymentRequestDto tossPaymentRequestDto) {
+
+
         return ApiResponse.ok(
                 "결제 요청이 성공적으로 처리되었습니다.",
                 paymentsService.approveTossPayment(
-                        TossPaymentRequestDto.of(tossPaymentRequestDto, authentication.getName())
+                        tossPaymentRequestDto.of(tossPaymentRequestDto, authentication.getName()),
+                        null
                 )
         );
     }

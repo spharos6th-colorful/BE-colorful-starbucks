@@ -20,7 +20,6 @@ public class OrderCreateRequestDto {
     private String zoneCode;
     private String address;
     private String detailAddress;
-    private Boolean isGift;
     private String buyer;
     private String memberUuid;
     private List<OrderDetailCreateRequestDto> orderDetails;
@@ -33,7 +32,6 @@ public class OrderCreateRequestDto {
                                   String zoneCode,
                                   String address,
                                   String detailAddress,
-                                  Boolean isGift,
                                   String buyer,
                                   String memberUuid,
                                   List<OrderDetailCreateRequestDto> orderDetails) {
@@ -44,7 +42,6 @@ public class OrderCreateRequestDto {
         this.zoneCode = zoneCode;
         this.address = address;
         this.detailAddress = detailAddress;
-        this.isGift = isGift;
         this.buyer = buyer;
         this.memberUuid = memberUuid;
         this.orderDetails = orderDetails;
@@ -59,7 +56,6 @@ public class OrderCreateRequestDto {
                 .zoneCode(zoneCode)
                 .address(address)
                 .detailAddress(detailAddress)
-                .isGift(isGift)
                 .buyer(buyer)
                 .memberUuid(memberUuid)
                 .orderStatus(OrderStatus.PAID)
@@ -77,7 +73,6 @@ public class OrderCreateRequestDto {
                 .zoneCode(orderCreateRequestVo.getZoneCode())
                 .address(orderCreateRequestVo.getAddress())
                 .detailAddress(orderCreateRequestVo.getDetailAddress())
-                .isGift(orderCreateRequestVo.getIsGift())
                 .buyer(orderCreateRequestVo.getBuyer())
                 .memberUuid(memberUuid)
                 .orderDetails(orderCreateRequestVo.getOrderDetails().stream()

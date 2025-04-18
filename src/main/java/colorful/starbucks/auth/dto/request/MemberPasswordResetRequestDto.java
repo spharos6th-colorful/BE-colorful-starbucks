@@ -1,15 +1,11 @@
 package colorful.starbucks.auth.dto.request;
 
-import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.auth.vo.request.MemberPasswordResetRequestVo;
 import colorful.starbucks.common.util.TempPasswordGenerator;
-import colorful.starbucks.member.infrastructure.MemberRepository;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Optional;
 
 @Getter
 @NoArgsConstructor

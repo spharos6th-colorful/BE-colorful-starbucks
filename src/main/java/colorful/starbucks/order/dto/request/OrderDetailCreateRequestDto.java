@@ -4,7 +4,6 @@ import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderDetail;
 import colorful.starbucks.order.vo.request.OrderCreateDetailRequestVo;
 import colorful.starbucks.product.domain.ProductDetail;
-import colorful.starbucks.product.dto.request.ProductDetailCodeAndQuantityRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
