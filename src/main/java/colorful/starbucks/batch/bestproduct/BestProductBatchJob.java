@@ -57,7 +57,7 @@ public class BestProductBatchJob {
                 .pageSize(100000)
                 .queryString(
                         "SELECT new colorful.starbucks.batch.dto.ProductInfoForBestProductBatch(" +
-                        "od.productCode, od.quantity, pl.topCategoryId, pl.topCategoryName) " +
+                        "od.productCode, od.quantity, pf.topCategoryId, pf.topCategoryName) " +
                         "FROM OrderDetail od " +
                         "INNER JOIN ProductFilter pf ON od.productCode = pf.productCode " +
                         "WHERE od.createdAt >= :startDate AND od.createdAt <= :endDate " +
