@@ -4,10 +4,10 @@ import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.common.util.OrderCodeGenerator;
-import colorful.starbucks.member.domain.Member;
 import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderStatus;
 import colorful.starbucks.order.dto.OrderListFilterDto;
+import colorful.starbucks.order.dto.PreOrderDto;
 import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
@@ -25,12 +25,25 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailService orderDetailService;
     private final OrderCodeGenerator orderCodeGenerator;
+    private final OrderRedisService orderRedisService;
 
 
     @Transactional
     @Override
-    public OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto) {
+    public PreOrderDto createPreOrder(OrderCreateRequestDto orderCreateRequestDto) {
         Long orderCode = orderCodeGenerator.generate();
+
+        PreOrderDto preOrderDto = PreOrderDto.from(orderCreateRequestDto, orderCode);
+
+        orderRedisService.saveOrder(orderCode, preOrderDto, 3600);
+
+        return preOrderDto;
+    }
+
+    @Transactional
+    @Override
+    public OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto) {
+        Long orderCode = orderCreateRequestDto.getOrderCode();
 
         Order order = orderCreateRequestDto.toEntity(orderCode);
         orderRepository.save(order);

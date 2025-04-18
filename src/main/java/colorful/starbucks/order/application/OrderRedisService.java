@@ -18,29 +18,47 @@ public class OrderRedisService {
     private final ObjectMapper objectMapper;
     private static final String PREFIX = "order:";
 
-    public void saveOrder(String orderId, PreOrderDto preOrderDto, long timeoutSeconds) {
+
+    public void saveOrder(Long orderCode, PreOrderDto preOrderDto, long timeoutSeconds) {
         String json = preOrderDto.toJson(objectMapper);
-        redisTemplate.opsForValue().set(PREFIX + orderId, json, timeoutSeconds, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(PREFIX + orderCode, json, timeoutSeconds, TimeUnit.SECONDS);
     }
 
-    public PreOrderDto getOrder(String orderId) {
-        String json = redisTemplate.opsForValue().get(PREFIX + orderId);
+
+    public PreOrderDto getOrder(Long orderCode) {
+        String json = redisTemplate.opsForValue().get(PREFIX + orderCode);
         if (json == null) return null;
         return PreOrderDto.fromJson(json, objectMapper);
     }
 
-    public void deleteOrder(String orderId) {
-        redisTemplate.delete(PREFIX + orderId);
+
+    public void deleteOrder(Long orderCode) {
+        redisTemplate.delete(PREFIX + orderCode);
     }
 
-    public boolean orderExists(String orderId) {
-        return redisTemplate.hasKey(PREFIX + orderId);
+
+    public boolean orderExists(Long orderCode) {
+        return redisTemplate.hasKey(PREFIX + orderCode);
     }
 
-    public void extendOrderTtl(String orderId, long timeoutSeconds) {
-        Boolean extended = redisTemplate.expire(PREFIX + orderId, timeoutSeconds, TimeUnit.SECONDS);
-        if(Boolean.FALSE.equals(extended)) {
+
+    public void extendOrderTtl(Long orderCode, long timeoutSeconds) {
+        Boolean extended = redisTemplate.expire(PREFIX + orderCode, timeoutSeconds, TimeUnit.SECONDS);
+        if (Boolean.FALSE.equals(extended)) {
             throw new BaseException(ResponseStatus.REDIS_TTL_EXTEND_FAIL);
+        }
+    }
+
+
+    public void validateOrderForPayment(Long orderCode, Integer paidAmount) {
+        PreOrderDto preOrderDto = getOrder(orderCode);
+
+        if (preOrderDto == null) {
+            throw new BaseException(ResponseStatus.NO_EXIST_ORDER); // 주문 자체가 없음
+        }
+
+        if (!preOrderDto.getTotalAmount().equals(paidAmount)) {
+            throw new BaseException(ResponseStatus.NO_EXIST_ORDER); // 금액 불일치
         }
     }
 }

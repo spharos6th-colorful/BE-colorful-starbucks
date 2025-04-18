@@ -100,6 +100,12 @@ public class CartServiceImpl implements CartService {
         cartRepository.deleteAllByMemberUuid(memberUuid);
     }
 
+    @Transactional
+    @Override
+    public void removeCartByMemberAndProductDetailCodes(String memberUuid, List<Long> productDetailCodes) {
+        cartRepository.deleteByMemberUuidAndProductDetailCodeIn(memberUuid, productDetailCodes);
+    }
+
 
 
 }

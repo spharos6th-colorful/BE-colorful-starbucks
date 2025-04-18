@@ -2,7 +2,10 @@ package colorful.starbucks.order.dto;
 
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
+import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
+import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,17 +13,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PreOrderDto {
 
-    private String memberUuid;
-    private String couponUuid;
+    private Long orderCode;
     private Integer totalAmount;
-    private Integer discountAmount;
-    private String zoneCode;
-    private String address;
-    private String detailAddress;
-    private Boolean isGifted;
-    private String buyer;
+
+    @Builder
+    private PreOrderDto(Long orderCode, Integer totalAmount) {
+        this.orderCode = orderCode;
+        this.totalAmount = totalAmount;
+    }
 
 
+    public static PreOrderDto from(OrderCreateRequestDto dto, Long orderCode) {
+        return PreOrderDto.builder()
+                .orderCode(orderCode)
+                .totalAmount(dto.getTotalAmount())
+                .build();
+    }
 
     public static PreOrderDto fromJson(String json, ObjectMapper objectMapper) {
         try {
@@ -37,5 +45,11 @@ public class PreOrderDto {
             throw new BaseException(ResponseStatus.REDIS_SERIALIZE_FAIL);
         }
     }
-}
 
+    public OrderCreateResponseVo toVo() {
+        return OrderCreateResponseVo.builder()
+                .orderCode(orderCode)
+                .totalAmount(totalAmount)
+                .build();
+    }
+}
