@@ -8,10 +8,9 @@ import colorful.starbucks.summary.infrastructure.MemberOrderSummaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
-import java.util.List; // 이거 꼭 추가해줘
-
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class MemberLevelWriter implements ItemWriter<MemberLevelUpdateDto> {

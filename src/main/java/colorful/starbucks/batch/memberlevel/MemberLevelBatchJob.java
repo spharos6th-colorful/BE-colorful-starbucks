@@ -37,8 +37,8 @@ public class MemberLevelBatchJob {
 
     @Bean
     public Job memberLevelJob(JobRepository jobRepository,
-                                   PlatformTransactionManager transactionManager,
-                                   EntityManagerFactory entityManagerFactory) {
+                              PlatformTransactionManager transactionManager,
+                              EntityManagerFactory entityManagerFactory) {
 
         Step memberLevelStep = new StepBuilder("memberLevelReader", jobRepository)
                 .<MemberLevelTargetDto, MemberLevelUpdateDto>chunk(5000, transactionManager)
@@ -87,6 +87,6 @@ public class MemberLevelBatchJob {
 
     @Bean
     public ItemWriter<MemberLevelUpdateDto> memberLevelWriter() {
-        return new MemberLevelWriter(memberRepository,memberOrderSummaryRepository);
+        return new MemberLevelWriter(memberRepository, memberOrderSummaryRepository);
     }
 }

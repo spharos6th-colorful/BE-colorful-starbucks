@@ -1,18 +1,15 @@
 package colorful.starbucks.payments.application;
 
 import colorful.starbucks.cart.application.CartService;
-import colorful.starbucks.order.application.OrderDetailService;
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.order.application.OrderRedisService;
 import colorful.starbucks.order.application.OrderService;
-import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.dto.PreOrderDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.request.OrderDetailCreateRequestDto;
-import colorful.starbucks.order.infrastructure.OrderRepository;
-import colorful.starbucks.payments.domain.PaymentStatus;
-import colorful.starbucks.common.exception.BaseException;
-import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.payments.domain.PaymentHistory;
+import colorful.starbucks.payments.domain.PaymentStatus;
 import colorful.starbucks.payments.dto.request.TossPaymentCancelRequestDto;
 import colorful.starbucks.payments.dto.request.TossPaymentRequestDto;
 import colorful.starbucks.payments.dto.response.PaymentHistoryResponseDto;
@@ -73,7 +70,6 @@ public class PaymentsServiceImpl implements PaymentsService {
         );
 
 
-
         paymentHistoryRepository.save(
                 tossPaymentRequestDto.toEntity(
                         json.optString("approvedAt"),
@@ -95,7 +91,6 @@ public class PaymentsServiceImpl implements PaymentsService {
 
         return TossPaymentResponseDto.of(json, tossPaymentResponseVo);
     }
-
 
 
     @Transactional
@@ -125,7 +120,7 @@ public class PaymentsServiceImpl implements PaymentsService {
     }
 
     @Override
-    public  List<PaymentHistoryResponseDto> getPaymentHistoryByOrderCode(Long orderCode, String memberUuid) {
+    public List<PaymentHistoryResponseDto> getPaymentHistoryByOrderCode(Long orderCode, String memberUuid) {
         return paymentHistoryRepository.findByOrderCodeAndMemberUuid(orderCode, memberUuid)
                 .stream()
                 .map(PaymentHistoryResponseDto::from)
@@ -158,12 +153,6 @@ public class PaymentsServiceImpl implements PaymentsService {
 
         paymentHistoryRepository.save(canceledHistory);
     }
-
-
-
-
-
-
 
 
 }

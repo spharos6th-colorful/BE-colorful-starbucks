@@ -1,7 +1,5 @@
 package colorful.starbucks.auth.dto.request;
 
-import colorful.starbucks.auth.application.KakaoApiService;
-import colorful.starbucks.auth.dto.response.KakaoUserInfo;
 import colorful.starbucks.auth.vo.request.OAuthSignInRequestVo;
 import lombok.Builder;
 import lombok.Getter;
