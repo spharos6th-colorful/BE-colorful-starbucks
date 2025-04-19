@@ -5,6 +5,8 @@ import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.common.util.OrderCodeGenerator;
+import colorful.starbucks.delivery.domain.DeliveryAddress;
+import colorful.starbucks.delivery.infrastructure.DeliveryRepository;
 import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderStatus;
 import colorful.starbucks.order.dto.OrderListFilterDto;
@@ -31,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderCodeGenerator orderCodeGenerator;
     private final OrderRedisService orderRedisService;
     private final CartService cartService;
+    private final DeliveryRepository deliveryRepository;
+
 
 
     @Transactional
@@ -51,8 +55,16 @@ public class OrderServiceImpl implements OrderService {
     public OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto) {
         Long orderCode = orderCreateRequestDto.getOrderCode();
 
-        Order order = orderCreateRequestDto.toEntity(orderCode);
-        orderRepository.save(order);
+        DeliveryAddress deliveryAddress = deliveryRepository.findById(orderCreateRequestDto.getDeliveryAddressId())
+                .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_SHIPPING_ADDRESS));
+
+
+        Order order = orderCreateRequestDto.toEntity(
+                orderCode,
+                deliveryAddress.getZoneCode(),
+                deliveryAddress.getAddress(),
+                deliveryAddress.getDetailAddress()
+        );
 
         orderDetailService.saveAllDetails(order, orderCreateRequestDto.getOrderDetails());
 
