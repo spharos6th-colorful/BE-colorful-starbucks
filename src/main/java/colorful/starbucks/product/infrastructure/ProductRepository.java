@@ -15,4 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT new colorful.starbucks.search.dto.ProductSearchDto(p.id, p.productCode, p.productName, pf.topCategoryName, pf.bottomCategoryName, p.price, p.createdAt) " +
             "FROM Product p JOIN ProductFilter pf ON p.productCode = pf.productCode")
     List<ProductSearchDto> findAllForSearch();
+
+    @Query("SELECT p.productName FROM Product p WHERE p.isDeleted = false")
+    List<String> findAllProductNames();
 }
