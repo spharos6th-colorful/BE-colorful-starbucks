@@ -97,7 +97,7 @@ public enum ResponseStatus {
     NO_EXIST_OPTIONS_IN_PRODUCT(HttpStatus.NOT_FOUND, false, 3007, "해당 상품에 옵션이 존재하지 않습니다"),
 
     // Cart
-    DUPLICATED_ADDRESS(HttpStatus.CONFLICT, false, 409, "이미 등록된 배송지입니다"),
+    NO_EXIST_SHIPPING_ADDRESS(HttpStatus.CONFLICT, false, 409, "존재하지 않는 배송지 입니다"),
 
     // Coupon
     ALREADY_ISSUED_COUPON(HttpStatus.CONFLICT, false, 409, "이미 발급된 쿠폰입니다."),

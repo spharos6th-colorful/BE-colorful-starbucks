@@ -17,9 +17,7 @@ public class OrderCreateRequestDto {
     private String couponUuid;
     private Integer totalAmount;
     private Integer discountAmount;
-    private String zoneCode;
-    private String address;
-    private String detailAddress;
+    private Long deliveryAddressId;
     private String buyer;
     private String memberUuid;
     private List<OrderDetailCreateRequestDto> orderDetails;
@@ -29,9 +27,7 @@ public class OrderCreateRequestDto {
                                   String couponUuid,
                                   Integer totalAmount,
                                   Integer discountAmount,
-                                  String zoneCode,
-                                  String address,
-                                  String detailAddress,
+                                  Long deliveryAddressId,
                                   String buyer,
                                   String memberUuid,
                                   List<OrderDetailCreateRequestDto> orderDetails) {
@@ -39,23 +35,21 @@ public class OrderCreateRequestDto {
         this.couponUuid = couponUuid;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
-        this.zoneCode = zoneCode;
-        this.address = address;
-        this.detailAddress = detailAddress;
+        this.deliveryAddressId = deliveryAddressId;
         this.buyer = buyer;
         this.memberUuid = memberUuid;
         this.orderDetails = orderDetails;
     }
 
-    public Order toEntity(Long orderCode) {
+    public Order toEntity(Long orderCode, String zoneCode, String address, String detailAddress) {
         return Order.builder()
                 .orderCode(orderCode)
-                .couponUuid(couponUuid)
-                .totalAmount(totalAmount)
-                .discountAmount(discountAmount)
                 .zoneCode(zoneCode)
                 .address(address)
                 .detailAddress(detailAddress)
+                .couponUuid(couponUuid)
+                .totalAmount(totalAmount)
+                .discountAmount(discountAmount)
                 .buyer(buyer)
                 .memberUuid(memberUuid)
                 .orderStatus(OrderStatus.PAID)
@@ -70,9 +64,7 @@ public class OrderCreateRequestDto {
                 .couponUuid(orderCreateRequestVo.getCouponUuid())
                 .totalAmount(orderCreateRequestVo.getTotalAmount())
                 .discountAmount(orderCreateRequestVo.getDiscountAmount())
-                .zoneCode(orderCreateRequestVo.getZoneCode())
-                .address(orderCreateRequestVo.getAddress())
-                .detailAddress(orderCreateRequestVo.getDetailAddress())
+
                 .buyer(orderCreateRequestVo.getBuyer())
                 .memberUuid(memberUuid)
                 .orderDetails(orderCreateRequestVo.getOrderDetails().stream()
@@ -80,6 +72,7 @@ public class OrderCreateRequestDto {
                         .toList())
                 .build();
     }
+
 
 
 
