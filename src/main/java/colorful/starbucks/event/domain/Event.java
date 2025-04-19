@@ -28,12 +28,12 @@ public class Event extends BaseEntity {
     private String title;
 
     @Comment("이벤트 설명")
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = true)
     private String description;
 
     @Lob
     @Comment("이벤트 이미지")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String imageUrl;
 
     @Lob
@@ -50,7 +50,7 @@ public class Event extends BaseEntity {
     private LocalDateTime endDate;
 
     @Comment("이벤트 정책")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String policy;
 
     @Enumerated(EnumType.STRING)

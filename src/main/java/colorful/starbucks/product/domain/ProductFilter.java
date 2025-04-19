@@ -18,7 +18,7 @@ public class ProductFilter extends BaseEntity {
     private Long id;
 
     @Comment("상품 코드")
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long productCode;
 
     @Comment("상위 카테고리 ID")
