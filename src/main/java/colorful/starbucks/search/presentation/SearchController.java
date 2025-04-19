@@ -20,12 +20,6 @@ public class SearchController {
 
     private final ProductSearchService productSearchService;
 
-    @PostMapping("/sync")
-    public String syncProductSearch(){
-        productSearchService.syncAllToElasticsearch();
-        return "동기화 완료!";
-    }
-
     @GetMapping("/auto-complete")
     public ApiResponse<AutoSearchListResponseVo> autoCompleteProductSearch(@RequestParam String keyword) throws IOException{
 
