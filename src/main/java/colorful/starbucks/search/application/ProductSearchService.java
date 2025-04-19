@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public interface ProductSearchService {
 
-    void syncAllToElasticsearch();
+//    void syncAllToElasticsearch();
     AutoSearchListResponseDto getAutoSearchList(String keyword) throws IOException;
     CursorPage<ElasticsearchResponseDto> search(ElasticsearchRequestDto elasticsearchRequestDto) throws IOException;
 }

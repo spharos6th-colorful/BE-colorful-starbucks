@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @NoArgsConstructor
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Document(indexName = "autocomplete_search_keyword")
+@Document(indexName = "autocomplete_search_keyword", createIndex = false)
 public class KeywordAutoCompleteDocument {
 
     @Id

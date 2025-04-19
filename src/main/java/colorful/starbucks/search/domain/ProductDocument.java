@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @Getter
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Document(indexName = "product_search")
+@Document(indexName = "product_search", createIndex = false)
 public class ProductDocument {
 
     @Id
