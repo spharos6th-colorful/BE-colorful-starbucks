@@ -11,15 +11,12 @@ import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
 import colorful.starbucks.common.util.CursorPage;
-import colorful.starbucks.product.infrastructure.ProductRepository;
+import colorful.starbucks.search.domain.KeywordAutoCompleteDocument;
 import colorful.starbucks.search.domain.ProductDocument;
-import colorful.starbucks.search.dto.ProductSearchDto;
 import colorful.starbucks.search.dto.request.ElasticsearchRequestDto;
 import colorful.starbucks.search.dto.response.AutoSearchListResponseDto;
 import colorful.starbucks.search.dto.response.AutoSearchResponseDto;
 import colorful.starbucks.search.dto.response.ElasticsearchResponseDto;
-import colorful.starbucks.search.infrastructure.ProductDocumentRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,31 +28,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductSearchServiceImpl implements ProductSearchService {
 
-    private final ProductRepository productRepository;
-    private final ProductDocumentRepository productDocumentRepository;
     private final ElasticsearchClient elasticsearchClient;
 
     private final int DEFAULT_PAGE_NUMBER = 0;
     private final int PAGE_DEFAULT_SIZE = 10;
-
-    @PostConstruct
-    @Override
-    public void syncAllToElasticsearch() {
-        List<ProductSearchDto> searchDtoList = productRepository.findAllForSearch();
-
-        List<ProductDocument> documents = searchDtoList.stream()
-                .map(dto -> new ProductDocument(
-                        dto.getId(),
-                        dto.getProductCode(),
-                        dto.getProductName(),
-                        dto.getTopCategoryName(),
-                        dto.getBottomCategoryName(),
-                        dto.getPrice(),
-                        dto.getCreatedAt().toString()
-                ))
-                .toList();
-        productDocumentRepository.saveAll(documents);
-    }
 
     @Override
     public AutoSearchListResponseDto getAutoSearchList(String keyword) throws IOException {
@@ -79,7 +55,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                         .query(query)
         );
 
-        SearchResponse<ProductDocument> response = elasticsearchClient.search(searchRequest, ProductDocument.class);
+        SearchResponse<KeywordAutoCompleteDocument> response = elasticsearchClient.search(searchRequest, KeywordAutoCompleteDocument.class);
 
         List<AutoSearchResponseDto> results = response.hits().hits().stream()
                 .map(Hit::source)

@@ -2,6 +2,12 @@ package colorful.starbucks.search.application;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
+import colorful.starbucks.product.infrastructure.ProductRepository;
+import colorful.starbucks.search.domain.KeywordAutoCompleteDocument;
+import colorful.starbucks.search.domain.ProductDocument;
+import colorful.starbucks.search.dto.ProductSearchDto;
+import colorful.starbucks.search.infrastructure.KeywordAutoCompleteDocumentRepository;
+import colorful.starbucks.search.infrastructure.ProductDocumentRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -12,17 +18,25 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class IndexInitializer {
 
     private final ElasticsearchClient elasticsearchClient;
+    private final ProductDocumentRepository productDocumentRepository;
+    private final KeywordAutoCompleteDocumentRepository keywordAutoCompleteDocumentRepository;
+    private final ProductRepository productRepository;
 
     @PostConstruct
+    public void init() throws IOException {
+        createSimpleSearchIndex();
+        createdWithAutoComplete();
+    }
+
     public void createdWithAutoComplete() throws IOException {
         String indexName = "autocomplete_search_keyword";
-
         boolean exists = elasticsearchClient.indices().exists(e -> e.index(indexName)).value();
         if (!exists) {
             JsonObject analysisJson = Json.createObjectBuilder()
@@ -62,15 +76,19 @@ public class IndexInitializer {
                             .properties("productName", p -> p.text(t -> t
                                     .analyzer("edge_ngram_analyzer")
                             ))
-                            .properties("topCategoryName", p -> p.text(t -> t.analyzer("edge_ngram_analyzer")))
-                            .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("edge_ngram_analyzer")))
                     ))
             );
 
+
+            List<String> productNames = productRepository.findAllProductNames();
+            List<KeywordAutoCompleteDocument> keywords = productNames.stream()
+                    .map(KeywordAutoCompleteDocument::new)
+                    .toList();
+
+            keywordAutoCompleteDocumentRepository.saveAll(keywords);
         }
     }
 
-    @PostConstruct
     public void createSimpleSearchIndex() throws IOException {
         String indexName = "product_search";
 
@@ -104,6 +122,20 @@ public class IndexInitializer {
                             .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
                     ))
             );
+
+            List<ProductSearchDto> searchDtoList = productRepository.findAllForSearch();
+            List<ProductDocument> documents = searchDtoList.stream()
+                    .map(dto -> new ProductDocument(
+                            dto.getId(),
+                            dto.getProductCode(),
+                            dto.getProductName(),
+                            dto.getTopCategoryName(),
+                            dto.getBottomCategoryName(),
+                            dto.getPrice(),
+                            dto.getCreatedAt().toString()
+                    ))
+                    .toList();
+            productDocumentRepository.saveAll(documents);
         }
     }
 }
