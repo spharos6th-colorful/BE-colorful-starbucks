@@ -10,18 +10,18 @@ public class OrderCreateResponseVo {
 
     private Long orderCode;
     private Integer totalAmount;
-    private Long deliveryAddressId;
-    private String buyer;
+    private String memberAddressUuid;
+    private String receiverName;
 
     @Builder
     private OrderCreateResponseVo(Long orderCode,
                                   Integer totalAmount,
-                                  Long deliveryAddressId,
-                                  String buyer) {
+                                  String memberAddressUuid,
+                                  String receiverName) {
         this.totalAmount = totalAmount;
         this.orderCode = orderCode;
-        this.deliveryAddressId = deliveryAddressId;
-        this.buyer = buyer;
+        this.memberAddressUuid = memberAddressUuid;
+        this.receiverName = receiverName;
     }
 
 }

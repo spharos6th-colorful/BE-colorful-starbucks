@@ -40,6 +40,11 @@ public class TermsController {
         return ApiResponse.ok("약관 조회를 완료하였습니다.",terms);
     }
 
+    @Operation(
+            summary = "약관 카테고리별 조회 API",
+            description = "약관을 카테고리별로 조회하는 API 입니다.",
+            tags = {"MEMBER-SERVICE"}
+    )
     @GetMapping("/terms/{category}")
     public ApiResponse<List<TermsResponseDto>> getTermsByCategory(@PathVariable TermsCategory category) {
         List<TermsResponseDto> terms = termsService.getTermsByCategory(category);
