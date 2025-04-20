@@ -15,8 +15,8 @@ public class OrderCreateRequestVo {
     private String couponUuid;
     private Integer totalAmount;
     private Integer discountAmount;
-    private Long deliveryAddressId;
-    private String buyer;
+    private String memberAddressUuid;
+    private String receiverName;
     private String memberUuid;
     private List<OrderCreateDetailRequestVo> orderDetails;
 
@@ -25,16 +25,16 @@ public class OrderCreateRequestVo {
                                  String couponUuid,
                                  Integer totalAmount,
                                  Integer discountAmount,
-                                 Long deliveryAddressId,
-                                 String buyer,
+                                 String memberAddressUuid,
+                                 String receiverName,
                                  String memberUuid,
                                  List<OrderCreateDetailRequestVo> orderDetails) {
         this.orderCode = orderCode;
         this.couponUuid = couponUuid;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
-        this.deliveryAddressId = deliveryAddressId;
-        this.buyer = buyer;
+        this.memberAddressUuid = memberAddressUuid;
+        this.receiverName = receiverName;
         this.memberUuid = memberUuid;
         this.orderDetails = orderDetails;
     }

@@ -1,5 +1,6 @@
 package colorful.starbucks.member.dto.request;
 
+import colorful.starbucks.member.domain.TermsCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
@@ -10,6 +11,7 @@ public class TermsCreateRequestDto {
 
     private String termsContent;
 
-    @JsonProperty("isRequired")
-    private boolean required;
+    private Boolean isRequired;
+
+    private TermsCategory termsCategory;
 }

@@ -1,6 +1,7 @@
 package colorful.starbucks.member.application;
 
 import colorful.starbucks.member.domain.Terms;
+import colorful.starbucks.member.domain.TermsCategory;
 import colorful.starbucks.member.dto.request.TermsCreateRequestDto;
 import colorful.starbucks.member.dto.response.TermsResponseDto;
 import colorful.starbucks.member.infrastructure.TermsRepository;
@@ -23,7 +24,8 @@ public class TermsServiceImpl implements TermsService {
         Terms terms = Terms.builder()
                         .termsTitle(termsCreateRequestDto.getTermsTitle())
                         .termsContent(termsCreateRequestDto.getTermsContent())
-                        .required(termsCreateRequestDto.isRequired())
+                        .isRequired(termsCreateRequestDto.getIsRequired())
+                        .termsCategory(termsCreateRequestDto.getTermsCategory())
                         .build();
 
         termsRepository.save(terms);
@@ -35,8 +37,20 @@ public class TermsServiceImpl implements TermsService {
                 .map(terms -> new TermsResponseDto(
                         terms.getTermsTitle(),
                         terms.getTermsContent(),
-                        terms.isRequired()
+                        terms.getIsRequired(),
+                        terms.getTermsCategory().getDescription()
                 ) )
+                .toList();
+    }
+    @Override
+    public List<TermsResponseDto> getTermsByCategory(TermsCategory termsCategory) {
+        return termsRepository.findByTermsCategory(termsCategory).stream()
+                .map(terms -> new TermsResponseDto(
+                        terms.getTermsTitle(),
+                        terms.getTermsContent(),
+                        terms.getIsRequired(),
+                        terms.getTermsCategory().getDescription()
+                ))
                 .toList();
     }
 }

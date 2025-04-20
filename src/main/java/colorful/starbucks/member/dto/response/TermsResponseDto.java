@@ -10,14 +10,17 @@ public class TermsResponseDto {
 
     private String termsContent;
 
-    @JsonProperty("isRequired")
-    private boolean required;
+    private Boolean isRequired;
+
+    private String termsCategory;
 
     public TermsResponseDto(String termsTitle,
                             String termsContent,
-                            boolean required) {
+                            boolean isRequired,
+                            String termsCategory) {
         this.termsTitle = termsTitle;
         this.termsContent = termsContent;
-        this.required = required;
+        this.isRequired = isRequired;
+        this.termsCategory = termsCategory;
     }
 }

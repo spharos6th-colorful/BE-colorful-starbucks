@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,8 +56,10 @@ public class OrderServiceImpl implements OrderService {
     public OrderCreateResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto) {
         Long orderCode = orderCreateRequestDto.getOrderCode();
 
-        DeliveryAddress deliveryAddress = deliveryRepository.findById(orderCreateRequestDto.getDeliveryAddressId())
-                .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_SHIPPING_ADDRESS));
+        DeliveryAddress deliveryAddress = Optional.ofNullable(
+                deliveryRepository.findByMemberAddressUuid(orderCreateRequestDto.getMemberAddressUuid())
+        ).orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_SHIPPING_ADDRESS));
+
 
 
         Order order = orderCreateRequestDto.toEntity(

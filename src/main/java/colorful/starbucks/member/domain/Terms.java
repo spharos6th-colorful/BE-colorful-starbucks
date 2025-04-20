@@ -15,12 +15,11 @@ public class Terms extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "terms_id")
     private Long id;
 
     @Comment("약관 필수 여부")
-    @Column(nullable = false, name = "is_required")
-    private boolean required;
+    @Column(nullable = false)
+    private Boolean isRequired;
 
     @Comment("약관 제목")
     @Column(nullable = false)
@@ -30,14 +29,21 @@ public class Terms extends BaseEntity {
     @Column(nullable = false)
     private String termsContent;
 
+    @Comment("약관 카테고리")
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TermsCategory termsCategory;
+
     @Builder
     private Terms(Long id,
-                  boolean required,
+                  Boolean isRequired,
                   String termsTitle,
-                  String termsContent) {
+                  String termsContent,
+                  TermsCategory termsCategory) {
         this.id = id;
-        this.required = required;
+        this.isRequired = isRequired;
         this.termsTitle = termsTitle;
         this.termsContent = termsContent;
+        this.termsCategory = termsCategory;
     }
 }

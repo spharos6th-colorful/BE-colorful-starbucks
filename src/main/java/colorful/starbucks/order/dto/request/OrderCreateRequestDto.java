@@ -17,7 +17,7 @@ public class OrderCreateRequestDto {
     private String couponUuid;
     private Integer totalAmount;
     private Integer discountAmount;
-    private Long deliveryAddressId;
+    private String memberAddressUuid;
     private String buyer;
     private String memberUuid;
     private List<OrderDetailCreateRequestDto> orderDetails;
@@ -27,7 +27,7 @@ public class OrderCreateRequestDto {
                                   String couponUuid,
                                   Integer totalAmount,
                                   Integer discountAmount,
-                                  Long deliveryAddressId,
+                                  String memberAddressUuid,
                                   String buyer,
                                   String memberUuid,
                                   List<OrderDetailCreateRequestDto> orderDetails) {
@@ -35,7 +35,7 @@ public class OrderCreateRequestDto {
         this.couponUuid = couponUuid;
         this.totalAmount = totalAmount;
         this.discountAmount = discountAmount;
-        this.deliveryAddressId = deliveryAddressId;
+        this.memberAddressUuid = memberAddressUuid;
         this.buyer = buyer;
         this.memberUuid = memberUuid;
         this.orderDetails = orderDetails;
@@ -64,8 +64,7 @@ public class OrderCreateRequestDto {
                 .couponUuid(orderCreateRequestVo.getCouponUuid())
                 .totalAmount(orderCreateRequestVo.getTotalAmount())
                 .discountAmount(orderCreateRequestVo.getDiscountAmount())
-
-                .buyer(orderCreateRequestVo.getBuyer())
+                .buyer(orderCreateRequestVo.getReceiverName())
                 .memberUuid(memberUuid)
                 .orderDetails(orderCreateRequestVo.getOrderDetails().stream()
                         .map(OrderDetailCreateRequestDto::of)
