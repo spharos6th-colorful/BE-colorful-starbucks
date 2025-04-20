@@ -53,7 +53,7 @@ public class DeliveryAddressResponseDto {
 
     public static DeliveryAddressResponseDto from(DeliveryAddress deliveryAddress) {
         return DeliveryAddressResponseDto.builder()
-                .memberAddressUuid(deliveryAddress.getMemberUuid())
+                .memberAddressUuid(deliveryAddress.getMemberAddressUuid())
                 .addressNickname(deliveryAddress.getAddressNickname())
                 .receiverName(deliveryAddress.getReceiverName())
                 .address(deliveryAddress.getAddress())
