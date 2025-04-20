@@ -9,12 +9,12 @@ public class TermsAgreementResponseDto {
 
     private String termsContent;
 
-    private boolean isRequired;
+    private Boolean isRequired;
 
 
     private TermsAgreementResponseDto(String termsTitle,
                                       String termsContent,
-                                      boolean isRequired) {
+                                      Boolean isRequired) {
         this.termsTitle = termsTitle;
         this.termsContent = termsContent;
         this.isRequired = isRequired;

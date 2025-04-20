@@ -24,7 +24,7 @@ public class TermsServiceImpl implements TermsService {
         Terms terms = Terms.builder()
                         .termsTitle(termsCreateRequestDto.getTermsTitle())
                         .termsContent(termsCreateRequestDto.getTermsContent())
-                        .required(termsCreateRequestDto.isRequired())
+                        .isRequired(termsCreateRequestDto.getIsRequired())
                         .termsCategory(termsCreateRequestDto.getTermsCategory())
                         .build();
 
@@ -37,7 +37,7 @@ public class TermsServiceImpl implements TermsService {
                 .map(terms -> new TermsResponseDto(
                         terms.getTermsTitle(),
                         terms.getTermsContent(),
-                        terms.isRequired(),
+                        terms.getIsRequired(),
                         terms.getTermsCategory().getDescription()
                 ) )
                 .toList();
@@ -48,7 +48,7 @@ public class TermsServiceImpl implements TermsService {
                 .map(terms -> new TermsResponseDto(
                         terms.getTermsTitle(),
                         terms.getTermsContent(),
-                        terms.isRequired(),
+                        terms.getIsRequired(),
                         terms.getTermsCategory().getDescription()
                 ))
                 .toList();

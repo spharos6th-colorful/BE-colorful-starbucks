@@ -11,8 +11,7 @@ public class TermsCreateRequestDto {
 
     private String termsContent;
 
-    @JsonProperty("isRequired")
-    private boolean required;
+    private Boolean isRequired;
 
     private TermsCategory termsCategory;
 }

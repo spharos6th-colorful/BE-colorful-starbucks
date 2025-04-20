@@ -18,8 +18,8 @@ public class Terms extends BaseEntity {
     private Long id;
 
     @Comment("약관 필수 여부")
-    @Column(nullable = false, name = "is_required")
-    private boolean required;
+    @Column(nullable = false)
+    private Boolean isRequired;
 
     @Comment("약관 제목")
     @Column(nullable = false)
@@ -36,12 +36,12 @@ public class Terms extends BaseEntity {
 
     @Builder
     private Terms(Long id,
-                  boolean required,
+                  Boolean isRequired,
                   String termsTitle,
                   String termsContent,
                   TermsCategory termsCategory) {
         this.id = id;
-        this.required = required;
+        this.isRequired = isRequired;
         this.termsTitle = termsTitle;
         this.termsContent = termsContent;
         this.termsCategory = termsCategory;
