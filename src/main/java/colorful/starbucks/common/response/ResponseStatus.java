@@ -48,6 +48,7 @@ public enum ResponseStatus {
     TERMS_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "약관 동의 저장에 실패했습니다."),
     INVALID_AUTH_CODE(HttpStatus.BAD_REQUEST, false, 400, "잘못된 인증번호입니다."),
 
+
     /**
      * 9xx: 기타 에러
      */

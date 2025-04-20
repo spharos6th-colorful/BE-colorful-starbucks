@@ -1,6 +1,7 @@
 package colorful.starbucks.member.presentation;
 
 import colorful.starbucks.member.application.TermsService;
+import colorful.starbucks.member.domain.TermsCategory;
 import colorful.starbucks.member.dto.request.TermsCreateRequestDto;
 import colorful.starbucks.member.dto.response.TermsResponseDto;
 import colorful.starbucks.common.response.ApiResponse;
@@ -38,6 +39,14 @@ public class TermsController {
         List<TermsResponseDto> terms = termsService.getTerms();
         return ApiResponse.ok("약관 조회를 완료하였습니다.",terms);
     }
+
+    @GetMapping("/terms/{category}")
+    public ApiResponse<List<TermsResponseDto>> getTermsByCategory(@PathVariable TermsCategory category) {
+        List<TermsResponseDto> terms = termsService.getTermsByCategory(category);
+        return ApiResponse.ok("약관 조회 완료", terms);
+    }
+
+
 
 
 }
