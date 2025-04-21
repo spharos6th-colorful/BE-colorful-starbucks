@@ -1,9 +1,14 @@
 package colorful.starbucks.member.application;
 
+import colorful.starbucks.common.exception.BaseException;
+import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.member.dto.request.RecentlyProductDeleteRequestDto;
 import colorful.starbucks.member.dto.request.RecentlyViewProductAddRequestDto;
+import colorful.starbucks.member.dto.response.MostRecentlyViewProductDto;
 import colorful.starbucks.member.dto.response.RecentlyViewProductAddResponseDto;
 import colorful.starbucks.member.dto.response.RecentlyViewProductListDto;
+import colorful.starbucks.product.infrastructure.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
@@ -21,10 +26,13 @@ public class RecentlyViewProductServiceImpl implements RecentlyViewProductServic
     private static final Integer ZSET_END_INDEX = -1;
     private final RedisTemplate<String, Object> redisTemplate;
     private final ZSetOperations<String, Object> zSetOperations;
+    private final ProductRepository productRepository;
 
-    public RecentlyViewProductServiceImpl(RedisTemplate<String, Object> redisTemplate) {
+    public RecentlyViewProductServiceImpl(RedisTemplate<String, Object> redisTemplate,
+                                          ProductRepository productRepository) {
         this.redisTemplate = redisTemplate;
         this.zSetOperations = redisTemplate.opsForZSet();
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -34,6 +42,19 @@ public class RecentlyViewProductServiceImpl implements RecentlyViewProductServic
                 System.currentTimeMillis());
 
         return RecentlyViewProductAddResponseDto.from(recentlyViewProductAddRequestDto.getProductThumbnailUrl());
+    }
+
+    @Override
+    public MostRecentlyViewProductDto getMostRecentlyViewProduct(String memberUuid) {
+        Set<Object> mostRecentlyViewProductSet = zSetOperations.reverseRange(KEY_SUFFIX + memberUuid, ZSET_START_INDEX, ZSET_START_INDEX);
+        if (mostRecentlyViewProductSet.isEmpty()) {
+            throw new BaseException(ResponseStatus.NOT_FOUND_RECENTLY_VIEW_PRODUCT);
+        }
+
+        return MostRecentlyViewProductDto.from(
+                productRepository.findByProductCodeAndIsDeletedIsFalse(Long.parseLong(mostRecentlyViewProductSet.iterator().next().toString()))
+                        .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND))
+        );
     }
 
     @Override
@@ -62,8 +83,7 @@ public class RecentlyViewProductServiceImpl implements RecentlyViewProductServic
                 zSetOperations.reverseRangeWithScores(KEY_SUFFIX + memberUuid, ZSET_START_INDEX, ZSET_END_INDEX);
 
         Map<LocalDate, List<Long>> recentlyViewProductMap = new HashMap<>();
-        typedTuples.stream()
-                .forEach(typedTuple -> {
+        typedTuples.forEach(typedTuple -> {
                     Long productCode = Long.parseLong(typedTuple.getValue().toString());
                     long timestamp = typedTuple.getScore().longValue();
 

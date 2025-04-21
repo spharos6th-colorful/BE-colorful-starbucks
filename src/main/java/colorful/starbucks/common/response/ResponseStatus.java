@@ -102,7 +102,10 @@ public enum ResponseStatus {
 
     // Coupon
     ALREADY_ISSUED_COUPON(HttpStatus.CONFLICT, false, 409, "이미 발급된 쿠폰입니다."),
-    EXCEED_MAX_COUPON_COUNT(HttpStatus.CONFLICT, false, 409, "쿠폰 발급 한도를 초과했습니다.")
+    EXCEED_MAX_COUPON_COUNT(HttpStatus.CONFLICT, false, 409, "쿠폰 발급 한도를 초과했습니다."),
+
+    // RecentlyViewProduct
+    NOT_FOUND_RECENTLY_VIEW_PRODUCT(HttpStatus.NOT_FOUND, false, 404, "최근 본 상품이 없습니다.")
     ;
 
     private final HttpStatus httpStatus;

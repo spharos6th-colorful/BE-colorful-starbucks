@@ -6,6 +6,7 @@ import colorful.starbucks.member.dto.request.RecentlyProductDeleteRequestDto;
 import colorful.starbucks.member.dto.response.RecentlyViewProductListDto;
 import colorful.starbucks.member.dto.request.RecentlyViewProductAddRequestDto;
 import colorful.starbucks.member.vo.request.RecentlyViewProductAddRequestVo;
+import colorful.starbucks.member.vo.response.MostRecentlyViewProductVo;
 import colorful.starbucks.member.vo.response.RecentlyViewProductListVo;
 import colorful.starbucks.member.vo.response.RecentlyViewProductAddResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +39,12 @@ public class RecentlyViewProductController {
                         RecentlyViewProductAddRequestDto.of(authentication.getName(), recentlyViewProductAddRequestVo))
                         .toVo()
         );
+    }
+
+    @GetMapping("/first")
+    public ApiResponse<MostRecentlyViewProductVo> getMostRecentlyViewProduct(Authentication authentication) {
+        return ApiResponse.ok("가장 최근 본 상품 1개를 조회했습니다.",
+                recentlyViewProductService.getMostRecentlyViewProduct(authentication.getName()).toVo());
     }
 
     @Operation(
