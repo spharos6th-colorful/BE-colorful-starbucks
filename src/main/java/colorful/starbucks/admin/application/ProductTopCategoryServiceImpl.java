@@ -25,6 +25,6 @@ public class ProductTopCategoryServiceImpl implements ProductTopCategoryService 
 
     @Override
     public ProductTopCategoryDtos getTopCategories() {
-        return ProductTopCategoryDtos.from(productTopCategoryRepository.findAll());
+        return ProductTopCategoryDtos.from(productTopCategoryRepository.findAllByOrderByIdDesc());
     }
 }

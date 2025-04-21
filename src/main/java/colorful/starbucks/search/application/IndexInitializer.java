@@ -118,7 +118,9 @@ public class IndexInitializer {
                     .settings(s -> s.withJson(jsonStream))
                     .mappings(TypeMapping.of(m -> m
                             .properties("productName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
-                            .properties("topCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
+                            .properties("topCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")
+                                    .fields("keyword", f -> f.keyword(k -> k.ignoreAbove(256)))
+                            ))
                             .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
                     ))
             );
