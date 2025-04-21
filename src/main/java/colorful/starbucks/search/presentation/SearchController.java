@@ -58,8 +58,8 @@ public class SearchController {
             tags = {"PRODUCT-SEARCH-SERVICE"}
     )
     @GetMapping("/categories")
-    public ApiResponse<List<CategoryCountResponseDto>> test(@ModelAttribute CategoryCountRequestVo categoryCountRequestVo) throws IOException {
-        return ApiResponse.ok("테스트 성공",
+    public ApiResponse<List<CategoryCountResponseDto>> getCategoryAndCount(@ModelAttribute CategoryCountRequestVo categoryCountRequestVo) throws IOException {
+        return ApiResponse.ok("카테고리별 상품 개수 조회가 완료 되었습니다.",
                 productSearchService.getCategoryAndCount(CategoryCountRequestDto.from(categoryCountRequestVo))
         );
     }
