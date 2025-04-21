@@ -7,7 +7,6 @@ import colorful.starbucks.product.dto.response.ProductCursorResponseDto;
 import colorful.starbucks.product.dto.response.ProductOptionListResponseDto;
 import colorful.starbucks.product.dto.response.ProductResponseDto;
 import colorful.starbucks.product.dto.response.ProductSimpleResponseDto;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ProductService {
@@ -21,5 +20,5 @@ public interface ProductService {
 
     CursorPage<ProductCursorResponseDto> getProductsByFilter(ProductFilterDto productFilterDto);
 
-    ProductOptionListResponseDto getProductOptionList(@RequestParam Long productCode);
+    ProductOptionListResponseDto getProductOptionList(Long productCode);
 }
