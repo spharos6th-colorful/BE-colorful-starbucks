@@ -30,6 +30,12 @@ public class ProductTopCategoryDtos {
                 .build();
     }
 
+    public static ProductTopCategoryDtos of(List<ProductTopCategoryDto> productTopCategoryDtos) {
+        return ProductTopCategoryDtos.builder()
+                .categories(productTopCategoryDtos)
+                .build();
+    }
+
     public ProductTopCategoryVos toVo() {
         return ProductTopCategoryVos.builder()
                 .categories(

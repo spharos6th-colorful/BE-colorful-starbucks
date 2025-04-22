@@ -14,8 +14,10 @@ import colorful.starbucks.order.dto.PreOrderDto;
 import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.request.OrderDetailCreateRequestDto;
+import colorful.starbucks.order.dto.request.OrderExistsRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
+import colorful.starbucks.order.dto.response.OrderExistsResponseDto;
 import colorful.starbucks.order.infrastructure.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -80,7 +82,6 @@ public class OrderServiceImpl implements OrderService {
         return OrderCreateResponseDto.from(orderCode);
     }
 
-
     @Override
     public CursorPage<OrderCursorResponseDto> getOrderList(OrderListFilterDto orderListFilterDto) {
         return orderRepository.getOrderList(orderListFilterDto)
@@ -127,7 +128,13 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(updatedOrder);
     }
 
-
+    @Override
+    public OrderExistsResponseDto existsOrder(OrderExistsRequestDto orderExistsRequestDto) {
+        return OrderExistsResponseDto.from(orderRepository.existsByOrderCodeAndMemberUuid(
+                orderExistsRequestDto.getOrderCode(),
+                orderExistsRequestDto.getMemberUuid()
+        ));
+    }
 }
 
 

@@ -66,6 +66,7 @@ public class OrderCreateRequestDto {
                 .discountAmount(orderCreateRequestVo.getDiscountAmount())
                 .buyer(orderCreateRequestVo.getReceiverName())
                 .memberUuid(memberUuid)
+                .memberAddressUuid(orderCreateRequestVo.getMemberAddressUuid())
                 .orderDetails(orderCreateRequestVo.getOrderDetails().stream()
                         .map(OrderDetailCreateRequestDto::of)
                         .toList())

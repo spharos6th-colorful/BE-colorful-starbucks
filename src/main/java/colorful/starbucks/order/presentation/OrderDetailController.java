@@ -22,14 +22,13 @@ public class OrderDetailController {
             description = "주문 상세 목록을 조회하는 API 입니다.",
             tags = {"ORDER-SERVICE"}
     )
-
-    @GetMapping("/{orderId}/details")
-    public ApiResponse<CursorPage<OrderDetailResponseVo>> getOrderDetailList(@PathVariable Long orderId,
+    @GetMapping("/{orderCode}/details")
+    public ApiResponse<CursorPage<OrderDetailResponseVo>> getOrderDetailList(@PathVariable Long orderCode,
                                                                              @ModelAttribute OrderDetailFilterVo orderDetailFilterVo
     ) {
 
         return ApiResponse.ok("주문 상세 목록 조회 성공",
-                orderDetailService.getOrderDetailList(OrderDetailFilterDto.of(orderDetailFilterVo, orderId))
+                orderDetailService.getOrderDetailList(OrderDetailFilterDto.of(orderDetailFilterVo, orderCode))
                         .map(OrderDetailResponseDto::toVo));
 
     }

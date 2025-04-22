@@ -8,14 +8,12 @@ import java.util.Map;
 
 @Getter
 @NoArgsConstructor
-public class CategoryWithProductsAndQuantities {
+public class ProductsAndQuantities {
 
-    private Long categoryId;
     private String categoryName;
     private Map<Long, Integer> productCodeAndQuantityMap = new HashMap<>();
 
-    public CategoryWithProductsAndQuantities(Long categoryId, String categoryName) {
-        this.categoryId = categoryId;
+    public ProductsAndQuantities(String categoryName) {
         this.categoryName = categoryName;
     }
 

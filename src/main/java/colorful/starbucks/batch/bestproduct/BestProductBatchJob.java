@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.DuplicateJobException;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
@@ -29,7 +28,7 @@ public class BestProductBatchJob {
     private final BestProductRepository bestProductRepository;
 
     @Bean
-    public Job bestProductJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) throws DuplicateJobException {
+    public Job bestProductJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new JobBuilder("bestProductJob", jobRepository)
                 .start(chunkStep(jobRepository, transactionManager))
                 .build();
