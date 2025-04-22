@@ -7,9 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ProductDetailCodeAndQuantityRequestVo {
 
-    private Long productDetailCode;
     private Long productCode;
     private Long sizeId;
     private Long colorId;
-    private Integer quantity;
 }

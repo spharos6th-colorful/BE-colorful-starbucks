@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class OrderCreateDetailRequestVo {
+public class OrderDetailCreateRequestVo {
 
-    private Long id;
     private Long productCode;
     private Long productDetailCode;
     private String productName;
@@ -19,8 +18,7 @@ public class OrderCreateDetailRequestVo {
     private Boolean carving;
 
     @Builder
-    private OrderCreateDetailRequestVo(Long id,
-                                       Long productCode,
+    private OrderDetailCreateRequestVo(Long productCode,
                                        Long productDetailCode,
                                        String productName,
                                        String sizeName,
@@ -28,7 +26,6 @@ public class OrderCreateDetailRequestVo {
                                        Integer quantity,
                                        Integer price,
                                        Boolean carving) {
-        this.id = id;
         this.productCode = productCode;
         this.productDetailCode = productDetailCode;
         this.productName = productName;

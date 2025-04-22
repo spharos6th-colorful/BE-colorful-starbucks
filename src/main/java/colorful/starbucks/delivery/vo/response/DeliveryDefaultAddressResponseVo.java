@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 public class DeliveryDefaultAddressResponseVo {
 
     private String addressNickname;
+    private String memberAddressUuid;
     private String receiverName;
     private Boolean isDefaultAddress;
     private String zoneCode;
@@ -18,12 +19,14 @@ public class DeliveryDefaultAddressResponseVo {
 
     @Builder
     private DeliveryDefaultAddressResponseVo(String addressNickname,
+                                             String memberAddressUuid,
                                              String receiverName,
                                              Boolean isDefaultAddress,
                                              String zoneCode, String address,
                                              String detailAddress,
                                              String phoneNumber) {
         this.addressNickname = addressNickname;
+        this.memberAddressUuid = memberAddressUuid;
         this.receiverName = receiverName;
         this.isDefaultAddress = isDefaultAddress;
         this.zoneCode = zoneCode;
