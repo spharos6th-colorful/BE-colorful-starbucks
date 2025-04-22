@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor
 public class ProductTopCategoryDto {
@@ -31,5 +33,17 @@ public class ProductTopCategoryDto {
                 .topCategoryId(topCategoryId)
                 .categoryName(categoryName)
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductTopCategoryDto that = (ProductTopCategoryDto) o;
+        return Objects.equals(topCategoryId, that.topCategoryId) && Objects.equals(categoryName, that.categoryName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(topCategoryId, categoryName);
     }
 }

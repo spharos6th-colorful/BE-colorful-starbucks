@@ -15,24 +15,27 @@ public class BestProduct extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "best_product_id")
     private Long id;
 
-    @Column(nullable = false)
     @Comment(value = "상품 코드")
+    @Column(nullable = false)
     private Long productCode;
 
-    @Column(nullable = true)
+    @Comment("카테고리 ID")
+    @Column(nullable = false)
     private Long categoryId;
 
-    @Column(nullable = true)
+    @Comment("카테고리명")
+    @Column(nullable = false)
     private String categoryName;
 
+    @Comment("판매 수량")
     @Column(nullable = false)
     private int totalQuantity;
 
+    @Comment("랭킹")
     @Column(nullable = false)
-    private int productRank;
+    private int ranking;
 
     @Builder
     private BestProduct(Long id,
@@ -40,12 +43,12 @@ public class BestProduct extends BaseEntity {
                         Long categoryId,
                         String categoryName,
                         int totalQuantity,
-                        int productRank) {
+                        int ranking) {
         this.id = id;
         this.productCode = productCode;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.totalQuantity = totalQuantity;
-        this.productRank = productRank;
+        this.ranking = ranking;
     }
 }

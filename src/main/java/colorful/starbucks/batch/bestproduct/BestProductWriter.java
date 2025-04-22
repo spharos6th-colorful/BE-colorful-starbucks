@@ -1,6 +1,6 @@
 package colorful.starbucks.batch.bestproduct;
 
-import colorful.starbucks.batch.dto.CategoryWithProductsAndQuantities;
+import colorful.starbucks.batch.dto.ProductsAndQuantities;
 import colorful.starbucks.batch.dto.ProductInfoForBestProductBatch;
 import colorful.starbucks.product.domain.BestProduct;
 import colorful.starbucks.product.infrastructure.BestProductRepository;
@@ -22,7 +22,7 @@ public class BestProductWriter implements ItemWriter<ProductInfoForBestProductBa
 
     private final BestProductRepository bestProductRepository;
 
-    private final Map<Long, CategoryWithProductsAndQuantities> CategoryProductsMap = new HashMap<>();
+    private final Map<Long, ProductsAndQuantities> CategoryProductsMap = new HashMap<>();
     private final List<BestProduct> bestProducts = new ArrayList<>();
 
     @Override
@@ -32,7 +32,7 @@ public class BestProductWriter implements ItemWriter<ProductInfoForBestProductBa
             int quantity = item.getQuantity();
 
             CategoryProductsMap
-                    .computeIfAbsent(item.getCategoryId(), categoryId -> new CategoryWithProductsAndQuantities(categoryId, item.getCategoryName()))
+                    .computeIfAbsent(item.getCategoryId(), categoryId -> new ProductsAndQuantities(item.getCategoryName()))
                     .addProductQuantity(productCode, quantity);
         }
     }
@@ -61,7 +61,7 @@ public class BestProductWriter implements ItemWriter<ProductInfoForBestProductBa
                             .categoryId(categoryId)
                             .categoryName(value.getCategoryName())
                             .totalQuantity(productAndQuantityEntry.getValue())
-                            .productRank(rankCounter.getAndIncrement())
+                            .ranking(rankCounter.getAndIncrement())
                             .build()
             ));
         });
