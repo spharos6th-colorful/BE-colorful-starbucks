@@ -6,10 +6,12 @@ import colorful.starbucks.order.application.OrderService;
 import colorful.starbucks.order.dto.OrderListFilterDto;
 import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
+import colorful.starbucks.order.dto.request.OrderExistsRequestDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.vo.OrderListFilterVo;
 import colorful.starbucks.order.vo.request.OrderCancelRequestVo;
 import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
+import colorful.starbucks.order.vo.request.OrderExistsResponseVo;
 import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import colorful.starbucks.order.vo.response.OrderCursorResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +32,7 @@ public class OrderController {
     )
     @PostMapping("/pre")
     public ApiResponse<OrderCreateResponseVo> createPreOrder(Authentication authentication,
-                                                              @RequestBody OrderCreateRequestVo orderCreateRequestVo) {
+                                                             @RequestBody OrderCreateRequestVo orderCreateRequestVo) {
         return ApiResponse.ok(
                 "주문 생성 전 작업이 완료되었습니다.",
                 orderService
@@ -90,8 +92,17 @@ public class OrderController {
         return ApiResponse.ok("주문이 성공적으로 취소되었습니다.", null);
     }
 
-
-
-
+    @Operation(
+            summary = "주문 존재 여부 조회 API",
+            description = "주문 존재 여부를 조회하는 API 입니다. 주문 코드로 주문이 존재하는지 확인합니다.",
+            tags = {"ORDER-SERVICE"}
+    )
+    @GetMapping("/{orderCode}/exists")
+    public ApiResponse<OrderExistsResponseVo> getOrderDetail(Authentication authentication,
+                                                             @PathVariable Long orderCode) {
+        return ApiResponse.ok("주문 존재 여부 조회 성공",
+                orderService.existsOrder(OrderExistsRequestDto.of(orderCode, authentication.getName())).toVo()
+        );
+    }
 }
 
