@@ -53,7 +53,7 @@ public class IndexInitializer {
                             .add("custom_edge_ngram_tokenizer", Json.createObjectBuilder()
                                     .add("type", "edge_ngram")
                                     .add("min_gram", 1)
-                                    .add("max_gram", 20)
+                                    .add("max_gram", 6)
                                     .add("token_chars", Json.createArrayBuilder()
                                             .add("letter")
                                             .add("digit")
@@ -117,11 +117,16 @@ public class IndexInitializer {
                     .index(indexName)
                     .settings(s -> s.withJson(jsonStream))
                     .mappings(TypeMapping.of(m -> m
-                            .properties("productName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
+                            .properties("productName", p -> p.text(t -> t.analyzer("ngram_analyzer")
+                                    .fields("keyword", f -> f.keyword(k -> k.ignoreAbove(256))))
+                            )
+
                             .properties("topCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")
                                     .fields("keyword", f -> f.keyword(k -> k.ignoreAbove(256)))
                             ))
-                            .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")))
+                            .properties("bottomCategoryName", p -> p.text(t -> t.analyzer("ngram_analyzer")
+                                    .fields("keyword", f -> f.keyword(k -> k.ignoreAbove(256))))
+                            )
                     ))
             );
 
