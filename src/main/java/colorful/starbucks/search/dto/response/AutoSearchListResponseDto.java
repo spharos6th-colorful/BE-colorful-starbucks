@@ -18,6 +18,12 @@ public class AutoSearchListResponseDto {
         this.autoSearchList = autoSearchList;
     }
 
+    public static AutoSearchListResponseDto from(List<AutoSearchResponseDto> autoSearchList) {
+        return AutoSearchListResponseDto.builder()
+                .autoSearchList(autoSearchList)
+                .build();
+    }
+
     public AutoSearchListResponseVo toVo() {
         return AutoSearchListResponseVo.builder()
                 .autoSearchList(

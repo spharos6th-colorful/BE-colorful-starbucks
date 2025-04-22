@@ -13,8 +13,8 @@ import co.elastic.clients.json.JsonData;
 import colorful.starbucks.common.util.CursorPage;
 import colorful.starbucks.search.domain.KeywordAutoCompleteDocument;
 import colorful.starbucks.search.domain.ProductDocument;
-import colorful.starbucks.search.dto.request.ElasticsearchRequestDto;
 import colorful.starbucks.search.dto.request.CategoryCountRequestDto;
+import colorful.starbucks.search.dto.request.ElasticsearchRequestDto;
 import colorful.starbucks.search.dto.response.AutoSearchListResponseDto;
 import colorful.starbucks.search.dto.response.AutoSearchResponseDto;
 import colorful.starbucks.search.dto.response.CategoryCountResponseDto;
@@ -71,8 +71,6 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         return AutoSearchListResponseDto.builder()
                 .autoSearchList(results)
                 .build();
-
-
     }
 
     @Override
@@ -83,12 +81,16 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                     BoolQuery.Builder boolBuilder = new BoolQuery.Builder();
 
                     if (elasticsearchRequestDto.getQuery() != null && !elasticsearchRequestDto.getQuery().isEmpty()) {
-                        boolBuilder.must(m -> m
-                                .multiMatch(mm -> mm
-                                        .fields("productName", "topCategoryName", "bottomCategoryName")
-                                        .query(elasticsearchRequestDto.getQuery())
+
+                        List<String> fields = List.of("productName.keyword", "topCategoryName.keyword", "bottomCategoryName.keyword");
+                        fields.forEach(field -> boolBuilder.should(f -> f
+                                .wildcard(t -> t
+                                        .field(field)
+                                        .value("*" + elasticsearchRequestDto.getQuery() + "*")
                                 )
-                        );
+                        ));
+
+                        boolBuilder.minimumShouldMatch("1");
                     }
 
                     if (elasticsearchRequestDto.getCategory() != null && !elasticsearchRequestDto.getCategory().isEmpty()) {
@@ -163,19 +165,21 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     }
 
     @Override
-    public List<CategoryCountResponseDto> getCategoryAndCount(CategoryCountRequestDto categoryCountRequestDto) throws IOException{
+    public List<CategoryCountResponseDto> getCategoryAndCount(CategoryCountRequestDto categoryCountRequestDto) throws IOException {
 
         Query query = Query.of(q -> q
                 .bool(b -> {
                     BoolQuery.Builder boolBuilder = new BoolQuery.Builder();
 
                     if (categoryCountRequestDto.getQuery() != null && !categoryCountRequestDto.getQuery().isEmpty()) {
-                        boolBuilder.must(m -> m
-                                .multiMatch(mm -> mm
-                                        .fields("productName", "topCategoryName", "bottomCategoryName")
-                                        .query(categoryCountRequestDto.getQuery())
+
+                        List<String> fields = List.of("productName.keyword", "topCategoryName.keyword", "bottomCategoryName.keyword");
+                        fields.forEach(field -> boolBuilder.should(f -> f
+                                .wildcard(t -> t
+                                        .field(field)
+                                        .value("*" + categoryCountRequestDto.getQuery() + "*")
                                 )
-                        );
+                        ));
                     }
 
                     if (categoryCountRequestDto.getMinPrice() != null || categoryCountRequestDto.getMaxPrice() != null) {
