@@ -102,8 +102,8 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void removeCartByMemberAndProductDetailCodes(String memberUuid, List<Long> productDetailCodes) {
-        cartRepository.deleteByMemberUuidAndProductDetailCodeIn(memberUuid, productDetailCodes);
+    public void removeCartAfterOrder(String memberUuid, List<Long> productDetailCodes) {
+        cartRepository.deleteCartsAfterOrder(memberUuid, productDetailCodes);
     }
 
 

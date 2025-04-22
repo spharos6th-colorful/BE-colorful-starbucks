@@ -30,6 +30,10 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Query("UPDATE Cart c SET c.checked = :checked WHERE c.memberUuid = :memberUuid")
     void updateCheckedByMemberUuid(String memberUuid, Boolean checked);
 
-    void deleteByMemberUuidAndProductDetailCodeIn(String memberUuid, List<Long> productDetailCodes);
+    @Modifying
+    @Query("DELETE FROM Cart c " +
+            "WHERE c.memberUuid = :memberUuid AND c.productDetailCode IN :productDetailCodes " +
+            "AND c.isDeleted = false")
+    void deleteCartsAfterOrder(String memberUuid, List<Long> productDetailCodes);
 
 }
