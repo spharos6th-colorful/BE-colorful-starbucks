@@ -89,6 +89,8 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                                         .value("*" + elasticsearchRequestDto.getQuery() + "*")
                                 )
                         ));
+
+                        boolBuilder.minimumShouldMatch("1");
                     }
 
                     if (elasticsearchRequestDto.getCategory() != null && !elasticsearchRequestDto.getCategory().isEmpty()) {
