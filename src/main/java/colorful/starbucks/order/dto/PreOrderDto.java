@@ -15,18 +15,23 @@ public class PreOrderDto {
 
     private Long orderCode;
     private Integer totalAmount;
+    private String memberAddressUuid;
+    private String receiverName;
 
     @Builder
-    private PreOrderDto(Long orderCode, Integer totalAmount) {
+    private PreOrderDto(Long orderCode, Integer totalAmount, String memberAddressUuid, String receiverName) {
         this.orderCode = orderCode;
         this.totalAmount = totalAmount;
+        this.memberAddressUuid = memberAddressUuid;
+        this.receiverName = receiverName;
     }
 
-
-    public static PreOrderDto from(OrderCreateRequestDto dto, Long orderCode) {
+    public static PreOrderDto from(OrderCreateRequestDto orderCreateRequestDto, Long orderCode) {
         return PreOrderDto.builder()
                 .orderCode(orderCode)
-                .totalAmount(dto.getTotalAmount())
+                .totalAmount(orderCreateRequestDto.getTotalAmount())
+                .memberAddressUuid(orderCreateRequestDto.getMemberAddressUuid())
+                .receiverName(orderCreateRequestDto.getBuyer())
                 .build();
     }
 
@@ -50,6 +55,8 @@ public class PreOrderDto {
         return OrderCreateResponseVo.builder()
                 .orderCode(orderCode)
                 .totalAmount(totalAmount)
+                .memberAddressUuid(memberAddressUuid)
+                .receiverName(receiverName)
                 .build();
     }
 }

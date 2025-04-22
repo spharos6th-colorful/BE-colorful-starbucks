@@ -36,8 +36,6 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
     private final DeliveryRepository deliveryRepository;
 
-
-
     @Transactional
     @Override
     public PreOrderDto createPreOrder(OrderCreateRequestDto orderCreateRequestDto) {
@@ -46,7 +44,6 @@ public class OrderServiceImpl implements OrderService {
         PreOrderDto preOrderDto = PreOrderDto.from(orderCreateRequestDto, orderCode);
 
         orderRedisService.saveOrder(orderCode, preOrderDto, 3600);
-
 
         return preOrderDto;
     }
@@ -60,8 +57,6 @@ public class OrderServiceImpl implements OrderService {
                 deliveryRepository.findByMemberAddressUuid(orderCreateRequestDto.getMemberAddressUuid())
         ).orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_SHIPPING_ADDRESS));
 
-
-
         Order order = orderCreateRequestDto.toEntity(
                 orderCode,
                 deliveryAddress.getZoneCode(),
@@ -69,15 +64,17 @@ public class OrderServiceImpl implements OrderService {
                 deliveryAddress.getDetailAddress()
         );
 
+        orderRepository.save(order);
+
         orderDetailService.saveAllDetails(order, orderCreateRequestDto.getOrderDetails());
 
-        List<Long> cartIds = orderCreateRequestDto.getOrderDetails().stream()
+        List<Long> productDetailCodes = orderCreateRequestDto.getOrderDetails().stream()
                 .map(OrderDetailCreateRequestDto::getProductDetailCode)
                 .toList();
 
-        cartService.removeCartByMemberAndProductDetailCodes(
+        cartService.removeCartAfterOrder(
                 orderCreateRequestDto.getMemberUuid(),
-                cartIds
+                productDetailCodes
         );
 
         return OrderCreateResponseDto.from(orderCode);
@@ -93,7 +90,6 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderCancelRequestDto cancelOrder(OrderCancelRequestDto orderCancelRequestDto) {
-
 
         Order order = orderRepository.findByOrderCode(orderCancelRequestDto.getOrderCode())
                 .orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_ORDER));

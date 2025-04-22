@@ -17,6 +17,6 @@ public interface CartService {
     void updateCartChecked(CartCheckRequestDto cartCheckRequestDto);
     void removeAllCart(String memberUuid);
     void updateCartAllChecked(CartAllCheckRequestDto cartAllCheckRequestDto);
-    void removeCartByMemberAndProductDetailCodes(String memberUuid, List<Long> productDetailCodes);
+    void removeCartAfterOrder(String memberUuid, List<Long> productDetailCodes);
 
 }
