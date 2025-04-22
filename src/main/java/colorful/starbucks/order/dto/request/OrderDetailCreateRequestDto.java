@@ -2,7 +2,7 @@ package colorful.starbucks.order.dto.request;
 
 import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderDetail;
-import colorful.starbucks.order.vo.request.OrderCreateDetailRequestVo;
+import colorful.starbucks.order.vo.request.OrderDetailCreateRequestVo;
 import colorful.starbucks.product.domain.ProductDetail;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,14 +49,14 @@ public class OrderDetailCreateRequestDto {
                 .build();
     }
 
-    public static OrderDetailCreateRequestDto of(OrderCreateDetailRequestVo orderCreateDetailRequestVo) {
+    public static OrderDetailCreateRequestDto of(OrderDetailCreateRequestVo orderDetailCreateRequestVo) {
         return OrderDetailCreateRequestDto.builder()
-                .productCode(orderCreateDetailRequestVo.getProductCode())
-                .productDetailCode(orderCreateDetailRequestVo.getProductDetailCode())
-                .productName(orderCreateDetailRequestVo.getProductName())
-                .quantity(orderCreateDetailRequestVo.getQuantity())
-                .price(orderCreateDetailRequestVo.getPrice())
-                .carving(orderCreateDetailRequestVo.getCarving())
+                .productCode(orderDetailCreateRequestVo.getProductCode())
+                .productDetailCode(orderDetailCreateRequestVo.getProductDetailCode())
+                .productName(orderDetailCreateRequestVo.getProductName())
+                .quantity(orderDetailCreateRequestVo.getQuantity())
+                .price(orderDetailCreateRequestVo.getPrice())
+                .carving(orderDetailCreateRequestVo.getCarving())
                 .build();
     }
 

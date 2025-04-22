@@ -9,6 +9,7 @@ import lombok.Getter;
 public class DeliveryDefaultAddressResponseDto {
 
     private String addressNickname;
+    private String memberAddressUuid;
     private String receiverName;
     private Boolean isDefaultAddress;
     private String zoneCode;
@@ -18,6 +19,7 @@ public class DeliveryDefaultAddressResponseDto {
 
     @Builder
     private DeliveryDefaultAddressResponseDto(String addressNickname,
+                                              String memberAddressUuid,
                                               String receiverName,
                                               Boolean isDefaultAddress,
                                               String zoneCode,
@@ -25,6 +27,7 @@ public class DeliveryDefaultAddressResponseDto {
                                               String detailAddress,
                                               String phoneNumber) {
         this.addressNickname = addressNickname;
+        this.memberAddressUuid = memberAddressUuid;
         this.receiverName = receiverName;
         this.isDefaultAddress = isDefaultAddress;
         this.zoneCode = zoneCode;
@@ -33,9 +36,10 @@ public class DeliveryDefaultAddressResponseDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public DeliveryDefaultAddressResponseVo toVo(){
+    public DeliveryDefaultAddressResponseVo toVo() {
         return DeliveryDefaultAddressResponseVo.builder()
                 .addressNickname(addressNickname)
+                .memberAddressUuid(memberAddressUuid)
                 .receiverName(receiverName)
                 .isDefaultAddress(isDefaultAddress)
                 .zoneCode(zoneCode)
@@ -48,6 +52,7 @@ public class DeliveryDefaultAddressResponseDto {
     public static DeliveryDefaultAddressResponseDto from(DeliveryAddress deliveryAddress) {
         return DeliveryDefaultAddressResponseDto.builder()
                 .addressNickname(deliveryAddress.getAddressNickname())
+                .memberAddressUuid(deliveryAddress.getMemberAddressUuid())
                 .receiverName(deliveryAddress.getReceiverName())
                 .isDefaultAddress(deliveryAddress.isDefaultAddress())
                 .zoneCode(deliveryAddress.getZoneCode())

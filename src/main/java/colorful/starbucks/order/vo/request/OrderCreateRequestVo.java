@@ -18,7 +18,7 @@ public class OrderCreateRequestVo {
     private String memberAddressUuid;
     private String receiverName;
     private String memberUuid;
-    private List<OrderCreateDetailRequestVo> orderDetails;
+    private List<OrderDetailCreateRequestVo> orderDetails;
 
     @Builder
     private OrderCreateRequestVo(Long orderCode,
@@ -28,7 +28,7 @@ public class OrderCreateRequestVo {
                                  String memberAddressUuid,
                                  String receiverName,
                                  String memberUuid,
-                                 List<OrderCreateDetailRequestVo> orderDetails) {
+                                 List<OrderDetailCreateRequestVo> orderDetails) {
         this.orderCode = orderCode;
         this.couponUuid = couponUuid;
         this.totalAmount = totalAmount;
