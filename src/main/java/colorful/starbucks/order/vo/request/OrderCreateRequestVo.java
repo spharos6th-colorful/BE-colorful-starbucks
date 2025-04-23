@@ -38,6 +38,4 @@ public class OrderCreateRequestVo {
         this.memberUuid = memberUuid;
         this.orderDetails = orderDetails;
     }
-
-
 }

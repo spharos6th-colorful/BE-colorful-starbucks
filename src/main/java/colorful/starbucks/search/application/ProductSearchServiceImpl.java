@@ -180,6 +180,8 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                                         .value("*" + categoryCountRequestDto.getQuery() + "*")
                                 )
                         ));
+
+                        boolBuilder.minimumShouldMatch("1");
                     }
 
                     if (categoryCountRequestDto.getMinPrice() != null || categoryCountRequestDto.getMaxPrice() != null) {

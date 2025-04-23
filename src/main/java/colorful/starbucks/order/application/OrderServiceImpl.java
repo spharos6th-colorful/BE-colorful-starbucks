@@ -11,10 +11,7 @@ import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderStatus;
 import colorful.starbucks.order.dto.OrderListFilterDto;
 import colorful.starbucks.order.dto.PreOrderDto;
-import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
-import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
-import colorful.starbucks.order.dto.request.OrderDetailCreateRequestDto;
-import colorful.starbucks.order.dto.request.OrderExistsRequestDto;
+import colorful.starbucks.order.dto.request.*;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.dto.response.OrderExistsResponseDto;
@@ -40,14 +37,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public PreOrderDto createPreOrder(OrderCreateRequestDto orderCreateRequestDto) {
-        Long orderCode = orderCodeGenerator.generate();
-
-        PreOrderDto preOrderDto = PreOrderDto.from(orderCreateRequestDto, orderCode);
-
-        orderRedisService.saveOrder(orderCode, preOrderDto, 3600);
-
-        return preOrderDto;
+    public PreOrderDto createPreOrder(PreOrderRequestDto preOrderRequestDto) {
+        return orderRedisService.saveOrder(preOrderRequestDto, orderCodeGenerator.generate());
     }
 
     @Transactional
@@ -61,13 +52,10 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderCreateRequestDto.toEntity(
                 orderCode,
-                deliveryAddress.getZoneCode(),
-                deliveryAddress.getAddress(),
-                deliveryAddress.getDetailAddress()
+                deliveryAddress
         );
 
         orderRepository.save(order);
-
         orderDetailService.saveAllDetails(order, orderCreateRequestDto.getOrderDetails());
 
         List<Long> productDetailCodes = orderCreateRequestDto.getOrderDetails().stream()
@@ -78,6 +66,8 @@ public class OrderServiceImpl implements OrderService {
                 orderCreateRequestDto.getMemberUuid(),
                 productDetailCodes
         );
+
+        orderRedisService.deleteOrder(orderCode);
 
         return OrderCreateResponseDto.from(orderCode);
     }

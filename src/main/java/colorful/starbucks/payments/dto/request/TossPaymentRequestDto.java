@@ -3,6 +3,7 @@ package colorful.starbucks.payments.dto.request;
 import colorful.starbucks.payments.domain.PaymentHistory;
 import colorful.starbucks.payments.domain.PaymentStatus;
 import colorful.starbucks.payments.domain.PaymentsType;
+import colorful.starbucks.payments.vo.request.TossPaymentRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class TossPaymentRequestDto {
+
     private String paymentKey;
     private String orderId;
     private Integer amount;
@@ -25,6 +27,7 @@ public class TossPaymentRequestDto {
         this.amount = amount;
         this.memberUuid = memberUuid;
     }
+
     public static TossPaymentRequestDto from(String paymentKey,
                                              String orderId,
                                              Integer amount,
@@ -35,12 +38,13 @@ public class TossPaymentRequestDto {
                 .amount(amount)
                 .memberUuid(memberUuid)
                 .build();
-}
-    public static TossPaymentRequestDto of(TossPaymentRequestDto tossPaymentRequestDto, String memberUuid) {
+    }
+
+    public static TossPaymentRequestDto of(TossPaymentRequestVo tossPaymentRequestVo, String memberUuid) {
         return TossPaymentRequestDto.builder()
-                .paymentKey(tossPaymentRequestDto.getPaymentKey())
-                .orderId(tossPaymentRequestDto.getOrderId())
-                .amount(tossPaymentRequestDto.getAmount())
+                .paymentKey(tossPaymentRequestVo.getPaymentKey())
+                .orderId(tossPaymentRequestVo.getOrderId())
+                .amount(tossPaymentRequestVo.getAmount())
                 .memberUuid(memberUuid)
                 .build();
     }
@@ -57,6 +61,4 @@ public class TossPaymentRequestDto {
                 .paymentKey(paymentKey)
                 .build();
     }
-
-
 }

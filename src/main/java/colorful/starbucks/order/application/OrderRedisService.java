@@ -1,8 +1,7 @@
 package colorful.starbucks.order.application;
 
-import colorful.starbucks.common.exception.BaseException;
-import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.order.dto.PreOrderDto;
+import colorful.starbucks.order.dto.request.PreOrderRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,14 +15,20 @@ public class OrderRedisService {
 
     private final StringRedisTemplate redisTemplate;
     private final ObjectMapper objectMapper;
+
     private static final String PREFIX = "order:";
+    private static final long DEFAULT_TIMEOUT_SECONDS = 60 * 60;
 
+    public PreOrderDto saveOrder(PreOrderRequestDto preOrderRequestDto, Long orderCode) {
 
-    public void saveOrder(Long orderCode, PreOrderDto preOrderDto, long timeoutSeconds) {
-        String json = preOrderDto.toJson(objectMapper);
-        redisTemplate.opsForValue().set(PREFIX + orderCode, json, timeoutSeconds, TimeUnit.SECONDS);
+        PreOrderDto preOrderDto = PreOrderDto.of(preOrderRequestDto, orderCode);
+        redisTemplate.opsForValue().set(PREFIX + preOrderDto.getOrderCode(),
+                preOrderDto.toJson(objectMapper),
+                DEFAULT_TIMEOUT_SECONDS,
+                TimeUnit.SECONDS);
+
+        return preOrderDto;
     }
-
 
     public PreOrderDto getOrder(Long orderCode) {
         String json = redisTemplate.opsForValue().get(PREFIX + orderCode);
@@ -31,34 +36,16 @@ public class OrderRedisService {
         return PreOrderDto.fromJson(json, objectMapper);
     }
 
-
     public void deleteOrder(Long orderCode) {
         redisTemplate.delete(PREFIX + orderCode);
     }
 
-
-    public boolean orderExists(Long orderCode) {
-        return redisTemplate.hasKey(PREFIX + orderCode);
+    public boolean isInvalidPreOrder(Long orderCode, Integer paidAmount) {
+        return !isValidPreOrder(orderCode, paidAmount);
     }
 
-
-    public void extendOrderTtl(Long orderCode, long timeoutSeconds) {
-        Boolean extended = redisTemplate.expire(PREFIX + orderCode, timeoutSeconds, TimeUnit.SECONDS);
-        if (Boolean.FALSE.equals(extended)) {
-            throw new BaseException(ResponseStatus.REDIS_TTL_EXTEND_FAIL);
-        }
-    }
-
-
-    public void validateOrderForPayment(Long orderCode, Integer paidAmount) {
+    private boolean isValidPreOrder(Long orderCode, Integer paidAmount) {
         PreOrderDto preOrderDto = getOrder(orderCode);
-
-        if (preOrderDto == null) {
-            throw new BaseException(ResponseStatus.NO_EXIST_ORDER); // 주문 자체가 없음
-        }
-
-        if (!preOrderDto.getTotalAmount().equals(paidAmount)) {
-            throw new BaseException(ResponseStatus.NO_EXIST_ORDER); // 금액 불일치
-        }
+        return preOrderDto != null && preOrderDto.equalsAmount(paidAmount);
     }
 }

@@ -7,6 +7,7 @@ import colorful.starbucks.payments.dto.request.TossPaymentRequestDto;
 import colorful.starbucks.payments.dto.response.PaymentHistoryResponseDto;
 import colorful.starbucks.payments.dto.response.TossPaymentCancelResponseDto;
 import colorful.starbucks.payments.dto.response.TossPaymentResponseDto;
+import colorful.starbucks.payments.vo.request.TossPaymentRequestVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -28,13 +29,13 @@ public class PaymentController {
     )
     @PostMapping("/toss")
     public ApiResponse<TossPaymentResponseDto> approveToss(Authentication authentication,
-                                                           @RequestBody TossPaymentRequestDto tossPaymentRequestDto) {
+                                                           @RequestBody TossPaymentRequestVo tossPaymentRequestVo) {
 
 
         return ApiResponse.ok(
                 "결제 요청이 성공적으로 처리되었습니다.",
                 paymentsService.approveTossPayment(
-                        tossPaymentRequestDto.of(tossPaymentRequestDto, authentication.getName()),
+                        TossPaymentRequestDto.of(tossPaymentRequestVo, authentication.getName()),
                         null
                 )
         );

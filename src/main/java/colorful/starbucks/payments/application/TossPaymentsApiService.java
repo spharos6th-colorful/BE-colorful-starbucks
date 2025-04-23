@@ -30,7 +30,6 @@ public class TossPaymentsApiService {
 
         String encodedSecretKey = Base64.getEncoder().encodeToString((secretKey + ":").getBytes());
 
-
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_JSON);

@@ -28,21 +28,18 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Transactional
     @Override
-    public List<OrderDetail> saveAllDetails(Order order, List<OrderDetailCreateRequestDto> orderDetailCreateRequestDto) {
+    public void saveAllDetails(Order order, List<OrderDetailCreateRequestDto> orderDetailCreateRequestDto) {
 
         List<OrderDetail> orderDetails = orderDetailCreateRequestDto.stream()
                 .map(orderDetailRequestDto -> {
                     ProductDetail productDetail = productDetailRepository.findByProductDetailCodeAndIsDeletedIsFalse(orderDetailRequestDto.getProductDetailCode())
-                            .orElseThrow( () -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND, "상품을 찾을 수 없습니다."));
-                   return orderDetailRequestDto.toEntity(order, productDetail);
+                            .orElseThrow(() -> new BaseException(ResponseStatus.RESOURCE_NOT_FOUND, "상품을 찾을 수 없습니다."));
+                    return orderDetailRequestDto.toEntity(order, productDetail);
                 })
-                .collect(Collectors.toList());
+                .toList();
 
         orderDetailRepository.saveAll(orderDetails);
-
-        return orderDetails;
     }
-
 
 
     @Override

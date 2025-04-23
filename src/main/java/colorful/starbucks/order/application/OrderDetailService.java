@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface OrderDetailService {
 
-    List<OrderDetail> saveAllDetails(Order order, List<OrderDetailCreateRequestDto> orderDetailCreateRequestDto);
+    void saveAllDetails(Order order, List<OrderDetailCreateRequestDto> orderDetailCreateRequestDto);
 
     CursorPage<OrderDetailResponseDto> getOrderDetailList(OrderDetailFilterDto orderDetailFilterDto);
 
