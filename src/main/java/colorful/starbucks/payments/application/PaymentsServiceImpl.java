@@ -3,7 +3,6 @@ package colorful.starbucks.payments.application;
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
 import colorful.starbucks.order.application.OrderRedisService;
-import colorful.starbucks.order.dto.PreOrderDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.payments.domain.PaymentHistory;
 import colorful.starbucks.payments.domain.PaymentStatus;
@@ -14,7 +13,6 @@ import colorful.starbucks.payments.dto.response.TossPaymentCancelResponseDto;
 import colorful.starbucks.payments.dto.response.TossPaymentResponseDto;
 import colorful.starbucks.payments.infrastructure.PaymentHistoryRepository;
 import colorful.starbucks.payments.vo.response.TossPaymentCancelResponseVo;
-import colorful.starbucks.payments.vo.response.TossPaymentResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -33,29 +31,21 @@ public class PaymentsServiceImpl implements PaymentsService {
 
     @Transactional
     @Override
-    public TossPaymentResponseDto approveTossPayment(
-            TossPaymentRequestDto tossPaymentRequestDto,
-            OrderCreateRequestDto orderCreateRequestDto
-    ) {
+    public TossPaymentResponseDto approveTossPayment(TossPaymentRequestDto tossPaymentRequestDto,
+                                                     OrderCreateRequestDto orderCreateRequestDto) {
+
         Long orderCode = Long.parseLong(tossPaymentRequestDto.getOrderId());
         Integer paidAmount = tossPaymentRequestDto.getAmount();
 
-
-        orderRedisService.validateOrderForPayment(orderCode, paidAmount);
-
+        if (orderRedisService.isInvalidPreOrder(orderCode, paidAmount)) {
+            throw new BaseException(ResponseStatus.NO_EXIST_ORDER, "주문 검증에 실패했습니다.");
+        };
 
         JSONObject json = new JSONObject(tossPaymentsApiService.approvePayment(
                 tossPaymentRequestDto.getPaymentKey(),
                 tossPaymentRequestDto.getOrderId(),
                 tossPaymentRequestDto.getAmount()
         ));
-
-        PreOrderDto preOrderDto = orderRedisService.getOrder(orderCode);
-        if (preOrderDto == null) {
-            throw new BaseException(ResponseStatus.NO_EXIST_ORDER);
-        }
-
-
 
         paymentHistoryRepository.save(
                 tossPaymentRequestDto.toEntity(
@@ -64,19 +54,7 @@ public class PaymentsServiceImpl implements PaymentsService {
                 )
         );
 
-
-        orderRedisService.deleteOrder(orderCode);
-
-
-        TossPaymentResponseVo tossPaymentResponseVo = TossPaymentResponseVo.builder()
-                .paymentKey(json.optString("paymentKey"))
-                .orderId(json.optString("orderId"))
-                .status(json.optString("status"))
-                .totalAmount(json.optInt("totalAmount"))
-                .approvedAt(json.optString("approvedAt"))
-                .build();
-
-        return TossPaymentResponseDto.of(json, tossPaymentResponseVo);
+        return TossPaymentResponseDto.of(json);
     }
 
 

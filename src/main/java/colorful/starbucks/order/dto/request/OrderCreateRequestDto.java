@@ -1,5 +1,6 @@
 package colorful.starbucks.order.dto.request;
 
+import colorful.starbucks.delivery.domain.DeliveryAddress;
 import colorful.starbucks.order.domain.Order;
 import colorful.starbucks.order.domain.OrderStatus;
 import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
@@ -41,12 +42,12 @@ public class OrderCreateRequestDto {
         this.orderDetails = orderDetails;
     }
 
-    public Order toEntity(Long orderCode, String zoneCode, String address, String detailAddress) {
+    public Order toEntity(Long orderCode, DeliveryAddress deliveryAddress) {
         return Order.builder()
                 .orderCode(orderCode)
-                .zoneCode(zoneCode)
-                .address(address)
-                .detailAddress(detailAddress)
+                .zoneCode(deliveryAddress.getZoneCode())
+                .address(deliveryAddress.getAddress())
+                .detailAddress(deliveryAddress.getDetailAddress())
                 .couponUuid(couponUuid)
                 .totalAmount(totalAmount)
                 .discountAmount(discountAmount)

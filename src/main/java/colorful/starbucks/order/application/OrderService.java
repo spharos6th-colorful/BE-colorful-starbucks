@@ -6,9 +6,11 @@ import colorful.starbucks.order.dto.PreOrderDto;
 import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.request.OrderExistsRequestDto;
+import colorful.starbucks.order.dto.request.PreOrderRequestDto;
 import colorful.starbucks.order.dto.response.OrderCreateResponseDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.dto.response.OrderExistsResponseDto;
+import colorful.starbucks.order.vo.request.PreOrderRequestVo;
 
 public interface OrderService {
 
@@ -18,7 +20,7 @@ public interface OrderService {
 
     OrderCancelRequestDto cancelOrder(OrderCancelRequestDto orderCancelRequestDto);
 
-    PreOrderDto createPreOrder(OrderCreateRequestDto orderCreateRequestDto);
+    PreOrderDto createPreOrder(PreOrderRequestDto preOrderRequestDto);
 
     OrderExistsResponseDto existsOrder(OrderExistsRequestDto orderExistsRequestDto);
 }

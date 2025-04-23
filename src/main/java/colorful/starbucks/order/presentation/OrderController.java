@@ -7,11 +7,13 @@ import colorful.starbucks.order.dto.OrderListFilterDto;
 import colorful.starbucks.order.dto.request.OrderCancelRequestDto;
 import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
 import colorful.starbucks.order.dto.request.OrderExistsRequestDto;
+import colorful.starbucks.order.dto.request.PreOrderRequestDto;
 import colorful.starbucks.order.dto.response.OrderCursorResponseDto;
 import colorful.starbucks.order.vo.OrderListFilterVo;
 import colorful.starbucks.order.vo.request.OrderCancelRequestVo;
 import colorful.starbucks.order.vo.request.OrderCreateRequestVo;
 import colorful.starbucks.order.vo.request.OrderExistsResponseVo;
+import colorful.starbucks.order.vo.request.PreOrderRequestVo;
 import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import colorful.starbucks.order.vo.response.OrderCursorResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,11 +34,10 @@ public class OrderController {
     )
     @PostMapping("/pre")
     public ApiResponse<OrderCreateResponseVo> createPreOrder(Authentication authentication,
-                                                             @RequestBody OrderCreateRequestVo orderCreateRequestVo) {
+                                                             @RequestBody PreOrderRequestVo preOrderRequestVo) {
         return ApiResponse.ok(
                 "주문 생성 전 작업이 완료되었습니다.",
-                orderService
-                        .createPreOrder(OrderCreateRequestDto.of(orderCreateRequestVo, authentication.getName()))
+                orderService.createPreOrder(PreOrderRequestDto.of(preOrderRequestVo, authentication.getName()))
                         .toVo()
         );
     }

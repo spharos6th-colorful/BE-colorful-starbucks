@@ -9,6 +9,7 @@ import org.json.JSONObject;
 @Getter
 @NoArgsConstructor
 public class TossPaymentResponseDto {
+
     private String paymentKey;
     private String orderId;
     private String orderName;
@@ -45,17 +46,19 @@ public class TossPaymentResponseDto {
         this.installmentMonths = installmentMonths;
         this.receiptUrl = receiptUrl;
     }
-    public static TossPaymentResponseDto of(JSONObject json, TossPaymentResponseVo vo) {
+
+    public static TossPaymentResponseDto of(JSONObject json) {
+
         JSONObject card = json.optJSONObject("card");
         JSONObject receipt = json.optJSONObject("receipt");
 
         return TossPaymentResponseDto.builder()
-                .paymentKey(vo.getPaymentKey())
-                .orderId(vo.getOrderId())
+                .paymentKey(json.optString("paymentKey"))
+                .orderId(json.optString("orderId"))
                 .orderName(json.optString("orderName"))
-                .status(vo.getStatus())
-                .approvedAt(vo.getApprovedAt())
-                .totalAmount(vo.getTotalAmount())
+                .status(json.optString("status"))
+                .approvedAt(json.optString("approvedAt"))
+                .totalAmount(json.optInt("totalAmount"))
                 .method(json.optString("method"))
                 .cardCompany(card != null ? card.optString("company") : null)
                 .cardNumber(card != null ? card.optString("number") : null)
@@ -63,7 +66,4 @@ public class TossPaymentResponseDto {
                 .receiptUrl(receipt != null ? receipt.optString("url") : null)
                 .build();
     }
-
-
-
 }

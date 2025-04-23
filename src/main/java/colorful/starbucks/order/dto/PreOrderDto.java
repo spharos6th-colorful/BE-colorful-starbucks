@@ -2,7 +2,7 @@ package colorful.starbucks.order.dto;
 
 import colorful.starbucks.common.exception.BaseException;
 import colorful.starbucks.common.response.ResponseStatus;
-import colorful.starbucks.order.dto.request.OrderCreateRequestDto;
+import colorful.starbucks.order.dto.request.PreOrderRequestDto;
 import colorful.starbucks.order.vo.response.OrderCreateResponseVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
@@ -26,12 +26,12 @@ public class PreOrderDto {
         this.receiverName = receiverName;
     }
 
-    public static PreOrderDto from(OrderCreateRequestDto orderCreateRequestDto, Long orderCode) {
+    public static PreOrderDto of(PreOrderRequestDto preOrderRequestDto, Long orderCode) {
         return PreOrderDto.builder()
                 .orderCode(orderCode)
-                .totalAmount(orderCreateRequestDto.getTotalAmount())
-                .memberAddressUuid(orderCreateRequestDto.getMemberAddressUuid())
-                .receiverName(orderCreateRequestDto.getBuyer())
+                .totalAmount(preOrderRequestDto.getTotalAmount())
+                .memberAddressUuid(preOrderRequestDto.getMemberAddressUuid())
+                .receiverName(preOrderRequestDto.getBuyer())
                 .build();
     }
 
@@ -58,5 +58,9 @@ public class PreOrderDto {
                 .memberAddressUuid(memberAddressUuid)
                 .receiverName(receiverName)
                 .build();
+    }
+
+    public boolean equalsAmount(Integer paidAmount) {
+        return this.totalAmount.equals(paidAmount);
     }
 }
