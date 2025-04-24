@@ -50,13 +50,12 @@ public class OrderServiceImpl implements OrderService {
                 deliveryRepository.findByMemberAddressUuid(orderCreateRequestDto.getMemberAddressUuid())
         ).orElseThrow(() -> new BaseException(ResponseStatus.NO_EXIST_SHIPPING_ADDRESS));
 
-        Order order = orderCreateRequestDto.toEntity(
+        Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(
                 orderCode,
                 deliveryAddress
-        );
+        ));
 
-        orderRepository.save(order);
-        orderDetailService.saveAllDetails(order, orderCreateRequestDto.getOrderDetails());
+        orderDetailService.saveAllDetails(savedOrder, orderCreateRequestDto.getOrderDetails());
 
         List<Long> productDetailCodes = orderCreateRequestDto.getOrderDetails().stream()
                 .map(OrderDetailCreateRequestDto::getProductDetailCode)
@@ -69,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderRedisService.deleteOrder(orderCode);
 
-        return OrderCreateResponseDto.from(orderCode);
+        return OrderCreateResponseDto.from(savedOrder, deliveryAddress);
     }
 
     @Override
