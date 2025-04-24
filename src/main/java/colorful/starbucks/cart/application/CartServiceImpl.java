@@ -83,7 +83,6 @@ public class CartServiceImpl implements CartService {
 
     }
 
-
     @Transactional
     @Override
     public void removeCartList(List<CartDeleteRequestDto> cartDeleteRequestDtos) {
@@ -92,7 +91,6 @@ public class CartServiceImpl implements CartService {
                 cartRepository.deleteByIdAndMemberUuid(cartProduct.getCartId(), cartProduct.getMemberUuid()));
 
     }
-
 
     @Transactional
     @Override
@@ -105,8 +103,5 @@ public class CartServiceImpl implements CartService {
     public void removeCartAfterOrder(String memberUuid, List<Long> productDetailCodes) {
         cartRepository.deleteCartsAfterOrder(memberUuid, productDetailCodes);
     }
-
-
-
 }
 
