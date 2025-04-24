@@ -31,12 +31,12 @@ public class CartServiceImpl implements CartService {
 
     private void addCartProduct(CartAddRequestDto cartAddRequestDto) {
 
-        Cart cart = cartRepository.findByMemberUuidAndProductDetailCodeAndIsDeletedIsFalse(
-                                    cartAddRequestDto.getMemberUuid(), cartAddRequestDto.getProductDetailCode())
-                                    .orElseGet(() -> cartRepository.save(cartAddRequestDto.toEntity(cartAddRequestDto.getMemberUuid())
-                ));
-        cart.addQuantity(cartAddRequestDto.getQuantity());
-
+        cartRepository.findByMemberUuidAndProductDetailCodeAndIsDeletedIsFalse(
+                cartAddRequestDto.getMemberUuid(), cartAddRequestDto.getProductDetailCode())
+                .ifPresentOrElse(
+                        cart -> cart.addQuantity(cartAddRequestDto.getQuantity()),
+                        () -> cartRepository.save(cartAddRequestDto.toEntity(cartAddRequestDto.getMemberUuid()))
+                );
     }
 
     @Transactional
