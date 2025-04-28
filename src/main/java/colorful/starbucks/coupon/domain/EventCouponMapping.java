@@ -13,7 +13,8 @@ import org.hibernate.annotations.Comment;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"couponUuid", "eventUuid"})
+                @UniqueConstraint(name = "unique_event_coupon_mapping",
+                        columnNames = {"couponUuid", "eventUuid"})
         }
 )
 public class EventCouponMapping extends BaseEntity {
