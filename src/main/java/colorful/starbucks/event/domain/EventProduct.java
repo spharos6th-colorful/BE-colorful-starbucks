@@ -11,6 +11,11 @@ import org.hibernate.annotations.Comment;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(name = "unique_event_product_mapping",
+                        columnNames = {"productCode", "eventUuid"})
+        })
 public class EventProduct extends BaseEntity {
 
     @Id

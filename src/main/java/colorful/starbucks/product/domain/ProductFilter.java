@@ -11,6 +11,7 @@ import org.hibernate.annotations.Comment;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = @Index(name = "idx_product_filter_price", columnList = "price"))
 public class ProductFilter extends BaseEntity {
 
     @Id
